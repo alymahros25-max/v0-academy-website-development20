@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-const MEASUREMENT_ID = "G-94X5S3J229"
+const MEASUREMENT_ID = "G-C5KEVTR3XC"
 
 function loadGoogleAnalytics() {
   if (typeof window === "undefined") return

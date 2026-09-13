@@ -24,6 +24,7 @@ export function AnalyticsConsent() {
 
   const chooseConsent = (value: boolean) => {
     document.cookie = `${CONSENT_COOKIE}=${value ? "granted" : "denied"}; Max-Age=31536000; Path=/; SameSite=Lax${window.location.protocol === "https:" ? "; Secure" : ""}`
+    window.dispatchEvent(new CustomEvent("analytics-consent-change", { detail: value }))
     setConsent(value)
   }
 

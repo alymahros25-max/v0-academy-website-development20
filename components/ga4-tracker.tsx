@@ -11,7 +11,12 @@ declare global {
   }
 }
 
-const MEASUREMENT_ID = "G-94X5S3J229"
+const MEASUREMENT_ID = "G-C5KEVTR3XC"
+const CONSENT_COOKIE = "analytics_consent"
+
+function hasAnalyticsConsent() {
+  return document.cookie.split("; ").some((cookie) => cookie === `${CONSENT_COOKIE}=granted`)
+}
 
 function loadGoogleAnalytics() {
   if (typeof window === "undefined") return
@@ -40,18 +45,24 @@ export function GA4Tracker() {
     let started = false
 
     const start = () => {
-      if (started) return
+      if (started || !hasAnalyticsConsent()) return
       started = true
       loaded.current = true
       loadGoogleAnalytics()
       window.removeEventListener("pointerdown", start)
       window.removeEventListener("keydown", start)
+      window.removeEventListener("analytics-consent-change", handleConsentChange)
       if (idleId !== undefined) window.cancelIdleCallback?.(idleId)
       if (timeoutId) clearTimeout(timeoutId)
     }
 
+    const handleConsentChange = (event: Event) => {
+      if ((event as CustomEvent<boolean>).detail === true) start()
+    }
+
     window.addEventListener("pointerdown", start, { once: true, passive: true })
     window.addEventListener("keydown", start, { once: true, passive: true })
+    window.addEventListener("analytics-consent-change", handleConsentChange)
     if ("requestIdleCallback" in window) {
       idleId = window.requestIdleCallback(start, { timeout: 5000 })
     } else {
@@ -61,6 +72,7 @@ export function GA4Tracker() {
     return () => {
       window.removeEventListener("pointerdown", start)
       window.removeEventListener("keydown", start)
+      window.removeEventListener("analytics-consent-change", handleConsentChange)
       if (idleId !== undefined) window.cancelIdleCallback?.(idleId)
       if (timeoutId) clearTimeout(timeoutId)
     }

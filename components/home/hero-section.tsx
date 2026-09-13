@@ -39,11 +39,10 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
                 <span className="block">للأطفال والكبار والمبتدئين</span>
                 <span className="mt-1 block text-lg font-semibold text-muted-foreground md:text-xl">حصص فردية عبر الإنترنت</span>
               </p>
+              <p className="mt-5 max-w-xl rounded-2xl border border-border/70 bg-background/95 px-4 py-3 text-center text-base font-semibold leading-7 text-foreground shadow-sm md:text-lg lg:text-start">
+                {locale === "ar" ? "ابدأ من مستواك، وناقش هدفك، ثم تعلّم بخطوات واضحة مع متابعة تناسب احتياجك." : "Start from your level, discuss your goal, and learn through clear steps with support around your needs."}
+              </p>
             </div>
-
-            <p className="mx-auto mt-8 max-w-xl text-center text-base leading-7 text-foreground/80 lg:mx-0 lg:text-start">
-              {locale === "ar" ? "ابدأ من مستواك، وناقش هدفك، ثم تعلّم بخطوات واضحة مع متابعة تناسب احتياجك." : "Start from your level, discuss your goal, and learn through clear steps with support around your needs."}
-            </p>
           </div>
 
           {/* Decorative Card */}

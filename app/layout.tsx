@@ -1,11 +1,10 @@
 import type { Metadata, Viewport } from "next"
 import { Noto_Sans_Arabic, Inter } from "next/font/google"
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Analytics } from "@vercel/analytics/react"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { generateEducationalOrganizationSchema, generateWebSiteSchema, generateCombinedSchema } from "@/lib/schema"
 import "./globals.css"
 import { ClientProviders } from "@/components/client-providers"
+import { AnalyticsConsent } from "@/components/analytics-consent"
 
 const rootStructuredData = generateCombinedSchema(
   generateEducationalOrganizationSchema(),
@@ -41,19 +40,6 @@ export const metadata: Metadata = {
   title: "أكاديمية الحافظ المتميز اون لاين | تحفيظ قران وتأسيس عربي",
   description:
     "أكاديمية الحافظ المتميز العالمية لتحفيظ القرآن الكريم وتأسيس اللغة العربية أونلاين للناطقين بالعربية في الخليج وأوروبا وأمريكا وكندا، مع معلمين مجازين وحصص فردية ومواعيد تناسب فروق التوقيت.",
-  keywords: [
-    "تحفيظ القرآن أونلاين للعرب في الخارج",
-    "تحفيظ القرآن أونلاين للسعودية والإمارات وقطر والكويت والبحرين وعمان والأردن للناطقين بالعربية",
-    "تحفيظ القرآن للناطقين بالعربية في الخليج والأردن وأوروبا وأمريكا",
-    "معلم قرآن عربي أونلاين في السعودية والإمارات وأوروبا وأمريكا",
-    "دروس تجويد وحفظ قرآن عن بعد",
-    "تأسيس اللغة العربية للأطفال العرب في الخليج والأردن وأوروبا وأمريكا",
-    "تأسيس العربي أونلاين للناطقين بالعربية في الخليج والأردن وأوروبا وأمريكا",
-    "online Quran memorization classes for Arabic speakers in Gulf Europe USA",
-    "online Arabic classes for Arab children abroad",
-    "native Arabic Quran tutor online",
-    "Quran and Arabic lessons for students in USA UK Canada Europe",
-  ],
   authors: [{ name: "أكاديمية الحافظ المتميز" }],
   creator: "أكاديمية الحافظ المتميز",
   alternates: {
@@ -125,8 +111,7 @@ export default function RootLayout({
         <ErrorBoundary context="RootLayout">
           <ClientProviders>{children}</ClientProviders>
         </ErrorBoundary>
-        <Analytics />
-        <SpeedInsights />
+        <AnalyticsConsent />
       </body>
     </html>
   )

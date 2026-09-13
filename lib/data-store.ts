@@ -38,6 +38,7 @@ export interface Teacher {
   experience: string
   image: string
   active: boolean
+  sortOrder?: number
 }
 
 export interface Package {
@@ -50,6 +51,7 @@ export interface Package {
   popular: boolean
   features: Record<string, string[]>
   active: boolean
+  sortOrder?: number
 }
 
 export interface Review {
@@ -60,6 +62,7 @@ export interface Review {
   text: Record<string, string>
   active: boolean
   createdAt: string
+  sortOrder?: number
 }
 
 export interface ContactMessage {
@@ -90,7 +93,7 @@ const defaultTeachers: Teacher[] = [
     name: { ar: "الشيخ أحمد محمود", en: "Sheikh Ahmad Mahmoud", fr: "Cheikh Ahmad Mahmoud" },
     specialty: { ar: "حفظ القرآن والقراءات العشر", en: "Quran Memorization & Ten Qira'at", fr: "Memorisation du Coran et Dix Qira'at" },
     experience: "15",
-    image: "/images/teacher-quran.jpg",
+    image: "/images/teacher-quran.webp",
     active: true,
   },
   {
@@ -98,7 +101,7 @@ const defaultTeachers: Teacher[] = [
     name: { ar: "الأستاذة نورا الهاشمي", en: "Ustaza Noura Al-Hashimi", fr: "Ustaza Noura Al-Hashimi" },
     specialty: { ar: "تحفيظ القرآن للأطفال", en: "Quran Teaching for Children", fr: "Enseignement du Coran pour enfants" },
     experience: "10",
-    image: "/images/teacher-quran.jpg",
+    image: "/images/teacher-quran.webp",
     active: true,
   },
   {
@@ -106,7 +109,7 @@ const defaultTeachers: Teacher[] = [
     name: { ar: "الشيخ عبدالرحمن السيد", en: "Sheikh Abdulrahman Al-Sayed", fr: "Cheikh Abdulrahman Al-Sayed" },
     specialty: { ar: "التجويد وعلم القراءات", en: "Tajweed & Qira'at Science", fr: "Tajweed et Science des Qira'at" },
     experience: "12",
-    image: "/images/teacher-quran.jpg",
+    image: "/images/teacher-quran.webp",
     active: true,
   },
   {
@@ -114,7 +117,7 @@ const defaultTeachers: Teacher[] = [
     name: { ar: "الأستاذة فاطمة العلي", en: "Ustaza Fatima Al-Ali", fr: "Ustaza Fatima Al-Ali" },
     specialty: { ar: "تأسيس اللغة العربية", en: "Arabic Language Foundation", fr: "Fondation de la langue arabe" },
     experience: "8",
-    image: "/images/teacher-quran.jpg",
+    image: "/images/teacher-quran.webp",
     active: true,
   },
   {
@@ -122,7 +125,7 @@ const defaultTeachers: Teacher[] = [
     name: { ar: "الشيخ محمد حسن", en: "Sheikh Muhammad Hassan", fr: "Cheikh Muhammad Hassan" },
     specialty: { ar: "الحفظ المتقن والمراجعة", en: "Expert Memorization & Review", fr: "Memorisation experte et revision" },
     experience: "20",
-    image: "/images/teacher-quran.jpg",
+    image: "/images/teacher-quran.webp",
     active: true,
   },
   {
@@ -130,7 +133,7 @@ const defaultTeachers: Teacher[] = [
     name: { ar: "الأستاذة مريم خالد", en: "Ustaza Maryam Khalid", fr: "Ustaza Maryam Khalid" },
     specialty: { ar: "تعليم العربية لغير الناطقين بها", en: "Arabic for Non-Native Speakers", fr: "Arabe pour non-arabophones" },
     experience: "7",
-    image: "/images/teacher-quran.jpg",
+    image: "/images/teacher-quran.webp",
     active: true,
   },
 ]
@@ -154,7 +157,7 @@ const defaultReviews: Review[] = [
 const defaultSettings: SiteSettings = {
   siteName: { ar: "أكاديمية الحافظ المتميز", en: "Al-Hafiz Al-Mutamayez Academy", fr: "Academie Al-Hafiz Al-Mutamayez" },
   siteDescription: { ar: "أكاديمية عالمية لتحفيظ القرآن الكريم وتأسيس اللغة العربية اون لاين", en: "A global online academy for Quran memorization and Arabic language foundation", fr: "Academie mondiale en ligne pour la memorisation du Coran" },
-  email: "enamel311@gmail.com",
+  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
   whatsapp: "https://bit.ly/4aJfOl6",
   telegram: "https://t.me/acabemy_quraan",
   heroTitle: { ar: "أكاديمية الحافظ المتميز", en: "Al-Hafiz Al-Mutamayez Academy", fr: "Academie Al-Hafiz Al-Mutamayez" },
@@ -201,7 +204,10 @@ async function setPersistent<T extends Array<{ id?: string }> | SiteSettings>(co
   return true
 }
 
-export const getTeachers = async () => getPersistent<Teacher[]>("teachers", await readData<Teacher[]>("teachers.json", defaultTeachers))
+export const getTeachers = async () => {
+  const teachers = await getPersistent<Teacher[]>("teachers", await readData<Teacher[]>("teachers.json", defaultTeachers))
+  return teachers.map((teacher, index) => ({ ...teacher, sortOrder: teacher.sortOrder ?? index + 1 })).sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+}
 export const setTeachers = async (data: Teacher[]) => { if (!(await setPersistent("teachers", data))) await writeData("teachers.json", data) }
 type PackageRow = {
   id: string
@@ -235,6 +241,7 @@ function packageRowToPackage(row: PackageRow): Package {
       en: row.features_en.split(",").map((item) => item.trim()).filter(Boolean),
       fr: row.features_fr.split(",").map((item) => item.trim()).filter(Boolean),
     },
+    sortOrder: row.sort_order,
   }
 }
 
@@ -254,21 +261,21 @@ function packageToRow(pkg: Package, index: number): PackageRow {
     features_fr: (features.fr ?? features.ar ?? []).join(", "),
     popular: Boolean(pkg.popular),
     active: pkg.active !== false,
-    sort_order: index + 1,
+    sort_order: pkg.sortOrder ?? index + 1,
   }
 }
 
 export const getPackages = async (): Promise<Package[]> => {
   if (supabaseAdmin) {
     const { data, error } = await supabaseAdmin.from("packages").select("*").order("type").order("sort_order")
-    if (!error && data?.length) return (data as PackageRow[]).map(packageRowToPackage)
+    if (!error && data?.length) return (data as PackageRow[]).filter((row) => row.duration === 30).map(packageRowToPackage)
   }
-  return readData<Package[]>("packages.json", defaultPackages)
+  return (await readData<Package[]>("packages.json", defaultPackages)).filter((pkg) => pkg.duration === 30).map((pkg, index) => ({ ...pkg, sortOrder: pkg.sortOrder ?? index + 1 })).sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
 }
 
 export const setPackages = async (data: Package[]) => {
   if (supabaseAdmin) {
-    const rows = data.map(packageToRow)
+    const rows = data.filter((pkg) => pkg.duration === 30).map(packageToRow)
     const { data: saved, error } = await supabaseAdmin.rpc("replace_packages_atomic", { payload: rows })
     if (error) throw error
     return Array.isArray(saved) ? saved.map(packageRowToPackage) : data
@@ -276,7 +283,10 @@ export const setPackages = async (data: Package[]) => {
   await writeData("packages.json", data)
   return data
 }
-export const getReviews = async () => getPersistent<Review[]>("reviews", await readData<Review[]>("reviews.json", defaultReviews))
+export const getReviews = async () => {
+  const reviews = await getPersistent<Review[]>("reviews", await readData<Review[]>("reviews.json", defaultReviews))
+  return reviews.map((review, index) => ({ ...review, sortOrder: review.sortOrder ?? index + 1 })).sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+}
 export const setReviews = async (data: Review[]) => { if (!(await setPersistent("reviews", data))) await writeData("reviews.json", data) }
 export const getMessages = async () => getPersistent<ContactMessage[]>("messages", await readData<ContactMessage[]>("messages.json", []))
 export const setMessages = async (data: ContactMessage[]) => { if (!(await setPersistent("messages", data))) await writeData("messages.json", data) }

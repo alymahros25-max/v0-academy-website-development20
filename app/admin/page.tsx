@@ -7,7 +7,7 @@ import {
   BookOpen, Users, Star, MessageSquare, Settings, LogOut, Package, Mail,
   Plus, Trash2, Edit3, Check, X, ChevronDown, Eye, EyeOff, LayoutDashboard,
   Menu, XIcon, Palette, FileText, Lock, Film, Gamepad2, Search, BarChart3,
-  Languages, Save, Wand2, MapPin
+  Languages, Save, Wand2, MapPin, ArrowUp, ArrowDown
 } from "lucide-react"
 import dynamic from "next/dynamic"
 import { AdminErrorBoundary } from "@/components/admin/AdminErrorBoundary"
@@ -26,42 +26,40 @@ import { FAQManager } from "@/components/admin/faq-manager"
 
 const fetcher = (url: string) => fetch(url).then(r => r.json())
 
+async function swapAdminOrder(type: "packages" | "teachers" | "reviews", current: { id?: string; sortOrder?: number } | null, neighbor: { id?: string; sortOrder?: number } | null) {
+  if (!current?.id || !neighbor?.id) return
+  const currentOrder = current.sortOrder ?? 0
+  const neighborOrder = neighbor.sortOrder ?? 0
+  const responses = await Promise.all([
+    fetch("/api/admin/data", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ type, id: current.id, data: { sortOrder: neighborOrder } }) }),
+    fetch("/api/admin/data", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ type, id: neighbor.id, data: { sortOrder: currentOrder } }) }),
+  ])
+  if (responses.some((response) => !response.ok)) throw new Error("تعذر حفظ الترتيب")
+}
+
 function AdminSectionToolbar({ section }: { section: string }) {
-  const [preview, setPreview] = useState(false)
   const [stylesOpen, setStylesOpen] = useState(false)
   const [styles, setStyles] = useState({ color: "", font: "inherit", motion: "هادئ", order: "0" })
   const [status, setStatus] = useState("")
-
-  const action = (name: string) => {
-    window.dispatchEvent(new CustomEvent("admin:section-action", { detail: { section, action: name, styles } }))
-    setStatus(name === "translate" ? "تم تشغيل الترجمة التلقائية للعنصر المحدد" : `تم تنفيذ: ${name}`)
+  const sectionKey = section.replace(/[^a-zA-Z0-9]+/g, "-").toLowerCase()
+  const previewPath = section.includes("فيديو") ? "/classroom-moments" : "/"
+  async function saveStyles() {
+    const values = Object.entries(styles).map(([key, setting_value]) => ({ setting_key: key, setting_value, value_type: key === "color" ? "color" : key === "order" ? "number" : "text", category: `admin-section-${sectionKey}`, label: `${section} — ${key}` }))
+    const response = await fetch("/api/cms/settings", { method: "PATCH", credentials: "include", headers: { "Content-Type": "application/json" }, body: JSON.stringify(values) })
+    if (!response.ok) throw new Error("تعذر حفظ تخصيص القسم")
+    setStatus("تم حفظ التخصيص في قاعدة البيانات")
+    window.dispatchEvent(new CustomEvent("admin:section-action", { detail: { section, action: "save" } }))
   }
-
-  return (
-    <section className="mb-6 rounded-2xl border border-border bg-card p-4 shadow-sm" aria-label={`أدوات قسم ${section}`}>
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <p className="font-bold text-foreground">أدوات إدارة القسم</p>
-          <p className="text-xs text-muted-foreground">{section} — الحفظ يحدّث بيانات الصفحة العامة بعد نجاح العملية</p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <button type="button" onClick={() => action("create")} className="inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-sm font-bold text-primary-foreground"><Plus data-icon="inline-start" /> إنشاء جديد</button>
-          <button type="button" onClick={() => action("save")} className="inline-flex items-center gap-2 rounded-lg bg-secondary px-3 py-2 text-sm font-bold text-secondary-foreground"><Save data-icon="inline-start" /> حفظ</button>
-          <button type="button" onClick={() => action("translate")} className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-foreground"><Languages data-icon="inline-start" /> ترجمة تلقائية</button>
-          <button type="button" onClick={() => setPreview(!preview)} className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-foreground">{preview ? <EyeOff data-icon="inline-start" /> : <Eye data-icon="inline-start" />} {preview ? "إخفاء المعاينة" : "معاينة"}</button>
-          <button type="button" onClick={() => setStylesOpen(!stylesOpen)} className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-foreground"><Wand2 data-icon="inline-start" /> تخصيص</button>
-        </div>
-      </div>
-      {stylesOpen && <div className="mt-4 grid gap-3 rounded-xl bg-muted/40 p-3 sm:grid-cols-4">
-        <label className="text-xs text-foreground">لون العنصر<input type="color" value={styles.color || "#1a4d2e"} onChange={e => setStyles({ ...styles, color: e.target.value })} className="mt-1 h-9 w-full rounded border border-border bg-background" /></label>
-        <label className="text-xs text-foreground">الخط<select value={styles.font} onChange={e => setStyles({ ...styles, font: e.target.value })} className="mt-1 w-full rounded border border-border bg-background p-2 text-sm"><option value="inherit">افتراضي</option><option value="sans-serif">Sans</option><option value="serif">Serif</option></select></label>
-        <label className="text-xs text-foreground">الحركة<select value={styles.motion} onChange={e => setStyles({ ...styles, motion: e.target.value })} className="mt-1 w-full rounded border border-border bg-background p-2 text-sm"><option>هادئ</option><option>تلاشي</option><option>انزلاق</option></select></label>
-        <label className="text-xs text-foreground">الترتيب<input type="number" value={styles.order} onChange={e => setStyles({ ...styles, order: e.target.value })} className="mt-1 w-full rounded border border-border bg-background p-2 text-sm" /></label>
-      </div>}
-      {preview && <div className="mt-4 rounded-xl border-2 border-dashed border-primary/30 bg-background p-4 text-sm text-foreground" style={{ color: styles.color || undefined, fontFamily: styles.font }}><span className="font-bold">معاينة مباشرة:</span> سيتم عرض تغييرات {section} هنا قبل الحفظ.</div>}
-      {status && <p className="mt-3 text-xs text-primary" role="status">{status}</p>}
-    </section>
-  )
+  return <section className="mb-6 rounded-2xl border border-border bg-card p-4 shadow-sm" aria-label={`أدوات قسم ${section}`}>
+    <div className="flex flex-wrap items-center justify-between gap-3"><div><p className="font-bold text-foreground">إدارة قسم {section}</p><p className="text-xs text-muted-foreground">الأزرار مرتبطة بالنموذج وقاعدة البيانات مباشرة.</p></div><div className="flex flex-wrap gap-2">
+      <button type="button" onClick={() => window.dispatchEvent(new CustomEvent("admin:section-action", { detail: { section, action: "create" } }))} className="inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground"><Plus data-icon="inline-start" /> إضافة عنصر</button>
+      <button type="button" onClick={() => window.dispatchEvent(new CustomEvent("admin:section-action", { detail: { section, action: "save" } }))} className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-semibold text-foreground"><Save data-icon="inline-start" /> تحديث البيانات</button>
+      <button type="button" onClick={() => window.open(previewPath, "_blank", "noopener,noreferrer")} className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-foreground"><Eye data-icon="inline-start" /> معاينة الصفحة</button>
+      <button type="button" onClick={() => setStylesOpen((value) => !value)} className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-foreground"><Wand2 data-icon="inline-start" /> تخصيص وحفظ</button>
+    </div></div>
+    {stylesOpen && <div className="mt-4 grid gap-3 rounded-xl bg-muted/40 p-3 sm:grid-cols-4"><label className="text-xs text-foreground">لون العنصر<input type="color" value={styles.color || "#1a4d2e"} onChange={(e) => setStyles({ ...styles, color: e.target.value })} className="mt-1 h-9 w-full rounded border border-border bg-background" /></label><label className="text-xs text-foreground">الخط<select value={styles.font} onChange={(e) => setStyles({ ...styles, font: e.target.value })} className="mt-1 w-full rounded border border-border bg-background p-2 text-sm"><option value="inherit">افتراضي</option><option value="sans-serif">Sans</option><option value="serif">Serif</option></select></label><label className="text-xs text-foreground">الحركة<select value={styles.motion} onChange={(e) => setStyles({ ...styles, motion: e.target.value })} className="mt-1 w-full rounded border border-border bg-background p-2 text-sm"><option>هادئ</option><option>تلاشي</option><option>انزلاق</option></select></label><label className="text-xs text-foreground">الترتيب<input type="number" value={styles.order} onChange={(e) => setStyles({ ...styles, order: e.target.value })} className="mt-1 w-full rounded border border-border bg-background p-2 text-sm" /></label><button type="button" onClick={() => void saveStyles().catch((error) => setStatus(error instanceof Error ? error.message : "تعذر الحفظ"))} className="rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground sm:col-span-4">حفظ التخصيص</button></div>}
+    {status && <p className="mt-3 text-xs font-semibold text-primary" role="status">{status}</p>}
+  </section>
 }
 
 type Tab = "faq" | "country-pages" | "saudi-landing" | "uae-landing" | "dashboard" | "packages" | "teachers" | "reviews" | "messages" | "settings" | "pages" | "seo-guide" | "cms" | "theme" | "pages-builder" | "users" | "classroom-videos" | "educational-games" | "gsc-dashboard" | "request-indexing" | "orders" | "payment-settings" | "blog" | "library"
@@ -197,7 +195,7 @@ export default function AdminDashboard() {
             </h1>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground hidden sm:inline">alymahros25@gmail.com</span>
+            <span className="text-xs text-muted-foreground hidden sm:inline">المدير العام</span>
             <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold">
               م
             </div>
@@ -352,6 +350,7 @@ function PackagesTab() {
           name: { ar: newPackage.name || `باقة ${newPackage.sessions} حصص` },
           sessions: newPackage.sessions,
           price: newPackage.price,
+          duration: newPackage.duration,
           popular: newPackage.popular,
           active: true,
           features: { ar: newPackage.features.split(",").map((item) => item.trim()).filter(Boolean) },
@@ -448,7 +447,7 @@ function PackagesTab() {
 
       <div className="grid gap-4">
         {packageRows.length === 0 && <p className="p-4 text-muted-foreground">لا توجد باقات حالياً. استخدم زر إضافة باقة.</p>}
-        {packageRows.map((pkg: { id?: string; type?: string; sessions?: number; price?: number; popular?: boolean } | null) => {
+        {packageRows.map((pkg: { id?: string; type?: string; sessions?: number; price?: number; popular?: boolean; sortOrder?: number } | null, index: number) => {
           if (!pkg?.id) return null
           return (
             <div key={pkg.id} className="bg-card rounded-2xl border border-border p-5">
@@ -472,6 +471,10 @@ function PackagesTab() {
                         onChange={(e) => setEditData({...editData, price: parseInt(e.target.value)})}
                         className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm"
                       />
+                    </div>
+                    <div>
+                      <label className="text-xs text-muted-foreground mb-1 block">مدة الحصة بالدقائق</label>
+                      <input type="number" min="1" value={(editData.duration as number) ?? 30} onChange={(e) => setEditData({...editData, duration: parseInt(e.target.value)})} className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm" />
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -507,6 +510,8 @@ function PackagesTab() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
+                    <button type="button" aria-label="تحريك الباقة لأعلى" onClick={async () => { try { await swapAdminOrder("packages", pkg, packageRows[(index - 1 + packageRows.length) % packageRows.length]); globalMutate("/api/admin/data?type=packages") } catch (error) { setMessage(error instanceof Error ? error.message : "تعذر حفظ الترتيب") } }} className="p-2 rounded-lg hover:bg-muted"><ArrowUp className="w-4 h-4" /></button>
+                    <button type="button" aria-label="تحريك الباقة لأسفل" onClick={async () => { try { await swapAdminOrder("packages", pkg, packageRows[(index + 1) % packageRows.length]); globalMutate("/api/admin/data?type=packages") } catch (error) { setMessage(error instanceof Error ? error.message : "تعذر حفظ الترتيب") } }} className="p-2 rounded-lg hover:bg-muted"><ArrowDown className="w-4 h-4" /></button>
                     <button
                       onClick={() => { pkg.id && setEditingId(pkg.id); pkg && setEditData(pkg) }}
                       className="p-2 rounded-lg hover:bg-primary/10 text-muted-foreground hover:text-primary transition-colors"
@@ -547,6 +552,7 @@ function TeachersTab() {
     specialty: { ar: "", en: "" },
     experience: ""
   })
+  useEffect(() => { const handler = (event: Event) => { const action = (event as CustomEvent<{ action?: string }>).detail?.action; if (action === "create") setShowForm(true); if (action === "save") void globalMutate("/api/admin/data?type=teachers") }; window.addEventListener("admin:section-action", handler); return () => window.removeEventListener("admin:section-action", handler) }, [])
 
   const handleAdd = async () => {
     try {
@@ -695,7 +701,7 @@ function TeachersTab() {
       )}
 
       <div className="grid gap-4">
-        {teacherRecords.map((teacher: { id?: string; name?: Record<string, string>; specialty?: Record<string, string>; experience?: string; active?: boolean } | null) => {
+        {teacherRecords.map((teacher: { id?: string; name?: Record<string, string>; specialty?: Record<string, string>; experience?: string; active?: boolean; sortOrder?: number } | null, index: number) => {
           if (!teacher?.id) return null
           return (
             <div key={teacher.id} className="bg-card rounded-2xl border border-border p-5 flex items-center justify-between">
@@ -709,6 +715,8 @@ function TeachersTab() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
+                <button type="button" aria-label="تحريك المعلم لأعلى" onClick={async () => { try { await swapAdminOrder("teachers", teacher, teacherRecords[(index - 1 + teacherRecords.length) % teacherRecords.length]); globalMutate("/api/admin/data?type=teachers") } catch (error) { setMessage(error instanceof Error ? error.message : "تعذر حفظ الترتيب") } }} className="p-2 rounded-lg hover:bg-muted"><ArrowUp className="w-4 h-4" /></button>
+                <button type="button" aria-label="تحريك المعلم لأسفل" onClick={async () => { try { await swapAdminOrder("teachers", teacher, teacherRecords[(index + 1) % teacherRecords.length]); globalMutate("/api/admin/data?type=teachers") } catch (error) { setMessage(error instanceof Error ? error.message : "تعذر حفظ الترتيب") } }} className="p-2 rounded-lg hover:bg-muted"><ArrowDown className="w-4 h-4" /></button>
                 <button
                   type="button"
                   aria-label="تعديل بيانات المعلم"
@@ -770,7 +778,7 @@ function ReviewsTab() {
     <div>
       <h2 className="text-lg font-bold text-foreground mb-6">آراء الطلاب</h2>
       <div className="grid gap-4">
-        {reviews?.map((review: any) => (
+        {reviews?.map((review: any, index: number) => (
           review?.id ? (
             <div key={review.id} className={`bg-card rounded-2xl border p-5 ${review?.active ? "border-border" : "border-destructive/30 opacity-60"}`}>
               <div className="flex items-start justify-between mb-3">
@@ -783,6 +791,8 @@ function ReviewsTab() {
                   </div>
                 </div>
                 <div className="flex items-center gap-1">
+                  <button type="button" aria-label="تحريك الرأي لأعلى" onClick={async () => { try { await swapAdminOrder("reviews", review, reviews[(index - 1 + reviews.length) % reviews.length]); mutate() } catch (error) { console.error(error) } }} className="p-2 rounded-lg hover:bg-muted"><ArrowUp className="w-4 h-4" /></button>
+                  <button type="button" aria-label="تحريك الرأي لأسفل" onClick={async () => { try { await swapAdminOrder("reviews", review, reviews[(index + 1) % reviews.length]); mutate() } catch (error) { console.error(error) } }} className="p-2 rounded-lg hover:bg-muted"><ArrowDown className="w-4 h-4" /></button>
                   <button
                     onClick={() => handleToggle(review.id, review?.active ?? false)}
                     className={`p-2 rounded-lg transition-colors ${review?.active ? "hover:bg-muted text-primary" : "hover:bg-primary/10 text-muted-foreground"}`}
@@ -1286,7 +1296,7 @@ function UsersManagementTab() {
           <div className="w-16 h-16 rounded-2xl bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold">م</div>
           <div>
             <p className="font-bold text-foreground text-lg">المشرف الرئيسي</p>
-            <p className="text-sm text-muted-foreground">alymahros25@gmail.com</p>
+            <p className="text-sm text-muted-foreground">المدير العام</p>
             <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium">Super Admin</span>
           </div>
         </div>
@@ -1327,7 +1337,7 @@ function UsersManagementTab() {
           </div>
           <div className="flex items-center justify-between py-2 border-b border-border">
             <span className="text-muted-foreground">البريد الإلكتروني</span>
-            <span className="font-medium">alymahros25@gmail.com</span>
+            <span className="font-medium">المدير العام</span>
           </div>
           <div className="flex items-center justify-between py-2">
             <span className="text-muted-foreground">الدور</span>
@@ -1342,13 +1352,28 @@ function UsersManagementTab() {
 // Classroom Videos Management Tab
 function ClassroomVideosTab() {
   const [showForm, setShowForm] = useState(false)
+  const [editingVideo, setEditingVideo] = useState<any | null>(null)
+  useEffect(() => { const handler = (event: Event) => { const action = (event as CustomEvent<{ action?: string }>).detail?.action; if (action === "create") setShowForm(true); if (action === "save") void globalMutate("/api/cms/classroom-videos") }; window.addEventListener("admin:section-action", handler); return () => window.removeEventListener("admin:section-action", handler) }, [])
   // Fetch ALL videos (published + drafts) so the admin sees everything
   // API returns { data: [...] } so we extract the array
-  const { data: apiResponse, isLoading, error } = useSWR("/api/cms/classroom-videos", fetcher, { 
+  const { data: apiResponse, isLoading, error, mutate } = useSWR("/api/cms/classroom-videos", fetcher, {
     revalidateOnFocus: true,
     dedupingInterval: 5000
   })
   const videos = Array.isArray(apiResponse?.data) ? apiResponse.data : []
+
+  const moveVideo = async (index: number, direction: -1 | 1) => {
+    if (videos.length < 2) return
+    const targetIndex = (index + direction + videos.length) % videos.length
+    const current = videos[index]
+    const target = videos[targetIndex]
+    const reordered = [...videos]
+    const [moved] = reordered.splice(index, 1)
+    reordered.splice(targetIndex, 0, moved)
+    const responses = await Promise.all(reordered.map((video, position) => fetch(`/api/cms/classroom-videos?id=${video.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ display_order: position }) })))
+    if (responses.some((response) => !response.ok)) throw new Error("تعذر حفظ ترتيب الفيديو")
+    await mutate()
+  }
 
   return (
     <div className="space-y-6">
@@ -1376,6 +1401,12 @@ function ClassroomVideosTab() {
         </div>
       )}
 
+      {editingVideo && (
+        <div className="bg-card rounded-lg border border-primary/30 p-6">
+          <VideoForm initialData={editingVideo} isEditing onSuccess={() => { setEditingVideo(null); void mutate() }} />
+        </div>
+      )}
+
       {/* Videos List */}
       <div className="bg-card rounded-lg border border-border p-6">
         {isLoading ? (
@@ -1396,8 +1427,8 @@ function ClassroomVideosTab() {
           </div>
         ) : (
           <div className="space-y-4">
-            {videos.map((video: any) => (
-              <ClassroomVideoItem key={video.id} video={video} onUpdate={() => globalMutate("/api/cms/classroom-videos")} />
+            {videos.map((video: any, index: number) => (
+              <ClassroomVideoItem key={video.id} video={video} index={index} onEdit={() => { setEditingVideo(video); setShowForm(false) }} onMove={moveVideo} onUpdate={() => void mutate()} />
             ))}
           </div>
         )}
@@ -1407,7 +1438,7 @@ function ClassroomVideosTab() {
 }
 
 // Classroom Video Item Component
-function ClassroomVideoItem({ video, onUpdate }: { video: any; onUpdate: () => void }) {
+function ClassroomVideoItem({ video, index, onEdit, onMove, onUpdate }: { video: any; index: number; onEdit: () => void; onMove: (index: number, direction: -1 | 1) => Promise<void>; onUpdate: () => void }) {
   const [isDeleting, setIsDeleting] = useState(false)
 
   const handleDelete = async () => {
@@ -1445,6 +1476,12 @@ function ClassroomVideoItem({ video, onUpdate }: { video: any; onUpdate: () => v
           {video.teacher_name_ar && <span className="text-xs bg-muted text-muted-foreground px-2 py-1 rounded">👨‍🏫 {video.teacher_name_ar}</span>}
         </div>
       </div>
+      <div className="flex flex-col items-center gap-1">
+        <button type="button" aria-label="تحريك الفيديو لأعلى" onClick={() => void onMove(index, -1)} className="rounded p-2 text-muted-foreground hover:bg-muted hover:text-primary"><ArrowUp className="w-4 h-4" /></button>
+        <span className="text-xs text-muted-foreground">{video.display_order ?? index}</span>
+        <button type="button" aria-label="تحريك الفيديو لأسفل" onClick={() => void onMove(index, 1)} className="rounded p-2 text-muted-foreground hover:bg-muted hover:text-primary"><ArrowDown className="w-4 h-4" /></button>
+      </div>
+      <button type="button" onClick={onEdit} className="rounded p-2 text-muted-foreground hover:bg-primary/10 hover:text-primary" aria-label="تعديل الفيديو"><Edit3 className="w-4 h-4" /></button>
       <button
         onClick={handleDelete}
         disabled={isDeleting}

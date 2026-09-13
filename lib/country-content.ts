@@ -178,7 +178,7 @@ const getCachedAreaLandingData = unstable_cache(
   if (timezonesError) console.warn("[Country Content] landing timezones read failed:", timezonesError.message)
   return {
     area,
-    packages: packages ?? [],
+    packages: (packages ?? []).filter((pkg) => packageDuration(pkg.package_key) === 30),
     faq: faq ?? [],
     content: content ?? [],
     links: links ?? [],
@@ -207,8 +207,7 @@ export function packageFeatures(pkg: { features_ar?: unknown; features_en?: unkn
 }
 
 export function packageDuration(packageKey: string): number {
-  const match = packageKey.match(/-(30|40|60)-/)
-  return match ? Number(match[1]) : 30
+  return packageKey.includes("-30-") ? 30 : 0
 }
 
 export function packageWeeklySessions(sessionsPerMonth: number | null | undefined): number {

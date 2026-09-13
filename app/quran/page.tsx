@@ -9,9 +9,9 @@ export default function QuranPage() {
   return (
     <>
       <CourseSchema
-        nameAr="تحفيظ القرآن الكريم والتجويد"
+        nameAr="تحفيظ القرآن أونلاين بالعربية"
         nameEn="Quran Memorization and Tajweed"
-        descriptionAr="برنامج تفاعلي لتحفيظ القرآن الكريم وتعليم أحكام التجويد مع معلمين مؤهلين عبر الإنترنت."
+        descriptionAr="دروس فردية مباشرة باللغة العربية لتعلم حفظ القرآن والتلاوة والتجويد والمراجعة عبر Zoom أو Google Meet."
         url="https://quran-elhafez.com/quran"
         image="https://quran-elhafez.com/images/teacher-quran.webp"
         teaches={["Quranic Memorization", "Tajweed", "Islamic Education"]}

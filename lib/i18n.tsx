@@ -23,9 +23,9 @@ const translations: Translations = {
   "nav.subscribe": { ar: "ابدأ الآن", en: "Get Started", fr: "Commencer" },
 
   // Hero
-  "hero.title": { ar: "أكاديمية الحافظ المتميز العالمية", en: "Al-Hafiz Al-Mutamayez Academy", fr: "Acad\u00e9mie Al-Hafiz Al-Mutamayez" },
-  "hero.subtitle": { ar: "تحفيظ القرآن وتأسيس العربية أونلاين لكل الأعمار والرجال والنساء والأطفال، مع معلمين ومعلمات للطلاب العرب في الخليج وأوروبا وأمريكا", en: "A Global Online Academy for Quran Memorization & Arabic Language Foundation", fr: "Acad\u00e9mie mondiale en ligne pour la m\u00e9morisation du Coran et l'enseignement de la langue arabe" },
-  "hero.cta": { ar: "احجز حصتك الأولى مجاناً", en: "Book Your First Free Lesson", fr: "Réservez votre première leçon gratuite" },
+  "hero.title": { ar: "تعليم القرآن الكريم وتأسيس اللغة العربية بحصص فردية مباشرة", en: "One-to-one Quran and Arabic lessons", fr: "Cours individuels de Coran et d'arabe" },
+  "hero.subtitle": { ar: "دروس مباشرة باللغة العربية للأطفال والشباب والبالغين، مع اختيار Zoom أو Google Meet ومرونة في الموعد", en: "Live Arabic lessons for children, young learners, and adults with flexible platform and scheduling", fr: "Cours en arabe pour enfants, jeunes et adultes avec horaires flexibles" },
+  "hero.cta": { ar: "احجز واستفسر عبر WhatsApp", en: "Contact us on WhatsApp", fr: "Contactez-nous sur WhatsApp" },
   "hero.cta2": { ar: "اطلع على البرامج", en: "Explore Programs", fr: "Découvrez les programmes" },
 
   // About section
@@ -87,10 +87,10 @@ const translations: Translations = {
   "pricing.features.certifiedTeachers": { ar: "معلمون متخصصون", en: "Specialized teachers", fr: "Enseignants sp\u00e9cialis\u00e9s" },
 
   // Quran page
-  "quran.hero.title": { ar: "القرآن الكريم والتجويد", en: "Quran & Tajweed", fr: "Coran & Tajweed" },
-  "quran.hero.desc": { ar: "رحلة إيمانية لحفظ كتاب الله مع نخبة من المعلمين المجازين", en: "A spiritual journey to memorize the Book of Allah with elite certified teachers", fr: "Un voyage spirituel pour m\u00e9moriser le Livre d'Allah avec des enseignants certifi\u00e9s" },
-  "quran.method.title": { ar: "منهجنا في التعليم", en: "Our Teaching Method", fr: "Notre m\u00e9thode d'enseignement" },
-  "quran.method.desc": { ar: "نعتمد منهجية شاملة تجمع بين الحفظ المتقن والتجويد السليم والمراجعة الدورية والتفسير المبسط، مع مراعاة الفروق الفردية لكل طالب. يتم تقييم مستوى الطالب أولاً ثم وضع خطة تعليمية مخصصة له.", en: "We follow a comprehensive methodology combining proper memorization, correct Tajweed, periodic review, and simplified interpretation, while considering individual differences. Each student is assessed first, then a personalized learning plan is created.", fr: "Nous suivons une m\u00e9thodologie compl\u00e8te combinant m\u00e9morisation, Tajweed, r\u00e9vision p\u00e9riodique et interpr\u00e9tation simplifi\u00e9e." },
+  "quran.hero.title": { ar: "دروس فردية مباشرة لتعلم القرآن الكريم باللغة العربية", en: "One-to-one Quran lessons in Arabic", fr: "Cours individuels de Coran en arabe" },
+  "quran.hero.desc": { ar: "حفظ ومراجعة وتلاوة وتجويد بخطة تناسب مستوى الطالب وهدفه، عبر Zoom أو Google Meet.", en: "Memorization, revision, recitation, and Tajweed through a plan suited to the learner’s level and goal.", fr: "Mémorisation, révision, récitation et Tajweed selon le niveau et l'objectif de l'apprenant." },
+  "quran.method.title": { ar: "منهجنا في تعليم القرآن", en: "Our Quran teaching method", fr: "Notre méthode d'enseignement du Coran" },
+  "quran.method.desc": { ar: "يبدأ البرنامج بالتعرف على مستوى الطالب وهدفه، ثم يركز على الحفظ أو المراجعة أو التلاوة أو التجويد بما يناسب عمره ووقته، في حصة فردية مباشرة باللغة العربية.", en: "We begin by understanding the learner’s level and goal, then focus on memorization, revision, recitation, or Tajweed through live one-to-one lessons.", fr: "Nous commençons par comprendre le niveau et l'objectif, puis adaptons les cours individuels." },
 
   // Arabic page
   "arabic.hero.title": { ar: "تأسيس اللغة العربية", en: "Arabic Language Foundation", fr: "Fondation de la langue arabe" },

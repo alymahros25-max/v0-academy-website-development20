@@ -5,7 +5,7 @@ import useSWR from "swr"
 import Image from "next/image"
 import Link from "next/link"
 import { useI18n } from "@/lib/i18n"
-import { Check, BookOpen, Star, Users, Clock, Shield, X } from "lucide-react"
+import { Check, BookOpen, Star, Users, Clock, Shield, X, MessageCircle, Target, RefreshCw } from "lucide-react"
 import { DynamicCheckout } from "@/components/dynamic-checkout"
 import { PAYMENTS_ENABLED } from "@/lib/payment-feature"
 
@@ -32,6 +32,21 @@ const methodSteps = [
   },
 ]
 
+const learnerPaths = [
+  { icon: Target, title: "مبتدئ", desc: "يبدأ من المستوى المناسب له مع التدرج في التلاوة والحفظ." },
+  { icon: BookOpen, title: "حفظ جديد", desc: "يتعلم مقدارًا مناسبًا مع التكرار والتسميع." },
+  { icon: RefreshCw, title: "مراجعة وتثبيت", desc: "يضع خطة لمراجعة السور والأجزاء المحفوظة." },
+  { icon: Star, title: "تلاوة وتجويد", desc: "يصحح القراءة ويتعلم الأحكام بالتطبيق." },
+]
+
+const quranFaqs = [
+  ["هل الدروس فردية؟", "نعم، الدرس فردي مباشر مع معلم أو معلمة حتى يركز البرنامج على مستوى الطالب وهدفه."],
+  ["هل البرنامج مناسب للمبتدئ؟", "نعم، يبدأ التقييم من مستوى الطالب الفعلي ثم تحدد نقطة البداية والخطة المناسبة."],
+  ["هل يمكن الجمع بين الحفظ والتجويد؟", "نعم، يمكن الجمع بين الحفظ والتسميع وتصحيح التلاوة وأحكام التجويد بحسب احتياج الطالب."],
+  ["هل الحصة عبر Zoom أم Google Meet؟", "يمكن اختيار Zoom أو Google Meet حسب تفضيل الطالب والتنسيق عند الحجز."],
+  ["كيف أعرف الباقة والسعر المناسبين؟", "أرسل عمر الطالب ودولته وهدفه والوقت المناسب عبر WhatsApp، وسنوضح لك الباقات العامة والتفاصيل المتاحة."],
+] as const
+
 export default function QuranPageClient() {
   const { t, locale } = useI18n()
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null)
@@ -45,6 +60,8 @@ export default function QuranPageClient() {
     t("pricing.features.supervision"),
     t("pricing.features.memorization"),
   ]
+  const whatsappUrl = `https://wa.me/201130127894?text=${encodeURIComponent("السلام عليكم، أرغب في الاستفسار عن دروس القرآن. عمر الطالب: ، الدولة: ، المستوى الحالي: ، الهدف: حفظ/مراجعة/تجويد، والوقت المناسب: ")}`
+  const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: quranFaqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
 
   return (
     <>
@@ -63,7 +80,16 @@ export default function QuranPageClient() {
               <p className="text-lg text-primary-foreground/80 leading-relaxed text-pretty">
                 {t("quran.hero.desc")}
               </p>
-              <p className="mt-4 text-base font-semibold text-secondary">تحفيظ القرآن للطلاب الناطقين بالعربية في أي مكان في العالم.</p>
+              <p className="mt-4 text-base font-semibold text-secondary">دروس فردية مباشرة باللغة العربية للحفظ والمراجعة والتلاوة والتجويد.</p>
+              <div className="mt-7 flex flex-wrap gap-3 text-sm font-semibold text-primary-foreground/85">
+                <span className="rounded-full border border-primary-foreground/20 px-4 py-2">حصة فردية مباشرة</span>
+                <span className="rounded-full border border-primary-foreground/20 px-4 py-2">شرح باللغة العربية</span>
+                <span className="rounded-full border border-primary-foreground/20 px-4 py-2">Zoom أو Google Meet</span>
+              </div>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#12653D] px-6 py-3 font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#0B3D2E]"><MessageCircle className="size-5" aria-hidden="true" />اسأل عن برنامج القرآن عبر WhatsApp</a>
+                <a href="#how-it-works" className="inline-flex items-center gap-2 rounded-xl border border-primary-foreground/30 px-6 py-3 font-bold text-primary-foreground transition hover:bg-primary-foreground/10">تعرّف على طريقة البدء</a>
+              </div>
             </div>
             <div className="hidden lg:block">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
@@ -86,6 +112,43 @@ export default function QuranPageClient() {
           <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
             <path d="M0 80L720 40L1440 80V80H0V80Z" fill="hsl(var(--background))" />
           </svg>
+        </div>
+      </section>
+
+      <section className="bg-background px-4 py-16 lg:py-20" aria-labelledby="quran-paths-title">
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="saudi-eyebrow justify-center">برنامج يناسب احتياج الطالب</p>
+            <h2 id="quran-paths-title" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl">من أين يبدأ الطالب؟</h2>
+            <p className="mt-4 text-lg leading-8 text-muted-foreground">تختلف نقطة البداية حسب ما يعرفه الطالب وهدفه، لذلك لا نستخدم خطة واحدة للجميع.</p>
+          </div>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {learnerPaths.map(({ icon: Icon, title, desc }) => (
+              <article key={title} className="rounded-3xl border border-border bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                <div className="flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary"><Icon className="size-6" aria-hidden="true" /></div>
+                <h3 className="mt-5 text-xl font-extrabold text-navy-primary">{title}</h3>
+                <p className="mt-3 leading-7 text-muted-foreground">{desc}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="how-it-works" className="bg-navy-pale/20 px-4 py-16 lg:py-20" aria-labelledby="quran-how-title">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="saudi-eyebrow justify-center">بداية واضحة</p>
+            <h2 id="quran-how-title" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl">كيف تتم دروس القرآن؟</h2>
+          </div>
+          <div className="mt-10 grid gap-5 md:grid-cols-4">
+            {[["تواصل معنا", "أرسل عمر الطالب ومستواه وهدفه والوقت المناسب عبر WhatsApp."], ["نحدد الاحتياج", "نتعرف على الحفظ السابق وما يحتاجه الطالب في الحفظ أو المراجعة أو التجويد."], ["اختر المنصة", "تتم الحصة مباشرة عبر Zoom أو Google Meet حسب اختيار الطالب."], ["ابدأ المتابعة", "نتفق على التفاصيل والباقات وطريقة الدفع المتاحة، ثم يبدأ الدرس الفردي."]].map(([title, desc], index) => (
+              <article key={title} className="rounded-3xl border border-border bg-card p-6 text-center shadow-sm">
+                <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-primary text-lg font-extrabold text-primary-foreground">{index + 1}</div>
+                <h3 className="mt-5 text-xl font-extrabold text-navy-primary">{title}</h3>
+                <p className="mt-3 leading-7 text-muted-foreground">{desc}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -122,6 +185,7 @@ export default function QuranPageClient() {
       <section className="py-20 lg:py-28 bg-muted/30">
         <div className="mx-auto max-w-7xl px-4">
           <div className="mb-10 text-center">
+            <p className="mx-auto mb-5 max-w-2xl text-lg leading-8 text-muted-foreground">تعرف على الباقات العامة المتاحة لبرنامج تعليم القرآن، ثم تواصل معنا لتأكيد الموعد وطريقة الحصة والتفاصيل.</p>
             <Link href="/arabic" className="inline-flex items-center text-sm font-bold text-navy-primary underline underline-offset-4 transition-colors hover:text-navy-light">
               {locale === "ar" ? "مهتم بتأسيس اللغة العربية؟ ←" : locale === "en" ? "Interested in Arabic foundation? ←" : "Intéressé par la fondation arabe ? ←"}
             </Link>
@@ -207,6 +271,28 @@ export default function QuranPageClient() {
             <Link href="/arabic" className="inline-flex items-center text-sm font-bold text-navy-primary underline underline-offset-4 transition-colors hover:text-navy-light">
               {locale === "ar" ? "مهتم بتأسيس اللغة العربية؟ ←" : locale === "en" ? "Interested in Arabic foundation? ←" : "Intéressé par la fondation arabe ? ←"}
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-background px-4 py-16 lg:py-20" aria-labelledby="quran-faq-title">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+        <div className="mx-auto max-w-5xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="saudi-eyebrow justify-center">إجابات قبل البدء</p>
+            <h2 id="quran-faq-title" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl">أسئلة شائعة عن برنامج القرآن</h2>
+          </div>
+          <div className="mt-10 grid gap-4 md:grid-cols-2">
+            {quranFaqs.map(([question, answer]) => (
+              <details key={question} className="group rounded-2xl border border-border bg-card p-5 shadow-sm">
+                <summary className="cursor-pointer list-none pe-6 font-extrabold text-navy-primary marker:hidden [&::-webkit-details-marker]:hidden">{question}</summary>
+                <p className="mt-3 leading-7 text-muted-foreground">{answer}</p>
+              </details>
+            ))}
+          </div>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#12653D] px-6 py-3 font-bold text-white transition hover:bg-[#0B3D2E]"><MessageCircle className="size-5" aria-hidden="true" />اسأل عن الباقة المناسبة</a>
+            <Link href="/faq" className="inline-flex items-center font-bold text-navy-primary underline underline-offset-4">اقرأ جميع الأسئلة</Link>
           </div>
         </div>
       </section>

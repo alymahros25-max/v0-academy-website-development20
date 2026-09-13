@@ -38,31 +38,28 @@ async function swapAdminOrder(type: "packages" | "teachers" | "reviews", current
 }
 
 function AdminSectionToolbar({ section }: { section: string }) {
-  const [preview, setPreview] = useState(false)
   const [stylesOpen, setStylesOpen] = useState(false)
   const [styles, setStyles] = useState({ color: "", font: "inherit", motion: "هادئ", order: "0" })
-
-  return (
-    <section className="mb-6 rounded-2xl border border-border bg-card p-4 shadow-sm" aria-label={`أدوات قسم ${section}`}>
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <p className="font-bold text-foreground">إدارة قسم {section}</p>
-          <p className="text-xs text-muted-foreground">استخدم نموذج القسم نفسه للحفظ؛ لا توجد إجراءات عامة وهمية.</p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <button type="button" onClick={() => setPreview(!preview)} className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-foreground">{preview ? <EyeOff data-icon="inline-start" /> : <Eye data-icon="inline-start" />} {preview ? "إخفاء المعاينة" : "معاينة"}</button>
-          <button type="button" onClick={() => setStylesOpen(!stylesOpen)} className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-foreground"><Wand2 data-icon="inline-start" /> تخصيص</button>
-        </div>
-      </div>
-      {stylesOpen && <div className="mt-4 grid gap-3 rounded-xl bg-muted/40 p-3 sm:grid-cols-4">
-        <label className="text-xs text-foreground">لون العنصر<input type="color" value={styles.color || "#1a4d2e"} onChange={e => setStyles({ ...styles, color: e.target.value })} className="mt-1 h-9 w-full rounded border border-border bg-background" /></label>
-        <label className="text-xs text-foreground">الخط<select value={styles.font} onChange={e => setStyles({ ...styles, font: e.target.value })} className="mt-1 w-full rounded border border-border bg-background p-2 text-sm"><option value="inherit">افتراضي</option><option value="sans-serif">Sans</option><option value="serif">Serif</option></select></label>
-        <label className="text-xs text-foreground">الحركة<select value={styles.motion} onChange={e => setStyles({ ...styles, motion: e.target.value })} className="mt-1 w-full rounded border border-border bg-background p-2 text-sm"><option>هادئ</option><option>تلاشي</option><option>انزلاق</option></select></label>
-        <label className="text-xs text-foreground">الترتيب<input type="number" value={styles.order} onChange={e => setStyles({ ...styles, order: e.target.value })} className="mt-1 w-full rounded border border-border bg-background p-2 text-sm" /></label>
-      </div>}
-      {preview && <div className="mt-4 rounded-xl border-2 border-dashed border-primary/30 bg-background p-4 text-sm text-foreground" style={{ color: styles.color || undefined, fontFamily: styles.font }}><span className="font-bold">معاينة مباشرة:</span> سيتم عرض تغييرات {section} هنا قبل الحفظ.</div>}
-    </section>
-  )
+  const [status, setStatus] = useState("")
+  const sectionKey = section.replace(/[^a-zA-Z0-9]+/g, "-").toLowerCase()
+  const previewPath = section.includes("فيديو") ? "/classroom-moments" : "/"
+  async function saveStyles() {
+    const values = Object.entries(styles).map(([key, setting_value]) => ({ setting_key: key, setting_value, value_type: key === "color" ? "color" : key === "order" ? "number" : "text", category: `admin-section-${sectionKey}`, label: `${section} — ${key}` }))
+    const response = await fetch("/api/cms/settings", { method: "PATCH", credentials: "include", headers: { "Content-Type": "application/json" }, body: JSON.stringify(values) })
+    if (!response.ok) throw new Error("تعذر حفظ تخصيص القسم")
+    setStatus("تم حفظ التخصيص في قاعدة البيانات")
+    window.dispatchEvent(new CustomEvent("admin:section-action", { detail: { section, action: "save" } }))
+  }
+  return <section className="mb-6 rounded-2xl border border-border bg-card p-4 shadow-sm" aria-label={`أدوات قسم ${section}`}>
+    <div className="flex flex-wrap items-center justify-between gap-3"><div><p className="font-bold text-foreground">إدارة قسم {section}</p><p className="text-xs text-muted-foreground">الأزرار مرتبطة بالنموذج وقاعدة البيانات مباشرة.</p></div><div className="flex flex-wrap gap-2">
+      <button type="button" onClick={() => window.dispatchEvent(new CustomEvent("admin:section-action", { detail: { section, action: "create" } }))} className="inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground"><Plus data-icon="inline-start" /> إضافة عنصر</button>
+      <button type="button" onClick={() => window.dispatchEvent(new CustomEvent("admin:section-action", { detail: { section, action: "save" } }))} className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-semibold text-foreground"><Save data-icon="inline-start" /> تحديث البيانات</button>
+      <button type="button" onClick={() => window.open(previewPath, "_blank", "noopener,noreferrer")} className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-foreground"><Eye data-icon="inline-start" /> معاينة الصفحة</button>
+      <button type="button" onClick={() => setStylesOpen((value) => !value)} className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-foreground"><Wand2 data-icon="inline-start" /> تخصيص وحفظ</button>
+    </div></div>
+    {stylesOpen && <div className="mt-4 grid gap-3 rounded-xl bg-muted/40 p-3 sm:grid-cols-4"><label className="text-xs text-foreground">لون العنصر<input type="color" value={styles.color || "#1a4d2e"} onChange={(e) => setStyles({ ...styles, color: e.target.value })} className="mt-1 h-9 w-full rounded border border-border bg-background" /></label><label className="text-xs text-foreground">الخط<select value={styles.font} onChange={(e) => setStyles({ ...styles, font: e.target.value })} className="mt-1 w-full rounded border border-border bg-background p-2 text-sm"><option value="inherit">افتراضي</option><option value="sans-serif">Sans</option><option value="serif">Serif</option></select></label><label className="text-xs text-foreground">الحركة<select value={styles.motion} onChange={(e) => setStyles({ ...styles, motion: e.target.value })} className="mt-1 w-full rounded border border-border bg-background p-2 text-sm"><option>هادئ</option><option>تلاشي</option><option>انزلاق</option></select></label><label className="text-xs text-foreground">الترتيب<input type="number" value={styles.order} onChange={(e) => setStyles({ ...styles, order: e.target.value })} className="mt-1 w-full rounded border border-border bg-background p-2 text-sm" /></label><button type="button" onClick={() => void saveStyles().catch((error) => setStatus(error instanceof Error ? error.message : "تعذر الحفظ"))} className="rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground sm:col-span-4">حفظ التخصيص</button></div>}
+    {status && <p className="mt-3 text-xs font-semibold text-primary" role="status">{status}</p>}
+  </section>
 }
 
 type Tab = "faq" | "country-pages" | "saudi-landing" | "uae-landing" | "dashboard" | "packages" | "teachers" | "reviews" | "messages" | "settings" | "pages" | "seo-guide" | "cms" | "theme" | "pages-builder" | "users" | "classroom-videos" | "educational-games" | "gsc-dashboard" | "request-indexing" | "orders" | "payment-settings" | "blog" | "library"
@@ -555,6 +552,7 @@ function TeachersTab() {
     specialty: { ar: "", en: "" },
     experience: ""
   })
+  useEffect(() => { const handler = (event: Event) => { const action = (event as CustomEvent<{ action?: string }>).detail?.action; if (action === "create") setShowForm(true); if (action === "save") void globalMutate("/api/admin/data?type=teachers") }; window.addEventListener("admin:section-action", handler); return () => window.removeEventListener("admin:section-action", handler) }, [])
 
   const handleAdd = async () => {
     try {
@@ -1355,6 +1353,7 @@ function UsersManagementTab() {
 function ClassroomVideosTab() {
   const [showForm, setShowForm] = useState(false)
   const [editingVideo, setEditingVideo] = useState<any | null>(null)
+  useEffect(() => { const handler = (event: Event) => { const action = (event as CustomEvent<{ action?: string }>).detail?.action; if (action === "create") setShowForm(true); if (action === "save") void globalMutate("/api/cms/classroom-videos") }; window.addEventListener("admin:section-action", handler); return () => window.removeEventListener("admin:section-action", handler) }, [])
   // Fetch ALL videos (published + drafts) so the admin sees everything
   // API returns { data: [...] } so we extract the array
   const { data: apiResponse, isLoading, error, mutate } = useSWR("/api/cms/classroom-videos", fetcher, {
@@ -1368,10 +1367,10 @@ function ClassroomVideosTab() {
     const targetIndex = (index + direction + videos.length) % videos.length
     const current = videos[index]
     const target = videos[targetIndex]
-    const responses = await Promise.all([
-      fetch(`/api/cms/classroom-videos?id=${current.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ display_order: target.display_order }) }),
-      fetch(`/api/cms/classroom-videos?id=${target.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ display_order: current.display_order }) }),
-    ])
+    const reordered = [...videos]
+    const [moved] = reordered.splice(index, 1)
+    reordered.splice(targetIndex, 0, moved)
+    const responses = await Promise.all(reordered.map((video, position) => fetch(`/api/cms/classroom-videos?id=${video.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ display_order: position }) })))
     if (responses.some((response) => !response.ok)) throw new Error("تعذر حفظ ترتيب الفيديو")
     await mutate()
   }

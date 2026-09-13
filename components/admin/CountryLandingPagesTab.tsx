@@ -135,6 +135,7 @@ export function CountryLandingPagesTab() {
   const [packageSaving, setPackageSaving] = useState(false)
   const [packageMessage, setPackageMessage] = useState("")
   const [newPackage, setNewPackage] = useState({ program: "quran", name_ar: "", price: "", sessions_per_month: "4", duration_minutes: "30", description_ar: "", features_ar: "" })
+  useEffect(() => { const handler = (event: Event) => { const action = (event as CustomEvent<{ action?: string }>).detail?.action; if (action === "create") { setResource("packages"); setShowPackageForm(true) }; if (action === "save") void load() }; window.addEventListener("admin:section-action", handler); return () => window.removeEventListener("admin:section-action", handler) }, [])
 
   async function load() {
     setLoading(true)
@@ -173,10 +174,10 @@ export function CountryLandingPagesTab() {
     const current = records[index]
     const target = records[targetIndex]
     if (!current || !target) return
-    const responses = await Promise.all([
-      fetch("/api/admin/areas", { method: "PATCH", credentials: "include", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ resource, id: current.id, changes: { sort_order: target.sort_order } }) }),
-      fetch("/api/admin/areas", { method: "PATCH", credentials: "include", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ resource, id: target.id, changes: { sort_order: current.sort_order } }) }),
-    ])
+    const reordered = [...records]
+    const [moved] = reordered.splice(index, 1)
+    reordered.splice(targetIndex, 0, moved)
+    const responses = await Promise.all(reordered.map((record, position) => fetch("/api/admin/areas", { method: "PATCH", credentials: "include", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ resource, id: record.id, changes: { sort_order: position } }) })))
     if (responses.some((response) => !response.ok)) throw new Error("تعذر حفظ ترتيب السجلات")
     await load()
   }

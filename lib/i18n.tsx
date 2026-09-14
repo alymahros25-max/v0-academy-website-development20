@@ -93,10 +93,10 @@ const translations: Translations = {
   "quran.method.desc": { ar: "يبدأ البرنامج بالتعرف على مستوى الطالب وهدفه، ثم يركز على الحفظ أو المراجعة أو التلاوة أو التجويد بما يناسب عمره ووقته، في حصة فردية مباشرة باللغة العربية.", en: "We begin by understanding the learner’s level and goal, then focus on memorization, revision, recitation, or Tajweed through live one-to-one lessons.", fr: "Nous commençons par comprendre le niveau et l'objectif, puis adaptons les cours individuels." },
 
   // Arabic page
-  "arabic.hero.title": { ar: "تأسيس اللغة العربية", en: "Arabic Language Foundation", fr: "Fondation de la langue arabe" },
-  "arabic.hero.desc": { ar: "تعلم القراءة والكتابة بأحدث الطرق التعليمية مع معلمين متخصصين", en: "Learn reading and writing with the latest educational methods with specialized teachers", fr: "Apprenez la lecture et l'\u00e9criture avec les derni\u00e8res m\u00e9thodes" },
-  "arabic.method.title": { ar: "طريقتنا في التأسيس", en: "Our Foundation Method", fr: "Notre m\u00e9thode" },
-  "arabic.method.desc": { ar: "نستخدم أحدث الطرق التعليمية في تأسيس اللغة العربية من خلال مناهج تفاعلية تشمل تعلم الحروف والحركات والقراءة والكتابة والإملاء والتعبير، مع استخدام وسائل تعليمية مبتكرة تناسب الأطفال والمبتدئين.", en: "We use the latest educational methods for Arabic language foundation through interactive curricula including letters, vowels, reading, writing, dictation, and expression, with innovative teaching tools suitable for children and beginners.", fr: "Nous utilisons les derni\u00e8res m\u00e9thodes pour les bases de la langue arabe \u00e0 travers des programmes interactifs." },
+  "arabic.hero.title": { ar: "تأسيس اللغة العربية أونلاين للأطفال والكبار", en: "Online Arabic foundation for children and adults", fr: "Fondation de la langue arabe en ligne" },
+  "arabic.hero.desc": { ar: "دروس فردية مباشرة باللغة العربية لتأسيس القراءة والكتابة والإملاء والفهم والتعبير، مع خطة تناسب مستوى الطالب وعمره وهدفه.", en: "Live one-to-one Arabic lessons for reading, writing, spelling, comprehension, and expression, adapted to the learner’s level and goal.", fr: "Cours individuels d'arabe pour la lecture, l'écriture, l'orthographe, la compréhension et l'expression." },
+  "arabic.method.title": { ar: "مهارات عربية عملية تناسب احتياج الطالب", en: "Practical Arabic skills for each learner", fr: "Compétences pratiques adaptées à chaque apprenant" },
+  "arabic.method.desc": { ar: "نبدأ من المستوى الفعلي للطالب، ثم نركز على المهارات التي يحتاج إليها في القراءة أو الكتابة أو الإملاء أو الفهم والتعبير، بدلًا من استخدام منهج واحد للجميع.", en: "We start from the learner’s actual level and focus on the skills they need instead of using one plan for everyone.", fr: "Nous partons du niveau réel de l'apprenant et ciblons ses besoins." },
 
   // Teachers
   "teachers.title": { ar: "فريق المعلمين والمعلمات", en: "Our Teachers", fr: "Nos Enseignants" },

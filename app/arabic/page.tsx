@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useI18n } from "@/lib/i18n"
 import useSWR from "swr"
-import { Check, PenTool, BookOpen, Lightbulb, GraduationCap } from "lucide-react"
+import { Check, PenTool, BookOpen, Lightbulb, GraduationCap, MessageCircle, Target, PencilLine, Languages } from "lucide-react"
 
 const methodSteps = [
   {
@@ -28,6 +28,21 @@ const methodSteps = [
     desc: { ar: "تقييمات دورية وتقارير شهرية للأهل لمتابعة تطور الطالب", en: "Periodic assessments and monthly reports for parents to track progress", fr: "Evaluations periodiques et rapports mensuels pour les parents" },
   },
 ]
+
+const learnerPaths = [
+  { icon: Target, title: "الطالب المبتدئ", desc: "يبدأ من الحروف والحركات والقراءة الأساسية بطريقة متدرجة." },
+  { icon: BookOpen, title: "القراءة البطيئة", desc: "يتدرب على ربط الحروف والكلمات وتحسين الطلاقة والفهم." },
+  { icon: PencilLine, title: "تقوية الكتابة والإملاء", desc: "يتدرب على كتابة الكلمات والجمل وتقليل الأخطاء الإملائية." },
+  { icon: Languages, title: "الفهم والتعبير", desc: "يتدرب على تكوين الجمل ووصف المواقف والتعبير بصورة أوضح." },
+]
+
+const arabicFaqs = [
+  ["هل البرنامج مناسب لمن يحتاج إلى تأسيس من البداية؟", "نعم، يبدأ البرنامج من المستوى الفعلي للطالب، ويمكن أن يبدأ من الحروف والحركات والقراءة الأساسية."],
+  ["هل تركز الدروس على القراءة فقط؟", "يمكن أن تركز الخطة على القراءة أو الكتابة أو الإملاء أو الفهم والتعبير، أو تجمع بين أكثر من مهارة."],
+  ["هل الدروس مناسبة للأطفال والكبار؟", "نعم، يتم اختيار طريقة الشرح والأمثلة والتدريبات حسب عمر الطالب ومستواه وهدفه."],
+  ["هل الحصة فردية؟", "نعم، الحصة فردية مباشرة حتى يحصل الطالب على وقت كافٍ للتدريب وطرح الأسئلة وتصحيح الأخطاء."],
+  ["هل يمكن اختيار Zoom أو Google Meet؟", "نعم، يمكن اختيار المنصة المناسبة عند التنسيق للحجز حسب تفضيل الطالب والموعد المتاح."],
+] as const
 
 type PublicPackage = {
   id?: string
@@ -57,6 +72,8 @@ export default function ArabicPage() {
     t("pricing.features.certifiedTeachers"),
     t("pricing.features.supervision"),
   ]
+  const whatsappUrl = `https://wa.me/201130127894?text=${encodeURIComponent("السلام عليكم، أرغب في الاستفسار عن برنامج تأسيس اللغة العربية. عمر الطالب: ، الدولة: ، المستوى الحالي: ، المهارة المطلوبة: قراءة/كتابة/إملاء/فهم/تعبير، والوقت المناسب: ")}`
+  const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: arabicFaqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
 
   return (
     <>
@@ -75,7 +92,16 @@ export default function ArabicPage() {
               <p className="text-lg text-primary-foreground/80 leading-relaxed text-pretty">
                 {t("arabic.hero.desc")}
               </p>
-              <p className="mt-4 text-base font-semibold text-secondary">تأسيس اللغة العربية للطلاب الناطقين بالعربية في أي مكان في العالم.</p>
+              <p className="mt-4 text-base font-semibold text-secondary">للأطفال والشباب والبالغين حسب المستوى والاحتياج، مع دروس مباشرة باللغة العربية.</p>
+              <div className="mt-7 flex flex-wrap gap-3 text-sm font-semibold text-primary-foreground/85">
+                <span className="rounded-full border border-primary-foreground/20 px-4 py-2">حصة فردية مباشرة</span>
+                <span className="rounded-full border border-primary-foreground/20 px-4 py-2">قراءة وكتابة وإملاء</span>
+                <span className="rounded-full border border-primary-foreground/20 px-4 py-2">Zoom أو Google Meet</span>
+              </div>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#12653D] px-6 py-3 font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#0B3D2E]"><MessageCircle className="size-5" aria-hidden="true" />اسأل عن برنامج العربية عبر WhatsApp</a>
+                <a href="#arabic-program" className="inline-flex items-center gap-2 rounded-xl border border-primary-foreground/30 px-6 py-3 font-bold text-primary-foreground transition hover:bg-primary-foreground/10">تعرّف على المهارات</a>
+              </div>
             </div>
             <div className="hidden lg:block">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
@@ -130,6 +156,26 @@ export default function ArabicPage() {
         </div>
       </section>
 
+      <section id="arabic-program" className="bg-navy-pale/20 px-4 py-16 lg:py-20" aria-labelledby="arabic-learners-title">
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="saudi-eyebrow justify-center">خطة تبدأ من المستوى الفعلي</p>
+            <h2 id="arabic-learners-title" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl">لمن يناسب برنامج العربية؟</h2>
+            <p className="mt-4 text-lg leading-8 text-muted-foreground">لا يحتاج جميع الطلاب إلى النوع نفسه من التدريب؛ نحدد الأولويات حسب العمر والمستوى والمهارة المطلوبة.</p>
+          </div>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {learnerPaths.map(({ icon: Icon, title, desc }) => (
+              <article key={title} className="rounded-3xl border border-border bg-card p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                <div className="flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary"><Icon className="size-6" aria-hidden="true" /></div>
+                <h3 className="mt-5 text-xl font-extrabold text-navy-primary">{title}</h3>
+                <p className="mt-3 leading-7 text-muted-foreground">{desc}</p>
+              </article>
+            ))}
+          </div>
+          <div className="mt-8 text-center text-sm leading-7 text-muted-foreground">يمكن أن تركز الخطة على مهارة واحدة أو تجمع بين القراءة والكتابة والإملاء والفهم والتعبير حسب الاحتياج.</div>
+        </div>
+      </section>
+
       {/* Pricing */}
       <section className="py-20 lg:py-28 bg-muted/30 islamic-pattern">
         <div className="mx-auto max-w-7xl px-4">
@@ -137,6 +183,7 @@ export default function ArabicPage() {
             <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-bold mb-4">
               {t("pricing.arabic.title")}
             </span>
+            <p className="mx-auto mb-5 max-w-2xl text-lg leading-8 text-muted-foreground">هذه هي الباقات والأسعار العامة الحالية لبرنامج تأسيس اللغة العربية. اختر عدد الحصص المناسب، ثم تواصل معنا لتأكيد الموعد وطريقة الحصة.</p>
             <h2 className="text-3xl md:text-4xl font-extrabold text-foreground text-balance">
               {locale === "ar" ? "اختر باقتك وابدأ التأسيس" : locale === "en" ? "Choose Your Package" : "Choisissez votre forfait"}
             </h2>
@@ -208,6 +255,38 @@ export default function ArabicPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="bg-background px-4 py-16 lg:py-20" aria-labelledby="arabic-faq-title">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+        <div className="mx-auto max-w-5xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="saudi-eyebrow justify-center">إجابات قبل البدء</p>
+            <h2 id="arabic-faq-title" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl">أسئلة شائعة عن برنامج العربية</h2>
+          </div>
+          <div className="mt-10 grid gap-4 md:grid-cols-2">
+            {arabicFaqs.map(([question, answer]) => (
+              <details key={question} className="group rounded-2xl border border-border bg-card p-5 shadow-sm">
+                <summary className="cursor-pointer list-none pe-6 font-extrabold text-navy-primary marker:hidden [&::-webkit-details-marker]:hidden">{question}</summary>
+                <p className="mt-3 leading-7 text-muted-foreground">{answer}</p>
+              </details>
+            ))}
+          </div>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#12653D] px-6 py-3 font-bold text-white transition hover:bg-[#0B3D2E]"><MessageCircle className="size-5" aria-hidden="true" />اسأل عن البرنامج عبر WhatsApp</a>
+            <Link href="/faq" className="inline-flex items-center font-bold text-navy-primary underline underline-offset-4">اقرأ جميع الأسئلة</Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-navy-pale/20 px-4 py-14" aria-label="روابط برنامج العربية">
+        <div className="mx-auto flex max-w-5xl flex-wrap justify-center gap-x-6 gap-y-3 text-sm font-bold text-navy-primary">
+          <Link href="/teachers" className="hover:underline">تعرّف على المعلمين والمعلمات</Link>
+          <Link href="/library" className="hover:underline">موارد القراءة والتدريب</Link>
+          <Link href="/blog" className="hover:underline">مقالات تقوية العربية</Link>
+          <Link href="/contact" className="hover:underline">تواصل لتحديد المستوى</Link>
+          <Link href="/quran" className="hover:underline">هل تبحث عن برنامج القرآن؟</Link>
         </div>
       </section>
     </>

@@ -28,25 +28,32 @@ const CTASection = dynamic(
   { ssr: true, loading: () => <div className="min-h-72 bg-muted" /> },
 )
 
-export default async function HomePage() {
-  const content = await getPublicContent([
-    "hero_title",
-    "hero_subtitle",
-    "about_badge",
-    "about_title",
-    "about_description",
-    "mission_title",
-    "mission_description",
-    "vision_title",
-    "vision_description",
-    "goals_title",
-    "goals_description",
-  ])
+const homeContentKeys = [
+  "hero_title",
+  "hero_subtitle",
+  "about_badge",
+  "about_title",
+  "about_description",
+  "mission_title",
+  "mission_description",
+  "vision_title",
+  "vision_description",
+  "goals_title",
+  "goals_description",
+] as const
 
+async function DynamicHeroContent() {
+  const content = await getPublicContent([...homeContentKeys])
+  return <HeroSection content={content} />
+}
+
+export default function HomePage() {
   return (
     <>
       <AcademyBanner />
-      <HeroSection content={content} />
+      <Suspense fallback={<HeroSection />}>
+        <DynamicHeroContent />
+      </Suspense>
       <HomeContentSections />
       <DeferredLandingVideoStrip />
       <Suspense fallback={<div className="min-h-72 bg-muted" />}>

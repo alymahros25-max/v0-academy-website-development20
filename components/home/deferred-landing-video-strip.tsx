@@ -31,7 +31,7 @@ export function DeferredLandingVideoStrip() {
         void loadVideos()
         observer.disconnect()
       }
-    }, { rootMargin: "800px 0px" })
+    }, { rootMargin: "320px 0px" })
 
     observer.observe(target)
     return () => observer.disconnect()

@@ -103,7 +103,7 @@ export default function RootLayout({
       <head>
         <Script
           id="google-tag-consent"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',wait_for_update:500});gtag('js',new Date());gtag('config','G-C5KEVTR3XC');`,
           }}
@@ -111,7 +111,7 @@ export default function RootLayout({
         <Script
           id="google-tag-script"
           src="https://www.googletagmanager.com/gtag/js?id=G-C5KEVTR3XC"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
         />
         <script
           type="application/ld+json"

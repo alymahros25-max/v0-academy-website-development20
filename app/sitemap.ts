@@ -23,22 +23,30 @@ async function getDynamicBlogArticles(): Promise<BlogArticle[]> {
       .limit(100)
     if (error) throw error
 
-    return (articles || []).map((article) => ({
-      slug: article.slug,
-      lastModified: article.updated_at || article.created_at,
-    }))
+    const dynamicArticles = (articles || [])
+      .filter((article) => supportedBlogSlugs.has(article.slug))
+      .map((article) => ({
+        slug: article.slug,
+        lastModified: article.updated_at || article.created_at,
+      }))
+    const dynamicBySlug = new Map(dynamicArticles.map((article) => [article.slug, article]))
+
+    return [...supportedBlogSlugs].map((slug) => dynamicBySlug.get(slug) ?? { slug })
   } catch (error) {
     console.warn('[sitemap] Failed to fetch from Supabase:', error)
     return getBlogArticlesFromFilesystem()
   }
 }
 
+const supportedBlogSlugs = new Set([
+  'quran-memorization-techniques',
+  'arabic-foundation-importance',
+  'online-learning-benefits',
+  'easy-arabic-learning-for-children',
+])
+
 function getBlogArticlesFromFilesystem(): BlogArticle[] {
-  return [
-    { slug: 'quran-memorization-techniques' },
-    { slug: 'arabic-foundation-importance' },
-    { slug: 'online-learning-benefits' },
-  ]
+  return [...supportedBlogSlugs].map((slug) => ({ slug }))
 }
 
 const staticRoutes = [

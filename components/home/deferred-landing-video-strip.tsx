@@ -40,7 +40,7 @@ export function DeferredLandingVideoStrip() {
   if (!videos.length) return <div ref={sectionRef} aria-hidden="true" />
 
   return (
-    <section ref={sectionRef} className="border-y border-border bg-card px-5 py-14 sm:px-8" aria-labelledby="landing-videos-title">
+    <section ref={sectionRef} className="content-auto border-y border-border bg-card px-5 py-14 sm:px-8" aria-labelledby="landing-videos-title">
       <div className="mx-auto max-w-6xl">
         <div className="mx-auto max-w-2xl text-center">
           <p className="saudi-eyebrow justify-center">من داخل حصصنا</p>

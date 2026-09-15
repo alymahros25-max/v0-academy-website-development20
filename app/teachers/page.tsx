@@ -68,7 +68,7 @@ function TeacherCard({ teacher, index, locale }: { teacher: Teacher; index: numb
           <Image src={teacher.image} alt={`صورة رمزية لـ ${teacher.name.ar}`} fill sizes="64px" className="object-cover" />
         </div>
         <div className="min-w-0">
-          <h2 className="text-lg font-bold text-foreground">{locale === "ar" ? teacher.name.ar : teacher.name.en}</h2>
+          <h3 className="text-lg font-bold text-foreground">{locale === "ar" ? teacher.name.ar : teacher.name.en}</h3>
           <p className="mt-1 text-sm font-medium text-primary">{locale === "ar" ? teacher.role.ar : teacher.role.en}</p>
         </div>
       </div>
@@ -91,7 +91,7 @@ function TeacherCard({ teacher, index, locale }: { teacher: Teacher; index: numb
         </div>
         <div className="text-end">
           <div className="flex items-center gap-1 text-[#d4af37]" aria-label="5 out of 5 stars">{[1,2,3,4,5].map((star) => <Star key={star} className="size-4 fill-current" />)}</div>
-          <p className="mt-1 text-xs font-semibold text-muted-foreground">5/5 تقييم حقيقي</p>
+          <p className="mt-1 text-xs font-semibold text-muted-foreground">تقييم 5/5</p>
         </div>
       </div>
       <a href={whatsappUrl(teacher, locale)} target="_blank" rel="noreferrer" className="mt-5 flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-center text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90">

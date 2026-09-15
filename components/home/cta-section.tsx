@@ -2,11 +2,12 @@
 
 import Link from "next/link"
 import { useI18n } from "@/lib/i18n"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import { ArrowLeft, ArrowRight, MessageCircle } from "lucide-react"
 
 export function CTASection() {
   const { locale, dir } = useI18n()
   const Arrow = dir === "rtl" ? ArrowLeft : ArrowRight
+  const whatsappUrl = "https://wa.me/201130127894?text=" + encodeURIComponent("السلام عليكم، أرغب في حجز حصة تجريبية مجانية. البرنامج المطلوب: قرآن / لغة عربية / غير متأكد. عمر الطالب: ، المستوى الحالي: ، والوقت المناسب: ")
 
   return (
     <section className="content-auto py-20 lg:py-28 bg-primary relative overflow-hidden">
@@ -27,6 +28,7 @@ export function CTASection() {
               : "Discutez de l’objectif et du niveau de l’élève, puis choisissez le programme adapté."}
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#d4af37] px-8 py-4 text-lg font-bold text-[#1f260d] shadow-md transition-all hover:-translate-y-0.5 hover:brightness-110"><MessageCircle className="size-5" />{locale === "ar" ? "احجز حصتك التجريبية المجانية" : "Book your free trial lesson"}</a>
 <Link
             href="/quran"
             className="inline-flex items-center gap-2 rounded-xl bg-card px-8 py-4 text-lg font-bold text-primary shadow-md transition-all hover:bg-card/90 hover:shadow-xl hover:-translate-y-0.5"

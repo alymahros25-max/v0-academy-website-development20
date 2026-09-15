@@ -25,7 +25,7 @@ const methodSteps = [
   {
     icon: GraduationCap,
     title: { ar: "التقييم والمتابعة", en: "Assessment & Follow-up", fr: "Evaluation et suivi" },
-    desc: { ar: "تقييمات دورية وتقارير شهرية للأهل لمتابعة تطور الطالب", en: "Periodic assessments and monthly reports for parents to track progress", fr: "Evaluations periodiques et rapports mensuels pour les parents" },
+    desc: { ar: "متابعة دورية تساعد الأسرة على معرفة مستوى الطالب وما يحتاج إلى تدريب", en: "Periodic assessments and monthly reports for parents to track progress", fr: "Evaluations periodiques et rapports mensuels pour les parents" },
   },
 ]
 
@@ -72,7 +72,8 @@ export default function ArabicPage() {
     t("pricing.features.certifiedTeachers"),
     t("pricing.features.supervision"),
   ]
-  const whatsappUrl = `https://wa.me/201130127894?text=${encodeURIComponent("السلام عليكم، أرغب في الاستفسار عن برنامج تأسيس اللغة العربية. عمر الطالب: ، الدولة: ، المستوى الحالي: ، المهارة المطلوبة: قراءة/كتابة/إملاء/فهم/تعبير، والوقت المناسب: ")}`
+  const whatsappUrl = `https://wa.me/201130127894?text=${encodeURIComponent("السلام عليكم، أرغب في حجز حصة تجريبية مجانية في برنامج تأسيس اللغة العربية. عمر الطالب: ، الدولة: ، المستوى الحالي: ، المهارة المطلوبة: قراءة/كتابة/إملاء/فهم/تعبير، والوقت المناسب: ")}`
+  const packageWhatsappUrl = (sessions: number, price: number) => `https://wa.me/201130127894?text=${encodeURIComponent(`السلام عليكم، أرغب في الاشتراك في باقة تأسيس اللغة العربية: ${sessions} حصص شهريًا بسعر ${price}$، وأرغب في معرفة خطوات البدء. عمر الطالب: ، الدولة: ، المستوى الحالي: ، والوقت المناسب: `)}`
   const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: arabicFaqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
 
   return (
@@ -99,7 +100,7 @@ export default function ArabicPage() {
                 <span className="rounded-full border border-primary-foreground/20 px-4 py-2">Zoom أو Google Meet</span>
               </div>
               <div className="mt-8 flex flex-wrap gap-3">
-                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#12653D] px-6 py-3 font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#0B3D2E]"><MessageCircle className="size-5" aria-hidden="true" />اسأل عن برنامج العربية عبر WhatsApp</a>
+                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#12653D] px-6 py-3 font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#0B3D2E]"><MessageCircle className="size-5" aria-hidden="true" />احجز حصة تجريبية مجانية</a>
                 <a href="#arabic-program" className="inline-flex items-center gap-2 rounded-xl border border-primary-foreground/30 px-6 py-3 font-bold text-primary-foreground transition hover:bg-primary-foreground/10">تعرّف على المهارات</a>
               </div>
             </div>
@@ -243,7 +244,9 @@ export default function ArabicPage() {
                 </ul>
 
                 <Link
-                  href="/contact"
+                  href={packageWhatsappUrl(pkg.sessions, pkg.price)}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`block w-full py-3.5 rounded-xl font-bold text-center transition-all hover:-translate-y-0.5 hover:shadow-lg ${
                     pkg.popular
                       ? "bg-secondary text-secondary-foreground hover:brightness-110"
@@ -283,10 +286,9 @@ export default function ArabicPage() {
       <section className="bg-navy-pale/20 px-4 py-14" aria-label="روابط برنامج العربية">
         <div className="mx-auto flex max-w-5xl flex-wrap justify-center gap-x-6 gap-y-3 text-sm font-bold text-navy-primary">
           <Link href="/teachers" className="hover:underline">تعرّف على المعلمين والمعلمات</Link>
-          <Link href="/library" className="hover:underline">موارد القراءة والتدريب</Link>
-          <Link href="/blog" className="hover:underline">مقالات تقوية العربية</Link>
-          <Link href="/contact" className="hover:underline">تواصل لتحديد المستوى</Link>
+          <Link href="/teachers" className="hover:underline">تعرّف على المعلمين والمعلمات</Link>
           <Link href="/quran" className="hover:underline">هل تبحث عن برنامج القرآن؟</Link>
+          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">تواصل عبر WhatsApp</a>
         </div>
       </section>
     </>

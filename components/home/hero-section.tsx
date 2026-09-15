@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useI18n } from "@/lib/i18n"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import { ArrowLeft, ArrowRight, MessageCircle } from "lucide-react"
 import { RevealOnScroll } from "@/components/ui/reveal-on-scroll"
 import type { PublicContent } from "@/lib/public-content"
 import { localizedContent } from "@/lib/public-content"
@@ -11,6 +11,7 @@ import { localizedContent } from "@/lib/public-content"
 export function HeroSection({ content = {} }: { content?: Record<string, PublicContent> }) {
   const { locale, dir } = useI18n()
   const Arrow = dir === "rtl" ? ArrowLeft : ArrowRight
+  const whatsappUrl = "https://wa.me/201130127894?text=" + encodeURIComponent("السلام عليكم، أرغب في حجز حصة تجريبية مجانية. البرنامج المطلوب: قرآن / لغة عربية / غير متأكد. عمر الطالب: ، المستوى الحالي: ، والوقت المناسب: ")
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-warm-bg">
@@ -69,18 +70,15 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
       </div>
 
       <div className="absolute inset-x-0 bottom-10 z-20 flex flex-col items-center justify-center gap-2 px-4 sm:flex-row sm:gap-8">
+        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="group inline-flex min-h-12 items-center gap-2 rounded-xl bg-primary px-7 py-3 text-base font-bold text-primary-foreground shadow-md transition-all hover:-translate-y-0.5 hover:bg-primary/90">
+          <MessageCircle className="size-4" />
+          {locale === "ar" ? "احجز حصتك التجريبية المجانية" : locale === "en" ? "Book your free trial lesson" : "Réserver votre cours d’essai gratuit"}
+        </a>
         <Link
-          href="/contact"
-          className="group inline-flex min-h-12 items-center gap-2 rounded-xl bg-primary px-7 py-3 text-base font-bold text-primary-foreground shadow-md transition-all hover:-translate-y-0.5 hover:bg-primary/90"
-        >
-          {locale === "ar" ? "احجز حصتك التجريبية" : locale === "en" ? "Book your trial lesson" : "Réserver votre cours d’essai"}
-          <Arrow className="size-4 transition-transform group-hover:-translate-x-1" />
-        </Link>
-        <Link
-          href="/quran"
+          href="/teachers"
           className="group inline-flex min-h-12 items-center gap-2 rounded-xl border border-navy-primary/30 bg-background/80 px-7 py-3 text-base font-bold text-navy-primary transition-all hover:-translate-y-0.5 hover:bg-background"
         >
-          {locale === "ar" ? "تعرّف على البرامج" : locale === "en" ? "Explore the programs" : "Découvrir les programmes"}
+          {locale === "ar" ? "تعرّف على المعلمين والمعلمات" : locale === "en" ? "Meet our teachers" : "Découvrir les programmes"}
           <Arrow className="size-4 transition-transform group-hover:-translate-x-1" />
         </Link>
       </div>

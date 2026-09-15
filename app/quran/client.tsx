@@ -1,13 +1,10 @@
 "use client"
 
-import { useState } from "react"
 import useSWR from "swr"
 import Image from "next/image"
 import Link from "next/link"
 import { useI18n } from "@/lib/i18n"
 import { Check, BookOpen, Star, Users, Clock, Shield, X, MessageCircle, Target, RefreshCw } from "lucide-react"
-import { DynamicCheckout } from "@/components/dynamic-checkout"
-import { PAYMENTS_ENABLED } from "@/lib/payment-feature"
 
 const methodSteps = [
   {
@@ -49,7 +46,6 @@ const quranFaqs = [
 
 export default function QuranPageClient() {
   const { t, locale } = useI18n()
-  const [selectedProduct, setSelectedProduct] = useState<string | null>(null)
 
   const { data: livePackages } = useSWR<Array<{ id: string; type: string; name?: Record<string, string>; sessions: number; price: number; popular: boolean; active?: boolean }>>("/api/public/packages", (url: string) => fetch(url).then((res) => res.json()))
   const packages = (livePackages ?? []).filter((pkg) => pkg.type === "quran" && pkg.active !== false)
@@ -60,7 +56,8 @@ export default function QuranPageClient() {
     t("pricing.features.supervision"),
     t("pricing.features.memorization"),
   ]
-  const whatsappUrl = `https://wa.me/201130127894?text=${encodeURIComponent("السلام عليكم، أرغب في الاستفسار عن دروس القرآن. عمر الطالب: ، الدولة: ، المستوى الحالي: ، الهدف: حفظ/مراجعة/تجويد، والوقت المناسب: ")}`
+  const whatsappUrl = `https://wa.me/201130127894?text=${encodeURIComponent("السلام عليكم، أرغب في حجز حصة تجريبية مجانية في برنامج القرآن. عمر الطالب: ، الدولة: ، المستوى الحالي: ، الهدف: حفظ/مراجعة/تجويد، والوقت المناسب: ")}`
+  const packageWhatsappUrl = (sessions: number, price: number) => `https://wa.me/201130127894?text=${encodeURIComponent(`السلام عليكم، أرغب في الاشتراك في باقة القرآن: ${sessions} حصص شهريًا بسعر ${price}$، وأرغب في معرفة خطوات البدء. عمر الطالب: ، الدولة: ، المستوى الحالي: ، والوقت المناسب: `)}`
   const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: quranFaqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
 
   return (
@@ -87,7 +84,7 @@ export default function QuranPageClient() {
                 <span className="rounded-full border border-primary-foreground/20 px-4 py-2">Zoom أو Google Meet</span>
               </div>
               <div className="mt-8 flex flex-wrap gap-3">
-                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#12653D] px-6 py-3 font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#0B3D2E]"><MessageCircle className="size-5" aria-hidden="true" />اسأل عن برنامج القرآن عبر WhatsApp</a>
+                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#12653D] px-6 py-3 font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#0B3D2E]"><MessageCircle className="size-5" aria-hidden="true" />احجز حصة تجريبية مجانية</a>
                 <a href="#how-it-works" className="inline-flex items-center gap-2 rounded-xl border border-primary-foreground/30 px-6 py-3 font-bold text-primary-foreground transition hover:bg-primary-foreground/10">تعرّف على طريقة البدء</a>
               </div>
             </div>
@@ -138,10 +135,11 @@ export default function QuranPageClient() {
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
             <p className="saudi-eyebrow justify-center">بداية واضحة</p>
-            <h2 id="quran-how-title" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl">كيف تتم دروس القرآن؟</h2>
+            <h2 id="quran-how-title" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl">كيف نبدأ ونبني خطة القرآن؟</h2>
+            <p className="mt-4 text-lg leading-8 text-muted-foreground">نقيّم مستوى الطالب، نحدد هدفه، ثم نبني مسارًا يجمع بين الحفظ أو المراجعة والتلاوة والتجويد بحسب احتياجه، مع معلم مناسب.</p>
           </div>
           <div className="mt-10 grid gap-5 md:grid-cols-4">
-            {[["تواصل معنا", "أرسل عمر الطالب ومستواه وهدفه والوقت المناسب عبر WhatsApp."], ["نحدد الاحتياج", "نتعرف على الحفظ السابق وما يحتاجه الطالب في الحفظ أو المراجعة أو التجويد."], ["اختر المنصة", "تتم الحصة مباشرة عبر Zoom أو Google Meet حسب اختيار الطالب."], ["ابدأ المتابعة", "نتفق على التفاصيل والباقات وطريقة الدفع المتاحة، ثم يبدأ الدرس الفردي."]].map(([title, desc], index) => (
+            {[["تواصل معنا", "أرسل عمر الطالب ومستواه وهدفه والوقت المناسب عبر WhatsApp."], ["نحدد الاحتياج", "نتعرف على الحفظ السابق وما يحتاجه الطالب في الحفظ أو المراجعة أو التجويد."], ["نختار المعلم المناسب", "نساعدك على اختيار معلم أو معلمة مناسبين، ويمكنك التعرف على الفريق من صفحة المعلمين."], ["ابدأ المتابعة", "نتفق على التفاصيل والباقات وطريقة الحصة، ثم يبدأ الدرس الفردي عبر Zoom أو Google Meet."]].map(([title, desc], index) => (
               <article key={title} className="rounded-3xl border border-border bg-card p-6 text-center shadow-sm">
                 <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-primary text-lg font-extrabold text-primary-foreground">{index + 1}</div>
                 <h3 className="mt-5 text-xl font-extrabold text-navy-primary">{title}</h3>
@@ -252,18 +250,9 @@ export default function QuranPageClient() {
                   ))}
                 </ul>
 
-                {PAYMENTS_ENABLED && (
-                  <button
-                    onClick={() => setSelectedProduct(`quran-${pkg.sessions}-sessions`)}
-                    className={`w-full py-3.5 rounded-xl font-bold text-center transition-all hover:-translate-y-0.5 hover:shadow-lg ${
-                      pkg.popular
-                        ? "bg-secondary text-secondary-foreground hover:brightness-110"
-                        : "bg-primary text-primary-foreground hover:brightness-110"
-                    }`}
-                  >
-                    {t("pricing.subscribe")}
-                  </button>
-                )}
+                <a href={packageWhatsappUrl(pkg.sessions, pkg.price)} target="_blank" rel="noopener noreferrer" className={`block w-full py-3.5 rounded-xl font-bold text-center transition-all hover:-translate-y-0.5 hover:shadow-lg ${pkg.popular ? "bg-secondary text-secondary-foreground hover:brightness-110" : "bg-primary text-primary-foreground hover:brightness-110"}`}>
+                  ابدأ الاشتراك عبر WhatsApp
+                </a>
               </div>
             ))}
           </div>
@@ -297,25 +286,6 @@ export default function QuranPageClient() {
         </div>
       </section>
 
-      {/* Checkout Modal */}
-      {PAYMENTS_ENABLED && selectedProduct && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-background rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-6 border-b sticky top-0 bg-background">
-              <h2 className="text-2xl font-bold">{t("pricing.subscribe")}</h2>
-              <button
-                onClick={() => setSelectedProduct(null)}
-                className="text-muted-foreground hover:text-foreground"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-            <div className="p-6">
-              <DynamicCheckout productId={selectedProduct} onSuccess={() => setSelectedProduct(null)} />
-            </div>
-          </div>
-        </div>
-      )}
     </>
   )
 }

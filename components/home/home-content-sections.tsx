@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Languages } from "lucide-react"
+import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Languages, MessageCircle } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
 import { generateFAQSchema } from "@/lib/schema-markup"
 
@@ -25,7 +25,7 @@ const content = {
     startLabel: "بداية واضحة",
     startTitle: "كيف تبدأ؟",
     steps: [
-      ["احجز الحصة التجريبية", "أخبرنا بالبرنامج المطلوب، ومستوى الطالب التقريبي، والوقت المناسب."],
+      ["احجز الحصة التجريبية المجانية", "أخبرنا بالبرنامج المطلوب، ومستوى الطالب التقريبي، والوقت المناسب عبر WhatsApp."],
       ["تعرّف على مستوى الطالب", "يراجع المعلم مهارات الطالب وهدفه والجوانب التي تحتاج إلى تطوير."],
       ["ابدأ خطتك التعليمية", "بعد مناقشة الاحتياج، اختر البرنامج والموعد المناسب وابدأ المتابعة."],
     ],
@@ -73,6 +73,8 @@ const content = {
     allFaq: "View all frequently asked questions",
   },
 } as const
+
+const homeWhatsappUrl = "https://wa.me/201130127894?text=" + encodeURIComponent("السلام عليكم، أرغب في حجز حصة تجريبية مجانية.\n\nالبرنامج المطلوب: قرآن / لغة عربية / غير متأكد\nعمر الطالب:\nالمستوى الحالي:\nالوقت المناسب:")
 
 export function HomeContentSections() {
   const { locale, dir } = useI18n()
@@ -159,7 +161,9 @@ export function HomeContentSections() {
               </details>
             ))}
           </div>
-          <div className="mt-8 text-center">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+            <a href={homeWhatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-bold text-primary-foreground shadow-sm hover:bg-primary/90"><MessageCircle className="size-5" />احجز حصتك التجريبية المجانية</a>
+            <Link href="/teachers" className="inline-flex items-center gap-2 font-bold text-navy-primary hover:underline">تعرّف على المعلمين والمعلمات<Arrow className="size-4" /></Link>
             <Link href="/faq" className="inline-flex items-center gap-2 font-bold text-navy-primary hover:underline">
               {copy.allFaq}
               <Arrow className="size-4" aria-hidden="true" />

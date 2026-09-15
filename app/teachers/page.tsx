@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { useI18n } from "@/lib/i18n"
-import { siteStats } from "@/lib/site-stats"
 import Image from "next/image"
 import { Award, Check, MessageCircle, Star, BookOpen, Languages, ClipboardCheck } from "lucide-react"
 import teachers from "@/data/teachers.json"
@@ -127,7 +126,6 @@ export default function TeachersPage() {
           <span className="mb-4 inline-block rounded-full border border-[#d4af37]/40 bg-[#d4af37]/15 px-4 py-1.5 text-sm font-bold text-[#f1d978]">{t("nav.teachers")}</span>
           <h1 className="text-balance text-4xl font-extrabold text-primary-foreground md:text-5xl">{locale === "ar" ? "معلمو ومعلمات القرآن واللغة العربية أونلاين" : "Online Quran and Arabic Teachers"}</h1>
           <p className="mx-auto mt-5 max-w-3xl text-pretty text-lg leading-8 text-primary-foreground/80">تعرّف على فريق المعلمين والمعلمات، واختر من يناسب عمر الطالب ومستواه وهدفه في تعليم القرآن أو تأسيس اللغة العربية، مع حصة تجريبية مجانية قبل بدء البرنامج.</p>
-          <div className="mt-7 flex flex-wrap justify-center gap-3 text-sm font-semibold text-primary-foreground/90"><span>+{siteStats.students} طالب وطالبة</span><span>•</span><span>{siteStats.teachers} معلمين ومعلمات</span><span>•</span><span>{siteStats.countries} دولة</span></div>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <a href={generalWhatsappUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#d4af37] px-6 py-3 font-bold text-[#1f260d] transition hover:brightness-110"><MessageCircle className="size-5" />احجز حصة تجريبية مجانية</a>
             <a href="#teachers-list" className="inline-flex items-center rounded-xl border border-primary-foreground/30 px-6 py-3 font-bold text-primary-foreground transition hover:bg-primary-foreground/10">استعرض المعلمين</a>

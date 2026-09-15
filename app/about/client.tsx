@@ -131,25 +131,7 @@ export default function AboutPageClient({ content = {} }: { content?: Record<str
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="py-16 bg-primary relative overflow-hidden">
-        <div className="absolute inset-0 islamic-pattern opacity-20" />
-        <div className="relative z-10 mx-auto max-w-7xl px-4">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { value: '+500', label: locale === 'ar' ? 'طالب وطالبة' : locale === 'en' ? 'Students' : 'Etudiants' },
-              { value: '+30', label: locale === 'ar' ? 'معلم ومعلمة' : locale === 'en' ? 'Teachers' : 'Enseignants' },
-              { value: '+15', label: locale === 'ar' ? 'دولة' : locale === 'en' ? 'Countries' : 'Pays' },
-              { value: '+5', label: locale === 'ar' ? 'سنوات خبرة' : locale === 'en' ? 'Years Experience' : 'Annees d\'experience' },
-            ].map((stat, idx) => (
-              <div key={idx} className="text-center">
-                <div className="text-4xl md:text-5xl font-extrabold text-secondary mb-2">{stat.value}</div>
-                <p className="text-primary-foreground/80 font-medium">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+
     </>
   )
 }

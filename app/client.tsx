@@ -5,7 +5,6 @@ import { HeroSection } from '@/components/home/hero-section'
 import { AcademyBanner } from '@/components/home/academy-banner'
 import { AboutSection } from '@/components/home/about-section'
 import { FeaturesSection } from '@/components/home/features-section'
-import { StatsSection } from '@/components/home/stats-section'
 import { Suspense } from 'react'
 
 // Heavy components loaded dynamically
@@ -32,7 +31,6 @@ export default function HomePageClient() {
       <AcademyBanner />
       <HeroSection />
       <FeaturesSection />
-      <StatsSection />
 
       {/* Below the fold - Loaded dynamically */}
       <Suspense fallback={<div className="min-h-80 bg-muted animate-pulse" />}>

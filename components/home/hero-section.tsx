@@ -14,17 +14,20 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-warm-bg">
-      <Image
-        src="/images/hero-children.webp"
-        alt="Children learning Quran"
-        fill
-        className="object-cover object-[center_15%]"
-        sizes="100vw"
-        quality={40}
-        priority
-        fetchPriority="high"
-        decoding="async"
-      />
+      <picture className="absolute inset-0 block">
+        <source media="(max-width: 767px)" srcSet="/images/hero-children-mobile.webp" />
+        <Image
+          src="/images/hero-children.webp"
+          alt="Children learning Quran"
+          fill
+          className="object-cover object-[center_15%]"
+          sizes="100vw"
+          quality={40}
+          priority
+          fetchPriority="high"
+          decoding="async"
+        />
+      </picture>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 pt-8 pb-32 lg:pt-16 lg:pb-40 w-full">
         <div className="grid lg:grid-cols-2 gap-12 items-start">

@@ -11,7 +11,7 @@ declare global {
   }
 }
 
-const MEASUREMENT_ID = "G-C5KEVTR3XC"
+const MEASUREMENT_ID = "G-W7ZJYVEMHL"
 const CONSENT_COOKIE = "analytics_consent"
 
 function hasAnalyticsConsent() {

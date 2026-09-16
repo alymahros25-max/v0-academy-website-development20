@@ -19,7 +19,7 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
         <source media="(max-width: 767px)" srcSet="/images/hero-children-mobile.webp" />
         <Image
           src="/images/hero-children.webp"
-          alt="Children learning Quran"
+          alt="أطفال يتعلمون القرآن أون لاين في حصة فردية"
           fill
           className="object-cover object-[center_15%]"
           sizes="100vw"
@@ -55,7 +55,7 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
               <div className="relative w-80 h-96 rounded-3xl overflow-hidden shadow-2xl border-4 border-secondary/30 rotate-3 hover:rotate-0 transition-transform duration-500">
                 <Image
                   src="/images/teacher-quran.webp"
-                  alt="Quran teacher"
+                  alt="معلم قرآن أون لاين في أكاديمية الحافظ المتميز"
                   fill
                   sizes="(min-width: 1024px) 320px, 0px"
                   quality={80}

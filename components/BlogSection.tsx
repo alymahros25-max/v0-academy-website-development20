@@ -31,6 +31,7 @@ export interface BlogPost {
   author_en: string
   author_fr: string
   read_time: number
+  sort_order: number
   is_published: boolean
   published_at: string
   created_at: string

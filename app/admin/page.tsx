@@ -23,6 +23,8 @@ import { SaudiLandingTab } from "@/components/admin/SaudiLandingTab"
 import { UaeLandingTab } from "@/components/admin/UaeLandingTab"
 import { CountryLandingPagesTab } from "@/components/admin/CountryLandingPagesTab"
 import { FAQManager } from "@/components/admin/faq-manager"
+import { UsersManager } from "@/components/admin/users-manager"
+import { PermissionsMatrix } from "@/components/admin/permissions-matrix"
 
 const fetcher = (url: string) => fetch(url).then(r => r.json())
 
@@ -1272,16 +1274,23 @@ function UsersManagementTab() {
   const [showPass, setShowPass] = useState(false)
   const [newPass, setNewPass] = useState("")
   const [msg, setMsg] = useState("")
+  const [generatedHash, setGeneratedHash] = useState("")
+  const [adminEmail, setAdminEmail] = useState("")
+
+  useEffect(() => {
+    void fetch("/api/admin/account").then((response) => response.ok ? response.json() : null).then((body) => setAdminEmail(body?.email || "")).catch(() => undefined)
+  }, [])
 
   const handleChangePass = async () => {
-    if (newPass.length < 6) { setMsg("كلمة المرور يجب أن تكون 6 أحرف على الأقل"); return }
+    if (newPass.length < 12) { setMsg("كلمة المرور يجب أن تكون 12 حرفًا على الأقل"); return }
     const res = await fetch("/api/admin/change-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ newPassword: newPass }),
     })
-    if (res.ok) { setMsg("تم تحديث كلمة المرور بنجاح"); setNewPass("") }
-    else { setMsg("خطأ — تحقق من صلاحياتك") }
+    const body = await res.json().catch(() => ({}))
+    if (res.ok && body.hash) { setGeneratedHash(body.hash); setMsg("تم توليد hash. انسخه إلى Vercel في ADMIN_PASSWORD_SCRYPT_HASH ثم أعد النشر."); setNewPass("") }
+    else { setMsg(body.error || "خطأ — تحقق من صلاحياتك") }
   }
 
   return (
@@ -1326,6 +1335,7 @@ function UsersManagementTab() {
               حفظ
             </button>
           </div>
+          {generatedHash && <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-900"><p className="mb-2 font-semibold">قيمة ADMIN_PASSWORD_SCRYPT_HASH الجديدة:</p><code className="block break-all rounded bg-white p-2" dir="ltr">{generatedHash}</code><button type="button" onClick={() => void navigator.clipboard?.writeText(generatedHash)} className="mt-2 rounded border border-amber-300 px-3 py-1">نسخ</button></div>}
         </div>
       </div>
       <div className="bg-card border border-border rounded-2xl p-6">
@@ -1337,7 +1347,7 @@ function UsersManagementTab() {
           </div>
           <div className="flex items-center justify-between py-2 border-b border-border">
             <span className="text-muted-foreground">البريد الإلكتروني</span>
-            <span className="font-medium">المدير العام</span>
+            <span className="font-medium" dir="ltr">{adminEmail || "غير متاح"}</span>
           </div>
           <div className="flex items-center justify-between py-2">
             <span className="text-muted-foreground">الدور</span>
@@ -1345,6 +1355,8 @@ function UsersManagementTab() {
           </div>
         </div>
       </div>
+      <UsersManager />
+      <PermissionsMatrix />
     </div>
   )
 }

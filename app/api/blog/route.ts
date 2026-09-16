@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
+import { verifyAdminSession } from '@/lib/admin-auth'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
@@ -25,6 +26,7 @@ const featuredArabicLearningPost = {
   author_en: 'Academy Team',
   author_fr: 'Équipe de l’académie',
   read_time: 9,
+  sort_order: 0,
   is_published: true,
   published_at: '2026-09-11T00:00:00.000Z',
   created_at: '2026-09-11T00:00:00.000Z',
@@ -52,6 +54,10 @@ export async function GET(request: NextRequest) {
     const slug = searchParams.get('slug')
     const all = searchParams.get('all') === 'true'
 
+    if (all && !(await verifyAdminSession())) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     const key = all ? supabaseServiceKey : supabaseAnonKey
     const supabase = createClient(supabaseUrl, key)
 
@@ -70,6 +76,7 @@ export async function GET(request: NextRequest) {
     let query = supabase
       .from('blog_posts')
       .select('*')
+      .order('sort_order', { ascending: true })
       .order('published_at', { ascending: false })
 
     if (!all) {
@@ -101,6 +108,7 @@ export async function GET(request: NextRequest) {
 // POST: create new post (admin only)
 export async function POST(request: NextRequest) {
   try {
+    if (!(await verifyAdminSession())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     const body = await request.json()
     const {
       title_ar, title_en, title_fr,
@@ -108,7 +116,7 @@ export async function POST(request: NextRequest) {
       content_ar, content_en, content_fr,
       cover_image, category_ar, category_en, category_fr,
       author_ar, author_en, author_fr,
-      read_time, is_published, slug: customSlug
+      read_time, sort_order, is_published, slug: customSlug
     } = body
 
     if (!title_ar?.trim()) {
@@ -139,6 +147,7 @@ export async function POST(request: NextRequest) {
         author_en: author_en?.trim() || 'Academy Team',
         author_fr: author_fr?.trim() || "Équipe de l'académie",
         read_time: read_time || 5,
+        sort_order: Number.isInteger(sort_order) ? sort_order : 0,
         is_published: is_published ?? false,
         published_at: is_published ? new Date().toISOString() : null,
       }])
@@ -164,6 +173,7 @@ export async function POST(request: NextRequest) {
 // PUT: update post (admin only)
 export async function PUT(request: NextRequest) {
   try {
+    if (!(await verifyAdminSession())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     const body = await request.json()
     const { id, ...fields } = body
 
@@ -200,6 +210,7 @@ export async function PUT(request: NextRequest) {
 // DELETE: delete post (admin only)
 export async function DELETE(request: NextRequest) {
   try {
+    if (!(await verifyAdminSession())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
 

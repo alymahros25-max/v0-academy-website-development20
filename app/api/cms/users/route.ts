@@ -74,14 +74,17 @@ export async function POST(request: NextRequest) {
 
     const body: CMSUser = await request.json()
 
-    if (!body.email || !body.role_type) {
+    if (!body.email || !body.role_type || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email.trim())) {
       return NextResponse.json({ error: 'Email and role_type are required' }, { status: 400 })
+    }
+    if (!['admin', 'supervisor', 'teacher', 'student'].includes(body.role_type)) {
+      return NextResponse.json({ error: 'Invalid role_type' }, { status: 400 })
     }
 
     const { data, error } = await supabase
       .from('cms_users')
       .insert({
-        email: body.email,
+        email: body.email.trim().toLowerCase(),
         full_name: body.full_name,
         role_type: body.role_type,
         avatar_url: body.avatar_url,
@@ -133,17 +136,19 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body: Partial<CMSUser> = await request.json()
+    if (body.email !== undefined && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email.trim())) return NextResponse.json({ error: 'Invalid email' }, { status: 400 })
+    if (body.role_type !== undefined && !['admin', 'supervisor', 'teacher', 'student'].includes(body.role_type)) return NextResponse.json({ error: 'Invalid role_type' }, { status: 400 })
 
     const { data, error } = await supabase
       .from('cms_users')
       .update({
-        email: body.email,
-        full_name: body.full_name,
-        role_type: body.role_type,
+        ...(body.email !== undefined && { email: body.email.trim().toLowerCase() }),
+        ...(body.full_name !== undefined && { full_name: body.full_name }),
+        ...(body.role_type !== undefined && { role_type: body.role_type }),
         avatar_url: body.avatar_url,
         phone: body.phone,
         bio: body.bio,
-        is_active: body.is_active,
+        ...(body.is_active !== undefined && { is_active: body.is_active }),
         updated_at: new Date().toISOString(),
       })
       .eq('id', parseInt(userId))
@@ -188,6 +193,12 @@ export async function DELETE(request: NextRequest) {
 
     if (!userId) {
       return NextResponse.json({ error: 'User ID is required' }, { status: 400 })
+    }
+
+    const { data: targetUser } = await supabase.from('cms_users').select('role_type').eq('id', parseInt(userId)).single()
+    if (targetUser?.role_type === 'admin') {
+      const { count } = await supabase.from('cms_users').select('id', { count: 'exact', head: true }).eq('role_type', 'admin').eq('is_active', true)
+      if ((count ?? 0) <= 1) return NextResponse.json({ error: 'لا يمكن حذف آخر مسؤول مفعّل' }, { status: 409 })
     }
 
     const { error } = await supabase

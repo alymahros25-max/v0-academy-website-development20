@@ -1,10 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import useSWR from "swr"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { ArrowDown, ArrowUp } from "lucide-react"
 
 const fetcher = (url: string) => fetch(url).then((response) => response.json())
 
@@ -28,6 +29,16 @@ export function FAQManager() {
   const [form, setForm] = useState(emptyForm)
   const [editingId, setEditingId] = useState<number | null>(null)
   const [status, setStatus] = useState("")
+
+  useEffect(() => {
+    const handler = (event: Event) => {
+      const action = (event as CustomEvent<{ action?: string }>).detail?.action
+      if (action === "create") { setEditingId(null); setForm(emptyForm) }
+      if (action === "save") void mutate()
+    }
+    window.addEventListener("admin:section-action", handler)
+    return () => window.removeEventListener("admin:section-action", handler)
+  }, [mutate])
 
   const update = (key: keyof typeof emptyForm, value: string | number | boolean) => setForm((current) => ({ ...current, [key]: value }))
 
@@ -53,6 +64,25 @@ export function FAQManager() {
     setForm({ question_ar: item.question_ar, question_en: item.question_en ?? "", question_fr: item.question_fr ?? "", answer_ar: item.answer_ar, answer_en: item.answer_en ?? "", answer_fr: item.answer_fr ?? "", category: item.category, sort_order: item.sort_order, is_active: item.is_active })
   }
 
+  async function move(index: number, direction: -1 | 1) {
+    if (data.length < 2) return
+    const targetIndex = (index + direction + data.length) % data.length
+    const current = data[index]
+    const target = data[targetIndex]
+    if (!current || !target) return
+    const reordered = [...data]
+    const [moved] = reordered.splice(index, 1)
+    reordered.splice(targetIndex, 0, moved)
+    const responses = await Promise.all(reordered.map((item, position) => fetch("/api/admin/faq", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: item.id, data: { sort_order: position } }),
+    })))
+    if (responses.some((response) => !response.ok)) { setStatus("تعذر حفظ ترتيب الأسئلة"); return }
+    await mutate()
+    setStatus("تم حفظ الترتيب")
+  }
+
   return <div className="space-y-6">
     <Card className="space-y-4 p-6">
       <h2 className="text-lg font-bold">{editingId ? "تعديل سؤال" : "إضافة سؤال شائع"}</h2>
@@ -66,6 +96,6 @@ export function FAQManager() {
       <div className="flex gap-2"><Button onClick={save}>{editingId ? "تحديث" : "إضافة"}</Button>{editingId && <Button variant="outline" onClick={() => { setEditingId(null); setForm(emptyForm) }}>إلغاء</Button>}</div>
       {status && <p role="status" className="text-sm text-muted-foreground">{status}</p>}
     </Card>
-    {isLoading ? <p>جاري التحميل...</p> : data.map((item) => <Card key={item.id} className="flex items-start justify-between gap-4 p-4"><div><p className="font-bold">{item.question_ar}</p><p className="mt-1 text-sm text-muted-foreground">{item.category} — {item.is_active ? "مفعّل" : "مخفي"}</p></div><div className="flex gap-2"><Button size="sm" variant="outline" onClick={() => edit(item)}>تعديل</Button><Button size="sm" variant="destructive" onClick={() => remove(item.id)}>حذف</Button></div></Card>)}
+    {isLoading ? <p>جاري التحميل...</p> : data.map((item, index) => <Card key={item.id} className="flex flex-wrap items-start justify-between gap-4 p-4"><div><p className="font-bold">{item.question_ar}</p><p className="mt-1 text-sm text-muted-foreground">{item.category} — {item.is_active ? "مفعّل" : "مخفي"} — ترتيب {item.sort_order}</p></div><div className="flex gap-2"><Button size="sm" variant="outline" aria-label="تحريك السؤال لأعلى" onClick={() => void move(index, -1)}><ArrowUp className="size-4" /></Button><Button size="sm" variant="outline" aria-label="تحريك السؤال لأسفل" onClick={() => void move(index, 1)}><ArrowDown className="size-4" /></Button><Button size="sm" variant="outline" onClick={() => edit(item)}>تعديل</Button><Button size="sm" variant="destructive" onClick={() => remove(item.id)}>حذف</Button></div></Card>)}
   </div>
 }

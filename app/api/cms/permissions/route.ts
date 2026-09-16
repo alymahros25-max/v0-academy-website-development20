@@ -21,6 +21,8 @@ interface Permission {
 // GET: Fetch permissions for a role or get all permissions
 export async function GET(request: NextRequest) {
   try {
+    const authError = await requireAdmin()
+    if (authError) return authError
     if (!supabase) {
       return NextResponse.json({ error: 'Database not configured', data: [] }, { status: 200 })
     }
@@ -76,6 +78,9 @@ export async function POST(request: NextRequest) {
 
     if (!body.role_type || !body.module_name || !body.action) {
       return NextResponse.json({ error: 'role_type, module_name, and action are required' }, { status: 400 })
+    }
+    if (!['admin', 'supervisor', 'teacher', 'student'].includes(body.role_type) || !['create', 'read', 'update', 'delete', 'publish'].includes(body.action)) {
+      return NextResponse.json({ error: 'Invalid role or action' }, { status: 400 })
     }
 
     const { data, error } = await supabase
@@ -139,6 +144,17 @@ export async function PATCH(request: NextRequest) {
     console.error('[v0] PATCH /api/cms/permissions error:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
+}
+
+export async function DELETE(request: NextRequest) {
+  const authError = await requireAdmin()
+  if (authError) return authError
+  if (!supabase) return NextResponse.json({ error: 'Database not configured' }, { status: 503 })
+  const id = Number(new URL(request.url).searchParams.get('id'))
+  if (!Number.isInteger(id) || id <= 0) return NextResponse.json({ error: 'Permission ID is required' }, { status: 400 })
+  const { error } = await supabase.from('cms_permissions').delete().eq('id', id)
+  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+  return NextResponse.json({ success: true })
 }
 
 // Create a separate route for checking permissions

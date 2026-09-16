@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import useSWR, { mutate as globalMutate } from "swr"
-import { Plus, Edit3, Trash2, Eye, EyeOff, Check, X, ChevronDown, ChevronUp, Wand2, Loader2 } from "lucide-react"
+import { Plus, Edit3, Trash2, Eye, EyeOff, Check, X, ChevronDown, ChevronUp, Wand2, Loader2, ArrowUp, ArrowDown } from "lucide-react"
 import type { BlogPost } from "@/components/BlogSection"
 
 const fetcher = (url: string) => fetch(url).then(r => r.json())
@@ -34,6 +34,7 @@ interface FormData {
   category_ar: string; category_en: string; category_fr: string
   author_ar: string; author_en: string; author_fr: string
   read_time: number
+  sort_order: number
   is_published: boolean
   slug: string
 }
@@ -46,6 +47,7 @@ const emptyForm = (): FormData => ({
   category_ar: "عام", category_en: "General", category_fr: "Général",
   author_ar: "فريق الأكاديمية", author_en: "Academy Team", author_fr: "Équipe de l'académie",
   read_time: 5,
+  sort_order: 0,
   is_published: false,
   slug: "",
 })
@@ -66,6 +68,16 @@ export function BlogManager() {
   const [translating, setTranslating] = useState(false)
   const [message, setMessage] = useState<{ text: string; ok: boolean } | null>(null)
   const [expandedId, setExpandedId] = useState<string | null>(null)
+
+  useEffect(() => {
+    const handler = (event: Event) => {
+      const action = (event as CustomEvent<{ action?: string }>).detail?.action
+      if (action === "create") startCreate()
+      if (action === "save") void globalMutate(BLOG_API)
+    }
+    window.addEventListener("admin:section-action", handler)
+    return () => window.removeEventListener("admin:section-action", handler)
+  }, [])
 
   const showMsg = (text: string, ok = true) => {
     setMessage({ text, ok })
@@ -88,6 +100,7 @@ export function BlogManager() {
       category_ar: post.category_ar || "عام", category_en: post.category_en || "General", category_fr: post.category_fr || "Général",
       author_ar: post.author_ar || "فريق الأكاديمية", author_en: post.author_en || "Academy Team", author_fr: post.author_fr || "Équipe de l'académie",
       read_time: post.read_time || 5,
+      sort_order: post.sort_order || 0,
       is_published: post.is_published || false,
       slug: post.slug || "",
     })
@@ -190,6 +203,22 @@ export function BlogManager() {
     } catch {
       showMsg("خطأ في الحذف", false)
     }
+  }
+
+  const handleMove = async (index: number, direction: -1 | 1) => {
+    if (!posts || posts.length < 2) return
+    const targetIndex = (index + direction + posts.length) % posts.length
+    const reordered = [...posts]
+    const [moved] = reordered.splice(index, 1)
+    reordered.splice(targetIndex, 0, moved)
+    const responses = await Promise.all(reordered.map((post, position) => fetch("/api/blog", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: post.id, sort_order: position }),
+    })))
+    if (responses.some((response) => !response.ok)) { showMsg("تعذر حفظ ترتيب المقالات", false); return }
+    showMsg("تم حفظ ترتيب المقالات")
+    globalMutate(BLOG_API)
   }
 
   const set = (k: keyof FormData, v: string | number | boolean) =>
@@ -394,7 +423,7 @@ export function BlogManager() {
       )}
 
       <div className="flex flex-col gap-3">
-        {Array.isArray(posts) && posts.map(post => {
+        {Array.isArray(posts) && posts.map((post, index) => {
           const isExpanded = expandedId === post.id
           return (
             <div key={post.id} className="bg-card rounded-2xl border border-border overflow-hidden">
@@ -424,6 +453,8 @@ export function BlogManager() {
                   >
                     <Edit3 className="w-4 h-4" />
                   </button>
+                  <button onClick={() => void handleMove(index, -1)} title="تحريك لأعلى" className="p-2 rounded-lg border border-border hover:bg-muted transition-colors text-muted-foreground"><ArrowUp className="w-4 h-4" /></button>
+                  <button onClick={() => void handleMove(index, 1)} title="تحريك لأسفل" className="p-2 rounded-lg border border-border hover:bg-muted transition-colors text-muted-foreground"><ArrowDown className="w-4 h-4" /></button>
                   <button
                     onClick={() => handleDelete(post.id)}
                     className="p-2 rounded-lg hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors"

@@ -22,7 +22,7 @@ export function CTASection() {
         </h2>
         <p className="text-primary-foreground/80 text-lg mb-10 max-w-2xl mx-auto text-pretty">
           {locale === "ar"
-            ? "ناقش هدفك ومستوى الطالب، وتعرّف على البرنامج المناسب وابدأ بخطوات واضحة."
+            ? "تعرّف على البرامج المناسبة للطالب واحجز حصتك التجريبية."
             : locale === "en"
               ? "Discuss the learner’s goal and level, choose a suitable program, and start with clear steps."
               : "Discutez de l’objectif et du niveau de l’élève, puis choisissez le programme adapté."}

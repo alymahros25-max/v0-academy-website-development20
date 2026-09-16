@@ -36,15 +36,12 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
           <div className="text-center transition-transform lg:text-start">
             <div className="mx-auto inline-flex w-fit max-w-full flex-col items-center rounded-3xl bg-background/75 px-5 py-6 shadow-lg backdrop-blur-[2px] lg:mx-0 lg:items-start lg:px-8 lg:py-7">
               <h1 className="text-4xl font-extrabold leading-tight text-foreground text-balance md:text-5xl lg:text-6xl">
-                {localizedContent(content.hero_title, locale, "تعلّم القرآن الكريم واللغة العربية أونلاين بثقة")}
+                {localizedContent(content.hero_title, locale, "تعلّم القرآن الكريم واللغة العربية أونلاين")}
               </h1>
               <p className="mt-3 text-2xl font-bold leading-relaxed text-foreground md:text-3xl">
                 <span className="block">{localizedContent(content.hero_subtitle, locale, "حصص فردية لتعليم القرآن الكريم والتجويد وتأسيس اللغة العربية")}</span>
                 <span className="block">للأطفال والكبار والمبتدئين</span>
                 <span className="mt-1 block text-lg font-semibold text-muted-foreground md:text-xl">حصص فردية عبر الإنترنت</span>
-              </p>
-              <p className="mt-5 max-w-xl rounded-2xl border border-border/70 bg-background/95 px-4 py-3 text-center text-base font-semibold leading-7 text-foreground shadow-sm md:text-lg lg:text-start">
-                {locale === "ar" ? "ابدأ من مستواك، وناقش هدفك، ثم تعلّم بخطوات واضحة مع متابعة تناسب احتياجك." : "Start from your level, discuss your goal, and learn through clear steps with support around your needs."}
               </p>
             </div>
           </div>

@@ -12,6 +12,25 @@ const contactSchema = z.object({
   language: z.enum(["ar", "en", "fr"]).optional().default("ar"),
 }).strict()
 
+async function notifyContactByEmail(message: { name: string; email: string; phone: string; subject: string; message: string }) {
+  const apiKey = process.env.RESEND_API_KEY
+  const recipient = process.env.CONTACT_INBOX_EMAIL || process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@quran-elhafez.com"
+  const sender = process.env.CONTACT_FROM_EMAIL || "info@quran-elhafez.com"
+  if (!apiKey) return false
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from: sender,
+      to: [recipient],
+      reply_to: [message.email],
+      subject: `رسالة جديدة من الموقع: ${message.subject}`,
+      text: `الاسم: ${message.name}\nالبريد: ${message.email}\nالهاتف: ${message.phone || "غير مذكور"}\n\n${message.message}`,
+    }),
+  })
+  return response.ok
+}
+
 export async function POST(request: Request) {
   try {
     const parsed = contactSchema.safeParse(await request.json())
@@ -35,6 +54,11 @@ export async function POST(request: Request) {
 
     const messages = await getMessages()
     await setMessages([...messages, newMessage])
+    try {
+      await notifyContactByEmail({ name, email, phone, subject, message })
+    } catch (emailError) {
+      console.error("Contact email notification error:", emailError)
+    }
 
     return NextResponse.json({
       success: true,

@@ -28,19 +28,13 @@ export default function KuwaitPage() {
           <div className="absolute bottom-20 left-20 size-80 rounded-full bg-kw-green/5 blur-3xl" />
         </div>
 
-        <div className="relative z-10 max-w-4xl text-center">
-          <div className="mb-8">
-            <Image
-              src="/logo.png"
-              alt="شعار أكاديمية الحافظ المتميز"
-              width={80}
-              height={80}
-              className="mx-auto rounded-2xl bg-gradient-to-br from-kw-green to-kw-gold p-2"
-              priority
-            />
-          </div>
-
-          <p className="font-bold tracking-widest text-kw-gold text-sm sm:text-base uppercase">في الكويت</p>
+        <div className="relative z-10 grid max-w-5xl items-center gap-10 text-center lg:grid-cols-[1fr_auto] lg:text-right">
+          <div>
+            <div className="mb-8 lg:mb-6 inline-flex items-center gap-3 rounded-full border border-kw-green/15 bg-white/80 px-4 py-2 text-sm font-bold text-kw-green shadow-sm">
+              <span className="kw-flag" aria-label="علم الكويت" role="img"><span /></span>
+              برامج تعليمية أونلاين للعائلات في الكويت
+            </div>
+            <p className="font-bold tracking-widest text-kw-gold text-sm sm:text-base uppercase">في الكويت</p>
 
           <h1 className="mt-6 text-balance text-4xl sm:text-5xl lg:text-7xl font-black leading-tight text-kw-green">
             اختر برنامجك، وابدأ طريقك مع القرآن والعربية
@@ -61,8 +55,8 @@ export default function KuwaitPage() {
               rel="noreferrer"
               className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-kw-green to-kw-green-dark px-8 py-3 font-bold text-white transition hover:shadow-lg hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kw-gold focus-visible:ring-offset-2"
             >
-              <MessageCircle className="size-5" />
-              احجز الحصة التجريبية المجانية
+              <MessageCircle className="size-5" aria-hidden="true" />
+              واتساب — احجز الحصة التجريبية المجانية
             </a>
             <a
               href="#programs"
@@ -72,7 +66,14 @@ export default function KuwaitPage() {
             </a>
           </div>
 
-          <p className="mt-12 text-sm font-semibold text-kw-gold">كن حافظًا، كن متميزًا</p>
+            <p className="mt-12 text-sm font-semibold text-kw-gold">كن حافظًا، كن متميزًا</p>
+          </div>
+          <div className="hidden lg:flex size-64 items-center justify-center rounded-[2.5rem] border border-kw-gold/35 bg-white/75 p-6 shadow-[0_18px_50px_rgb(15_93_60/0.12)] rotate-3">
+            <div className="relative flex size-full items-center justify-center rounded-[1.75rem] border border-kw-green/10 bg-kw-surface">
+              <span className="kw-flag kw-flag-large" aria-label="علم الكويت" role="img"><span /></span>
+              <span className="absolute bottom-5 rounded-full bg-kw-green px-4 py-2 text-xs font-bold text-white">الكويت</span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -170,16 +171,34 @@ export default function KuwaitPage() {
             </div>
           </div>
 
-          <nav className="mb-8">
-            <p className="text-xs font-semibold text-white/75 mb-3 uppercase tracking-wider">روابط مهمة</p>
-            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/85">
-              <Link href="/quran" className="hover:text-kw-gold transition">تحفيظ القرآن</Link>
-              <Link href="/arabic" className="hover:text-kw-gold transition">تأسيس العربية</Link>
-              <Link href="/privacy" className="hover:text-kw-gold transition">الخصوصية</Link>
-              <Link href="/terms" className="hover:text-kw-gold transition">الشروط</Link>
-              <Link href="/refund-policy" className="hover:text-kw-gold transition">سياسة الاسترجاع</Link>
-            </div>
-          </nav>
+          <div className="mb-8 grid gap-4 sm:grid-cols-2">
+            <nav>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/75">روابط مهمة</p>
+              <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/85">
+                <Link href="/quran" className="transition hover:text-kw-gold">تحفيظ القرآن</Link>
+                <Link href="/arabic" className="transition hover:text-kw-gold">تأسيس العربية</Link>
+                <Link href="/privacy" className="transition hover:text-kw-gold">الخصوصية</Link>
+                <Link href="/terms" className="transition hover:text-kw-gold">الشروط</Link>
+                <Link href="/refund-policy" className="transition hover:text-kw-gold">سياسة الاسترجاع</Link>
+              </div>
+            </nav>
+            <details className="group rounded-xl border border-white/15 bg-white/5 p-4">
+              <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-bold text-white [&::-webkit-details-marker]:hidden">
+                روابط حسب الدولة
+                <span aria-hidden="true" className="transition-transform group-open:rotate-180">⌄</span>
+              </summary>
+              <div className="mt-4 grid gap-2 text-sm text-white/80">
+                <Link href="/kuwait" className="transition hover:text-kw-gold">الكويت</Link>
+                <Link href="/saudi-arabia" className="transition hover:text-kw-gold">السعودية</Link>
+                <Link href="/united-arab-emirates" className="transition hover:text-kw-gold">الإمارات</Link>
+                <Link href="/united-states" className="transition hover:text-kw-gold">الولايات المتحدة</Link>
+                <Link href="/canada" className="transition hover:text-kw-gold">كندا</Link>
+                <Link href="/united-kingdom" className="transition hover:text-kw-gold">المملكة المتحدة</Link>
+                <Link href="/australia" className="transition hover:text-kw-gold">أستراليا</Link>
+                <Link href="/germany" className="transition hover:text-kw-gold">ألمانيا</Link>
+              </div>
+            </details>
+          </div>
 
           <div className="border-t border-white/20 pt-6 text-center text-xs text-white/70">
             <p>© 2026 أكاديمية الحافظ المتميز. جميع الحقوق محفوظة.</p>

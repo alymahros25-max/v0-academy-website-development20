@@ -16,6 +16,10 @@
   .border-kw-line { border-color: #d8ded9; }
   .border-kw-green { border-color: #174d3a; }
   .ring-kw-gold { --tw-ring-color: #b28a3b; }
+  .kw-flag { position: relative; display: inline-block; width: 2rem; height: 1.35rem; overflow: hidden; border-radius: .2rem; background: linear-gradient(to bottom, #16804a 0 33.33%, #fff 33.33% 66.66%, #111 66.66%); box-shadow: 0 1px 3px rgb(0 0 0 / .18); }
+  .kw-flag::before { content: ""; position: absolute; inset: 0 auto 0 0; width: .68rem; background: #111; clip-path: polygon(0 0, 100% 50%, 0 100%); }
+  .kw-flag-large { width: 10rem; height: 6.5rem; border-radius: .75rem; }
+  .kw-flag-large::before { width: 3.25rem; }
 }
 
 @layer utilities {

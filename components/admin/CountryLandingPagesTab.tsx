@@ -48,6 +48,7 @@ const fallbackAreas: Area[] = [
   { id: 0, slug: "united-kingdom", area_type: "country", country_code: "GB", name_ar: "المملكة المتحدة", name_en: "United Kingdom", currency_code: "GBP", currency_symbol: "£", is_active: true },
   { id: 0, slug: "australia", area_type: "country", country_code: "AU", name_ar: "أستراليا", name_en: "Australia", currency_code: "AUD", currency_symbol: "A$", is_active: true },
   { id: 0, slug: "germany", area_type: "country", country_code: "DE", name_ar: "ألمانيا", name_en: "Germany", currency_code: "EUR", currency_symbol: "€", is_active: true },
+  { id: 0, slug: "kuwait", area_type: "country", country_code: "KW", name_ar: "الكويت", name_en: "Kuwait", currency_code: "KWD", currency_symbol: "د.ك", is_active: true },
 ]
 
 const labels: Record<Resource, string> = {

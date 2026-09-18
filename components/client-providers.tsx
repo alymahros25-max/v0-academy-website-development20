@@ -21,6 +21,7 @@ function LayoutWrapper({ children }: { children: ReactNode }) {
   const isUnitedKingdomLanding = pathname === "/united-kingdom"
   const isAustraliaLanding = pathname === "/australia"
   const isGermanyLanding = pathname === "/germany"
+  const isKuwaitLanding = pathname === "/kuwait"
 
   useEffect(() => {
     document.documentElement.lang = locale
@@ -31,7 +32,7 @@ function LayoutWrapper({ children }: { children: ReactNode }) {
     return <div dir={dir}>{children}</div>
   }
 
-  if (isSaudiLanding || isUaeLanding || isUnitedStatesLanding || isCanadaLanding || isUnitedKingdomLanding || isAustraliaLanding || isGermanyLanding) {
+  if (isSaudiLanding || isUaeLanding || isUnitedStatesLanding || isCanadaLanding || isUnitedKingdomLanding || isAustraliaLanding || isGermanyLanding || isKuwaitLanding) {
     return (
       <div dir={dir}>
         <DeferredGA4Tracker />

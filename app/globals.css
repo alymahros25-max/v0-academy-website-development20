@@ -3,6 +3,22 @@
 @tailwind utilities;
 
 @layer utilities {
+  .content-auto { content-visibility: auto; contain-intrinsic-size: 1px 520px; }
+  .bg-kw-bg { background-color: #f7f7f3; }
+  .bg-kw-surface { background-color: #eef1ec; }
+  .bg-kw-green { background-color: #174d3a; }
+  .bg-kw-green-dark { background-color: #103a2b; }
+  .bg-kw-gold { background-color: #b28a3b; }
+  .text-kw-green { color: #174d3a; }
+  .text-kw-ink { color: #1d2622; }
+  .text-kw-muted { color: #5d6b64; }
+  .text-kw-gold { color: #b28a3b; }
+  .border-kw-line { border-color: #d8ded9; }
+  .border-kw-green { border-color: #174d3a; }
+  .ring-kw-gold { --tw-ring-color: #b28a3b; }
+}
+
+@layer utilities {
   .text-balance {
     text-wrap: balance;
   }

@@ -11,6 +11,7 @@ export const ROUTES = {
   ABOUT: '/about',
   TEACHERS: '/teachers',
   REVIEWS: '/reviews',
+  KUWAIT: '/kuwait',
 
   // Content
   GAMES: '/games',

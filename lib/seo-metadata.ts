@@ -23,6 +23,7 @@ const countryAlternateUrls = {
   unitedArabEmirates: { locale: "ar-AE", url: "https://quran-elhafez.com/united-arab-emirates" },
   unitedKingdom: { locale: "ar-GB", url: "https://quran-elhafez.com/united-kingdom" },
   unitedStates: { locale: "ar-US", url: "https://quran-elhafez.com/united-states" },
+  kuwait: { locale: "ar-KW", url: "https://quran-elhafez.com/kuwait" },
 } as const
 
 export type CountrySeoSlug = keyof typeof countryAlternateUrls

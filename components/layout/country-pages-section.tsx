@@ -10,6 +10,15 @@ const countryPages = [
   { href: "/australia", label: "تحفيظ القرآن والعربية في أستراليا", flag: "🇦🇺" },
   { href: "/germany", label: "تحفيظ القرآن والعربية في ألمانيا", flag: "🇩🇪" },
   { href: "/kuwait", label: "تحفيظ القرآن والعربية في الكويت", flag: "🇰🇼" },
+  { href: "/qatar", label: "تحفيظ القرآن والعربية في قطر", flag: "🇶🇦" },
+  { href: "/oman", label: "تحفيظ القرآن والعربية في عُمان", flag: "🇴🇲" },
+  { href: "/jordan", label: "تحفيظ القرآن والعربية في الأردن", flag: "🇯🇴" },
+  { href: "/bahrain", label: "تحفيظ القرآن والعربية في البحرين", flag: "🇧🇭" },
+  { href: "/france", label: "تحفيظ القرآن والعربية في فرنسا", flag: "🇫🇷" },
+  { href: "/spain", label: "تحفيظ القرآن والعربية في إسبانيا", flag: "🇪🇸" },
+  { href: "/netherlands", label: "تحفيظ القرآن والعربية في هولندا", flag: "🇳🇱" },
+  { href: "/belgium", label: "تحفيظ القرآن والعربية في بلجيكا", flag: "🇧🇪" },
+  { href: "/sweden", label: "تحفيظ القرآن والعربية في السويد", flag: "🇸🇪" },
 ] as const
 
 export function CountryPagesSection() {

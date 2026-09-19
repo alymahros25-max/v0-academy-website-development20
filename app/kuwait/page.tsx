@@ -5,6 +5,9 @@ import { Check, MessageCircle } from "lucide-react"
 import { getSeoAlternates } from "@/lib/seo-metadata"
 import KuwaitProgramSelector from "./kuwait-program-selector"
 import { getKuwaitWhatsAppUrl, kuwaitFaqs, kuwaitLandingConfig } from "@/lib/kuwait-landing-config"
+import { getAreaLandingData } from "@/lib/country-content"
+import { getPublishedClassroomVideos } from "@/lib/classroom-videos"
+import { NewCountryVideos } from "@/components/new-country-videos"
 
 export const metadata: Metadata = {
   title: kuwaitLandingConfig.seo.title,
@@ -17,7 +20,15 @@ export const metadata: Metadata = {
 
 const whatsappUrl = getKuwaitWhatsAppUrl("طلب الحصة التجريبية المجانية")
 
-export default function KuwaitPage() {
+const fallbackKuwaitAreas = ["مدينة الكويت", "حولي", "الفروانية", "مبارك الكبير", "الأحمدي"]
+
+export default async function KuwaitPage() {
+  const [{ cities }, videos] = await Promise.all([
+    getAreaLandingData("kuwait"),
+    getPublishedClassroomVideos(),
+  ])
+  const kuwaitAreas = cities.length ? cities.map((city) => city.name_ar) : fallbackKuwaitAreas
+
   return (
     <main dir="rtl" className="min-h-screen overflow-hidden bg-white text-kw-ink">
       {/* Hero Section */}
@@ -148,9 +159,14 @@ export default function KuwaitPage() {
       <section className="mx-auto max-w-4xl px-5 py-16 text-center sm:px-8 lg:py-20">
         <h2 className="text-3xl sm:text-4xl font-bold text-kw-green">حصص أونلاين للعائلات في مختلف مناطق الكويت</h2>
         <p className="mt-6 leading-8 text-kw-muted">
-          نوفر تجربة تعلم أونلاين للطلاب والعائلات في مدينة الكويت وحولي والفروانية والأحمدي ومبارك الكبير وغيرها من المناطق، مع تنسيق المواعيد حسب البرنامج والتوفر.
+          نوفر تجربة تعلم أونلاين للطلاب والعائلات في المناطق التالية، مع تنسيق المواعيد حسب البرنامج والوقت المناسب للأسرة.
         </p>
+        <div className="mt-8 flex flex-wrap justify-center gap-3" aria-label="مناطق الخدمة في الكويت">
+          {kuwaitAreas.map((area) => <span key={area} className="rounded-full border border-kw-line bg-kw-surface px-4 py-2 text-sm font-bold text-kw-green">{area}</span>)}
+        </div>
       </section>
+
+      <NewCountryVideos videos={videos} />
 
       {/* Minimal Footer */}
       <footer className="bg-kw-green px-5 py-10 text-white sm:px-8">
@@ -196,6 +212,15 @@ export default function KuwaitPage() {
                 <Link href="/united-kingdom" className="transition hover:text-kw-gold">المملكة المتحدة</Link>
                 <Link href="/australia" className="transition hover:text-kw-gold">أستراليا</Link>
                 <Link href="/germany" className="transition hover:text-kw-gold">ألمانيا</Link>
+                <Link href="/qatar" className="transition hover:text-kw-gold">قطر</Link>
+                <Link href="/oman" className="transition hover:text-kw-gold">عُمان</Link>
+                <Link href="/jordan" className="transition hover:text-kw-gold">الأردن</Link>
+                <Link href="/bahrain" className="transition hover:text-kw-gold">البحرين</Link>
+                <Link href="/france" className="transition hover:text-kw-gold">فرنسا</Link>
+                <Link href="/spain" className="transition hover:text-kw-gold">إسبانيا</Link>
+                <Link href="/netherlands" className="transition hover:text-kw-gold">هولندا</Link>
+                <Link href="/belgium" className="transition hover:text-kw-gold">بلجيكا</Link>
+                <Link href="/sweden" className="transition hover:text-kw-gold">السويد</Link>
               </div>
             </details>
           </div>

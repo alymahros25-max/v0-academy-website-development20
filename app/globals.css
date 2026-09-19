@@ -327,3 +327,73 @@ html {
   .new-country-intro .new-country-decision-sheet { padding-top:2rem; padding-bottom:2rem; }
 }
 .new-country-independent-note { margin-top:1.5rem!important; color:color-mix(in srgb,var(--country-ink) 48%,transparent); font-size:.82rem; }
+
+
+/* Independent country footer and pricing variations. Each route gets a distinct footer treatment. */
+.new-country-price-cards { display:grid; grid-template-columns:repeat(4,1fr); gap:.8rem; margin-top:2rem; }
+.new-country-price-cards article { display:grid; gap:.35rem; padding:1.25rem 1rem; border:1px solid color-mix(in srgb,var(--country-primary) 15%,transparent); border-radius:1.25rem; background:color-mix(in srgb,#fff 72%,var(--country-surface)); }
+.new-country-price-cards article:nth-child(2n) { transform:translateY(1rem); }
+.new-country-price-cards span { color:var(--country-accent); font-weight:850; }
+.new-country-price-cards b { font-size:1.35rem; color:var(--country-primary); }
+.new-country-price-cards strong { font-size:1.1rem; color:var(--country-ink); }
+.new-country-price-cards small { color:color-mix(in srgb,var(--country-ink) 55%,transparent); font-size:.75rem; }
+.new-country-price-rail { display:grid; gap:.65rem; margin-top:2rem; }
+.new-country-price-rail article { display:grid; grid-template-columns:90px 1fr 1fr; align-items:center; gap:1rem; padding:.9rem 1.1rem; border-inline-start:5px solid var(--country-accent); background:color-mix(in srgb,#fff 75%,var(--country-surface)); }
+.new-country-price-rail article > div { display:flex; align-items:baseline; gap:.4rem; color:var(--country-primary); }
+.new-country-price-rail article > div b { font-size:1.5rem; }
+.new-country-price-rail span { display:flex; justify-content:space-between; align-items:center; gap:.5rem; }
+.new-country-price-rail span + span { border-inline-start:1px dashed color-mix(in srgb,var(--country-primary) 22%,transparent); padding-inline-start:1rem; }
+.new-country-price-rail strong { color:var(--country-primary); }
+.new-country-price-rail small { color:color-mix(in srgb,var(--country-ink) 55%,transparent); font-size:.75rem; }
+.new-country-price-columns { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:2rem; }
+.new-country-price-column { padding:1.35rem; border-radius:1.4rem 1.4rem .35rem 1.4rem; background:var(--country-primary); color:#fff; }
+.new-country-price-column.is-secondary { border-radius:.35rem 1.4rem 1.4rem 1.4rem; background:color-mix(in srgb,var(--country-surface) 78%,#fff); color:var(--country-ink); }
+.new-country-price-column h3 { margin:0 0 1rem; font-size:1.1rem; }
+.new-country-price-column p { display:flex; justify-content:space-between; gap:1rem; margin:0!important; padding:.7rem 0; border-top:1px solid color-mix(in srgb,#fff 25%,transparent); }
+.new-country-price-column.is-secondary p { border-color:color-mix(in srgb,var(--country-primary) 14%,transparent); }
+.new-country-price-column b { font-size:1.05rem; }
+.new-country-footer { padding:3.5rem 1.25rem 1rem; color:var(--footer-ink); background:var(--footer-bg); border-top:5px solid var(--footer-accent); }
+.new-country-footer-inner { display:grid; grid-template-columns:1fr 1.1fr 1.7fr 1fr; gap:2rem; width:min(1180px,100%); margin:auto; }
+.new-country-footer-brand { display:flex; align-items:flex-start; gap:.75rem; }
+.new-country-footer-brand > span { font-size:2rem; }
+.new-country-footer-brand b,.new-country-footer-brand small { display:block; }
+.new-country-footer-brand b { font-size:1.05rem; }
+.new-country-footer-brand small { margin-top:.45rem; color:color-mix(in srgb,var(--footer-ink) 58%,transparent); }
+.new-country-footer h3 { display:flex; align-items:center; gap:.4rem; margin:0 0 1rem; font-size:.9rem; color:var(--footer-accent); }
+.new-country-footer-links nav { display:grid; grid-template-columns:1fr 1fr; gap:.55rem .75rem; }
+.new-country-footer a { color:inherit; text-decoration:none; transition:color .18s ease,transform .18s ease; }
+.new-country-footer a:hover { color:var(--footer-accent); transform:translateX(-2px); }
+.new-country-footer-links nav a { display:flex; align-items:center; gap:.35rem; font-size:.88rem; }
+.new-country-country-links { display:flex; flex-wrap:wrap; gap:.4rem; }
+.new-country-country-links a { padding:.4rem .6rem; border:1px solid color-mix(in srgb,var(--footer-ink) 18%,transparent); border-radius:999px; font-size:.8rem; }
+.new-country-country-links a.is-current { color:var(--footer-bg); background:var(--footer-accent); border-color:var(--footer-accent); font-weight:850; }
+.new-country-footer-legal { display:grid; align-content:start; gap:.55rem; }
+.new-country-footer-legal h3 { margin-bottom:.4rem; }
+.new-country-footer-legal a { font-size:.82rem; color:color-mix(in srgb,var(--footer-ink) 68%,transparent); }
+.new-country-footer-bottom { width:min(1180px,100%); margin:2.5rem auto 0; padding-top:1rem; border-top:1px solid color-mix(in srgb,var(--footer-ink) 16%,transparent); color:color-mix(in srgb,var(--footer-ink) 58%,transparent); font-size:.78rem; }
+.new-country-footer-qatar { --footer-bg:#0b1f33; --footer-ink:#f6f1e8; --footer-accent:#c9a96e; }
+.new-country-footer-oman { --footer-bg:#24352f; --footer-ink:#f5f0e8; --footer-accent:#d7a85d; }
+.new-country-footer-jordan { --footer-bg:#f1e9dc; --footer-ink:#102a43; --footer-accent:#8f2d3b; }
+.new-country-footer-bahrain { --footer-bg:#102a43; --footer-ink:#f7f3ec; --footer-accent:#c83e4d; }
+.new-country-footer-france { --footer-bg:#172a46; --footer-ink:#fff8ef; --footer-accent:#d97761; }
+.new-country-footer-spain { --footer-bg:#8f2d2d; --footer-ink:#fff8ed; --footer-accent:#f2b84b; }
+.new-country-footer-netherlands { --footer-bg:#eaf2f7; --footer-ink:#172a3a; --footer-accent:#d95d39; }
+.new-country-footer-belgium { --footer-bg:#1f2527; --footer-ink:#fff9f0; --footer-accent:#d8a928; }
+.new-country-footer-sweden { --footer-bg:#d9e8f5; --footer-ink:#102a43; --footer-accent:#3f7d6b; }
+.new-country-footer-oman .new-country-country-links a,.new-country-footer-france .new-country-country-links a,.new-country-footer-bahrain .new-country-country-links a,.new-country-footer-spain .new-country-country-links a,.new-country-footer-belgium .new-country-country-links a { border-color:#ffffff38; }
+@media (max-width:800px) {
+  .new-country-price-cards { grid-template-columns:repeat(2,1fr); }
+  .new-country-price-cards article:nth-child(2n) { transform:none; }
+  .new-country-price-rail article { grid-template-columns:64px 1fr; }
+  .new-country-price-rail span + span { grid-column:2; border-inline-start:0; border-top:1px dashed color-mix(in srgb,var(--country-primary) 22%,transparent); padding: .7rem 0 0; }
+  .new-country-price-columns { grid-template-columns:1fr; }
+  .new-country-footer-inner { grid-template-columns:1fr 1fr; gap:1.75rem 1rem; }
+  .new-country-footer-brand { grid-column:1 / -1; }
+}
+@media (max-width:480px) {
+  .new-country-price-cards { gap:.5rem; }
+  .new-country-price-cards article { padding:.9rem .65rem; }
+  .new-country-price-cards b { font-size:1.05rem; }
+  .new-country-footer-inner { grid-template-columns:1fr; }
+  .new-country-footer-brand { grid-column:auto; }
+}

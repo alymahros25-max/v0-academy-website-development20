@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowLeft, Check, Clock3, MessageCircle, MapPin, Sparkles, Route, CalendarDays, Languages, ShieldCheck } from "lucide-react"
+import { ArrowLeft, Check, Clock3, MessageCircle, MapPin, Sparkles, CalendarDays, BookOpen, Gamepad2, Scale, Home, Newspaper, Globe2 } from "lucide-react"
 import type { NewCountryConfig } from "@/lib/new-country-pages"
 
 type Props = { config: NewCountryConfig }
@@ -11,10 +11,11 @@ function WhatsApp({ config, label = "احجز الحصة التجريبية" }: 
 
 function PriceTable({ config, compact = false }: { config: NewCountryConfig; compact?: boolean }) {
   const rows = [4, 8, 12, 16]
-  return <div className={`new-country-price-table ${compact ? "new-country-price-table-compact" : ""}`}>
-    <div className="new-country-price-head"><span>الإيقاع الشهري</span><span>تحفيظ القرآن</span><span>تأسيس العربية</span></div>
-    {rows.map((sessions, index) => <div className="new-country-price-row" key={sessions}><span><b>{sessions}</b> حصص <small>· {sessions / 4} أسبوعيًا</small></span><strong>{config.quranPrices[index]} {config.currencyCode}</strong><strong>{config.arabicPrices[index]} {config.currencyCode}</strong></div>)}
-  </div>
+  const mode = ["qatar", "france", "sweden"].includes(config.variant) ? "cards" : ["oman", "spain", "belgium"].includes(config.variant) ? "rail" : ["jordan", "netherlands"].includes(config.variant) ? "columns" : "table"
+  if (mode === "cards") return <div className={`new-country-price-cards ${compact ? "is-compact" : ""}`}>{rows.map((sessions, index) => <article key={sessions}><span>{sessions} حصص</span><b>{config.quranPrices[index]} {config.currencyCode}</b><small>قرآن</small><strong>{config.arabicPrices[index]} {config.currencyCode}</strong><small>عربية</small></article>)}</div>
+  if (mode === "rail") return <div className="new-country-price-rail">{rows.map((sessions, index) => <article key={sessions}><div><b>{sessions}</b><small>حصص</small></div><span><strong>{config.quranPrices[index]} {config.currencyCode}</strong><small>تحفيظ القرآن</small></span><span><strong>{config.arabicPrices[index]} {config.currencyCode}</strong><small>تأسيس العربية</small></span></article>)}</div>
+  if (mode === "columns") return <div className="new-country-price-columns"><div className="new-country-price-column"><h3>تحفيظ القرآن</h3>{rows.map((sessions, index) => <p key={sessions}><span>{sessions} حصص</span><b>{config.quranPrices[index]} {config.currencyCode}</b></p>)}</div><div className="new-country-price-column is-secondary"><h3>تأسيس العربية</h3>{rows.map((sessions, index) => <p key={sessions}><span>{sessions} حصص</span><b>{config.arabicPrices[index]} {config.currencyCode}</b></p>)}</div></div>
+  return <div className={`new-country-price-table ${compact ? "new-country-price-table-compact" : ""}`}><div className="new-country-price-head"><span>الإيقاع الشهري</span><span>تحفيظ القرآن</span><span>تأسيس العربية</span></div>{rows.map((sessions, index) => <div className="new-country-price-row" key={sessions}><span><b>{sessions}</b> حصص <small>· {sessions / 4} أسبوعيًا</small></span><strong>{config.quranPrices[index]} {config.currencyCode}</strong><strong>{config.arabicPrices[index]} {config.currencyCode}</strong></div>)}</div>
 }
 
 function Steps({ config, numbered = true }: { config: NewCountryConfig; numbered?: boolean }) {
@@ -30,7 +31,25 @@ function LocalSection({ config }: Props) {
 }
 
 function SharedClosing({ config }: Props) {
-  return <section className="new-country-section new-country-closing"><div className="new-country-narrow"><p className="new-country-kicker">خطوة عملية</p><h2>ابدأ بما يناسب أسبوعك الآن</h2><p>أرسل عمر الطالب ومستواه والبرنامج المطلوب، وسنوضح لك الخطوة التالية قبل التسجيل.</p><WhatsApp config={config} /><p className="new-country-independent-note">صفحة مستقلة لـ{config.name} · تعليم أونلاين فقط</p></div></section>
+  return <><section className="new-country-section new-country-closing"><div className="new-country-narrow"><p className="new-country-kicker">خطوة عملية</p><h2>ابدأ بما يناسب أسبوعك الآن</h2><p>أرسل عمر الطالب ومستواه والبرنامج المطلوب، وسنوضح لك الخطوة التالية قبل التسجيل.</p><WhatsApp config={config} /><p className="new-country-independent-note">صفحة مستقلة لـ{config.name} · تعليم أونلاين فقط</p></div></section><CountryFooter config={config} /></>
+}
+
+const countryLinks = [
+  ["/qatar", "قطر", "🇶🇦"], ["/oman", "عُمان", "🇴🇲"], ["/jordan", "الأردن", "🇯🇴"],
+  ["/bahrain", "البحرين", "🇧🇭"], ["/france", "فرنسا", "🇫🇷"], ["/spain", "إسبانيا", "🇪🇸"],
+  ["/netherlands", "هولندا", "🇳🇱"], ["/belgium", "بلجيكا", "🇧🇪"], ["/sweden", "السويد", "🇸🇪"],
+] as const
+
+function CountryFooter({ config }: Props) {
+  const className = `new-country-footer new-country-footer-${config.variant}`
+  return <footer className={className} aria-label={`تذييل صفحة ${config.name}`}>
+    <div className="new-country-footer-inner">
+      <div className="new-country-footer-brand"><span>{config.flag}</span><div><b>الحافظ · {config.name}</b><small>تعليم فردي أونلاين</small></div></div>
+      <div className="new-country-footer-links"><h3>روابط تساعدك على القرار</h3><nav><a href="/"><Home size={15} /> الرئيسية</a><a href="/blog"><Newspaper size={15} /> المدونة</a><a href="/games"><Gamepad2 size={15} /> الألعاب</a><a href="/library"><BookOpen size={15} /> المكتبة</a></nav></div>
+      <div className="new-country-footer-links"><h3><Globe2 size={15} /> صفحاتنا حسب الدولة</h3><div className="new-country-country-links">{countryLinks.map(([href, name, flag]) => <a href={href} key={href} className={href === `/${config.slug}` ? "is-current" : ""}>{flag} {name}</a>)}</div></div>
+      <div className="new-country-footer-legal"><h3><Scale size={15} /> الشروط والخصوصية</h3><a href="/privacy">سياسة الخصوصية</a><a href="/terms">شروط الاستخدام</a><a href="/refund-policy">سياسة الاسترداد</a></div>
+    </div><div className="new-country-footer-bottom">© 2026 · صفحة {config.name} المستقلة · <a href="/contact">تواصل معنا</a></div>
+  </footer>
 }
 
 function QatarLayout({ config }: Props) {

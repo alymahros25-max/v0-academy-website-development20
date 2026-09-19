@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import BlogArticleClient from "./client"
 import { getSeoAlternates } from '@/lib/seo-metadata'
 import { notFound } from 'next/navigation'
+import { createClient } from '@supabase/supabase-js'
 
 // المقالات الثابتة الافتراضية
 const blogPosts: Record<string, any> = {
@@ -199,9 +200,66 @@ const blogPosts: Record<string, any> = {
   }
 }
 
+type CmsBlogPost = {
+  slug: string
+  title_ar: string
+  title_en: string
+  title_fr: string
+  excerpt_ar: string
+  excerpt_en: string
+  excerpt_fr: string
+  content_ar: string
+  content_en: string
+  content_fr: string
+  category_ar: string
+  category_en: string
+  category_fr: string
+  author_ar: string
+  author_en: string
+  author_fr: string
+  read_time: number
+  cover_image: string
+  published_at: string | null
+  updated_at?: string | null
+}
+
+function normalizeCmsPost(post: CmsBlogPost) {
+  return {
+    title: { ar: post.title_ar, en: post.title_en, fr: post.title_fr },
+    category: { ar: post.category_ar, en: post.category_en, fr: post.category_fr },
+    author: { ar: post.author_ar, en: post.author_en, fr: post.author_fr },
+    date: post.published_at || post.updated_at || new Date().toISOString(),
+    updatedAt: post.updated_at || undefined,
+    readTime: post.read_time,
+    image: post.cover_image,
+    keywords: { ar: '', en: '', fr: '' },
+    description: { ar: post.excerpt_ar, en: post.excerpt_en, fr: post.excerpt_fr },
+    content: { ar: post.content_ar, en: post.content_en, fr: post.content_fr },
+  }
+}
+
+async function getBlogPost(slug: string) {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  if (supabaseUrl && supabaseAnonKey) {
+    const supabase = createClient(supabaseUrl, supabaseAnonKey)
+    const { data } = await supabase
+      .from('blog_posts')
+      .select('slug,title_ar,title_en,title_fr,excerpt_ar,excerpt_en,excerpt_fr,content_ar,content_en,content_fr,category_ar,category_en,category_fr,author_ar,author_en,author_fr,read_time,cover_image,published_at,updated_at')
+      .eq('slug', slug)
+      .eq('is_published', true)
+      .maybeSingle()
+
+    if (data) return normalizeCmsPost(data as CmsBlogPost)
+  }
+
+  return blogPosts[slug]
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const post = blogPosts[slug]
+  const post = await getBlogPost(slug)
   if (!post) return { title: "Not Found" }
 
   const baseUrl = 'https://quran-elhafez.com'
@@ -219,17 +277,38 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       url: articleUrl,
       images: [{ url: post.image }],
       publishedTime: post.date,
+      modifiedTime: post.updatedAt || post.date,
       authors: [post.author.ar],
-      tags: post.keywords.ar.split(', '),
+      tags: post.keywords.ar ? post.keywords.ar.split(', ') : [post.category.ar],
     },
   }
 }
 
 export default async function BlogArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const allPosts = blogPosts
+  const post = await getBlogPost(slug)
 
-  if (!(slug in allPosts)) notFound()
+  if (!post) notFound()
 
-  return <BlogArticleClient slug={slug} blogPosts={allPosts} />
+  return (
+    <>
+      <BlogArticleClient slug={slug} blogPosts={{ [slug]: post }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: post.title.ar,
+            description: post.description.ar,
+            image: [`https://quran-elhafez.com${post.image.startsWith('/') ? post.image : `/${post.image}`}`],
+            datePublished: post.date,
+            dateModified: post.updatedAt || post.date,
+            author: { "@type": "Person", name: post.author.ar },
+            mainEntityOfPage: `https://quran-elhafez.com/blog/${slug}`,
+          }),
+        }}
+      />
+    </>
+  )
 }

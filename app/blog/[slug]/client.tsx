@@ -86,11 +86,21 @@ export default function BlogArticleClient({ slug, blogPosts }: { slug: string; b
           {/* CTA Section */}
           <div className="bg-primary/5 border border-primary/20 rounded-lg p-8 my-12 text-center">
             <h3 className="text-2xl font-bold text-foreground mb-4">هل أعجبتك هذه المقالة؟</h3>
-            <p className="text-muted-foreground mb-6">اشترك في برامجنا الآن واحصل على حصص تفاعلية مع معلمينا المتخصصين</p>
-            <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90 transition">
-              تواصل معنا الآن
+            <p className="text-muted-foreground mb-6">تعرّف على البرنامج المناسب، ثم نسّق الحصة الفردية المباشرة عبر WhatsApp.</p>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Link href="/quran" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90 transition">
+                برنامج تحفيظ القرآن
+                <ChevronLeft className="w-4 h-4" />
+              </Link>
+              <Link href="/arabic" className="inline-flex items-center gap-2 px-6 py-3 border border-primary text-primary rounded-lg font-medium hover:bg-primary/5 transition">
+                برنامج تأسيس العربية
+                <ChevronLeft className="w-4 h-4" />
+              </Link>
+              <Link href="/contact" className="inline-flex items-center gap-2 px-6 py-3 border border-border text-foreground rounded-lg font-medium hover:bg-muted transition">
+                تواصل عبر WhatsApp
               <ChevronLeft className="w-4 h-4" />
-            </Link>
+              </Link>
+            </div>
           </div>
 
           {/* Share & Navigation */}

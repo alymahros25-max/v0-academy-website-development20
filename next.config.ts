@@ -69,11 +69,11 @@ const nextConfig: NextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' https://vercel.live https://*.vercel-insights.com https://www.googletagmanager.com https://*.google-analytics.com",
+              "script-src 'self' 'unsafe-inline' https://vercel.live https://*.vercel-insights.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "img-src 'self' data: https: blob:",
               "font-src 'self' data: https://fonts.gstatic.com",
-              "connect-src 'self' https://*.vercel-insights.com https://*.vercel-analytics.com https://*.supabase.co wss://*.supabase.co https://www.google-analytics.com https://www.google.com https://*.googletagmanager.com",
+              "connect-src 'self' https://*.vercel-insights.com https://*.vercel-analytics.com https://*.supabase.co wss://*.supabase.co https://www.google.com",
               // LOCKED: These two frame-src entries keep the YouTube video player working.
               // Do NOT remove or modify them during future updates.
               "frame-src https://www.youtube.com https://www.youtube-nocookie.com",

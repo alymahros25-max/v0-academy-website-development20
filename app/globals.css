@@ -397,3 +397,11 @@ html {
   .new-country-footer-inner { grid-template-columns:1fr; }
   .new-country-footer-brand { grid-column:auto; }
 }
+
+
+.new-country-footer-countries details summary { display:flex; align-items:center; gap:.4rem; cursor:pointer; list-style:none; color:var(--footer-accent); font-size:.9rem; font-weight:850; }
+.new-country-footer-countries details summary::-webkit-details-marker { display:none; }
+.new-country-footer-countries details summary svg:last-child { margin-inline-start:auto; transition:transform .2s ease; }
+.new-country-footer-countries details[open] summary svg:last-child { transform:rotate(180deg); }
+.new-country-footer-countries .new-country-country-links { margin-top:1rem; }
+.new-country-footer-countries details:not([open]) .new-country-country-links { display:none; }

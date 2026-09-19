@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowLeft, Check, Clock3, MessageCircle, MapPin, Sparkles, CalendarDays, BookOpen, Gamepad2, Scale, Home, Newspaper, Globe2 } from "lucide-react"
+import { ArrowLeft, Check, Clock3, MessageCircle, MapPin, Sparkles, CalendarDays, BookOpen, Gamepad2, Scale, Home, Newspaper, Globe2, ChevronDown } from "lucide-react"
 import type { NewCountryConfig } from "@/lib/new-country-pages"
 
 type Props = { config: NewCountryConfig }
@@ -35,6 +35,9 @@ function SharedClosing({ config }: Props) {
 }
 
 const countryLinks = [
+  ["/saudi-arabia", "السعودية", "🇸🇦"], ["/united-arab-emirates", "الإمارات", "🇦🇪"], ["/united-states", "الولايات المتحدة", "🇺🇸"],
+  ["/canada", "كندا", "🇨🇦"], ["/united-kingdom", "المملكة المتحدة", "🇬🇧"], ["/australia", "أستراليا", "🇦🇺"],
+  ["/germany", "ألمانيا", "🇩🇪"], ["/kuwait", "الكويت", "🇰🇼"],
   ["/qatar", "قطر", "🇶🇦"], ["/oman", "عُمان", "🇴🇲"], ["/jordan", "الأردن", "🇯🇴"],
   ["/bahrain", "البحرين", "🇧🇭"], ["/france", "فرنسا", "🇫🇷"], ["/spain", "إسبانيا", "🇪🇸"],
   ["/netherlands", "هولندا", "🇳🇱"], ["/belgium", "بلجيكا", "🇧🇪"], ["/sweden", "السويد", "🇸🇪"],
@@ -46,7 +49,7 @@ function CountryFooter({ config }: Props) {
     <div className="new-country-footer-inner">
       <div className="new-country-footer-brand"><span>{config.flag}</span><div><b>الحافظ · {config.name}</b><small>تعليم فردي أونلاين</small></div></div>
       <div className="new-country-footer-links"><h3>روابط تساعدك على القرار</h3><nav><a href="/"><Home size={15} /> الرئيسية</a><a href="/blog"><Newspaper size={15} /> المدونة</a><a href="/games"><Gamepad2 size={15} /> الألعاب</a><a href="/library"><BookOpen size={15} /> المكتبة</a></nav></div>
-      <div className="new-country-footer-links"><h3><Globe2 size={15} /> صفحاتنا حسب الدولة</h3><div className="new-country-country-links">{countryLinks.map(([href, name, flag]) => <a href={href} key={href} className={href === `/${config.slug}` ? "is-current" : ""}>{flag} {name}</a>)}</div></div>
+      <div className="new-country-footer-links new-country-footer-countries"><details><summary><Globe2 size={15} /> <span>صفحاتنا حسب الدولة</span><ChevronDown size={16} /></summary><div className="new-country-country-links">{countryLinks.map(([href, name, flag]) => <a href={href} key={href} className={href === `/${config.slug}` ? "is-current" : ""}>{flag} {name}</a>)}</div></details></div>
       <div className="new-country-footer-legal"><h3><Scale size={15} /> الشروط والخصوصية</h3><a href="/privacy">سياسة الخصوصية</a><a href="/terms">شروط الاستخدام</a><a href="/refund-policy">سياسة الاسترداد</a></div>
     </div><div className="new-country-footer-bottom">© 2026 · صفحة {config.name} المستقلة · <a href="/contact">تواصل معنا</a></div>
   </footer>

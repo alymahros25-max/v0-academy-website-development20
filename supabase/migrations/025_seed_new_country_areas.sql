@@ -187,3 +187,71 @@ SELECT id, 'eyebrow', 'القرآن والعربية أونلاين في ' || na
 FROM public.site_areas
 WHERE slug IN ('qatar','oman','jordan','bahrain','france','spain','netherlands','belgium','sweden')
 ON CONFLICT (area_id, content_key) DO UPDATE SET content_ar = EXCLUDED.content_ar, content_en = EXCLUDED.content_en, is_active = TRUE, updated_at = NOW();
+
+-- Kuwait is included explicitly because the earlier 024 migration only seeded its area shell and two links.
+INSERT INTO public.site_areas (slug, area_type, country_code, name_ar, name_en, currency_code, currency_symbol)
+VALUES ('kuwait', 'country', 'KW', 'الكويت', 'Kuwait', 'KWD', 'د.ك')
+ON CONFLICT (slug) DO UPDATE SET country_code = EXCLUDED.country_code, name_ar = EXCLUDED.name_ar, name_en = EXCLUDED.name_en, currency_code = EXCLUDED.currency_code, currency_symbol = EXCLUDED.currency_symbol, is_active = TRUE, updated_at = NOW();
+
+WITH area AS (SELECT id FROM public.site_areas WHERE slug = 'kuwait')
+INSERT INTO public.area_content (area_id, content_key, content_ar, content_en, content_type, section, sort_order)
+SELECT area.id, data.content_key, data.content_ar, data.content_ar, 'text', data.section, data.sort_order
+FROM area CROSS JOIN (VALUES
+ ('seo_title','تحفيظ القرآن وتأسيس العربية أونلاين في الكويت | أكاديمية الحافظ المتميز','seo',0),
+ ('seo_description','حصص فردية أونلاين لتحفيظ القرآن وتأسيس اللغة العربية للناطقين بالعربية في الكويت، مع اختيار البرنامج والباقات الشهرية بالدينار الكويتي وحصة تجريبية مجانية.','seo',1),
+ ('page_title','اختر برنامجك، وابدأ طريقك مع القرآن والعربية في الكويت','hero',2),
+ ('page_description','حصص فردية أونلاين للناطقين بالعربية، صممت لتساعد الطالب على التعلم بخطة واضحة ووقت يناسب الأسرة.','hero',3),
+ ('eyebrow','القرآن والعربية أونلاين في الكويت','hero',4),
+ ('local_lead','نخدم الأسر العربية أونلاين في مدينة الكويت وحولي والفروانية ومبارك الكبير والأحمدي، دون ادعاء وجود مقر محلي.','local',10),
+ ('language','لغة التعليم والتواصل هي العربية.','local',11),
+ ('package_includes','كل حصة فردية مدتها 30 دقيقة، مع حصة تجريبية مجانية ومتابعة مستمرة وتقرير بعد كل حصة.','packages',20)
+) AS data(content_key, content_ar, section, sort_order)
+ON CONFLICT (area_id, content_key) DO UPDATE SET content_ar = EXCLUDED.content_ar, content_en = EXCLUDED.content_en, section = EXCLUDED.section, sort_order = EXCLUDED.sort_order, is_active = TRUE, updated_at = NOW();
+
+WITH area AS (SELECT id, currency_code FROM public.site_areas WHERE slug = 'kuwait')
+INSERT INTO public.area_packages (area_id, program, package_key, name_ar, name_en, description_ar, price, currency_code, billing_period, sessions_per_month, features_ar, is_popular, is_active, sort_order)
+SELECT area.id, data.program, data.program || '-30-' || data.sessions::text, data.name_ar, data.name_ar, data.description_ar, data.price, area.currency_code, 'month', data.sessions, '["30 دقيقة","حصة تجريبية مجانية","معلمون ومعلمات","متابعة وتقرير بعد كل حصة"]'::jsonb, data.sessions = 8, TRUE, data.sort_order
+FROM area CROSS JOIN (VALUES
+ ('quran',4,'بداية منتظمة — 30 دقيقة — 4 حصص شهرياً','خطوة أولى للحفاظ على انتظام التعلم',4.5,10),
+ ('quran',8,'تقدم متوازن — 30 دقيقة — 8 حصص شهرياً','تكرار يساعد على مواصلة الحفظ والمراجعة',8.5,20),
+ ('quran',12,'متابعة موسعة — 30 دقيقة — 12 حصة شهرياً','وقت تعليمي أكثر للحفظ والتسميع والمراجعة',12.5,30),
+ ('quran',16,'حضور متكرر — 30 دقيقة — 16 حصة شهرياً','خيار مناسب لمن يريد انتظاماً أعلى في الأسبوع',16.5,40),
+ ('arabic',4,'بداية تأسيسية — 30 دقيقة — 4 حصص شهرياً','بداية منظمة لبناء المهارات الأساسية',6,50),
+ ('arabic',8,'تدريب متوازن — 30 دقيقة — 8 حصص شهرياً','تكرار يساعد على تثبيت المهارات',11,60),
+ ('arabic',12,'ممارسة منتظمة — 30 دقيقة — 12 حصة شهرياً','وقت إضافي للتدريب والتطبيق',16,70),
+ ('arabic',16,'تأسيس متقدم — 30 دقيقة — 16 حصة شهرياً','متابعة أكثر انتظاماً للمهارات العربية',21,80)
+) AS data(program, sessions, name_ar, description_ar, price, sort_order)
+ON CONFLICT (area_id, package_key) DO UPDATE SET name_ar = EXCLUDED.name_ar, name_en = EXCLUDED.name_en, description_ar = EXCLUDED.description_ar, price = EXCLUDED.price, currency_code = EXCLUDED.currency_code, billing_period = EXCLUDED.billing_period, sessions_per_month = EXCLUDED.sessions_per_month, features_ar = EXCLUDED.features_ar, is_popular = EXCLUDED.is_popular, is_active = TRUE, sort_order = EXCLUDED.sort_order, updated_at = NOW();
+
+INSERT INTO public.area_links (area_id, link_key, label_ar, label_en, href, link_type, is_external, sort_order)
+SELECT id, 'whatsapp', 'واتساب الحجز', 'Booking WhatsApp', 'https://wa.me/201130127894', 'whatsapp', TRUE, 10 FROM public.site_areas WHERE slug = 'kuwait'
+ON CONFLICT (area_id, link_key) DO UPDATE SET href = EXCLUDED.href, label_ar = EXCLUDED.label_ar, label_en = EXCLUDED.label_en, is_active = TRUE, updated_at = NOW();
+
+INSERT INTO public.area_links (area_id, link_key, label_ar, label_en, href, link_type, is_external, sort_order)
+SELECT id, 'country-pages', 'روابط صفحات الدول', 'Country pages', '/kuwait', 'internal', FALSE, 20 FROM public.site_areas WHERE slug = 'kuwait'
+ON CONFLICT (area_id, link_key) DO UPDATE SET href = EXCLUDED.href, is_active = TRUE, updated_at = NOW();
+
+INSERT INTO public.area_timezones (area_id, timezone_name, label_ar, label_en, is_primary, sort_order)
+SELECT id, 'Asia/Kuwait', 'توقيت الكويت', 'Kuwait Time', TRUE, 10 FROM public.site_areas WHERE slug = 'kuwait'
+ON CONFLICT (area_id, timezone_name) DO UPDATE SET label_ar = EXCLUDED.label_ar, label_en = EXCLUDED.label_en, is_primary = TRUE, is_active = TRUE, updated_at = NOW();
+
+INSERT INTO public.area_cities (area_id, city_key, name_ar, name_en, region_name, sort_order)
+SELECT area.id, data.city_key, data.name_ar, data.name_ar, 'الكويت', data.sort_order
+FROM (SELECT id FROM public.site_areas WHERE slug = 'kuwait') area CROSS JOIN (VALUES
+ ('kuwait-city','مدينة الكويت',10),('hawally','حولي',20),('farwaniya','الفروانية',30),('mubarak-al-kabeer','مبارك الكبير',40),('ahmadi','الأحمدي',50)
+) AS data(city_key, name_ar, sort_order)
+ON CONFLICT (area_id, city_key) DO UPDATE SET name_ar = EXCLUDED.name_ar, name_en = EXCLUDED.name_en, region_name = EXCLUDED.region_name, is_active = TRUE, sort_order = EXCLUDED.sort_order, updated_at = NOW();
+
+INSERT INTO public.area_faq_items (area_id, question_key, question_ar, answer_ar, sort_order)
+SELECT area.id, data.question_key, data.question_ar, data.answer_ar, data.sort_order
+FROM (SELECT id FROM public.site_areas WHERE slug = 'kuwait') area CROSS JOIN (VALUES
+ ('kuwait-duration','ما مدة الحصة؟','مدة كل حصة 30 دقيقة، وهي حصة فردية مباشرة للطالب.',10),
+ ('kuwait-trial','هل توجد حصة تجريبية مجانية؟','نعم، توجد حصة تجريبية مجانية قبل الاشتراك في الباقة الشهرية.',20),
+ ('kuwait-language','ما لغة التعليم والتواصل؟','لغة التعليم والتواصل هي العربية.',30),
+ ('kuwait-booking','كيف أحجز؟','اختر البرنامج ثم تواصل معنا لحجز الحصة التجريبية المجانية.',40)
+) AS data(question_key, question_ar, answer_ar, sort_order)
+ON CONFLICT (area_id, question_key) DO UPDATE SET question_ar = EXCLUDED.question_ar, answer_ar = EXCLUDED.answer_ar, sort_order = EXCLUDED.sort_order, is_active = TRUE, updated_at = NOW();
+
+INSERT INTO public.area_themes (area_id, theme_name_ar, theme_name_en, primary_color, secondary_color, accent_color, background_color, text_color, quran_fact_title_ar, quran_fact_body_ar, quran_fact_reference_ar)
+SELECT id, 'هوية الكويت الهادئة', 'Kuwait calm identity', '#173F35', '#E4E9E5', '#B9C9BE', '#F6F7F3', '#173F35', 'القراءة باب التعلم', 'افتتحت الرسالة بقوله تعالى: «اقرأ باسم ربك الذي خلق». القراءة والتعلم من أبواب الهداية.', 'سورة العلق، الآية 1' FROM public.site_areas WHERE slug = 'kuwait'
+ON CONFLICT (area_id) DO UPDATE SET theme_name_ar = EXCLUDED.theme_name_ar, theme_name_en = EXCLUDED.theme_name_en, primary_color = EXCLUDED.primary_color, secondary_color = EXCLUDED.secondary_color, accent_color = EXCLUDED.accent_color, background_color = EXCLUDED.background_color, text_color = EXCLUDED.text_color, quran_fact_title_ar = EXCLUDED.quran_fact_title_ar, quran_fact_body_ar = EXCLUDED.quran_fact_body_ar, quran_fact_reference_ar = EXCLUDED.quran_fact_reference_ar, is_active = TRUE, updated_at = NOW();

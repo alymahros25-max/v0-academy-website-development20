@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
 
-const MEASUREMENT_ID = "G-W7ZJYVEMHL"
+const MEASUREMENT_ID = "G-XPT3R8M0EC"
 const CONSENT_COOKIE = "analytics_consent"
 
 declare global {

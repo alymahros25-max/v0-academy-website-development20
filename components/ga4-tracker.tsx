@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
 
-const MEASUREMENT_ID = "G-XPT3R8M0EC"
+const MEASUREMENT_ID = "G-W7ZJYVEMHL"
 const CONSENT_COOKIE = "analytics_consent"
 
 declare global {
@@ -14,19 +14,24 @@ declare global {
 }
 
 function hasAnalyticsConsent() {
-  return document.cookie.split("; ").some((cookie) => cookie === `${CONSENT_COOKIE}=granted`)
+  return document.cookie
+    .split(";")
+    .some((cookie) => cookie.trim().startsWith(`${CONSENT_COOKIE}=granted`))
 }
 
 function loadGoogleAnalytics() {
-  if (typeof window === "undefined" || window.gtag) return
+  if (typeof window === "undefined") return
+  if (window.gtag) return
 
   window.dataLayer = window.dataLayer || []
   window.gtag = (...args: unknown[]) => window.dataLayer.push(args)
   window.gtag("js", new Date())
   window.gtag("config", MEASUREMENT_ID, { send_page_view: false })
 
+  if (document.querySelector(`script[data-ga4="${MEASUREMENT_ID}"]`)) return
   const script = document.createElement("script")
   script.async = true
+  script.dataset.ga4 = MEASUREMENT_ID
   script.src = `https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`
   document.head.appendChild(script)
 }

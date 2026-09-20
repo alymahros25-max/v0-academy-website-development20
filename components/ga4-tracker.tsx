@@ -14,19 +14,24 @@ declare global {
 }
 
 function hasAnalyticsConsent() {
-  return document.cookie.split("; ").some((cookie) => cookie === `${CONSENT_COOKIE}=granted`)
+  return document.cookie
+    .split(";")
+    .some((cookie) => cookie.trim().startsWith(`${CONSENT_COOKIE}=granted`))
 }
 
 function loadGoogleAnalytics() {
-  if (typeof window === "undefined" || window.gtag) return
+  if (typeof window === "undefined") return
+  if (window.gtag) return
 
   window.dataLayer = window.dataLayer || []
   window.gtag = (...args: unknown[]) => window.dataLayer.push(args)
   window.gtag("js", new Date())
   window.gtag("config", MEASUREMENT_ID, { send_page_view: false })
 
+  if (document.querySelector(`script[data-ga4="${MEASUREMENT_ID}"]`)) return
   const script = document.createElement("script")
   script.async = true
+  script.dataset.ga4 = MEASUREMENT_ID
   script.src = `https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`
   document.head.appendChild(script)
 }
@@ -34,15 +39,19 @@ function loadGoogleAnalytics() {
 export function GA4Tracker() {
   const pathname = usePathname()
   const hasSentInitialPageView = useRef(false)
+  const lastTrackedPath = useRef<string | null>(null)
 
   useEffect(() => {
     const sendPageView = () => {
       if (!hasAnalyticsConsent()) return
+      const currentPath = window.location.pathname
+      if (lastTrackedPath.current === currentPath) return
       loadGoogleAnalytics()
       window.gtag?.("event", "page_view", {
-        page_path: window.location.pathname,
+        page_path: currentPath,
         page_title: document.title,
       })
+      lastTrackedPath.current = currentPath
       hasSentInitialPageView.current = true
     }
 
@@ -58,10 +67,12 @@ export function GA4Tracker() {
 
   useEffect(() => {
     if (!hasSentInitialPageView.current || !hasAnalyticsConsent()) return
+    if (lastTrackedPath.current === pathname) return
     window.gtag?.("event", "page_view", {
       page_path: pathname,
       page_title: document.title,
     })
+    lastTrackedPath.current = pathname
   }, [pathname])
 
   return null

@@ -39,15 +39,19 @@ function loadGoogleAnalytics() {
 export function GA4Tracker() {
   const pathname = usePathname()
   const hasSentInitialPageView = useRef(false)
+  const lastTrackedPath = useRef<string | null>(null)
 
   useEffect(() => {
     const sendPageView = () => {
       if (!hasAnalyticsConsent()) return
+      const currentPath = window.location.pathname
+      if (lastTrackedPath.current === currentPath) return
       loadGoogleAnalytics()
       window.gtag?.("event", "page_view", {
-        page_path: window.location.pathname,
+        page_path: currentPath,
         page_title: document.title,
       })
+      lastTrackedPath.current = currentPath
       hasSentInitialPageView.current = true
     }
 
@@ -63,10 +67,12 @@ export function GA4Tracker() {
 
   useEffect(() => {
     if (!hasSentInitialPageView.current || !hasAnalyticsConsent()) return
+    if (lastTrackedPath.current === pathname) return
     window.gtag?.("event", "page_view", {
       page_path: pathname,
       page_title: document.title,
     })
+    lastTrackedPath.current = pathname
   }, [pathname])
 
   return null

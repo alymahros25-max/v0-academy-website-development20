@@ -13,7 +13,7 @@ const canonical = southAfricaLandingConfig.seo.canonical
 export const metadata: Metadata = {
   title: southAfricaLandingConfig.seo.title,
   description: southAfricaLandingConfig.seo.description,
-  keywords: ["online Quran classes South Africa", "Quran memorisation South Africa", "Arabic lessons online South Africa", "Al-Hafiz Academy South Africa", "Quran classes Johannesburg", "Quran classes Cape Town", "Arabic for children South Africa"],
+  keywords: ["Koran klasse aanlyn in Suid-Afrika", "Koran memorisering Johannesburg", "Arabiese lesse aanlyn", "Al-Hafiz Akademie Suid-Afrika", "isiZulu Quran classes South Africa", "iiklasi zeQuran eMzantsi Afrika", "online Quran classes South Africa"],
   alternates: { canonical, languages: { ar: canonical, "x-default": canonical } },
   openGraph: {
     title: southAfricaLandingConfig.seo.title,
@@ -79,7 +79,7 @@ export default async function SouthAfricaPage() {
       <section aria-labelledby="south-africa-opening-title" className="bg-[#251b2b] px-5 pb-20 pt-14 text-[#fff8ef] sm:px-8 lg:pb-28 lg:pt-20">
         <div className="mx-auto max-w-6xl">
           <div>
-            <p className="text-sm font-black uppercase tracking-[0.25em] text-[#f09a67]">A quiet route for a busy week</p>
+            <p className="text-sm font-black uppercase tracking-[0.25em] text-[#f09a67]">مسار هادئ لأسبوع مزدحم</p>
             <h1 id="south-africa-opening-title" className="mt-6 max-w-4xl text-balance text-5xl font-black leading-[1.08] sm:text-7xl">وقتٌ ثابت للقرآن، وبدايةٌ واضحة للعربية.</h1>
             <p className="mt-7 max-w-2xl text-lg leading-9 text-[#eadbe5] sm:text-xl">صفحة جنوب أفريقيا مصممة حول قرار واحد: ما الوقت الذي تستطيع الأسرة المحافظة عليه؟ ابدأ من مدينتك، اختر هدفك، ثم اسأل عن المسار المناسب دون قوائم جاهزة أو قالب مكرر.</p>
             <div className="mt-8 flex flex-wrap gap-3"><a href={trialUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-md bg-[#f09a67] px-6 py-3 font-black text-[#251b2b]"><MessageCircle size={18} /> ابدأ بحصة تجريبية مجانية</a><a href="#plans" className="rounded-md border border-[#eadbe5] px-6 py-3 font-black text-[#fff8ef]">انتقل إلى الأسعار</a></div>
@@ -88,12 +88,13 @@ export default async function SouthAfricaPage() {
         </div>
       </section>
 
-      <section lang="en" className="bg-[#fff8ef] px-5 py-12 sm:px-8" aria-labelledby="south-africa-english-card-title">
+      <section lang="af" className="bg-[#fff8ef] px-5 py-12 sm:px-8" aria-labelledby="south-africa-afrikaans-card-title">
         <div className="mx-auto max-w-5xl rounded-[1.75rem] border-l-4 border-[#f09a67] bg-[#f2e5ec] p-6 text-left text-[#251b2b] sm:p-9">
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8a4f39]">South Africa · Al-Hafiz Academy</p>
-          <h2 id="south-africa-english-card-title" className="mt-3 text-2xl font-black sm:text-3xl">Online Quran Classes and Arabic Lessons in South Africa</h2>
-          <p className="mt-4 max-w-4xl leading-8 text-[#594a59]">Al-Hafiz Academy provides one-to-one online Quran memorisation, Quran reading, revision, Tajweed support, and Arabic foundation lessons for families in South Africa. Students in Johannesburg, Cape Town, Durban, Pretoria, and other cities can ask about a flexible 30-minute lesson, a free trial class, and monthly packages in South African rand.</p>
-          <p className="mt-4 max-w-4xl leading-8 text-[#594a59]">If you are looking for online Quran classes in South Africa, Quran memorisation in Johannesburg, Arabic lessons for children, or a clear Quran learning routine in Cape Town, send us your city, age, current level, and preferred programme. Al-Hafiz Academy will explain the next step before you choose a package.</p>
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8a4f39]">Suid-Afrika · Al-Hafiz Akademie</p>
+          <h2 id="south-africa-afrikaans-card-title" className="mt-3 text-2xl font-black sm:text-3xl">Aanlyn Koran- en Arabiese klasse in Suid-Afrika</h2>
+          <p className="mt-4 max-w-4xl leading-8 text-[#594a59]">Al-Hafiz Akademie bied individuele aanlynklasse vir Koranmemorisering, Koranlees, hersiening, Tajweed-ondersteuning en die grondslag van Arabies aan gesinne in Suid-Afrika. Leerders in Johannesburg, Kaapstad, Durban, Pretoria en ander stede kan vra oor ’n buigsame 30-minuut-les, ’n gratis proefklas en maandelikse pakkette in Suid-Afrikaanse rand.</p>
+          <p className="mt-4 max-w-4xl leading-8 text-[#594a59]">As jy aanlyn Koran-klasse in Suid-Afrika, Koranmemorisering in Johannesburg, Arabiese lesse vir kinders of ’n duidelike Koran-leerroetine in Kaapstad soek, stuur jou stad, ouderdom, huidige vlak en voorkeurprogram. Al-Hafiz Akademie verduidelik die volgende stap voordat jy ’n pakket kies.</p>
+          <p className="mt-4 border-t border-[#251b2b]/10 pt-4 text-sm font-bold leading-7 text-[#8a4f39]">Vir Arabies-sprekende gesinne: Quran memorisation in isiZulu and iiklasi zeQuran eMzantsi Afrika kan ook as beperkte soekfrases gebruik word wanneer jy navraag doen.</p>
         </div>
       </section>
 

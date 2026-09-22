@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import type { CSSProperties } from "react"
 import Link from "next/link"
-import { Check, Clock3, MapPin, MessageCircle, Sparkles } from "lucide-react"
+import { Clock3, MapPin, MessageCircle } from "lucide-react"
 import { getAreaLandingData, getAreaLinkHref, getAreaWhatsAppUrl, toAreaDisplayPlan } from "@/lib/country-content"
 import { getPublishedClassroomVideos } from "@/lib/classroom-videos"
 import { southAfricaLandingConfig, getSouthAfricaWhatsAppUrl } from "@/lib/south-africa-landing-config"
@@ -67,25 +67,22 @@ export default async function SouthAfricaPage() {
 
   return (
     <main dir="rtl" className="min-h-screen overflow-hidden" style={{ "--sa-primary": theme.primary, "--sa-accent": theme.accent, "--sa-background": theme.background, "--sa-surface": theme.surface, "--sa-ink": theme.ink } as CSSProperties}>
-      <header className="bg-[#12372a] px-5 py-4 text-white sm:px-8">
+      <header className="bg-[#251b2b] px-5 py-4 text-[#fff8ef] sm:px-8">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
-          <Link href="/" className="font-black">أكاديمية الحافظ المتميز</Link>
-          <a href={trialUrl} target="_blank" rel="noreferrer" className="rounded-full bg-[#d8873d] px-4 py-2 text-sm font-black text-[#17251e]">احجز الحصة التجريبية</a>
+          <span className="font-black tracking-wide">جنوب أفريقيا · مسار القرآن والعربية</span>
+          <a href={trialUrl} target="_blank" rel="noreferrer" className="rounded-md border border-[#f09a67] px-4 py-2 text-sm font-black text-[#ffd7bd]">احجز الحصة التجريبية</a>
         </div>
       </header>
 
-      <section className="bg-[#f7f1e5] px-5 py-20 sm:px-8 lg:py-28">
-        <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.1fr_.9fr] lg:items-center">
+      <section aria-labelledby="south-africa-opening-title" className="bg-[#251b2b] px-5 pb-20 pt-14 text-[#fff8ef] sm:px-8 lg:pb-28 lg:pt-20">
+        <div className="mx-auto max-w-6xl">
           <div>
-            <p className="flex items-center gap-2 text-sm font-black text-[#a75d28]"><Sparkles size={16} /> Quran memorisation and Arabic foundations online for families in South Africa.</p>
-            <h1 className="mt-6 text-balance text-4xl font-black leading-tight text-[#17251e] sm:text-6xl">رتّب وقت القرآن داخل أسبوعك في جنوب أفريقيا</h1>
-            <p className="mt-6 max-w-2xl text-lg leading-9 text-[#526057] sm:text-xl">بين الدراسة والعمل والأسرة، لا يحتاج التعلم إلى موعد مثالي بقدر ما يحتاج إلى وقت يمكن المحافظة عليه. اختر هدفك، تعرّف إلى الباقة المناسبة، ثم تحدث معنا لتحديد الخطوة التالية.</p>
-            <div className="mt-8 flex flex-wrap gap-3"><a href={trialUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#12372a] px-6 py-3 font-black text-white"><MessageCircle size={18} /> ابدأ بحصة تجريبية مجانية</a><a href="#plans" className="rounded-full border-2 border-[#12372a] px-6 py-3 font-black text-[#12372a]">اسأل عن الباقات بالراند</a></div>
+            <p className="text-sm font-black uppercase tracking-[0.25em] text-[#f09a67]">A quiet route for a busy week</p>
+            <h1 id="south-africa-opening-title" className="mt-6 max-w-4xl text-balance text-5xl font-black leading-[1.08] sm:text-7xl">وقتٌ ثابت للقرآن، وبدايةٌ واضحة للعربية.</h1>
+            <p className="mt-7 max-w-2xl text-lg leading-9 text-[#eadbe5] sm:text-xl">صفحة جنوب أفريقيا مصممة حول قرار واحد: ما الوقت الذي تستطيع الأسرة المحافظة عليه؟ ابدأ من مدينتك، اختر هدفك، ثم اسأل عن المسار المناسب دون قوائم جاهزة أو قالب مكرر.</p>
+            <div className="mt-8 flex flex-wrap gap-3"><a href={trialUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-md bg-[#f09a67] px-6 py-3 font-black text-[#251b2b]"><MessageCircle size={18} /> ابدأ بحصة تجريبية مجانية</a><a href="#plans" className="rounded-md border border-[#eadbe5] px-6 py-3 font-black text-[#fff8ef]">انتقل إلى الأسعار</a></div>
           </div>
-          <div className="rounded-[2.5rem] border border-[#d8c9ae] bg-[#eadcc5] p-6 sm:p-8">
-            <p className="text-sm font-black text-[#a75d28]">ابدأ من أسبوعك</p><h2 className="mt-3 text-3xl font-black text-[#17251e]">خريطة بسيطة قبل اختيار السعر</h2>
-            <div className="mt-8 grid gap-3">{["حدد وقتًا يمكن تكراره", "حدد نقطة البداية", "اختر البرنامج", "تحدث معنا"].map((item, index) => <div key={item} className="flex items-center gap-3 rounded-2xl bg-[#fbf8f1] p-4"><span className="grid size-9 shrink-0 place-items-center rounded-full bg-[#d8873d] font-black text-[#17251e]">{index + 1}</span><span className="font-bold text-[#17251e]">{item}</span></div>)}</div>
-          </div>
+          <div className="mt-12 flex flex-wrap gap-3 border-t border-[#ffffff2b] pt-6 text-sm font-bold text-[#eadbe5]">{cities.map((city) => <span key={city} className="rounded-full border border-[#f09a67] px-4 py-2">{city}</span>)}<span className="rounded-full bg-[#46344d] px-4 py-2">{southAfricaLandingConfig.timezone}</span></div>
         </div>
       </section>
 
@@ -101,7 +98,7 @@ export default async function SouthAfricaPage() {
 
       <section className="bg-[#d8873d] px-5 py-16 text-center text-[#17251e] sm:px-8"><div className="mx-auto max-w-3xl"><h2 className="text-4xl font-black">ابدأ بخطوة تناسب أسبوعك</h2><p className="mt-4 leading-8">اكتب لنا مدينتك والبرنامج الذي تفكر فيه، وسنساعدك على معرفة الخطوة التالية قبل اختيار الباقة.</p><a href={trialUrl} target="_blank" rel="noreferrer" className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#12372a] px-6 py-3 font-black text-white"><MessageCircle size={18} /> تواصل عبر واتساب</a></div></section>
 
-      <footer className="bg-[#17251e] px-5 py-10 text-white sm:px-8"><div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1fr_auto]"><div><Link href="/" className="text-xl font-black">الحافظ · جنوب أفريقيا</Link><p className="mt-3 max-w-md leading-7 text-white/70">تحفيظ القرآن وتأسيس العربية أونلاين للعائلات في جنوب أفريقيا.</p></div><nav aria-label="روابط صفحة جنوب أفريقيا" className="grid content-start gap-3 text-sm font-bold text-white/85 sm:grid-cols-2"><Link href="/">الرئيسية</Link><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/contact">التواصل</Link><Link href="/privacy">سياسة الخصوصية</Link><Link href="/terms">شروط الاستخدام</Link></nav></div><div className="mx-auto mt-8 max-w-6xl border-t border-white/10 pt-5 text-sm text-white/55">© {new Date().getFullYear()} أكاديمية الحافظ المتميز · صفحة جنوب أفريقيا</div></footer>
+      <footer className="border-t-4 border-[#f09a67] bg-[#251b2b] px-5 py-7 text-[#fff8ef] sm:px-8"><div className="mx-auto flex max-w-6xl flex-col gap-5 sm:flex-row sm:items-center sm:justify-between"><span className="text-sm font-black tracking-wide">مسار جنوب أفريقيا · {new Date().getFullYear()}</span><nav aria-label="روابط مسار جنوب أفريقيا" className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-bold text-[#eadbe5]"><Link href="/">الرئيسية</Link><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/contact">التواصل</Link><Link href="/privacy">الخصوصية</Link><Link href="/terms">الشروط</Link></nav></div></footer>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     </main>
   )

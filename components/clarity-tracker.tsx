@@ -1,10 +1,15 @@
 "use client"
 
 import { useEffect } from "react"
-import Clarity from "@microsoft/clarity"
 
 const CONSENT_COOKIE = "analytics_consent"
 const PROJECT_ID = "ylvf05htdn"
+const SCRIPT_ID = "clarity-script"
+
+type ClarityApi = ((command: string, ...args: unknown[]) => void) & {
+  v?: unknown
+  q?: unknown[]
+}
 
 type ClarityDiagnostic = {
   stage: string
@@ -16,6 +21,7 @@ type ClarityDiagnostic = {
 type ClarityWindow = Window & {
   __clarityInitialized?: boolean
   __clarityDiagnostics?: ClarityDiagnostic[]
+  clarity?: ClarityApi
 }
 
 function hasAnalyticsConsent() {
@@ -39,6 +45,25 @@ function reportDiagnostic(stage: string) {
   window.dispatchEvent(new CustomEvent("clarity-diagnostic", { detail: diagnostic }))
 }
 
+function sendConsentAndDiagnosticEvent(attempt = 0) {
+  const clarity = (window as ClarityWindow).clarity
+  if (!clarity) {
+    if (attempt < 20) {
+      window.setTimeout(() => sendConsentAndDiagnosticEvent(attempt + 1), 250)
+    } else {
+      reportDiagnostic("manual-script-loaded-without-api")
+    }
+    return
+  }
+
+  // Official manual-tag API and Consent V2 call.
+  clarity("consentv2", { ad_Storage: "denied", analytics_Storage: "granted" })
+  reportDiagnostic("consent-v2-called")
+  clarity("set", "consent_status", "granted")
+  clarity("event", "clarity_integration_test")
+  reportDiagnostic("diagnostic-event-sent")
+}
+
 function startClarity() {
   if (typeof window === "undefined") return
   if (!hasAnalyticsConsent()) {
@@ -50,18 +75,22 @@ function startClarity() {
   if (state.__clarityInitialized) return
 
   try {
-    // Official NPM initialization and Consent V2 flow.
-    Clarity.init(PROJECT_ID)
-    reportDiagnostic("init-called")
-
-    Clarity.consentV2({ ad_Storage: "denied", analytics_Storage: "granted" })
-    reportDiagnostic("consent-v2-called")
-
-    // Official APIs used as a harmless diagnostic signal. These create no PII.
-    Clarity.setTag("consent_status", "granted")
-    Clarity.event("clarity_integration_test")
-    reportDiagnostic("diagnostic-event-sent")
-
+    const existingScript = document.getElementById(SCRIPT_ID)
+    if (existingScript) {
+      sendConsentAndDiagnosticEvent()
+    } else {
+      const script = document.createElement("script")
+      script.id = SCRIPT_ID
+      script.async = true
+      script.src = `https://www.clarity.ms/tag/${PROJECT_ID}?ref=manual`
+      script.addEventListener("load", () => {
+        reportDiagnostic("manual-script-loaded")
+        sendConsentAndDiagnosticEvent()
+      }, { once: true })
+      script.addEventListener("error", () => reportDiagnostic("manual-script-load-error"), { once: true })
+      document.head.appendChild(script)
+      reportDiagnostic("manual-script-injected")
+    }
     state.__clarityInitialized = true
     window.setTimeout(() => reportDiagnostic("post-init-resource-check"), 2000)
   } catch (error) {

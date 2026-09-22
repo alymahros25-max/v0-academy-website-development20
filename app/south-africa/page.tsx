@@ -5,6 +5,7 @@ import { Clock3, MapPin, MessageCircle } from "lucide-react"
 import { getAreaLandingData, getAreaLinkHref, getAreaWhatsAppUrl, toAreaDisplayPlan } from "@/lib/country-content"
 import { getPublishedClassroomVideos } from "@/lib/classroom-videos"
 import { southAfricaLandingConfig, getSouthAfricaWhatsAppUrl } from "@/lib/south-africa-landing-config"
+import { countryPages } from "@/components/layout/country-pages-section"
 import { SouthAfricaVideoMap } from "./south-africa-video-map"
 
 const canonical = southAfricaLandingConfig.seo.canonical
@@ -12,6 +13,7 @@ const canonical = southAfricaLandingConfig.seo.canonical
 export const metadata: Metadata = {
   title: southAfricaLandingConfig.seo.title,
   description: southAfricaLandingConfig.seo.description,
+  keywords: ["online Quran classes South Africa", "Quran memorisation South Africa", "Arabic lessons online South Africa", "Al-Hafiz Academy South Africa", "Quran classes Johannesburg", "Quran classes Cape Town", "Arabic for children South Africa"],
   alternates: { canonical, languages: { ar: canonical, "x-default": canonical } },
   openGraph: {
     title: southAfricaLandingConfig.seo.title,
@@ -86,6 +88,15 @@ export default async function SouthAfricaPage() {
         </div>
       </section>
 
+      <section lang="en" className="bg-[#fff8ef] px-5 py-12 sm:px-8" aria-labelledby="south-africa-english-card-title">
+        <div className="mx-auto max-w-5xl rounded-[1.75rem] border-l-4 border-[#f09a67] bg-[#f2e5ec] p-6 text-left text-[#251b2b] sm:p-9">
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8a4f39]">South Africa · Al-Hafiz Academy</p>
+          <h2 id="south-africa-english-card-title" className="mt-3 text-2xl font-black sm:text-3xl">Online Quran Classes and Arabic Lessons in South Africa</h2>
+          <p className="mt-4 max-w-4xl leading-8 text-[#594a59]">Al-Hafiz Academy provides one-to-one online Quran memorisation, Quran reading, revision, Tajweed support, and Arabic foundation lessons for families in South Africa. Students in Johannesburg, Cape Town, Durban, Pretoria, and other cities can ask about a flexible 30-minute lesson, a free trial class, and monthly packages in South African rand.</p>
+          <p className="mt-4 max-w-4xl leading-8 text-[#594a59]">If you are looking for online Quran classes in South Africa, Quran memorisation in Johannesburg, Arabic lessons for children, or a clear Quran learning routine in Cape Town, send us your city, age, current level, and preferred programme. Al-Hafiz Academy will explain the next step before you choose a package.</p>
+        </div>
+      </section>
+
       <SouthAfricaVideoMap videos={videos} />
 
       <section className="bg-white px-5 py-16 sm:px-8"><div className="mx-auto max-w-6xl"><div className="grid gap-5 md:grid-cols-2"><article className="rounded-[2rem] bg-[#12372a] p-7 text-white"><p className="text-sm font-bold text-[#f0b06f]">تحفيظ القرآن الكريم</p><h2 className="mt-3 text-3xl font-black">حفظ ومراجعة حسب نقطة البداية</h2><p className="mt-4 leading-8 text-white/80">برنامج فردي يساعد الطالب على بناء روتين للحفظ والمراجعة والقراءة بحسب مستواه ووقته. تُحدد التفاصيل التعليمية بعد التعارف والحصة التجريبية.</p><Link href="/quran" className="mt-6 inline-block font-black text-[#f0b06f]">تعرّف إلى برنامج القرآن ←</Link></article><article className="rounded-[2rem] bg-[#eadcc5] p-7 text-[#17251e]"><p className="text-sm font-bold text-[#a75d28]">تأسيس اللغة العربية</p><h2 className="mt-3 text-3xl font-black">ابنِ أساس القراءة والفهم</h2><p className="mt-4 leading-8 text-[#526057]">دروس عربية أونلاين للطالب الذي يريد بناء أساس أو تحسين القراءة والفهم تدريجيًا. يبدأ الاختيار من مستوى الطالب وهدفه.</p><Link href="/arabic" className="mt-6 inline-block font-black text-[#a75d28]">تعرّف إلى برنامج العربية ←</Link></article></div></div></section>
@@ -98,7 +109,7 @@ export default async function SouthAfricaPage() {
 
       <section className="bg-[#d8873d] px-5 py-16 text-center text-[#17251e] sm:px-8"><div className="mx-auto max-w-3xl"><h2 className="text-4xl font-black">ابدأ بخطوة تناسب أسبوعك</h2><p className="mt-4 leading-8">اكتب لنا مدينتك والبرنامج الذي تفكر فيه، وسنساعدك على معرفة الخطوة التالية قبل اختيار الباقة.</p><a href={trialUrl} target="_blank" rel="noreferrer" className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#12372a] px-6 py-3 font-black text-white"><MessageCircle size={18} /> تواصل عبر واتساب</a></div></section>
 
-      <footer className="border-t-4 border-[#f09a67] bg-[#251b2b] px-5 py-7 text-[#fff8ef] sm:px-8"><div className="mx-auto flex max-w-6xl flex-col gap-5 sm:flex-row sm:items-center sm:justify-between"><span className="text-sm font-black tracking-wide">مسار جنوب أفريقيا · {new Date().getFullYear()}</span><nav aria-label="روابط مسار جنوب أفريقيا" className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-bold text-[#eadbe5]"><Link href="/">الرئيسية</Link><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/contact">التواصل</Link><Link href="/privacy">الخصوصية</Link><Link href="/terms">الشروط</Link></nav></div></footer>
+      <footer className="border-t-4 border-[#f09a67] bg-[#251b2b] px-5 py-7 text-[#fff8ef] sm:px-8"><div className="mx-auto max-w-6xl"><div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between"><span className="text-sm font-black tracking-wide">مسار جنوب أفريقيا · {new Date().getFullYear()}</span><nav aria-label="روابط صفحة جنوب أفريقيا" className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-bold text-[#eadbe5]"><Link href="/">الرئيسية</Link><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/contact">التواصل</Link><Link href="/privacy">الخصوصية</Link><Link href="/terms">الشروط</Link></nav></div><details className="mt-6 border-t border-[#ffffff24] pt-5"><summary className="cursor-pointer text-sm font-black text-[#f09a67]">صفحاتنا حسب الدولة</summary><nav aria-label="كل صفحات الدول" className="mt-4 grid gap-2 sm:grid-cols-3 lg:grid-cols-4">{countryPages.map((country) => <Link key={country.href} href={country.href} className="rounded-md border border-[#ffffff24] px-3 py-2 text-sm text-[#eadbe5] transition hover:border-[#f09a67] hover:text-[#ffd7bd]"><span className="me-2" aria-hidden="true">{country.flag}</span>{country.label}</Link>)}</nav></details></div></footer>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
     </main>
   )

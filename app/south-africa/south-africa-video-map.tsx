@@ -17,9 +17,10 @@ export function SouthAfricaVideoMap({ videos }: { videos: LandingVideo[] }) {
   const [selectedPoint, setSelectedPoint] = useState(0)
   const [activeId, setActiveId] = useState<string | null>(null)
   const activeVideo = videos.find((video) => video.id === activeId)
-  const selectedVideo = useMemo(() => videos[selectedPoint % Math.max(videos.length, 1)], [selectedPoint, videos])
+  const displayVideos = useMemo(() => videos.slice(0, 4), [videos])
+  const selectedVideo = useMemo(() => displayVideos[selectedPoint % Math.max(displayVideos.length, 1)], [selectedPoint, displayVideos])
 
-  if (!videos.length) return null
+  if (!displayVideos.length) return null
 
   return (
     <section className="border-y border-[#d8c9ae] bg-[#f7f1e5] px-5 py-16 sm:px-8" aria-labelledby="south-africa-video-map-title">

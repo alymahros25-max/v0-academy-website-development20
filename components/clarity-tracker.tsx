@@ -64,6 +64,20 @@ function sendConsentAndDiagnosticEvent(attempt = 0) {
   reportDiagnostic("diagnostic-event-sent")
 }
 
+function installClarityBootstrap() {
+  const state = window as ClarityWindow
+  if (state.clarity) return state.clarity
+
+  const clarity = ((...args: unknown[]) => {
+    clarity.q = clarity.q ?? []
+    clarity.q.push(args)
+  }) as ClarityApi
+  clarity.q = []
+  state.clarity = clarity
+  reportDiagnostic("manual-bootstrap-installed")
+  return clarity
+}
+
 function startClarity() {
   if (typeof window === "undefined") return
   if (!hasAnalyticsConsent()) {
@@ -75,6 +89,7 @@ function startClarity() {
   if (state.__clarityInitialized) return
 
   try {
+    installClarityBootstrap()
     const existingScript = document.getElementById(SCRIPT_ID)
     if (existingScript) {
       sendConsentAndDiagnosticEvent()

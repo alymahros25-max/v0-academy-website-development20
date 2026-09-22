@@ -1,10 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { verifyAdminSession } from '@/lib/admin-auth'
+import { consumeRateLimit, getClientIp, rateLimitResponse } from '@/lib/request-rate-limit'
 
 export async function POST(req: NextRequest) {
   try {
-    const { prompt, type } = await req.json()
+    if (!(await verifyAdminSession())) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
 
-    if (!prompt || prompt.trim().length === 0) {
+    const limit = consumeRateLimit(`ai-assistant:${getClientIp(req)}`, 10, 60_000)
+    if (!limit.allowed) return rateLimitResponse(limit.retryAfterSeconds)
+
+    const body = await req.json()
+    const prompt = typeof body?.prompt === 'string' ? body.prompt.trim() : ''
+
+    if (!prompt || prompt.length === 0 || prompt.length > 4_000) {
       return NextResponse.json(
         { error: 'الرجاء إدخال نص البحث أو السؤال' },
         { status: 400 }
@@ -61,10 +71,7 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     console.error('[AI Assistant Error]:', error)
     return NextResponse.json(
-      {
-        error: 'حدث خطأ أثناء الاتصال بمحرك الذكاء الاصطناعي',
-        details: error.message,
-      },
+      { error: 'حدث خطأ أثناء الاتصال بمحرك الذكاء الاصطناعي' },
       { status: 500 }
     )
   }

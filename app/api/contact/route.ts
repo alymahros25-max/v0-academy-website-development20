@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server"
-import { getMessages, setMessages } from "@/lib/data-store"
+import { addMessage, getMessages } from "@/lib/data-store"
 import { z } from "zod"
 import { verifyAdminSession } from "@/lib/admin-auth"
+import { consumeRateLimit, getClientIp, rateLimitResponse } from "@/lib/request-rate-limit"
 
 const contactSchema = z.object({
   name: z.string().trim().min(1).max(120),
@@ -33,6 +34,9 @@ async function notifyContactByEmail(message: { name: string; email: string; phon
 
 export async function POST(request: Request) {
   try {
+    const limit = consumeRateLimit(`contact:${getClientIp(request)}`, 5, 10 * 60_000)
+    if (!limit.allowed) return rateLimitResponse(limit.retryAfterSeconds)
+
     const parsed = contactSchema.safeParse(await request.json())
     if (!parsed.success) {
       return NextResponse.json({ error: "Invalid contact form data" }, { status: 400 })
@@ -52,8 +56,7 @@ export async function POST(request: Request) {
       replied: false,
     }
 
-    const messages = await getMessages()
-    await setMessages([...messages, newMessage])
+    await addMessage(newMessage)
     try {
       await notifyContactByEmail({ name, email, phone, subject, message })
     } catch (emailError) {

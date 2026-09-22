@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { consumeRateLimit, getClientIp, rateLimitResponse } from "@/lib/request-rate-limit"
 
 // Server-side proxy for Google Translate (gtx client) — no API key required.
 // Runs on the server to avoid CORS issues in the browser.
@@ -28,6 +29,9 @@ async function gtxTranslate(text: string, sourceLang: "ar" | "en" | "fr", target
 
 export async function POST(req: NextRequest) {
   try {
+    const limit = consumeRateLimit(`translate:${getClientIp(req)}`, 30, 60_000)
+    if (!limit.allowed) return rateLimitResponse(limit.retryAfterSeconds)
+
     const { text, sourceLang = "ar", targetLang } = (await req.json()) as {
       text?: string
       sourceLang?: string

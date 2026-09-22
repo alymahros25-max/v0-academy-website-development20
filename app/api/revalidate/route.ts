@@ -1,5 +1,6 @@
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
+import { verifyAdminSession } from '@/lib/admin-auth'
 
 // Allowed paths to revalidate — prevents abuse
 const ALLOWED_PATHS = [
@@ -7,6 +8,8 @@ const ALLOWED_PATHS = [
   '/games',
   '/',
 ]
+
+const ALLOWED_TAGS = ['classroom-videos']
 
 /**
  * GET /api/revalidate?path=/classroom-moments
@@ -17,6 +20,10 @@ const ALLOWED_PATHS = [
  * the 60-second revalidation window.
  */
 export async function GET(req: NextRequest) {
+  if (!(await verifyAdminSession())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const { searchParams } = new URL(req.url)
   const path = searchParams.get('path')
   const tag = searchParams.get('tag')
@@ -27,6 +34,9 @@ export async function GET(req: NextRequest) {
 
   try {
     if (tag) {
+      if (!ALLOWED_TAGS.includes(tag)) {
+        return NextResponse.json({ error: 'Tag not allowed' }, { status: 403 })
+      }
       revalidateTag(tag, 'max')
       return NextResponse.json({ revalidated: true, tag })
     }

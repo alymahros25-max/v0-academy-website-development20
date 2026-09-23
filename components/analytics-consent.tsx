@@ -25,10 +25,6 @@ export function AnalyticsConsent() {
   const chooseConsent = (value: boolean) => {
     document.cookie = `${CONSENT_COOKIE}=${value ? "granted" : "denied"}; Max-Age=31536000; Path=/; SameSite=Lax${window.location.protocol === "https:" ? "; Secure" : ""}`
     window.dispatchEvent(new CustomEvent("analytics-consent-change", { detail: value }))
-    window.gtag?.("consent", "update", {
-      analytics_storage: value ? "granted" : "denied",
-      ad_storage: value ? "granted" : "denied",
-    })
     setConsent(value)
   }
 
@@ -37,7 +33,7 @@ export function AnalyticsConsent() {
       {consent === true && <><Analytics /><SpeedInsights /></>}
       {consent === null && (
         <aside className="fixed inset-x-4 bottom-4 z-50 mx-auto flex max-w-xl flex-col gap-3 rounded-xl border border-border bg-background p-4 text-sm text-foreground shadow-lg sm:flex-row sm:items-center sm:justify-between">
-          <p className="leading-6">نستخدم تحليلات مجهولة لتحسين أداء الموقع. يمكنك القبول أو الرفض.</p>
+          <p className="leading-6">نستخدم Google Analytics وMicrosoft Clarity لفهم استخدام الموقع وتحسين الأداء وتجربة المستخدم. يمكنك القبول أو الرفض.</p>
           <div className="flex shrink-0 gap-2">
             <button type="button" onClick={() => chooseConsent(false)} className="rounded-md border border-border px-3 py-2">رفض</button>
             <button type="button" onClick={() => chooseConsent(true)} className="rounded-md bg-primary px-3 py-2 text-primary-foreground">قبول</button>

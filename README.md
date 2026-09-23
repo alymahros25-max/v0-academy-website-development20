@@ -172,7 +172,6 @@ pnpm run build
 | `ADMIN_PASSWORD_HASH` | Hash كلمة مرور الإدارة | سري جدًا |
 | `ADMIN_SESSION_SECRET` | توقيع جلسات الإدارة | سري جدًا |
 | `NEXT_PUBLIC_SENTRY_DSN` | مراقبة الأخطاء عند التفعيل | إعداد عام نسبيًا |
-| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Google Analytics عند التفعيل | إعداد عام |
 | `STRIPE_SECRET_KEY` | عمليات Stripe على الخادم | سري جدًا |
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | مفتاح Stripe العام | عام للتطبيق |
 | `NEXT_PUBLIC_PAYMENTS_ENABLED` | إظهار واجهة الاشتراك والدفع | معطّل افتراضيًا؛ لا يُفعّل إلا بعد اختبار Preview |

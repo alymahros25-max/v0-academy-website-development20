@@ -1,109 +1,130 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
-import { useI18n } from "@/lib/i18n"
+
+const MEASUREMENT_ID = "G-XPT3R8M0EC"
+const CONSENT_COOKIE = "analytics_consent"
+const SCRIPT_ID = "ga4-gtag-script"
+const LOAD_TIMEOUT_MS = 8000
 
 declare global {
   interface Window {
     dataLayer: unknown[]
     gtag?: (...args: unknown[]) => void
+    __ga4Loaded?: boolean
+    __ga4LoadPromise?: Promise<boolean>
   }
 }
 
-const MEASUREMENT_ID = "G-W7ZJYVEMHL"
-const CONSENT_COOKIE = "analytics_consent"
-
 function hasAnalyticsConsent() {
-  return document.cookie.split("; ").some((cookie) => cookie === `${CONSENT_COOKIE}=granted`)
+  return document.cookie.split(";").some((cookie) => cookie.trim() === `${CONSENT_COOKIE}=granted`)
 }
 
-function loadGoogleAnalytics() {
-  if (typeof window === "undefined") return
-  if (window.gtag) return
-
+function ensureGtagQueue() {
   window.dataLayer = window.dataLayer || []
-  window.gtag = (...args: unknown[]) => window.dataLayer.push(args)
-  window.gtag("js", new Date())
-  window.gtag("config", MEASUREMENT_ID, { page_path: window.location.pathname, page_title: document.title })
+  if (!window.gtag) {
+    window.gtag = (...args: unknown[]) => window.dataLayer.push(args)
+  }
+  if (!window.dataLayer.some((entry) => Array.isArray(entry) && entry[0] === "js")) {
+    window.gtag("js", new Date())
+    window.gtag("config", MEASUREMENT_ID, { send_page_view: false })
+  }
+}
 
-  const script = document.createElement("script")
-  script.async = true
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`
-  document.head.appendChild(script)
+function loadGoogleAnalytics(): Promise<boolean> {
+  if (typeof window === "undefined") return Promise.resolve(false)
+  if (window.__ga4Loaded) return Promise.resolve(true)
+  if (window.__ga4LoadPromise) return window.__ga4LoadPromise
+
+  ensureGtagQueue()
+  window.__ga4LoadPromise = new Promise((resolve) => {
+    const existing = document.getElementById(SCRIPT_ID) as HTMLScriptElement | null
+    const script = existing || document.createElement("script")
+    let settled = false
+    const finish = (loaded: boolean) => {
+      if (settled) return
+      settled = true
+      window.__ga4Loaded = loaded
+      if (!loaded) window.__ga4LoadPromise = undefined
+      resolve(loaded)
+    }
+
+    const timeout = window.setTimeout(() => finish(false), LOAD_TIMEOUT_MS)
+    script.addEventListener("load", () => {
+      window.clearTimeout(timeout)
+      finish(true)
+    }, { once: true })
+    script.addEventListener("error", () => {
+      window.clearTimeout(timeout)
+      script.remove()
+      finish(false)
+    }, { once: true })
+
+    if (!existing) {
+      script.id = SCRIPT_ID
+      script.async = true
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`
+      document.head.appendChild(script)
+    }
+  })
+
+  return window.__ga4LoadPromise
+}
+
+async function sendFirstPartyPageView(pathname: string) {
+  try {
+    await fetch("/api/analytics/pageview", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      keepalive: true,
+      body: JSON.stringify({
+        pathname,
+        page_title: document.title,
+        referrer: document.referrer || undefined,
+      }),
+    })
+  } catch {
+    // The browser tracker remains available when the optional server fallback is not configured.
+  }
 }
 
 export function GA4Tracker() {
-  const { locale } = useI18n()
   const pathname = usePathname()
-  const loaded = useRef(false)
+  const trackedPaths = useRef(new Set<string>())
 
-  useEffect(() => {
-    if (loaded.current) return
-    let idleId: number | undefined
-    let timeoutId: ReturnType<typeof setTimeout> | undefined
-    let started = false
+  const trackPageView = useCallback(async (path: string) => {
+    if (!hasAnalyticsConsent() || trackedPaths.current.has(path)) return
+    trackedPaths.current.add(path)
 
-    const start = () => {
-      if (started || !hasAnalyticsConsent()) return
-      started = true
-      loaded.current = true
-      loadGoogleAnalytics()
-      window.removeEventListener("pointerdown", start)
-      window.removeEventListener("keydown", start)
-      window.removeEventListener("analytics-consent-change", handleConsentChange)
-      if (idleId !== undefined) window.cancelIdleCallback?.(idleId)
-      if (timeoutId) clearTimeout(timeoutId)
-    }
+    // First-party fallback is independent of third-party script blockers.
+    void sendFirstPartyPageView(path)
 
-    const handleConsentChange = (event: Event) => {
-      if ((event as CustomEvent<boolean>).detail === true) start()
-    }
-
-    window.addEventListener("pointerdown", start, { once: true, passive: true })
-    window.addEventListener("keydown", start, { once: true, passive: true })
-    window.addEventListener("analytics-consent-change", handleConsentChange)
-    if ("requestIdleCallback" in window) {
-      idleId = window.requestIdleCallback(start, { timeout: 5000 })
-    } else {
-      timeoutId = setTimeout(start, 5000)
-    }
-
-    return () => {
-      window.removeEventListener("pointerdown", start)
-      window.removeEventListener("keydown", start)
-      window.removeEventListener("analytics-consent-change", handleConsentChange)
-      if (idleId !== undefined) window.cancelIdleCallback?.(idleId)
-      if (timeoutId) clearTimeout(timeoutId)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (window.gtag && loaded.current) {
-      window.gtag("event", "page_view", { page_path: pathname, page_title: document.title, language: locale })
-    }
-  }, [locale, pathname])
-
-  useEffect(() => {
-    const handleTrialClick = (event: MouseEvent) => {
-      const target = event.target as HTMLElement | null
-      const link = target?.closest<HTMLAnchorElement>("a[href]")
-      if (!link) return
-
-      const href = link.href.toLowerCase()
-      if (!href.includes("wa.me") && !href.includes("whatsapp")) return
-
-      // Load GA4 on the first conversion click so an early booking is not lost.
-      loadGoogleAnalytics()
-      window.gtag?.("event", "trial_booking_click", {
-        page_path: window.location.pathname,
-        link_text: link.textContent?.trim().slice(0, 80) || "whatsapp_cta",
+    const loaded = await loadGoogleAnalytics()
+    if (loaded) {
+      window.gtag?.("event", "page_view", {
+        page_path: path,
+        page_title: document.title,
       })
     }
-
-    document.addEventListener("click", handleTrialClick, { capture: true })
-    return () => document.removeEventListener("click", handleTrialClick, { capture: true })
   }, [])
+
+  useEffect(() => {
+    const handleConsentChange = (event: Event) => {
+      if ((event as CustomEvent<boolean>).detail === true) void trackPageView(window.location.pathname)
+    }
+
+    window.addEventListener("analytics-consent-change", handleConsentChange)
+    if (hasAnalyticsConsent()) void trackPageView(window.location.pathname)
+    return () => window.removeEventListener("analytics-consent-change", handleConsentChange)
+  }, [trackPageView])
+
+  useEffect(() => {
+    if (hasAnalyticsConsent()) void trackPageView(pathname)
+  }, [pathname, trackPageView])
 
   return null
 }
+
+export { MEASUREMENT_ID }

@@ -289,6 +289,20 @@ export const getReviews = async () => {
 }
 export const setReviews = async (data: Review[]) => { if (!(await setPersistent("reviews", data))) await writeData("reviews.json", data) }
 export const getMessages = async () => getPersistent<ContactMessage[]>("messages", await readData<ContactMessage[]>("messages.json", []))
+export const addMessage = async (message: ContactMessage) => {
+  if (supabaseAdmin) {
+    const { error } = await supabaseAdmin.from("admin_content").insert({
+      content_type: "messages",
+      content_id: message.id,
+      data: message,
+    })
+    if (error) throw error
+    return
+  }
+
+  const messages = await getMessages()
+  await writeData("messages.json", [...messages, message])
+}
 export const setMessages = async (data: ContactMessage[]) => { if (!(await setPersistent("messages", data))) await writeData("messages.json", data) }
 export const getSettings = async () => getPersistent<SiteSettings>("settings", await readData<SiteSettings>("settings.json", defaultSettings))
 export const setSettings = async (data: SiteSettings) => { if (!(await setPersistent("settings", data))) await writeData("settings.json", data) }

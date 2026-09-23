@@ -24,7 +24,7 @@ JOIN (VALUES
   ('page_title', 'ابدأ من هدفك، ثم اختر وقتك، ثم اسأل', 'Start with your goal, choose your time, then ask', 'hero', 1),
   ('page_description', 'من بكين إلى شنغهاي وغوانغجو وشِنْجِن، يمكنك التعرف إلى برامج القرآن والعربية أونلاين بطريقة واضحة. اختر ما تريد تعلمه، اذكر الوقت المناسب لك، وأرسل سؤالك قبل اتخاذ القرار.', 'Explore online Quran and Arabic programmes from Beijing, Shanghai, Guangzhou, Shenzhen, and other cities.', 'hero', 2),
   ('local_lead', 'الدراسة أونلاين لا تتطلب وجود مركز في مدينتك. ابدأ من المكان الذي تعيش فيه، ثم ناقش الموعد والبرنامج عبر قناة التواصل المتاحة.', 'Online study does not require a local centre in your city.', 'local', 0),
-  ('local_card_zh', '在线学习《古兰经》与阿拉伯语基础，从你的学习目标开始。', 'Online Quran and Arabic foundations, starting from your learning goal.', 'local', 1),
+  ('local_card_zh', '在线学习《古兰经》与阿拉伯语基础，从你的学习目标开始。', 'Online Quran and Arabic foundations, starting from your learning goal. يتم التواصل مع الأكاديمية باللغة العربية.', 'local', 1),
   ('whatsapp_number', '201130127894', '201130127894', 'contact', 0)
 ) AS values(content_key, content_ar, content_en, section, sort_order) ON site_areas.slug = 'china'
 ON CONFLICT (area_id, content_key) DO UPDATE SET
@@ -67,9 +67,9 @@ SELECT id, values.question_key, values.question_ar, values.question_ar, values.a
 FROM site_areas
 JOIN (VALUES
   ('china-faq-1', 'هل يمكنني الدراسة من بكين أو شنغهاي أو مدينة أخرى؟', 'نعم، الصفحة مخصصة للتعلم أونلاين، ويمكنك ذكر مدينتك عند التواصل حتى نناقش الوقت المتاح. لا يعني ذلك وجود مركز محلي في المدينة.', 0),
-  ('china-faq-2', 'هل أحتاج إلى معرفة العربية قبل البدء؟', 'ليس بالضرورة. اذكر مستواك وهدفك في الاستفسار، وسيتم توجيهك إلى البرنامج المناسب بعد التعارف والحصة التجريبية.', 1),
-  ('china-faq-3', 'هل الأسعار باليوان الصيني؟', 'نعم، الأسعار المعروضة في هذه الصفحة باليوان الصيني، ويجب إعادة التحقق منها عند اعتماد النسخة النهائية.', 2),
-  ('china-faq-4', 'هل تقدمون دعمًا باللغة الصينية؟', 'لا نعد بدعم باللغة الصينية قبل التأكد من توفره تشغيليًا. يمكنك إرسال سؤالك عبر قناة التواصل المعتمدة، وسنوضح لك طريقة المتابعة المتاحة.', 3),
+  ('china-faq-2', 'هل أحتاج إلى معرفة العربية قبل البدء؟', 'يمكنك البدء من مستواك الحالي. اذكر مستواك وهدفك التعليمي عند التواصل باللغة العربية.', 1),
+  ('china-faq-3', 'هل الأسعار باليوان الصيني؟', 'نعم، الأسعار المعروضة في هذه الصفحة باليوان الصيني للباقات الموضحة.', 2),
+  ('china-faq-4', 'بأي لغة يتم التواصل مع الأكاديمية؟', 'يتم التواصل مع الأكاديمية باللغة العربية.', 3),
   ('china-faq-5', 'هل توجد باقات مخصصة؟', 'يوجد باقات مخصصة. اسأل عن التفاصيل بعد الحصة التجريبية.', 4)
 ) AS values(question_key, question_ar, answer_ar, sort_order) ON site_areas.slug = 'china'
 ON CONFLICT (area_id, question_key) DO UPDATE SET

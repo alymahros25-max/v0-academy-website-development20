@@ -8,6 +8,7 @@ import { getKuwaitWhatsAppUrl, kuwaitFaqs, kuwaitLandingConfig } from "@/lib/kuw
 import { getAreaLandingData } from "@/lib/country-content"
 import { getPublishedClassroomVideos } from "@/lib/classroom-videos"
 import { NewCountryVideos } from "@/components/new-country-videos"
+import { countryPages } from "@/components/layout/country-pages-section"
 
 export const metadata: Metadata = {
   title: kuwaitLandingConfig.seo.title,
@@ -203,24 +204,8 @@ export default async function KuwaitPage() {
                 روابط حسب الدولة
                 <span aria-hidden="true" className="transition-transform group-open:rotate-180">⌄</span>
               </summary>
-              <div className="mt-4 grid gap-2 text-sm text-white/80">
-                <Link href="/kuwait" className="transition hover:text-kw-gold">الكويت</Link>
-                <Link href="/saudi-arabia" className="transition hover:text-kw-gold">السعودية</Link>
-                <Link href="/united-arab-emirates" className="transition hover:text-kw-gold">الإمارات</Link>
-                <Link href="/united-states" className="transition hover:text-kw-gold">الولايات المتحدة</Link>
-                <Link href="/canada" className="transition hover:text-kw-gold">كندا</Link>
-                <Link href="/united-kingdom" className="transition hover:text-kw-gold">المملكة المتحدة</Link>
-                <Link href="/australia" className="transition hover:text-kw-gold">أستراليا</Link>
-                <Link href="/germany" className="transition hover:text-kw-gold">ألمانيا</Link>
-                <Link href="/qatar" className="transition hover:text-kw-gold">قطر</Link>
-                <Link href="/oman" className="transition hover:text-kw-gold">عُمان</Link>
-                <Link href="/jordan" className="transition hover:text-kw-gold">الأردن</Link>
-                <Link href="/bahrain" className="transition hover:text-kw-gold">البحرين</Link>
-                <Link href="/france" className="transition hover:text-kw-gold">فرنسا</Link>
-                <Link href="/spain" className="transition hover:text-kw-gold">إسبانيا</Link>
-                <Link href="/netherlands" className="transition hover:text-kw-gold">هولندا</Link>
-                <Link href="/belgium" className="transition hover:text-kw-gold">بلجيكا</Link>
-                <Link href="/sweden" className="transition hover:text-kw-gold">السويد</Link>
+              <div className="mt-4 grid gap-2 text-sm text-white/80 sm:grid-cols-2">
+                {countryPages.map((country) => <Link key={country.href} href={country.href} className="transition hover:text-kw-gold"><span className="me-1" aria-hidden="true">{country.flag}</span>{country.label.replace("تحفيظ القرآن والعربية في ", "")}</Link>)}
               </div>
             </details>
           </div>

@@ -19,6 +19,7 @@ const countryPages = [
   { href: "/netherlands", label: "تحفيظ القرآن والعربية في هولندا", flag: "🇳🇱" },
   { href: "/belgium", label: "تحفيظ القرآن والعربية في بلجيكا", flag: "🇧🇪" },
   { href: "/sweden", label: "تحفيظ القرآن والعربية في السويد", flag: "🇸🇪" },
+  { href: "/south-africa", label: "تحفيظ القرآن والعربية في جنوب أفريقيا", flag: "🇿🇦" },
 ] as const
 
 export function CountryPagesSection() {

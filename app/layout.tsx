@@ -49,8 +49,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ar_SA",
     alternateLocale: [
-      "ar_AE", "ar_KW", "ar_QA", "ar_BH", "ar_OM", // Gulf regions
-      "ar_US", "ar_GB", "ar_FR", "ar_DE", "ar_IT", // Western diaspora
+      "ar_AE", "ar_KW", "ar_QA", "ar_BH", "ar_OM", "ar_JO", // Gulf and Jordan
+      "ar_US", "ar_CA", "ar_GB", "ar_AU", "ar_FR", "ar_DE", "ar_ES", "ar_NL", "ar_BE", "ar_SE", // Western diaspora
       "en_US", "en_GB", "fr_FR", // Western languages
     ],
     url: "https://quran-elhafez.com",
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
   },
   other: {
     // Additional service regions for diaspora targeting
-    'serviceable-regions': 'SA,AE,KW,QA,BH,OM,US,GB,FR,DE,IT',
+    'serviceable-regions': 'SA,AE,KW,QA,OM,JO,BH,US,CA,GB,AU,DE,FR,ES,NL,BE,SE',
     
   },
 }

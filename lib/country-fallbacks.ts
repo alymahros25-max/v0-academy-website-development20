@@ -1,5 +1,4 @@
 import { getNewCountryConfig, type NewCountryConfig } from "@/lib/new-country-pages"
-import { kuwaitFaqs, kuwaitLandingConfig } from "@/lib/kuwait-landing-config"
 import type { AreaCity, AreaLink, AreaPackage, AreaTheme, AreaTimezone, SiteArea } from "@/lib/country-content"
 
 type FallbackFaq = {
@@ -239,29 +238,7 @@ const newCountryFallbacks = Object.fromEntries(
 ) as Record<string, CountryFallback>
 
 const kuwaitAreaId = 18
-const kuwaitConfig: NewCountryConfig = {
-  slug: "kuwait" as NewCountryConfig["slug"],
-  name: "الكويت",
-  flag: "🇰🇼",
-  currency: "الدينار الكويتي",
-  currencyCode: "د.ك",
-  variant: "qatar" as NewCountryConfig["variant"],
-  theme: { primary: "#0f5d3c", accent: "#c9a227", background: "#ffffff", surface: "#f4f8f3", ink: "#14241e" },
-  eyebrow: "برامج القرآن والعربية في الكويت",
-  title: kuwaitLandingConfig.seo.socialTitle,
-  description: kuwaitLandingConfig.seo.description,
-  seoTitle: kuwaitLandingConfig.seo.title,
-  seoDescription: kuwaitLandingConfig.seo.description,
-  keywords: ["تحفيظ القرآن أونلاين الكويت", "تأسيس اللغة العربية أونلاين الكويت"],
-  cities: ["مدينة الكويت", "حولي", "الفروانية", "مبارك الكبير", "الأحمدي"],
-  timezone: "توقيت الكويت",
-  whatsappMessage: kuwaitLandingConfig.whatsappTemplate,
-  quranPrices: kuwaitLandingConfig.quranPlans.map((plan) => Number(plan.price)),
-  arabicPrices: kuwaitLandingConfig.arabicPlans.map((plan) => Number(plan.price)),
-  localLead: "نوفر تجربة تعلم أونلاين للعائلات في مناطق الكويت، مع تنسيق الموعد وفق البرنامج والوقت المناسب للأسرة.",
-  faq: kuwaitFaqs.map(([question, answer]) => [question, answer]),
-  steps: [],
-}
+const kuwaitConfig = getNewCountryConfig("kuwait")!
 
 export const countryFallbacks: Record<string, CountryFallback> = {
   ...newCountryFallbacks,

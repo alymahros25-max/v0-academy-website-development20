@@ -1,6 +1,7 @@
 import { supabaseAdmin } from "@/lib/supabaseAdmin"
 
 import { unstable_cache } from "next/cache"
+import { getCountryFallback } from "@/lib/country-fallbacks"
 
 export type AreaPackage = {
   id: number
@@ -192,7 +193,24 @@ const getCachedAreaLandingData = unstable_cache(
 )
 
 export async function getAreaLandingData(slug: string) {
-  return getCachedAreaLandingData(slug)
+  const fallback = getCountryFallback(slug)
+  try {
+    const data = await getCachedAreaLandingData(slug)
+    if (!fallback) return data
+    return {
+      area: data.area ?? fallback.area,
+      packages: data.packages.length ? data.packages : fallback.packages,
+      faq: data.faq.length ? data.faq : fallback.faq,
+      content: data.content.length ? data.content : fallback.content,
+      links: data.links.length ? data.links : fallback.links,
+      theme: data.theme ?? fallback.theme,
+      cities: data.cities.length ? data.cities : fallback.cities,
+      timezones: data.timezones.length ? data.timezones : fallback.timezones,
+    }
+  } catch (error) {
+    console.warn(`[Country Content] landing fallback used for ${slug}:`, error instanceof Error ? error.message : error)
+    return fallback ?? { area: null, packages: [], faq: [], content: [], links: [], theme: null, cities: [], timezones: [] }
+  }
 }
 
 export function areaLocalized(value: { content_ar?: string | null; content_en?: string | null; content_fr?: string | null } | undefined, locale = "ar") {

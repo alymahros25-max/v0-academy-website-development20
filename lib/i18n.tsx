@@ -66,9 +66,9 @@ const translations: Translations = {
   "pricing.arabic.button": { ar: "ابدأ مع العربية", en: "Start Arabic Program", fr: "Commencer l'arabe" },
   "pricing.includes": { ar: "تشمل جميع المميزات", en: "Includes all features", fr: "Inclut toutes les fonctionnalités" },
   "pricing.why-choose": { ar: "لماذا تختار أكاديمية الحافظ المتميز؟", en: "Why Choose Al-Hafiz Academy?", fr: "Pourquoi choisir l'acad\u00e9mie?" },
-  "pricing.trust-message": { ar: "انضم إلى آلاف الطلاب الراضين حول العالم الذين اختاروا تعليمهم من الأفضل", en: "Join thousands of satisfied students worldwide who chose excellence in education", fr: "Rejoignez des milliers d'\u00e9tudiants satisfaits \u00e0 travers le monde" },
+  "pricing.trust-message": { ar: "اختر تعلماً فردياً يناسب مستوى الطالب وهدفه", en: "Choose one-to-one learning that fits the student's level and goals", fr: "Choisissez un apprentissage individuel adapté au niveau et aux objectifs de l'élève" },
   "pricing.ready-start": { ar: "هل أنت مستعد لبدء رحلتك التعليمية؟", en: "Ready to Start Your Learning Journey?", fr: "Pr\u00eat \u00e0 commencer votre parcours?" },
-  "pricing.cta-message": { ar: "اختر برنامجك التعليمي الرقمي - وصول فوري بعد الدفع | 100% دورات رقمية", en: "Choose your digital educational program - Instant access after payment | 100% online courses", fr: "Choisissez votre programme éducatif numérique - Accès immédiat après le paiement | 100% cours en ligne" },
+  "pricing.cta-message": { ar: "ابدأ بحصة تجريبية، ثم نسّق البرنامج والموعد والباقة عبر WhatsApp", en: "Start with a trial lesson, then arrange the program, schedule, and package via WhatsApp", fr: "Commencez par un cours d'essai, puis coordonnez le programme, l'horaire et le forfait via WhatsApp" },
 
   // Pricing individual pages
   "pricing.quran.packagesTitle": { ar: "باقات القرآن الكريم", en: "Quran Packages", fr: "Forfaits Coran" },
@@ -76,7 +76,7 @@ const translations: Translations = {
   "pricing.sessions": { ar: "حصص", en: "Sessions", fr: "Sessions" },
   "pricing.session": { ar: "حصة", en: "Sessions", fr: "Sessions" },
   "pricing.duration": { ar: "30 دقيقة/حصة", en: "30 min/session", fr: "30 min/session" },
-  "pricing.subscribe": { ar: "ابدأ الاشتراك", en: "Start Subscription", fr: "Commencer l'abonnement" },
+  "pricing.subscribe": { ar: "اسأل عن الباقة واحجز البداية", en: "Ask About the Package", fr: "Demander les détails du forfait" },
   "pricing.popular": { ar: "الأكثر طلباً", en: "Most Popular", fr: "Le plus populaire" },
   "pricing.month": { ar: "شهرياً", en: "/month", fr: "/mois" },
   "pricing.features.flexibility": { ar: "مرونة في اختيار الوقت", en: "Flexible scheduling", fr: "Horaires flexibles" },

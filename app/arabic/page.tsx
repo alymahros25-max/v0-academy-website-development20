@@ -73,7 +73,7 @@ export default function ArabicPage() {
     t("pricing.features.supervision"),
   ]
   const whatsappUrl = `https://wa.me/201130127894?text=${encodeURIComponent("السلام عليكم، أرغب في حجز حصة تجريبية مجانية في برنامج تأسيس اللغة العربية. عمر الطالب: ، الدولة: ، المستوى الحالي: ، المهارة المطلوبة: قراءة/كتابة/إملاء/فهم/تعبير، والوقت المناسب: ")}`
-  const packageWhatsappUrl = (sessions: number, price: number) => `https://wa.me/201130127894?text=${encodeURIComponent(`السلام عليكم، أرغب في الاشتراك في باقة تأسيس اللغة العربية: ${sessions} حصص شهريًا بسعر ${price}$، وأرغب في معرفة خطوات البدء. عمر الطالب: ، الدولة: ، المستوى الحالي: ، والوقت المناسب: `)}`
+  const packageWhatsappUrl = (sessions: number, price: number) => `https://wa.me/201130127894?text=${encodeURIComponent(`السلام عليكم، أرغب في معرفة تفاصيل باقة تأسيس اللغة العربية: ${sessions} حصص شهريًا بسعر ${price}$، وأرغب في حجز الحصة التجريبية أولاً. عمر الطالب: ، الدولة: ، المستوى الحالي: ، والوقت المناسب: `)}`
   const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: arabicFaqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
 
   return (

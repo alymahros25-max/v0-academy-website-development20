@@ -8,8 +8,11 @@ const ALLOWED_PATHS = [
   '/games',
   '/',
 ]
-
-const ALLOWED_TAGS = ['classroom-videos']
+const ALLOWED_TAGS = [
+  'site-content', 'homepage', 'courses', 'blog-posts', 'pages', 'theme-settings',
+  'site-settings', 'site-pages', 'dynamic-pages', 'page-builder', 'classroom-videos',
+  'users', 'cms-users', 'content',
+]
 
 /**
  * GET /api/revalidate?path=/classroom-moments

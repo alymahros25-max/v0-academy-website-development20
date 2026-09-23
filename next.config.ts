@@ -32,6 +32,7 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
   trailingSlash: false,
+  turbopack: {},
 
   // ============================================================
   // HEADERS FOR SECURITY & SEO
@@ -50,7 +51,7 @@ const nextConfig: NextConfig = {
           // Prevent clickjacking attacks
           {
             key: 'X-Frame-Options',
-            value: 'SAMEORIGIN',
+            value: 'DENY',
           },
           // Enable XSS protection in older browsers
           {
@@ -76,7 +77,7 @@ const nextConfig: NextConfig = {
               "connect-src 'self' https://*.vercel-insights.com https://*.vercel-analytics.com https://*.supabase.co wss://*.supabase.co https://www.google-analytics.com https://www.google.com https://*.googletagmanager.com https://*.clarity.ms",
               // LOCKED: These two frame-src entries keep the YouTube video player working.
               // Do NOT remove or modify them during future updates.
-              "frame-src https://www.youtube.com https://www.youtube-nocookie.com",
+              "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://www.google.com",
               "worker-src blob:",
               "media-src 'self' https:",
             ].join('; '),

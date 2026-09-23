@@ -57,7 +57,7 @@ export default function QuranPageClient() {
     t("pricing.features.memorization"),
   ]
   const whatsappUrl = `https://wa.me/201130127894?text=${encodeURIComponent("السلام عليكم، أرغب في حجز حصة تجريبية مجانية في برنامج القرآن. عمر الطالب: ، الدولة: ، المستوى الحالي: ، الهدف: حفظ/مراجعة/تجويد، والوقت المناسب: ")}`
-  const packageWhatsappUrl = (sessions: number, price: number) => `https://wa.me/201130127894?text=${encodeURIComponent(`السلام عليكم، أرغب في الاشتراك في باقة القرآن: ${sessions} حصص شهريًا بسعر ${price}$، وأرغب في معرفة خطوات البدء. عمر الطالب: ، الدولة: ، المستوى الحالي: ، والوقت المناسب: `)}`
+  const packageWhatsappUrl = (sessions: number, price: number) => `https://wa.me/201130127894?text=${encodeURIComponent(`السلام عليكم، أرغب في معرفة تفاصيل باقة القرآن: ${sessions} حصص شهريًا بسعر ${price}$، وأرغب في حجز الحصة التجريبية أولاً. عمر الطالب: ، الدولة: ، المستوى الحالي: ، والوقت المناسب: `)}`
   const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: quranFaqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
 
   return (
@@ -251,7 +251,7 @@ export default function QuranPageClient() {
                 </ul>
 
                 <a href={packageWhatsappUrl(pkg.sessions, pkg.price)} target="_blank" rel="noopener noreferrer" className={`block w-full py-3.5 rounded-xl font-bold text-center transition-all hover:-translate-y-0.5 hover:shadow-lg ${pkg.popular ? "bg-secondary text-secondary-foreground hover:brightness-110" : "bg-primary text-primary-foreground hover:brightness-110"}`}>
-                  ابدأ الاشتراك عبر WhatsApp
+                  اسأل عن الباقة واحجز الحصة التجريبية
                 </a>
               </div>
             ))}

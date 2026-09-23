@@ -24,6 +24,15 @@ const countryAlternateUrls = {
   unitedKingdom: { locale: "ar-GB", url: "https://quran-elhafez.com/united-kingdom" },
   unitedStates: { locale: "ar-US", url: "https://quran-elhafez.com/united-states" },
   kuwait: { locale: "ar-KW", url: "https://quran-elhafez.com/kuwait" },
+  qatar: { locale: "ar-QA", url: "https://quran-elhafez.com/qatar" },
+  oman: { locale: "ar-OM", url: "https://quran-elhafez.com/oman" },
+  jordan: { locale: "ar-JO", url: "https://quran-elhafez.com/jordan" },
+  bahrain: { locale: "ar-BH", url: "https://quran-elhafez.com/bahrain" },
+  france: { locale: "ar-FR", url: "https://quran-elhafez.com/france" },
+  spain: { locale: "ar-ES", url: "https://quran-elhafez.com/spain" },
+  netherlands: { locale: "ar-NL", url: "https://quran-elhafez.com/netherlands" },
+  belgium: { locale: "ar-BE", url: "https://quran-elhafez.com/belgium" },
+  sweden: { locale: "ar-SE", url: "https://quran-elhafez.com/sweden" },
 } as const
 
 export type CountrySeoSlug = keyof typeof countryAlternateUrls

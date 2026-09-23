@@ -5,6 +5,7 @@ import { areaLocalized, getAreaLandingData, getAreaLinkHref, getAreaWhatsAppUrl,
 import { getPublishedClassroomVideos, type LandingVideo } from "@/lib/classroom-videos"
 import { getTeachers, type Teacher } from "@/lib/data-store"
 import { NewCountryVideos } from "@/components/new-country-videos"
+import KuwaitProgramSelector from "@/app/kuwait/kuwait-program-selector"
 
 type Props = { config: NewCountryConfig; videos?: LandingVideo[]; teachers?: Teacher[]; contactUrl?: string }
 
@@ -68,6 +69,25 @@ function CountryFooter({ config }: Props) {
   </footer>
 }
 
+function KuwaitLayout({ config, videos, teachers, contactUrl }: Props) {
+  return <>
+    <section className="new-country-intro new-country-intro-kuwait">
+      <div className="new-country-intro-copy">
+        <p className="new-country-kicker">{config.flag} {config.eyebrow}</p>
+        <h1>{config.title}</h1>
+        <p className="new-country-lead">{config.description}</p>
+        <div className="new-country-actions"><WhatsApp config={config} contactUrl={contactUrl} label="احجز الحصة التجريبية المجانية" /><a className="new-country-ghost" href="#programs">اختر برنامجك <ArrowLeft size={17} /></a></div>
+      </div>
+      <div className="new-country-intro-card"><span>{config.flag}</span><b>الكويت</b><small>حصص فردية أونلاين</small></div>
+    </section>
+    <KuwaitProgramSelector quranPrices={config.quranPrices} arabicPrices={config.arabicPrices} contactUrl={contactUrl} />
+    <section className="new-country-section new-country-kuwait-benefits"><div className="new-country-narrow"><p className="new-country-kicker">داخل كل برنامج</p><h2>تعلم فردي بخطوات واضحة</h2><Steps config={config} /></div></section>
+    <LocalSection config={config} />
+    <FAQ config={config} />
+    <SharedClosing config={config} videos={videos} teachers={teachers} contactUrl={contactUrl} />
+  </>
+}
+
 function QatarLayout({ config, videos, teachers, contactUrl }: Props) {
   return <><section className="new-country-intro new-country-intro-qatar"><div className="new-country-orbit" /><div className="new-country-intro-copy"><p className="new-country-kicker"><Sparkles size={16} /> {config.eyebrow}</p><h1>{config.title}</h1><p className="new-country-lead">{config.description}</p><div className="new-country-actions"><WhatsApp config={config} contactUrl={contactUrl} /><a className="new-country-ghost" href="#path">شاهد المسار <ArrowLeft size={17} /></a></div></div><div className="new-country-intro-card"><span>{config.flag}</span><b>من الهدف</b><small>إلى متابعة منتظمة</small></div></section><section id="path" className="new-country-section"><div className="new-country-narrow"><p className="new-country-kicker">ثلاث انتقالات واضحة</p><h2>رحلة لا تبدأ من السعر</h2><Steps config={config} /></div></section><section className="new-country-section new-country-accent"><div className="new-country-narrow"><h2>اختر باقتك بالريال القطري</h2><p>مصفوفة بسيطة تقارن البرنامجين دون بطاقات متشابهة.</p><PriceTable config={config} /></div></section><LocalSection config={config} /><FAQ config={config} /><section className="new-country-note"><b>يوجد باقات مخصصة</b><span>خصم 10٪ للأخوات والإحالة</span></section><SharedClosing config={config} videos={videos} teachers={teachers} contactUrl={contactUrl} /></>
 }
@@ -127,12 +147,13 @@ export async function NewCountryLanding({ config }: Props) {
   const configuredWhatsApp = getAreaLinkHref(areaData.links, "whatsapp", "https://bit.ly/4aJfOl6")
   const contactUrl = getAreaWhatsAppUrl(areaData.links, "حصة تجريبية مجانية", configuredWhatsApp)
   const props = { config: dynamicConfig, videos, teachers, contactUrl }
-  if (dynamicConfig.variant === "qatar") return <main dir="rtl" className="new-country-page" style={{"--country-primary":dynamicConfig.theme.primary,"--country-accent":dynamicConfig.theme.accent,"--country-background":dynamicConfig.theme.background,"--country-surface":dynamicConfig.theme.surface,"--country-ink":dynamicConfig.theme.ink} as React.CSSProperties}><QatarLayout {...props}/></main>
-  if (dynamicConfig.variant === "oman") return <main dir="rtl" className="new-country-page" style={{"--country-primary":dynamicConfig.theme.primary,"--country-accent":dynamicConfig.theme.accent,"--country-background":dynamicConfig.theme.background,"--country-surface":dynamicConfig.theme.surface,"--country-ink":dynamicConfig.theme.ink} as React.CSSProperties}><OmanLayout {...props}/></main>
-  if (dynamicConfig.variant === "jordan") return <main dir="rtl" className="new-country-page" style={{"--country-primary":dynamicConfig.theme.primary,"--country-accent":dynamicConfig.theme.accent,"--country-background":dynamicConfig.theme.background,"--country-surface":dynamicConfig.theme.surface,"--country-ink":dynamicConfig.theme.ink} as React.CSSProperties}><JordanLayout {...props}/></main>
-  if (dynamicConfig.variant === "bahrain") return <main dir="rtl" className="new-country-page" style={{"--country-primary":dynamicConfig.theme.primary,"--country-accent":dynamicConfig.theme.accent,"--country-background":dynamicConfig.theme.background,"--country-surface":dynamicConfig.theme.surface,"--country-ink":dynamicConfig.theme.ink} as React.CSSProperties}><BahrainLayout {...props}/></main>
-  if (dynamicConfig.variant === "spain") return <main dir="rtl" className="new-country-page" style={{"--country-primary":dynamicConfig.theme.primary,"--country-accent":dynamicConfig.theme.accent,"--country-background":dynamicConfig.theme.background,"--country-surface":dynamicConfig.theme.surface,"--country-ink":dynamicConfig.theme.ink} as React.CSSProperties}><SpainLayout {...props}/></main>
-  if (dynamicConfig.variant === "netherlands") return <main dir="rtl" className="new-country-page" style={{"--country-primary":dynamicConfig.theme.primary,"--country-accent":dynamicConfig.theme.accent,"--country-background":dynamicConfig.theme.background,"--country-surface":dynamicConfig.theme.surface,"--country-ink":dynamicConfig.theme.ink} as React.CSSProperties}><NetherlandsLayout {...props}/></main>
-  if (dynamicConfig.variant === "sweden") return <main dir="rtl" className="new-country-page" style={{"--country-primary":dynamicConfig.theme.primary,"--country-accent":dynamicConfig.theme.accent,"--country-background":dynamicConfig.theme.background,"--country-surface":dynamicConfig.theme.surface,"--country-ink":dynamicConfig.theme.ink} as React.CSSProperties}><SwedenLayout {...props}/></main>
-  return <main dir="rtl" className="new-country-page" style={{"--country-primary":dynamicConfig.theme.primary,"--country-accent":dynamicConfig.theme.accent,"--country-background":dynamicConfig.theme.background,"--country-surface":dynamicConfig.theme.surface,"--country-ink":dynamicConfig.theme.ink} as React.CSSProperties}><LanguageLayout {...props}/></main>
+  const pageSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "WebPage", "@id": `https://quran-elhafez.com/${dynamicConfig.slug}#webpage`, url: `https://quran-elhafez.com/${dynamicConfig.slug}`, name: dynamicConfig.title, description: dynamicConfig.description, inLanguage: "ar" },
+      { "@type": "FAQPage", mainEntity: dynamicConfig.faq.map(([question, answer]) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } })) },
+    ],
+  }
+  const layout = dynamicConfig.variant === "qatar" ? <QatarLayout {...props}/> : dynamicConfig.variant === "oman" ? <OmanLayout {...props}/> : dynamicConfig.variant === "jordan" ? <JordanLayout {...props}/> : dynamicConfig.variant === "bahrain" ? <BahrainLayout {...props}/> : dynamicConfig.variant === "spain" ? <SpainLayout {...props}/> : dynamicConfig.variant === "netherlands" ? <NetherlandsLayout {...props}/> : dynamicConfig.variant === "sweden" ? <SwedenLayout {...props}/> : dynamicConfig.variant === "kuwait" ? <KuwaitLayout {...props}/> : <LanguageLayout {...props}/>
+  return <main dir="rtl" className="new-country-page" style={{"--country-primary":dynamicConfig.theme.primary,"--country-accent":dynamicConfig.theme.accent,"--country-background":dynamicConfig.theme.background,"--country-surface":dynamicConfig.theme.surface,"--country-ink":dynamicConfig.theme.ink} as React.CSSProperties}>{layout}<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageSchema) }} /></main>
 }

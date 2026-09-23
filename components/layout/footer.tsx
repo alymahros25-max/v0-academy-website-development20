@@ -177,10 +177,10 @@ export function Footer() {
         <div className="mt-12 pt-6 border-t border-primary-foreground/10">
           <p className="text-xs text-primary-foreground/90 leading-relaxed mb-6">
             {locale === "ar"
-              ? "منصة الحافظ المتميز هي منصة تعليم إلكترونية رقمية 100%. جميع البرامج التعليمية والدورات والمكتبة الرقمية والألعاب يتم تسليمها بالكامل عبر الإنترنت. وصول فوري - لا توجد خدمات خارج الإنترنت."
+              ? "تقدم أكاديمية الحافظ المتميز حصصًا فردية مباشرة أونلاين لتحفيظ القرآن وتأسيس اللغة العربية. نبدأ من مستوى الطالب، ثم ننسق البرنامج والموعد وطريقة الحصة عبر WhatsApp، وتُعقد الحصة عبر Zoom أو Google Meet حسب المتاح."
               : locale === "en"
-                ? "Al-Hafez Al-Motamayez is a 100% digital e-learning platform. All educational programs, courses, digital assets, and games are delivered entirely online via our integrated virtual classroom and browser. No physical goods or offline services are provided."
-                : "Al-Hafez Al-Motamayez est une plateforme d'apprentissage numérique à 100%. Tous les programmes éducatifs, les cours, les actifs numériques et les jeux sont livrés entièrement en ligne via notre salle de classe virtuelle intégrée. Aucun produit physique ou service hors ligne n'est fourni."}
+                ? "Al-Hafez Al-Motamayez provides live one-to-one online lessons for Quran memorization and Arabic foundation. We assess the student's level, coordinate the program and schedule via WhatsApp, and use Zoom or Google Meet as available."
+                : "Al-Hafez Al-Motamayez propose des cours individuels en ligne pour la mémorisation du Coran et les bases de l'arabe. Nous évaluons le niveau de l'élève, coordonnons le programme via WhatsApp et utilisons Zoom ou Google Meet selon les disponibilités."}
           </p>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t border-primary-foreground/10">
             <p className="text-sm text-primary-foreground/80">

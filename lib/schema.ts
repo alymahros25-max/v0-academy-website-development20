@@ -43,9 +43,7 @@ export function generateOrganizationSchema(): SchemaContext {
   }
 }
 
-/**
- * Generate WebSite schema for homepage with search action.
- */
+/** Generate WebSite schema for the homepage. */
 export function generateWebSiteSchema(): SchemaContext {
   return {
     '@context': 'https://schema.org',
@@ -55,14 +53,6 @@ export function generateWebSiteSchema(): SchemaContext {
     description:
       'منصة تعليمية لتحفيظ القرآن الكريم وتأسيس اللغة العربية',
     inLanguage: ['ar', 'en', 'fr'],
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${BASE_URL}/search?q={search_term_string}`,
-      },
-      'query-input': 'required name=search_term_string',
-    },
   }
 }
 

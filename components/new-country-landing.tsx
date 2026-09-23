@@ -61,7 +61,7 @@ function CountryFooter({ config }: Props) {
   return <footer className={className} aria-label={`تذييل صفحة ${config.name}`}>
     <div className="new-country-footer-inner">
       <div className="new-country-footer-brand"><span>{config.flag}</span><div><b>الحافظ · {config.name}</b><small>تعليم فردي أونلاين</small></div></div>
-      <div className="new-country-footer-links"><h3>روابط تساعدك على القرار</h3><nav><a href="/"><Home size={15} /> الرئيسية</a><a href="/blog"><Newspaper size={15} /> المدونة</a><a href="/games"><Gamepad2 size={15} /> الألعاب</a><a href="/library"><BookOpen size={15} /> المكتبة</a></nav></div>
+      <div className="new-country-footer-links"><h3>روابط تساعدك على القرار</h3><nav><Link href="/"><Home size={15} /> الرئيسية</Link><Link href="/blog"><Newspaper size={15} /> المدونة</Link><Link href="/games"><Gamepad2 size={15} /> الألعاب</Link><Link href="/library"><BookOpen size={15} /> المكتبة</Link></nav></div>
       <div className="new-country-footer-links new-country-footer-countries"><details><summary><Globe2 size={15} /> <span>صفحاتنا حسب الدولة</span><ChevronDown size={16} /></summary><div className="new-country-country-links">{countryLinks.map(([href, name, flag]) => <a href={href} key={href} className={href === `/${config.slug}` ? "is-current" : ""}>{flag} {name}</a>)}</div></details></div>
       <div className="new-country-footer-legal"><h3><Scale size={15} /> الشروط والخصوصية</h3><a href="/privacy">سياسة الخصوصية</a><a href="/terms">شروط الاستخدام</a><a href="/refund-policy">سياسة الاسترداد</a></div>
     </div><div className="new-country-footer-bottom">© 2026 · صفحة {config.name} المستقلة · <a href="/contact">تواصل معنا</a></div>

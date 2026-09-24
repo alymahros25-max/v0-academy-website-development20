@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import type { ReactNode } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Activity, AlertTriangle, BarChart3, CheckCircle2, ExternalLink, RefreshCw, Search, ShieldCheck } from "lucide-react"
+import { Activity, AlertTriangle, BarChart3, Check, CheckCircle2, Clipboard, ExternalLink, RefreshCw, Search, ShieldCheck } from "lucide-react"
 
 type Snapshot = {
   id: number
@@ -61,6 +61,16 @@ function snapshot(data: DashboardData | null, source: string, reportType: string
   return data?.snapshots.find((item) => item.source_key === source && item.report_type === reportType)
 }
 
+function reportText(data: DashboardData | null, start: string, end: string) {
+  if (!data) return "لا توجد بيانات تقرير متاحة."
+  const overview = snapshot(data, "ga4", "overview")
+  const gsc = snapshot(data, "search_console", "performance")
+  const pages = snapshot(data, "ga4", "top_pages")?.dimensions.rows ?? []
+  const traffic = snapshot(data, "ga4", "traffic")?.dimensions.rows ?? []
+  const lines = [`تقرير تحليلات quran-elhafez.com`, `الفترة: ${start} إلى ${end}`, "", "Google Analytics 4", `Sessions: ${overview?.metrics.sessions ?? "—"}`, `Active Users: ${overview?.metrics.activeUsers ?? "—"}`, `Views: ${overview?.metrics.screenPageViews ?? "—"}`, `Events: ${overview?.metrics.eventCount ?? "—"}`, "", "أهم الصفحات", ...pages.map((row) => `${row.path ?? "—"}: ${row.views ?? "—"}`), "", "مصادر الجلسات", ...traffic.map((row) => `${row.source ?? "—"} / ${row.medium ?? "—"}: ${row.sessions ?? "—"}`), "", "Google Search Console", `Clicks: ${gsc?.metrics.clicks ?? "—"}`, `Impressions: ${gsc?.metrics.impressions ?? "—"}`, `CTR: ${typeof gsc?.metrics.ctr === "number" ? `${(gsc.metrics.ctr * 100).toFixed(2)}%` : "—"}`, `Average Position: ${gsc?.metrics.averagePosition ?? "—"}`, "", "الحالة", ...(data.health ?? []).map((item) => `${item.display_name || sourceLabels[item.source_key]}: ${statusLabels[item.last_status] || item.last_status}`)]
+  return lines.join("\n")
+}
+
 export default function AnalyticsAdminPage() {
   const router = useRouter()
   const [start, setStart] = useState(dateInput(28))
@@ -69,6 +79,7 @@ export default function AnalyticsAdminPage() {
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState("")
+  const [copied, setCopied] = useState(false)
 
   const load = useCallback(async (refresh = false) => {
     setError("")
@@ -90,6 +101,12 @@ export default function AnalyticsAdminPage() {
 
   useEffect(() => { void load() }, [load])
 
+  const copyReport = async () => {
+    await navigator.clipboard.writeText(reportText(data, start, end))
+    setCopied(true)
+    window.setTimeout(() => setCopied(false), 1800)
+  }
+
   const gaOverview = useMemo(() => snapshot(data, "ga4", "overview"), [data])
   const gscPerformance = useMemo(() => snapshot(data, "search_console", "performance"), [data])
   const gaPages = useMemo(() => snapshot(data, "ga4", "top_pages")?.dimensions.rows ?? [], [data])
@@ -106,6 +123,7 @@ export default function AnalyticsAdminPage() {
           </div>
           <div className="flex flex-wrap gap-2">
             <Link href="/admin" className="rounded-lg border border-border px-3 py-2 text-sm font-semibold">العودة للوحة الإدارة</Link>
+            <button type="button" onClick={() => void copyReport()} disabled={!data} className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-semibold disabled:opacity-60">{copied ? <Check className="h-4 w-4" /> : <Clipboard className="h-4 w-4" />}{copied ? "تم النسخ" : "نسخ التقرير"}</button>
             <button type="button" onClick={() => void load(true)} disabled={refreshing} className="inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-60"><RefreshCw className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`} />{refreshing ? "جاري التحديث" : "تحديث المصادر"}</button>
           </div>
         </header>

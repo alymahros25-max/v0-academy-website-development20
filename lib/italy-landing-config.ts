@@ -25,7 +25,7 @@ export const italyLandingConfig = {
   localCard: {
     title: "ITALIA · AL-HAFIZ ACADEMY",
     heading: "Corano e basi dell'arabo online in Italia",
-    body: "Al-Hafiz Academy offre lezioni online individuali per la memorizzazione del Corano e per le basi della lingua araba. Roma, Milano, Torino e Napoli fanno parte del contesto della pagina. Il contatto con l'accademia avviene in arabo.",
+    body: "Al-Hafiz Academy offre lezioni online individuali per la memorizzazione del Corano e per le basi della lingua araba. Roma, Milano, Torino e Napoli fanno parte del contesto della pagina. Il contatto con l'accademia avviene in arabo. Memorizzazione del Corano e insegnamento dell'arabo per studenti arabofoni.",
   },
   faq: [
     ["هل أستطيع الدراسة من روما أو ميلانو أو تورينو أو نابولي؟", "نعم، الدراسة أونلاين، ويمكنك ذكر مدينتك عند التواصل باللغة العربية. ذكر المدينة سياق الصفحة ولا يتضمن وجود فرع محلي."],

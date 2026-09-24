@@ -21,6 +21,7 @@ const countryPages = [
   { href: "/sweden", label: "تحفيظ القرآن والعربية في السويد", flag: "🇸🇪" },
   { href: "/south-africa", label: "تحفيظ القرآن والعربية في جنوب أفريقيا", flag: "🇿🇦" },
   { href: "/china", label: "تحفيظ القرآن والعربية في الصين", flag: "🇨🇳" },
+  { href: "/italy", label: "تحفيظ القرآن والعربية في إيطاليا", flag: "🇮🇹" },
 ] as const
 
 export function CountryPagesSection() {

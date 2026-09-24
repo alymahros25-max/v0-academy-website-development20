@@ -71,6 +71,7 @@ const staticRoutes = [
   '/south-africa',
   '/china',
   '/italy',
+  '/russia',
   '/teachers',
   '/reviews',
   '/games',

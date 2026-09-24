@@ -13,7 +13,7 @@ const canonical = southAfricaLandingConfig.seo.canonical
 export const metadata: Metadata = {
   title: southAfricaLandingConfig.seo.title,
   description: southAfricaLandingConfig.seo.description,
-  keywords: ["Koran klasse aanlyn in Suid-Afrika", "Koran memorisering Johannesburg", "Arabiese lesse aanlyn", "Al-Hafiz Akademie Suid-Afrika", "isiZulu Quran classes South Africa", "iiklasi zeQuran eMzantsi Afrika", "online Quran classes South Africa"],
+  keywords: ["Koran klasse aanlyn in Suid-Afrika", "Koran memorisering Johannesburg", "Arabiese lesse aanlyn", "Al-Hafiz Akademie Suid-Afrika", "online Quran classes South Africa"],
   alternates: { canonical, languages: { ar: canonical, "x-default": canonical } },
   openGraph: {
     title: southAfricaLandingConfig.seo.title,
@@ -92,9 +92,8 @@ export default async function SouthAfricaPage() {
         <div className="mx-auto max-w-5xl rounded-[1.75rem] border-l-4 border-[#f09a67] bg-[#f2e5ec] p-6 text-left text-[#251b2b] sm:p-9">
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8a4f39]">Suid-Afrika · Al-Hafiz Akademie</p>
           <h2 id="south-africa-afrikaans-card-title" className="mt-3 text-2xl font-black sm:text-3xl">Aanlyn Koran- en Arabiese klasse in Suid-Afrika</h2>
-          <p className="mt-4 max-w-4xl leading-8 text-[#594a59]">Al-Hafiz Akademie bied individuele aanlynklasse vir Koranmemorisering, Koranlees, hersiening, Tajweed-ondersteuning en die grondslag van Arabies aan gesinne in Suid-Afrika. Leerders in Johannesburg, Kaapstad, Durban, Pretoria en ander stede kan vra oor ’n buigsame 30-minuut-les, ’n gratis proefklas en maandelikse pakkette in Suid-Afrikaanse rand. Koranmemorisering en Arabiese onderrig vir Arabies-sprekende studente.</p>
-          <p className="mt-4 max-w-4xl leading-8 text-[#594a59]">As jy aanlyn Koran-klasse in Suid-Afrika, Koranmemorisering in Johannesburg, Arabiese lesse vir kinders of ’n duidelike Koran-leerroetine in Kaapstad soek, stuur jou stad, ouderdom, huidige vlak en voorkeurprogram. Al-Hafiz Akademie verduidelik die volgende stap voordat jy ’n pakket kies.</p>
-          <p className="mt-4 border-t border-[#251b2b]/10 pt-4 text-sm font-bold leading-7 text-[#8a4f39]">Vir Arabies-sprekende gesinne: Quran memorisation in isiZulu and iiklasi zeQuran eMzantsi Afrika kan ook as beperkte soekfrases gebruik word wanneer jy navraag doen.</p>
+          <p className="mt-4 max-w-4xl leading-8 text-[#594a59]">Al-Hafiz Akademie bied individuele aanlynklasse vir Koranmemorisering, Koranlees en die grondslag van Arabies aan. Leerders in Johannesburg, Kaapstad, Durban en Pretoria kan navraag doen oor ’n 30-minuut-proefklas en maandelikse pakkette in Suid-Afrikaanse rand. Koranmemorisering en Arabiese onderrig vir Arabies-sprekende studente.</p>
+          <p className="mt-4 max-w-4xl leading-8 text-[#594a59]">Stuur jou stad, huidige vlak en voorkeurprogram. Al-Hafiz Akademie verduidelik die volgende stap.</p>
         </div>
       </section>
 

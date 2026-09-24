@@ -32,19 +32,41 @@ type DashboardData = { snapshots: Snapshot[]; health: Health[]; internalEvents: 
 const sourceLabels: Record<string, string> = {
   ga4: "Google Analytics 4",
   search_console: "Google Search Console",
-  internal: "أحداث الموقع المؤكدة",
+  internal: "أحداث الموقع المؤكدة | Confirmed site events",
   clarity: "Microsoft Clarity",
   vercel: "Vercel Web Analytics",
   speed_insights: "Vercel Speed Insights",
 }
 
 const statusLabels: Record<string, string> = {
-  healthy: "يعمل",
-  failed: "فشل",
-  delayed: "متأخر",
-  not_configured: "غير مهيأ",
-  consent_required: "يتطلب موافقة",
-  disabled: "متوقف",
+  healthy: "يعمل | Healthy",
+  failed: "فشل | Failed",
+  delayed: "متأخر | Delayed",
+  not_configured: "غير مهيأ | Not configured",
+  consent_required: "يتطلب موافقة | Consent required",
+  disabled: "متوقف | Disabled",
+}
+
+const columnLabels: Record<string, string> = {
+  path: "المسار | Path",
+  title: "العنوان | Title",
+  views: "المشاهدات | Views",
+  activeUsers: "المستخدمون النشطون | Active users",
+  source: "المصدر | Source",
+  medium: "الوسيط | Medium",
+  sessions: "الجلسات | Sessions",
+  eventCount: "الأحداث | Events",
+  query: "عبارة البحث | Query",
+  page: "الصفحة | Page",
+  clicks: "النقرات | Clicks",
+  impressions: "الظهور | Impressions",
+  ctr: "نسبة النقر | CTR",
+  position: "الموضع | Position",
+  event_name: "اسم الحدث | Event name",
+  occurred_at: "وقت الحدث | Occurred at",
+  page_path: "مسار الصفحة | Page path",
+  program: "البرنامج | Program",
+  country_group: "الدولة/المجموعة | Country group",
 }
 
 function dateInput(daysAgo: number) {
@@ -62,12 +84,13 @@ function snapshot(data: DashboardData | null, source: string, reportType: string
 }
 
 function reportText(data: DashboardData | null, start: string, end: string) {
-  if (!data) return "لا توجد بيانات تقرير متاحة."
+  if (!data) return "لا توجد بيانات تقرير متاحة | No report data available."
   const overview = snapshot(data, "ga4", "overview")
   const gsc = snapshot(data, "search_console", "performance")
   const pages = snapshot(data, "ga4", "top_pages")?.dimensions.rows ?? []
   const traffic = snapshot(data, "ga4", "traffic")?.dimensions.rows ?? []
-  const lines = [`تقرير تحليلات quran-elhafez.com`, `الفترة: ${start} إلى ${end}`, "", "Google Analytics 4", `Sessions: ${overview?.metrics.sessions ?? "—"}`, `Active Users: ${overview?.metrics.activeUsers ?? "—"}`, `Views: ${overview?.metrics.screenPageViews ?? "—"}`, `Events: ${overview?.metrics.eventCount ?? "—"}`, "", "أهم الصفحات", ...pages.map((row) => `${row.path ?? "—"}: ${row.views ?? "—"}`), "", "مصادر الجلسات", ...traffic.map((row) => `${row.source ?? "—"} / ${row.medium ?? "—"}: ${row.sessions ?? "—"}`), "", "Google Search Console", `Clicks: ${gsc?.metrics.clicks ?? "—"}`, `Impressions: ${gsc?.metrics.impressions ?? "—"}`, `CTR: ${typeof gsc?.metrics.ctr === "number" ? `${(gsc.metrics.ctr * 100).toFixed(2)}%` : "—"}`, `Average Position: ${gsc?.metrics.averagePosition ?? "—"}`, "", "الحالة", ...(data.health ?? []).map((item) => `${item.display_name || sourceLabels[item.source_key]}: ${statusLabels[item.last_status] || item.last_status}`)]
+  const table = (title: string, columns: string[], rows: Array<Record<string, unknown>>) => [title, columns.map((column) => columnLabels[column] || column).join("\t"), ...(rows.length ? rows.map((row) => columns.map((column) => String(row[column] ?? "—")).join("\t")) : ["لا توجد بيانات | No data"]), ""]
+  const lines = ["تقرير تحليلات الموقع | Website analytics report", `الموقع | Website\tquran-elhafez.com`, `الفترة | Period\t${start}\t${end}`, `تاريخ الإنشاء | Generated at\t${new Date().toLocaleString("en-GB")}`, "", "ملخص المؤشرات | KPI summary", "المؤشر | Metric\tالقيمة | Value\tالمصدر | Source", `Sessions\t${overview?.metrics.sessions ?? "—"}\tGoogle Analytics 4`, `Active Users\t${overview?.metrics.activeUsers ?? "—"}\tGoogle Analytics 4`, `Views\t${overview?.metrics.screenPageViews ?? "—"}\tGoogle Analytics 4`, `Events\t${overview?.metrics.eventCount ?? "—"}\tGoogle Analytics 4`, `Clicks\t${gsc?.metrics.clicks ?? "—"}\tGoogle Search Console`, `Impressions\t${gsc?.metrics.impressions ?? "—"}\tGoogle Search Console`, `CTR\t${typeof gsc?.metrics.ctr === "number" ? `${(gsc.metrics.ctr * 100).toFixed(2)}%` : "—"}\tGoogle Search Console`, `Average Position\t${gsc?.metrics.averagePosition ?? "—"}\tGoogle Search Console`, "", ...table("أهم الصفحات | Top pages", ["path", "title", "views", "activeUsers"], pages.slice(0, 100)), ...table("مصادر الجلسات | Session sources", ["source", "medium", "sessions", "activeUsers", "eventCount"], traffic.slice(0, 100)), ...table("استعلامات البحث والصفحات | Search queries and pages", ["query", "page", "clicks", "impressions", "ctr", "position"], (snapshot(data, "search_console", "performance")?.dimensions.rows ?? []).slice(0, 100)), ...table("الأحداث الداخلية | Internal events", ["event_name", "occurred_at", "page_path", "program", "country_group"], (data.internalEvents ?? []).slice(0, 100)), "حالة المصادر | Source health", "المصدر | Source\tالحالة | Status\tآخر نجاح | Last success\tعدد الإخفاقات | Failures\tالتفاصيل | Details", ...(data.health ?? []).map((item) => [item.display_name || sourceLabels[item.source_key], statusLabels[item.last_status] || item.last_status, item.last_success_at ? new Date(item.last_success_at).toISOString() : "—", String(item.failure_count), item.last_error_message || "—"].join("\t"))]
   return lines.join("\n")
 }
 
@@ -117,26 +140,26 @@ export default function AnalyticsAdminPage() {
       <div className="mx-auto max-w-7xl space-y-6">
         <header className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <div className="mb-2 flex items-center gap-2 text-primary"><BarChart3 className="h-6 w-6" /><span className="text-sm font-semibold">مركز التحليلات متعدد المصادر</span></div>
-            <h1 className="text-2xl font-extrabold">تحليلات الموقع</h1>
-            <p className="mt-1 text-sm text-muted-foreground">كل رقم يحتفظ بمصدره وتعريفه ووقت آخر مزامنة.</p>
+            <div className="mb-2 flex items-center gap-2 text-primary"><BarChart3 className="h-6 w-6" /><span className="text-sm font-semibold">مركز التحليلات متعدد المصادر | Multi-source Analytics Center</span></div>
+            <h1 className="text-2xl font-extrabold">تحليلات الموقع | Website Analytics</h1>
+            <p className="mt-1 text-sm text-muted-foreground">كل رقم يحتفظ بمصدره وتعريفه ووقت آخر مزامنة | Every metric keeps its source, definition, and last sync time.</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Link href="/admin" className="rounded-lg border border-border px-3 py-2 text-sm font-semibold">العودة للوحة الإدارة</Link>
-            <button type="button" onClick={() => void copyReport()} disabled={!data} className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-semibold disabled:opacity-60">{copied ? <Check className="h-4 w-4" /> : <Clipboard className="h-4 w-4" />}{copied ? "تم النسخ" : "نسخ التقرير"}</button>
-            <button type="button" onClick={() => void load(true)} disabled={refreshing} className="inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-60"><RefreshCw className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`} />{refreshing ? "جاري التحديث" : "تحديث المصادر"}</button>
+            <Link href="/admin" className="rounded-lg border border-border px-3 py-2 text-sm font-semibold">العودة للوحة الإدارة | Back to Admin</Link>
+            <button type="button" onClick={() => void copyReport()} disabled={!data} className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-semibold disabled:opacity-60">{copied ? <Check className="h-4 w-4" /> : <Clipboard className="h-4 w-4" />}{copied ? "تم النسخ | Copied" : "نسخ التقرير | Copy report"}</button>
+            <button type="button" onClick={() => void load(true)} disabled={refreshing} className="inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground disabled:opacity-60"><RefreshCw className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`} />{refreshing ? "جاري التحديث | Refreshing" : "تحديث المصادر | Refresh sources"}</button>
           </div>
         </header>
 
         <section className="flex flex-wrap items-end gap-3 rounded-2xl border border-border bg-card p-4">
-          <label className="text-sm">من<input type="date" value={start} onChange={(e) => setStart(e.target.value)} className="mt-1 block rounded-lg border border-border bg-background px-3 py-2" /></label>
-          <label className="text-sm">إلى<input type="date" value={end} onChange={(e) => setEnd(e.target.value)} className="mt-1 block rounded-lg border border-border bg-background px-3 py-2" /></label>
-          <p className="text-xs text-muted-foreground">الفترة تؤثر في تقارير GA4 وSearch Console واللقطات الداخلية.</p>
+          <label className="text-sm">من | From<input type="date" value={start} onChange={(e) => setStart(e.target.value)} className="mt-1 block rounded-lg border border-border bg-background px-3 py-2" /></label>
+          <label className="text-sm">إلى | To<input type="date" value={end} onChange={(e) => setEnd(e.target.value)} className="mt-1 block rounded-lg border border-border bg-background px-3 py-2" /></label>
+          <p className="text-xs text-muted-foreground">الفترة تؤثر في تقارير GA4 وSearch Console واللقطات الداخلية | The date range affects GA4, Search Console, and internal snapshots.</p>
         </section>
 
         {error && <div role="alert" className="flex items-center gap-2 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive"><AlertTriangle className="h-5 w-5" />{error}</div>}
         {data?.refreshResult?.some((item) => item.error) && <div role="alert" className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-900"><div className="flex items-center gap-2 font-bold"><AlertTriangle className="h-5 w-5" />نتيجة التحديث</div><ul className="mt-2 list-disc space-y-1 pr-6">{data.refreshResult.filter((item) => item.error).map((item) => <li key={item.source}><strong>{sourceLabels[item.source] || item.source}:</strong> {item.error}</li>)}</ul></div>}
-        {loading && <div className="rounded-2xl border border-border bg-card p-8 text-center text-muted-foreground">جاري تحميل مصادر البيانات...</div>}
+        {loading && <div className="rounded-2xl border border-border bg-card p-8 text-center text-muted-foreground">جاري تحميل مصادر البيانات | Loading data sources...</div>}
 
         {!loading && <>
           <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -149,21 +172,21 @@ export default function AnalyticsAdminPage() {
           <section className="grid gap-6 lg:grid-cols-2">
             <ReportCard title="Google Analytics 4" source="ga4" fetchedAt={gaOverview?.fetched_at}>
               <div className="grid grid-cols-2 gap-3 text-sm"><Stat label="Sessions" value={gaOverview?.metrics.sessions} /><Stat label="Views" value={gaOverview?.metrics.screenPageViews} /><Stat label="Active Users" value={gaOverview?.metrics.activeUsers} /><Stat label="Events" value={gaOverview?.metrics.eventCount} /></div>
-              <h3 className="mt-5 mb-2 font-bold">أهم الصفحات — GA4 screenPageViews</h3><Rows rows={gaPages.slice(0, 8)} columns={["path", "views"]} />
-              <h3 className="mt-5 mb-2 font-bold">مصادر الجلسات — GA4 sessions</h3><Rows rows={gaTraffic.slice(0, 8)} columns={["source", "medium", "sessions"]} />
+              <h3 className="mt-5 mb-2 font-bold">أهم الصفحات | Top pages — GA4 screenPageViews</h3><Rows rows={gaPages.slice(0, 10)} columns={["path", "views"]} />
+              <h3 className="mt-5 mb-2 font-bold">مصادر الجلسات | Session sources — GA4 sessions</h3><Rows rows={gaTraffic.slice(0, 10)} columns={["source", "medium", "sessions"]} />
             </ReportCard>
             <ReportCard title="Google Search Console" source="search_console" fetchedAt={gscPerformance?.fetched_at}>
               <div className="grid grid-cols-2 gap-3 text-sm"><Stat label="Clicks" value={gscPerformance?.metrics.clicks} /><Stat label="Impressions" value={gscPerformance?.metrics.impressions} /><Stat label="CTR" value={typeof gscPerformance?.metrics.ctr === "number" ? `${(gscPerformance.metrics.ctr * 100).toFixed(2)}%` : undefined} /><Stat label="Average Position" value={gscPerformance?.metrics.averagePosition} /></div>
-              <h3 className="mt-5 mb-2 font-bold">Queries and pages — Search Console</h3><Rows rows={gscPerformance?.dimensions.rows?.slice(0, 10) ?? []} columns={["query", "page", "clicks", "impressions"]} />
+              <h3 className="mt-5 mb-2 font-bold">استعلامات وصفحات البحث | Search queries and pages — Search Console</h3><Rows rows={gscPerformance?.dimensions.rows?.slice(0, 20) ?? []} columns={["query", "page", "clicks", "impressions"]} />
             </ReportCard>
           </section>
 
           <section className="rounded-2xl border border-border bg-card p-5 shadow-sm">
-            <div className="mb-4 flex items-center justify-between"><div><h2 className="text-lg font-bold">حالة المصادر</h2><p className="text-sm text-muted-foreground">حالة كل خدمة وآخر نتيجة ناجحة.</p></div><ShieldCheck className="h-6 w-6 text-primary" /></div>
+            <div className="mb-4 flex items-center justify-between"><div><h2 className="text-lg font-bold">حالة المصادر | Source health</h2><p className="text-sm text-muted-foreground">حالة كل خدمة وآخر نتيجة ناجحة | Status and latest successful sync for each service.</p></div><ShieldCheck className="h-6 w-6 text-primary" /></div>
             <div className="overflow-x-auto"><table className="w-full min-w-[900px] text-right text-sm"><thead><tr className="border-b border-border text-muted-foreground"><th className="p-3">المصدر</th><th className="p-3">الحالة</th><th className="p-3">آخر نجاح</th><th className="p-3">الفشل</th><th className="p-3">التفاصيل</th><th className="p-3">الإجراء</th></tr></thead><tbody>{(data?.health ?? []).map((item) => <tr key={item.source_key} className="border-b border-border/60"><td className="p-3 font-semibold">{item.display_name || sourceLabels[item.source_key]}</td><td className="p-3"><Status status={item.last_status} /></td><td className="p-3 text-muted-foreground">{item.last_success_at ? new Date(item.last_success_at).toLocaleString("ar-EG") : "لا توجد نتيجة ناجحة"}</td><td className="p-3">{item.failure_count}</td><td className="max-w-[360px] p-3 text-xs text-amber-800">{item.last_error_message || "—"}</td><td className="p-3">{item.source_key === "clarity" ? <a href="https://clarity.microsoft.com/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary underline">فتح Clarity <ExternalLink className="h-3 w-3" /></a> : item.source_key === "vercel" || item.source_key === "speed_insights" ? <a href="https://vercel.com/dashboard" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary underline">فتح Vercel <ExternalLink className="h-3 w-3" /></a> : "—"}</td></tr>)}</tbody></table></div>
           </section>
 
-          <section className="rounded-2xl border border-border bg-card p-5 shadow-sm"><h2 className="text-lg font-bold">الأحداث الداخلية المؤكدة</h2><p className="mb-4 text-sm text-muted-foreground">لا نخزن محتوى النماذج أو بيانات الاتصال الشخصية. هذه أحداث تحويل فقط.</p><Rows rows={data?.internalEvents?.slice(0, 12) ?? []} columns={["event_name", "occurred_at", "page_path", "program", "country_group"]} empty="لم تصل أحداث مؤكدة ضمن الفترة." /></section>
+          <section className="rounded-2xl border border-border bg-card p-5 shadow-sm"><h2 className="text-lg font-bold">الأحداث الداخلية المؤكدة | Confirmed internal events</h2><p className="mb-4 text-sm text-muted-foreground">لا نخزن محتوى النماذج أو بيانات الاتصال الشخصية | Form content and personal contact details are not stored.</p><Rows rows={data?.internalEvents?.slice(0, 20) ?? []} columns={["event_name", "occurred_at", "page_path", "program", "country_group"]} empty="لم تصل أحداث مؤكدة ضمن الفترة | No confirmed events in this period." /></section>
         </>}
       </div>
     </main>
@@ -172,6 +195,6 @@ export default function AnalyticsAdminPage() {
 
 function MetricCard({ label, source, value, icon }: { label: string; source: string; value: unknown; icon: React.ReactNode }) { return <div className="rounded-2xl border border-border bg-card p-5 shadow-sm"><div className="mb-3 flex items-center justify-between text-primary">{icon}<span className="text-[11px] text-muted-foreground">{source}</span></div><p className="text-2xl font-extrabold">{fmt(value)}</p><p className="mt-1 text-xs text-muted-foreground">{label}</p></div> }
 function Stat({ label, value }: { label: string; value: unknown }) { return <div className="rounded-xl bg-muted/50 p-3"><p className="text-xs text-muted-foreground">{label}</p><p className="mt-1 text-lg font-bold">{fmt(value)}</p></div> }
-function ReportCard({ title, source, fetchedAt, children }: { title: string; source: string; fetchedAt?: string; children: ReactNode }) { return <section className="rounded-2xl border border-border bg-card p-5 shadow-sm"><div className="mb-4 flex items-start justify-between"><div><h2 className="text-lg font-bold">{title}</h2><p className="text-xs text-muted-foreground">المصدر: {source} · آخر مزامنة: {fetchedAt ? new Date(fetchedAt).toLocaleString("ar-EG") : "لا توجد"}</p></div></div>{children}</section> }
-function Rows({ rows, columns, empty = "لا توجد بيانات لهذا المصدر." }: { rows: Array<Record<string, unknown>>; columns: string[]; empty?: string }) { if (!rows.length) return <p className="rounded-lg bg-muted/40 p-3 text-sm text-muted-foreground">{empty}</p>; return <div className="overflow-x-auto"><table className="w-full text-right text-xs"><thead><tr className="border-b border-border">{columns.map((column) => <th key={column} className="p-2 text-muted-foreground">{column}</th>)}</tr></thead><tbody>{rows.map((row, index) => <tr key={`${index}-${String(row[columns[0]])}`} className="border-b border-border/50">{columns.map((column) => <td key={column} className="max-w-[280px] truncate p-2">{fmt(row[column])}</td>)}</tr>)}</tbody></table></div> }
+function ReportCard({ title, source, fetchedAt, children }: { title: string; source: string; fetchedAt?: string; children: ReactNode }) { return <section className="rounded-2xl border border-border bg-card p-5 shadow-sm"><div className="mb-4 flex items-start justify-between"><div><h2 className="text-lg font-bold">{title}</h2><p className="text-xs text-muted-foreground">المصدر | Source: {source} · آخر مزامنة | Last sync: {fetchedAt ? new Date(fetchedAt).toLocaleString("ar-EG") : "لا توجد | None"}</p></div></div>{children}</section> }
+function Rows({ rows, columns, empty = "لا توجد بيانات لهذا المصدر | No data for this source." }: { rows: Array<Record<string, unknown>>; columns: string[]; empty?: string }) { if (!rows.length) return <p className="rounded-lg bg-muted/40 p-3 text-sm text-muted-foreground">{empty}</p>; return <div className="overflow-x-auto"><table className="w-full text-right text-xs"><thead><tr className="border-b border-border">{columns.map((column) => <th key={column} className="p-2 text-muted-foreground">{columnLabels[column] || column}</th>)}</tr></thead><tbody>{rows.map((row, index) => <tr key={`${index}-${String(row[columns[0]])}`} className="border-b border-border/50">{columns.map((column) => <td key={column} className="max-w-[280px] truncate p-2">{fmt(row[column])}</td>)}</tr>)}</tbody></table></div> }
 function Status({ status }: { status: string }) { const healthy = status === "healthy"; return <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold ${healthy ? "bg-emerald-500/10 text-emerald-700" : "bg-amber-500/10 text-amber-700"}`}>{healthy ? <CheckCircle2 className="h-3 w-3" /> : <AlertTriangle className="h-3 w-3" />}{statusLabels[status] || status}</span> }

@@ -87,6 +87,11 @@ const nextConfig: NextConfig = {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
           },
+          // Prevent legacy plugins from loading cross-domain policy files.
+          {
+            key: 'X-Permitted-Cross-Domain-Policies',
+            value: 'none',
+          },
           // ============= SEO & META HEADERS =============
           // Ensure HTTPS
           {

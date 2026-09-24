@@ -86,7 +86,7 @@ async function sendFirstPartyPageView(pathname: string) {
       }),
     })
   } catch {
-    // The browser tracker remains available when the optional server fallback is not configured.
+    // The browser tracker has already queued the event; this is only a fallback.
   }
 }
 
@@ -98,16 +98,20 @@ export function GA4Tracker() {
     if (!hasAnalyticsConsent() || trackedPaths.current.has(path)) return
     trackedPaths.current.add(path)
 
-    // First-party fallback is independent of third-party script blockers.
-    void sendFirstPartyPageView(path)
+    // Queue the event immediately. gtag.js will consume it when the script finishes loading.
+    // This avoids losing the first page_view when the script is loaded asynchronously.
+    ensureGtagQueue()
+    window.gtag?.("event", "page_view", {
+      page_path: path,
+      page_location: window.location.href,
+      page_title: document.title,
+      page_referrer: document.referrer || undefined,
+    })
 
     const loaded = await loadGoogleAnalytics()
-    if (loaded) {
-      window.gtag?.("event", "page_view", {
-        page_path: path,
-        page_title: document.title,
-      })
-    }
+    // Use the server Measurement Protocol only when the browser tag genuinely fails.
+    // Sending both paths for the same page_view would double-count visits.
+    if (!loaded) void sendFirstPartyPageView(path)
   }, [])
 
   useEffect(() => {

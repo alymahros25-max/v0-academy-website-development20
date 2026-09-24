@@ -21,8 +21,8 @@ export const russiaLandingConfig = {
     ink: "#162B45",
     sky: "#31546D",
   },
-  quranPrices: [1268, 2367, 3551, 4650],
-  arabicPrices: [1691, 3043, 4565, 6087],
+  quranPrices: [1278, 2387, 3580, 4688],
+  arabicPrices: [1705, 3069, 4603, 6138],
   whatsappMessage: "أرغب في معرفة باقات القرآن أو العربية في روسيا",
   localCard: {
     title: "РОССИЯ · AL-HAFIZ ACADEMY",

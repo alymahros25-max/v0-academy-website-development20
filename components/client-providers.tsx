@@ -36,6 +36,7 @@ function LayoutWrapper({ children }: { children: ReactNode }) {
     "/italy",
     "/russia",
     "/norway",
+    "/austria",
   ].includes(pathname)
 
   useEffect(() => {

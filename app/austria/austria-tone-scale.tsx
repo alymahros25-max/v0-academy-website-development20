@@ -1,0 +1,16 @@
+'use client'
+
+import { useState } from "react"
+import { MessageCircle, Music2 } from "lucide-react"
+
+const programs = { quran: "تحفيظ القرآن الكريم", arabic: "تأسيس اللغة العربية" } as const
+type Program = keyof typeof programs
+
+export function AustriaToneScale({ whatsapp, quranPrices, arabicPrices }: { whatsapp: string; quranPrices: readonly number[]; arabicPrices: readonly number[] }) {
+  const [program, setProgram] = useState<Program>("quran")
+  const prices = program === "quran" ? quranPrices : arabicPrices
+  const notes = ["البداية", "النسق", "التركيز", "الإيقاع"]
+  const sessions = [4, 8, 12, 16]
+  const rhythms = ["مرة أسبوعيًا", "مرتان أسبوعيًا", "ثلاث مرات أسبوعيًا", "أربع مرات أسبوعيًا"]
+  return <section id="austria-plans" className="bg-[#FFF9F2] px-5 py-16 text-[#2C2438] sm:px-8" aria-labelledby="austria-prices-title"><div className="mx-auto max-w-6xl"><div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between"><div><p className="flex items-center gap-2 text-sm font-black uppercase tracking-[0.18em] text-[#4B3B67]"><Music2 size={16} /> السلم النغمي · النمسا</p><h2 id="austria-prices-title" className="mt-3 text-3xl font-black sm:text-5xl">أربع درجات لإيقاع الشهر</h2><p className="mt-4 max-w-2xl leading-8 text-[#2C2438]/70">اختر البرنامج، ثم تحرك بين درجات الحصص الشهرية باليورو وفق الوقت والهدف.</p></div><span className="rounded-full bg-[#F4DDE5] px-4 py-2 text-sm font-black">EUR · €</span></div><div className="mt-8 flex gap-3" role="tablist" aria-label="برامج النمسا">{(Object.keys(programs) as Program[]).map((key) => <button key={key} type="button" role="tab" aria-selected={program === key} onClick={() => setProgram(key)} className={`rounded-full border-2 px-5 py-3 font-black transition motion-reduce:transition-none ${program === key ? "border-[#4B3B67] bg-[#4B3B67] text-white" : "border-[#4B3B67]/30 bg-[#F4DDE5] hover:bg-[#4B3B67] hover:text-white"}`}>{programs[key]}</button>)}</div><div className="mt-10 grid items-end gap-3 sm:grid-cols-4" role="list" aria-label="الباقات الشهرية">{sessions.map((count, index) => <a key={count} href={whatsapp} target="_blank" rel="noreferrer" role="listitem" className="group relative flex min-h-48 flex-col justify-between rounded-t-[2.5rem] border-2 border-[#4B3B67]/20 bg-[#F4DDE5] p-5 text-center transition hover:-translate-y-2 hover:bg-[#4B3B67] hover:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#C49A45]/40 motion-reduce:transition-none" style={{ minHeight: `${180 + index * 28}px` }}><span className="text-xs font-black uppercase tracking-[0.2em] text-[#4B3B67] group-hover:text-[#F4DDE5]">{notes[index]} · {count} حصص</span><strong className="text-3xl font-black">{prices[index]} €</strong><span className="text-sm font-bold opacity-75">{rhythms[index]}</span><span className="mx-auto flex items-center gap-1 text-xs font-black text-[#C49A45] group-hover:text-[#F4DDE5]"><MessageCircle size={14} /> اسأل بالعربية</span></a>)}</div><div className="mt-7 flex flex-wrap gap-3"><p className="rounded-xl bg-[#F4DDE5] px-5 py-3 font-bold">يوجد باقات مخصصة.</p><p className="rounded-xl border border-[#C49A45] px-5 py-3 font-bold">خصم 10٪ للأخوات والإحالة</p></div></div></section>
+}

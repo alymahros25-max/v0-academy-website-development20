@@ -149,7 +149,11 @@ export default function AdminDashboard() {
           </div>
 
           {/* Nav */}
-          <nav className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-3 flex flex-col gap-1 [scrollbar-width:thin] [scrollbar-color:hsl(var(--primary-foreground)/.35)_transparent]">
+          <nav aria-label="قائمة لوحة التحكم" className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-3 flex flex-col gap-1 [scrollbar-width:thin] [scrollbar-color:hsl(var(--primary-foreground)/.35)_transparent]">
+            <a href="/admin/analytics" className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-primary-foreground/80 hover:bg-primary-foreground/5 hover:text-primary-foreground">
+              <BarChart3 className="w-5 h-5" />
+              مركز التحليلات
+            </a>
             {tabs.map((tab, index) => (
               <React.Fragment key={tab.id}>
                 {(index === 0 || tabs[index - 1].group !== tab.group) && (

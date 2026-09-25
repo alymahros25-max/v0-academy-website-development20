@@ -5,10 +5,28 @@ import { useEffect } from "react"
 const CONSENT_COOKIE = "analytics_consent"
 const PROJECT_ID = "ylvf05htdn"
 const SCRIPT_ID = "clarity-script"
+const MAX_LOAD_ATTEMPTS = 3
+const RETRY_DELAY_MS = 1500
 
-type ClarityApi = ((command: string, ...args: unknown[]) => void) & { v?: unknown; q?: unknown[] }
-type ClarityWindow = Window & { __clarityInitialized?: boolean; __clarityDiagnostics?: ClarityDiagnostic[]; clarity?: ClarityApi }
-type ClarityDiagnostic = { stage: string; timestamp: string; projectId: string; clarityResources?: string[] }
+type ClarityApi = ((command: string, ...args: unknown[]) => void) & {
+  v?: unknown
+  q?: unknown[]
+}
+
+type ClarityDiagnostic = {
+  stage: string
+  timestamp: string
+  projectId: string
+  clarityResources?: string[]
+}
+
+type ClarityWindow = Window & {
+  __clarityInitialized?: boolean
+  __clarityLoading?: boolean
+  __clarityLoadAttempts?: number
+  __clarityDiagnostics?: ClarityDiagnostic[]
+  clarity?: ClarityApi
+}
 
 function hasAnalyticsConsent() {
   return document.cookie.split(";").some((cookie) => cookie.trim() === `${CONSENT_COOKIE}=granted`)
@@ -19,7 +37,11 @@ function reportDiagnostic(stage: string) {
     stage,
     timestamp: new Date().toISOString(),
     projectId: PROJECT_ID,
-    clarityResources: performance.getEntriesByType("resource").map((entry) => entry.name).filter((name) => /clarity/i.test(name)).slice(-10),
+    clarityResources: performance
+      .getEntriesByType("resource")
+      .map((entry) => entry.name)
+      .filter((name) => /clarity/i.test(name))
+      .slice(-10),
   }
   const state = window as ClarityWindow
   state.__clarityDiagnostics = [...(state.__clarityDiagnostics ?? []), diagnostic].slice(-20)
@@ -27,60 +49,92 @@ function reportDiagnostic(stage: string) {
   window.dispatchEvent(new CustomEvent("clarity-diagnostic", { detail: diagnostic }))
 }
 
-function sendConsentAndDiagnosticEvent(attempt = 0) {
+function sendConsentSignal() {
   const clarity = (window as ClarityWindow).clarity
   if (!clarity) {
-    if (attempt < 20) window.setTimeout(() => sendConsentAndDiagnosticEvent(attempt + 1), 250)
-    else reportDiagnostic("manual-script-loaded-without-api")
+    reportDiagnostic("script-loaded-without-api")
     return
   }
 
+  // Clarity ConsentV2 is the current Microsoft-supported consent API.
   clarity("consentv2", { ad_Storage: "denied", analytics_Storage: "granted" })
-  reportDiagnostic("consent-v2-called")
   clarity("set", "consent_status", "granted")
-  clarity("event", "clarity_integration_test")
-  reportDiagnostic("diagnostic-event-sent")
+  reportDiagnostic("consent-v2-called")
 }
 
 function installClarityBootstrap() {
   const state = window as ClarityWindow
   if (state.clarity) return state.clarity
+
   const clarity = ((...args: unknown[]) => {
     clarity.q = clarity.q ?? []
     clarity.q.push(args)
   }) as ClarityApi
   clarity.q = []
   state.clarity = clarity
-  reportDiagnostic("manual-bootstrap-installed")
+  reportDiagnostic("bootstrap-installed")
   return clarity
 }
 
-function startClarity() {
-  if (typeof window === "undefined" || !hasAnalyticsConsent()) return
+function startClarity(attempt = 1) {
+  if (typeof window === "undefined") return
+  if (!hasAnalyticsConsent()) {
+    reportDiagnostic("skipped-without-consent")
+    return
+  }
+
   const state = window as ClarityWindow
-  if (state.__clarityInitialized) return
+  if (state.__clarityInitialized || state.__clarityLoading) return
+  if (attempt > MAX_LOAD_ATTEMPTS) {
+    reportDiagnostic("load-abandoned-after-retries")
+    return
+  }
 
   try {
     installClarityBootstrap()
-    const existingScript = document.getElementById(SCRIPT_ID)
-    if (existingScript) {
-      sendConsentAndDiagnosticEvent()
-    } else {
-      const script = document.createElement("script")
+    state.__clarityLoading = true
+    state.__clarityLoadAttempts = attempt
+
+    const existingScript = document.getElementById(SCRIPT_ID) as HTMLScriptElement | null
+    const script = existingScript || document.createElement("script")
+    let settled = false
+    const finish = (loaded: boolean) => {
+      if (settled) return
+      settled = true
+      state.__clarityLoading = false
+      if (loaded) {
+        state.__clarityInitialized = true
+        reportDiagnostic("script-loaded")
+        sendConsentSignal()
+      } else if (attempt < MAX_LOAD_ATTEMPTS) {
+        reportDiagnostic(`script-load-error-retry-${attempt}`)
+        script.remove()
+        state.clarity = undefined
+        window.setTimeout(() => startClarity(attempt + 1), RETRY_DELAY_MS)
+      } else {
+        reportDiagnostic("script-load-error-final")
+      }
+    }
+
+    const timeoutId = window.setTimeout(() => finish(false), 8000)
+    script.addEventListener("load", () => {
+      window.clearTimeout(timeoutId)
+      finish(true)
+    }, { once: true })
+    script.addEventListener("error", () => {
+      window.clearTimeout(timeoutId)
+      finish(false)
+    }, { once: true })
+
+    if (!existingScript) {
       script.id = SCRIPT_ID
       script.async = true
-      script.src = `https://www.clarity.ms/tag/${PROJECT_ID}?ref=manual`
-      script.addEventListener("load", () => {
-        reportDiagnostic("manual-script-loaded")
-        sendConsentAndDiagnosticEvent()
-      }, { once: true })
-      script.addEventListener("error", () => reportDiagnostic("manual-script-load-error"), { once: true })
+      script.src = `https://www.clarity.ms/tag/${PROJECT_ID}`
       document.head.appendChild(script)
-      reportDiagnostic("manual-script-injected")
+      reportDiagnostic(`script-injected-${attempt}`)
     }
-    state.__clarityInitialized = true
-    window.setTimeout(() => reportDiagnostic("post-init-resource-check"), 2000)
   } catch (error) {
+    state.__clarityLoading = false
     reportDiagnostic(`initialization-error:${error instanceof Error ? error.name : "unknown"}`)
     console.error("[Clarity] initialization failed", error)
   }

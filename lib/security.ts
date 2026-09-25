@@ -1,5 +1,7 @@
 // Security utilities for the application
 
+import { randomUUID } from 'node:crypto'
+
 // Sanitize user input to prevent XSS attacks
 export function sanitizeInput(input: string): string {
   if (typeof input !== 'string') return ''
@@ -67,9 +69,9 @@ export class RateLimiter {
   }
 }
 
-// CSRF token validation
+// CSRF token generation
 export function generateCSRFToken(): string {
-  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+  return randomUUID()
 }
 
 // Password strength validator
@@ -101,10 +103,11 @@ export function checkPasswordStrength(password: string): {
 // Security headers are emitted centrally by next.config.ts.
 export const securityHeaders = {
   'X-Content-Type-Options': 'nosniff',
-  'X-Frame-Options': 'SAMEORIGIN',
+  'X-Frame-Options': 'DENY',
   'X-XSS-Protection': '1; mode=block',
   'Referrer-Policy': 'strict-origin-when-cross-origin',
   'Permissions-Policy': 'geolocation=(), microphone=(), camera=()',
+  'X-Permitted-Cross-Domain-Policies': 'none',
 }
 
 const securityUtilities = {

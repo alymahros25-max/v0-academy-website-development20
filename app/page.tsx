@@ -51,7 +51,8 @@ export default function HomePage() {
   return (
     <>
       <AcademyBanner />
-      <Suspense fallback={<HeroSection />}>
+      {/* Keep the loading fallback free of headings so streamed HTML has one H1. */}
+      <Suspense fallback={<div aria-hidden="true" className="min-h-screen bg-warm-bg" />}>
         <DynamicHeroContent />
       </Suspense>
       <HomeContentSections />

@@ -3,7 +3,6 @@
 import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
 
-const GA4Tracker = dynamic(() => import("@/components/ga4-tracker").then((module) => module.GA4Tracker), { ssr: false })
 const ClarityTracker = dynamic(() => import("@/components/clarity-tracker").then((module) => module.ClarityTracker), { ssr: false })
 const FloatingButtons = dynamic(() => import("@/components/floating-buttons").then((module) => module.FloatingButtons), { ssr: false })
 
@@ -36,13 +35,10 @@ export function DeferredClientIntegrations() {
     }
   }, [])
 
-  if (!ready) return null
-
   return (
     <>
-      <GA4Tracker />
       <ClarityTracker />
-      <FloatingButtons />
+      {ready && <FloatingButtons />}
     </>
   )
 }

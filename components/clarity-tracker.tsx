@@ -142,13 +142,24 @@ function startClarity(attempt = 1) {
 
 export function ClarityTracker() {
   useEffect(() => {
+    let interacted = false
+    const interactionEvents = ["pointerdown", "keydown", "touchstart", "scroll"] as const
+    const handleInteraction = () => {
+      if (interacted) return
+      interacted = true
+      startClarity()
+      interactionEvents.forEach((event) => window.removeEventListener(event, handleInteraction))
+    }
     const handleConsentChange = (event: Event) => {
-      if ((event as CustomEvent<boolean>).detail === true) startClarity()
+      if ((event as CustomEvent<boolean>).detail === true && interacted) startClarity()
     }
 
+    interactionEvents.forEach((event) => window.addEventListener(event, handleInteraction, { passive: true, once: true }))
     window.addEventListener("analytics-consent-change", handleConsentChange)
-    startClarity()
-    return () => window.removeEventListener("analytics-consent-change", handleConsentChange)
+    return () => {
+      interactionEvents.forEach((event) => window.removeEventListener(event, handleInteraction))
+      window.removeEventListener("analytics-consent-change", handleConsentChange)
+    }
   }, [])
 
   return null

@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "من نحن - أكاديمية الحافظ المتميز",
     description: "رحلتنا وقيمنا في تعليم القرآن والعربية",
+    images: [{ url: "https://quran-elhafez.com/images/og-default.webp", width: 1200, height: 630, alt: "أكاديمية الحافظ المتميز" }],
   },
 }
 

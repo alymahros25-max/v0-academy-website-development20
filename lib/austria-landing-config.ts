@@ -20,10 +20,10 @@ export const austriaLandingConfig = {
   localCard: {
     title: "ÖSTERREICH · AL-HAFIZ ACADEMY",
     heading: "Online-Koranlernen und Arabisch-Grundlagen in Österreich",
-    body: "Die Al-Hafiz Academy bietet individuelle Online-Unterrichtsstunden zum Auswendiglernen des Korans und für Arabisch-Grundlagen. Wien, Graz, Linz und Salzburg bilden den geografischen Kontext dieser Seite. Koranlernen und Arabischunterricht für arabischsprachige Lernende. Die Kommunikation mit der Akademie erfolgt auf Arabisch.",
+    body: "Die Al-Hafiz Academy bietet Online-Unterricht zum Auswendiglernen des Korans und für Arabisch-Grundlagen für arabischsprachige Lernende in Österreich. Wien, Graz, Linz und Salzburg sind die geografischen Bezugspunkte dieser Seite. Der Unterricht findet ausschließlich online statt; die Kommunikation mit der Akademie erfolgt auf Arabisch. Die Akademie hat keinen Standort oder lokalen Unterrichtsort in Österreich.",
   },
   faq: [
-    ["هل أستطيع الدراسة من فيينا أو مدينة نمساوية أخرى؟", "نعم، الدراسة أونلاين، ويمكنك ذكر مدينتك عند التواصل باللغة العربية. ذكر المدينة يوضح نطاق الصفحة ولا يعني وجود فرع محلي."],
+    ["هل أستطيع الدراسة من فيينا أو مدينة نمساوية أخرى؟", "نعم، الدراسة أونلاين، ويمكنك ذكر مدينتك عند التواصل باللغة العربية. المدن المذكورة نطاق جغرافي للصفحة، ولا توجد بها مقرات أو فروع أو أماكن تدريس تابعة للأكاديمية."],
     ["كيف أنظم وقت الحصة مع توقيت النمسا؟", "تستخدم الصفحة توقيت فيينا، ويُنسق الموعد باللغة العربية وفق الوقت المتاح عند التواصل."],
     ["هل الأسعار باليورو؟", "نعم، الأسعار الظاهرة في صفحة النمسا باليورو للباقات الموضحة."],
     ["هل توجد باقات مخصصة؟", "يوجد باقات مخصصة."],

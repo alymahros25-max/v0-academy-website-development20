@@ -8,7 +8,7 @@
 
 الصفحة عربية بالكامل، والتواصل مع الأكاديمية باللغة العربية. تظهر بطاقة قصيرة بالألمانية للاستهداف والتعريف فقط، ولا تعلن دعمًا أو تواصلًا بالألمانية. تتضمن البطاقة اسم النمسا والأكاديمية، تحفيظ القرآن، تأسيس العربية، الخدمة الفردية، المدن المختارة، وكلمات البحث الألمانية الطبيعية.
 
-التصميم هو «نوتة موسيقية»: Hero بإيقاع بصري وخطوط ناعمة، بطاقات الخدمات كمسارين لحنيين، الأسعار كسلم نغمي من أربع درجات، الفيديو داخل نافذة «اختر موضوعك»، والأسئلة داخل فواصل إيقاعية. لا تُكرر رحلة إيطاليا أو مقياس النرويج أو شريط روسيا.
+التصميم هو «مسار تعليمي واضح»: افتتاحية بخطوط ناعمة، بطاقات الخدمات كمسارين تعليميين، الأسعار في عرض بصري من أربع باقات، الفيديو داخل نافذة «اختر موضوعك»، والأسئلة في قسم إجابات واضحة. لا تُكرر رحلة إيطاليا أو مقياس النرويج أو شريط روسيا.
 
 الألوان المستقلة: بنفسجي ملكي `#4B3B67`، وردي باهت `#F4DDE5`، ذهبي `#C49A45`، عاجي `#FFF9F2`، وحبر بنفسجي `#2C2438`.
 
@@ -27,7 +27,7 @@
 
 ## البطاقة الألمانية
 
-`Online-Koranlernen und Arabisch-Grundlagen in Österreich. Die Al-Hafiz Academy bietet individuelle Online-Unterrichtsstunden zum Auswendiglernen des Korans und für Arabisch-Grundlagen. Wien, Graz, Linz und Salzburg bilden den geografischen Kontext dieser Seite. Koranlernen und Arabischunterricht für arabischsprachige Lernende. Die Kommunikation mit der Akademie erfolgt auf Arabisch.`
+`Die Al-Hafiz Academy bietet Online-Unterricht zum Auswendiglernen des Korans und für Arabisch-Grundlagen für arabischsprachige Lernende in Österreich. Wien, Graz, Linz und Salzburg sind die geografischen Bezugspunkte dieser Seite. Der Unterricht findet ausschließlich online statt; die Kommunikation mit der Akademie erfolgt auf Arabisch. Die Akademie hat keinen Standort oder lokalen Unterrichtsort in Österreich.`
 
 ## الفيديو والروابط
 

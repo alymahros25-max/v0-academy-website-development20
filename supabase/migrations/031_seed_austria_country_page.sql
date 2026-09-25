@@ -11,9 +11,9 @@ FROM site_areas
 JOIN (VALUES
   ('seo_title', 'تحفيظ القرآن وتأسيس العربية أونلاين في النمسا | أكاديمية الحافظ', 'Online Quran and Arabic Foundations in Austria | Al-Hafiz Academy', 'seo', 0),
   ('seo_description', 'تعلّم القرآن الكريم أو تأسيس اللغة العربية أونلاين من النمسا بحصص فردية وباقات شهرية واضحة باليورو. ابدأ بالحصة التجريبية وتواصل معنا باللغة العربية.', 'Learn Quran or Arabic foundations online from Austria with individual lessons and monthly EUR packages.', 'seo', 1),
-  ('page_title', 'ابدأ بنغمة واضحة للقرآن والعربية', 'Start with a clear rhythm for Quran and Arabic', 'opening', 0),
+  ('page_title', 'ابدأ بخطة واضحة للقرآن والعربية', 'Start with a clear rhythm for Quran and Arabic', 'opening', 0),
   ('page_description', 'من فيينا وغراتس إلى لينتس وسالزبورغ، حدد هدفك ووقتك ثم تعرف إلى المسار والباقات الشهرية وتواصل معنا باللغة العربية.', 'From Vienna and Graz to Linz and Salzburg, clarify your goal and schedule before choosing a monthly plan.', 'opening', 1),
-  ('local_card_de', 'Online-Koranlernen und Arabisch-Grundlagen in Österreich. Die Al-Hafiz Academy bietet individuelle Online-Unterrichtsstunden zum Auswendiglernen des Korans und für Arabisch-Grundlagen. Wien, Graz, Linz und Salzburg bilden den geografischen Kontext dieser Seite. Koranlernen und Arabischunterricht für arabischsprachige Lernende. Die Kommunikation mit der Akademie erfolgt auf Arabisch.', 'Quran online and Arabic foundations in Austria. Al-Hafiz Academy offers individual online lessons. For Arabic-speaking students: Quran memorization and Arabic teaching. Contact takes place in Arabic.', 'local', 0),
+  ('local_card_de', 'Die Al-Hafiz Academy bietet Online-Unterricht zum Auswendiglernen des Korans und für Arabisch-Grundlagen für arabischsprachige Lernende in Österreich. Wien, Graz, Linz und Salzburg sind die geografischen Bezugspunkte dieser Seite. Der Unterricht findet ausschließlich online statt; die Kommunikation mit der Akademie erfolgt auf Arabisch. Die Akademie hat keinen Standort oder lokalen Unterrichtsort in Österreich.', 'Quran memorization and Arabic foundations are taught online for Arabic-speaking learners in Austria. Vienna, Graz, Linz and Salzburg are geographic reference points for this page. The Academy has no local branch or teaching location in Austria.', 'local', 0),
   ('custom_packages', 'يوجد باقات مخصصة.', 'Custom packages are available.', 'pricing', 0),
   ('whatsapp_number', '201130127894', '201130127894', 'contact', 0)
 ) AS values(content_key, content_ar, content_en, section, sort_order) ON site_areas.slug = 'austria'
@@ -38,7 +38,7 @@ INSERT INTO area_faq_items (area_id, question_key, question_ar, question_en, ans
 SELECT id, values.question_key, values.question_ar, values.question_ar, values.answer_ar, values.answer_ar, values.sort_order
 FROM site_areas
 JOIN (VALUES
-  ('austria-faq-1', 'هل أستطيع الدراسة من فيينا أو مدينة نمساوية أخرى؟', 'نعم، الدراسة أونلاين، ويمكنك ذكر مدينتك عند التواصل باللغة العربية. ذكر المدينة يوضح نطاق الصفحة ولا يعني وجود فرع محلي.', 0),
+  ('austria-faq-1', 'هل أستطيع الدراسة من فيينا أو مدينة نمساوية أخرى؟', 'نعم، الدراسة أونلاين، ويمكنك ذكر مدينتك عند التواصل باللغة العربية. المدن المذكورة نطاق جغرافي للصفحة، ولا توجد بها مقرات أو فروع أو أماكن تدريس تابعة للأكاديمية.', 0),
   ('austria-faq-2', 'كيف أنظم وقت الحصة مع توقيت النمسا؟', 'تستخدم الصفحة توقيت فيينا، ويُنسق الموعد باللغة العربية وفق الوقت المتاح عند التواصل.', 1),
   ('austria-faq-3', 'هل الأسعار باليورو؟', 'نعم، الأسعار الظاهرة في صفحة النمسا باليورو للباقات الموضحة.', 2),
   ('austria-faq-4', 'هل توجد باقات مخصصة؟', 'يوجد باقات مخصصة.', 3),
@@ -59,7 +59,7 @@ JOIN (VALUES
 ON CONFLICT (area_id, link_key) DO UPDATE SET label_ar = EXCLUDED.label_ar, href = EXCLUDED.href, link_type = EXCLUDED.link_type, is_external = EXCLUDED.is_external, is_active = TRUE, sort_order = EXCLUDED.sort_order, updated_at = NOW();
 
 INSERT INTO area_themes (area_id, theme_name_ar, theme_name_en, primary_color, secondary_color, accent_color, background_color, text_color)
-SELECT id, 'النوتة الموسيقية النمساوية', 'Austrian musical notebook', '#4B3B67', '#F4DDE5', '#C49A45', '#FFF9F2', '#2C2438'
+SELECT id, 'الخطة الموسيقية النمساوية', 'Austrian musical notebook', '#4B3B67', '#F4DDE5', '#C49A45', '#FFF9F2', '#2C2438'
 FROM site_areas WHERE slug = 'austria'
 ON CONFLICT (area_id) DO UPDATE SET theme_name_ar = EXCLUDED.theme_name_ar, theme_name_en = EXCLUDED.theme_name_en, primary_color = EXCLUDED.primary_color, secondary_color = EXCLUDED.secondary_color, accent_color = EXCLUDED.accent_color, background_color = EXCLUDED.background_color, text_color = EXCLUDED.text_color, is_active = TRUE, updated_at = NOW();
 

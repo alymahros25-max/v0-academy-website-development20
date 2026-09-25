@@ -6,6 +6,7 @@ import type { AnalyticsSnapshot, AnalyticsSourceHealth, AnalyticsSourceKey } fro
 import { SOURCE_LABELS } from "@/lib/analytics-types"
 
 const GA4_PROPERTY_ID = process.env.GA4_PROPERTY_ID?.trim()
+const CLARITY_EXPORT_TOKEN = process.env.CLARITY_EXPORT_TOKEN?.trim()
 const rawGscSite = process.env.GOOGLE_SEARCH_CONSOLE_SITE_URL?.trim() || process.env.GOOGLE_SEARCH_CONSOLE_DOMAIN?.trim() || "sc-domain:quran-elhafez.com"
 const GSC_SITE_URL = rawGscSite.startsWith("sc-domain:") || rawGscSite.startsWith("http") ? rawGscSite : `sc-domain:${rawGscSite}`
 const GOOGLE_SCOPES = ["https://www.googleapis.com/auth/analytics.readonly", "https://www.googleapis.com/auth/webmasters.readonly"]
@@ -179,14 +180,57 @@ async function fetchSearchConsole(start: string, end: string): Promise<Analytics
   }]
 }
 
+async function fetchClarity(start: string, end: string): Promise<AnalyticsSnapshot[]> {
+  if (!CLARITY_EXPORT_TOKEN) throw new Error("CLARITY_EXPORT_TOKEN is not configured")
+
+  // Clarity's Data Export API only supports the most recent 1–3 days and
+  // permits at most 10 requests per project per day. One request per refresh
+  // keeps the dashboard within that quota.
+  const response = await fetch("https://www.clarity.ms/export-data/api/v1/project-live-insights?numOfDays=3", {
+    headers: {
+      Authorization: `Bearer ${CLARITY_EXPORT_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    cache: "no-store",
+  })
+
+  if (!response.ok) {
+    const detail = (await response.text()).trim()
+    throw new Error(`Clarity export failed (${response.status})${detail ? `: ${detail.slice(0, 180)}` : ""}`)
+  }
+
+  const payload = await response.json() as unknown
+  if (!Array.isArray(payload)) throw new Error("Clarity export returned an unexpected response")
+
+  const metrics: Record<string, number | string | null> = { metricGroups: payload.length }
+  for (const group of payload) {
+    if (!group || typeof group !== "object") continue
+    const item = group as { metricName?: unknown; information?: unknown }
+    if (typeof item.metricName === "string") {
+      metrics[item.metricName] = Array.isArray(item.information) ? item.information.length : 0
+    }
+  }
+
+  return [{
+    source_key: "clarity",
+    report_type: "live_insights",
+    period_start: start,
+    period_end: end,
+    fetched_at: new Date().toISOString(),
+    metrics,
+    dimensions: { data: payload },
+    schema_version: 1,
+  }]
+}
+
 export async function refreshAnalytics(start: string, end: string) {
   const result: { source: AnalyticsSourceKey; snapshots: AnalyticsSnapshot[]; error?: string }[] = []
   const now = new Date().toISOString()
 
-  for (const source of ["ga4", "search_console"] as const) {
+  for (const source of ["ga4", "search_console", "clarity"] as const) {
     try {
       await updateHealth(source, { last_attempt_at: now, last_status: "not_configured", last_error_code: null, last_error_message: null })
-      const snapshots = source === "ga4" ? await fetchGa4(start, end) : await fetchSearchConsole(start, end)
+      const snapshots = source === "ga4" ? await fetchGa4(start, end) : source === "search_console" ? await fetchSearchConsole(start, end) : await fetchClarity(start, end)
       for (const snapshot of snapshots) await saveSnapshot(snapshot)
       await updateHealth(source, { last_attempt_at: now, last_success_at: now, last_status: "healthy", failure_count: 0, last_error_code: null, last_error_message: null })
       result.push({ source, snapshots })

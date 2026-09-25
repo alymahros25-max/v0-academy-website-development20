@@ -14,7 +14,7 @@ type Snapshot = {
   period_end: string
   fetched_at: string
   metrics: Record<string, number | string | null>
-  dimensions: { rows?: Array<Record<string, string | number>> }
+  dimensions: { rows?: Array<Record<string, string | number>>; data?: Array<{ metricName?: string; information?: Array<Record<string, unknown>> }> }
 }
 
 type Health = {
@@ -79,6 +79,11 @@ function fmt(value: unknown) {
   return typeof value === "number" ? new Intl.NumberFormat("ar-EG", { maximumFractionDigits: 2 }).format(value) : String(value ?? "—")
 }
 
+function claritySample(value: Record<string, unknown> | undefined) {
+  if (!value) return "—"
+  return Object.entries(value).slice(0, 3).map(([key, item]) => `${key}: ${String(item)}`).join(" · ") || "—"
+}
+
 function snapshot(data: DashboardData | null, source: string, reportType: string) {
   return data?.snapshots.find((item) => item.source_key === source && item.report_type === reportType)
 }
@@ -134,6 +139,8 @@ export default function AnalyticsAdminPage() {
   const gscPerformance = useMemo(() => snapshot(data, "search_console", "performance"), [data])
   const gaPages = useMemo(() => snapshot(data, "ga4", "top_pages")?.dimensions.rows ?? [], [data])
   const gaTraffic = useMemo(() => snapshot(data, "ga4", "traffic")?.dimensions.rows ?? [], [data])
+  const claritySnapshot = useMemo(() => snapshot(data, "clarity", "live_insights"), [data])
+  const clarityGroups = claritySnapshot?.dimensions.data ?? []
 
   return (
     <main dir="rtl" className="min-h-screen bg-background p-4 text-foreground sm:p-6 lg:p-8">
@@ -180,6 +187,13 @@ export default function AnalyticsAdminPage() {
               <h3 className="mt-5 mb-2 font-bold">استعلامات وصفحات البحث | Search queries and pages — Search Console</h3><Rows rows={gscPerformance?.dimensions.rows?.slice(0, 20) ?? []} columns={["query", "page", "clicks", "impressions"]} />
             </ReportCard>
           </section>
+
+          <ReportCard title="Microsoft Clarity" source="clarity" fetchedAt={claritySnapshot?.fetched_at}>
+            <div className="mb-3 rounded-lg border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-900">هذه البيانات من Clarity Data Export API لآخر 3 أيام فقط، ولا تتبع الفترة العامة المحددة أعلى الصفحة | Clarity export data covers the last 3 days only.</div>
+            <div className="grid grid-cols-2 gap-3 text-sm"><Stat label="Insight groups" value={claritySnapshot?.metrics.metricGroups} /><Stat label="Rows returned" value={clarityGroups.reduce((total, group) => total + (group.information?.length ?? 0), 0)} /></div>
+            <h3 className="mt-5 mb-2 font-bold">تفاصيل Clarity | Clarity insights</h3>
+            {clarityGroups.length ? <div className="overflow-x-auto"><table className="w-full min-w-[620px] text-right text-sm"><thead><tr className="border-b border-border text-muted-foreground"><th className="p-2">المؤشر | Metric</th><th className="p-2">السجلات | Rows</th><th className="p-2">عينة | Sample</th></tr></thead><tbody>{clarityGroups.map((group, index) => <tr key={`${group.metricName ?? "metric"}-${index}`} className="border-b border-border/60"><td className="p-2 font-semibold">{group.metricName || "—"}</td><td className="p-2">{group.information?.length ?? 0}</td><td className="max-w-[520px] p-2 text-xs text-muted-foreground">{claritySample(group.information?.[0])}</td></tr>)}</tbody></table></div> : <p className="text-sm text-muted-foreground">لا توجد تفاصيل Clarity متاحة | No Clarity details available.</p>}
+          </ReportCard>
 
           <section className="rounded-2xl border border-border bg-card p-5 shadow-sm">
             <div className="mb-4 flex items-center justify-between"><div><h2 className="text-lg font-bold">حالة المصادر | Source health</h2><p className="text-sm text-muted-foreground">حالة كل خدمة وآخر نتيجة ناجحة | Status and latest successful sync for each service.</p></div><ShieldCheck className="h-6 w-6 text-primary" /></div>

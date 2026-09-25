@@ -36,13 +36,11 @@ export function DeferredClientIntegrations() {
     }
   }, [])
 
-  if (!ready) return null
-
   return (
     <>
       <GA4Tracker />
       <ClarityTracker />
-      <FloatingButtons />
+      {ready && <FloatingButtons />}
     </>
   )
 }

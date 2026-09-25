@@ -4,7 +4,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { useI18n } from "@/lib/i18n"
 import { ArrowLeft, ArrowRight, MessageCircle } from "lucide-react"
-import { RevealOnScroll } from "@/components/ui/reveal-on-scroll"
 import type { PublicContent } from "@/lib/public-content"
 import { localizedContent } from "@/lib/public-content"
 
@@ -24,8 +23,8 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
           className="object-cover object-[center_15%]"
           sizes="100vw"
           quality={40}
-          priority
           fetchPriority="high"
+          loading="eager"
           decoding="async"
         />
       </picture>

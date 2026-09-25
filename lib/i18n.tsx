@@ -20,7 +20,7 @@ const translations: Translations = {
   "nav.blog": { ar: "المدونة", en: "Blog", fr: "Blog" },
   "nav.contact": { ar: "اتصل بنا", en: "Contact Us", fr: "Contactez-nous" },
   "nav.account": { ar: "حسابي", en: "My Account", fr: "Mon compte" },
-  "nav.subscribe": { ar: "ابدأ الآن", en: "Get Started", fr: "Commencer" },
+  "nav.subscribe": { ar: "احجز حصة مجانية", en: "Book a Free Trial", fr: "Réserver un essai gratuit" },
 
   // Hero
   "hero.title": { ar: "تعليم القرآن الكريم وتأسيس اللغة العربية بحصص فردية مباشرة", en: "One-to-one Quran and Arabic lessons", fr: "Cours individuels de Coran et d'arabe" },
@@ -76,7 +76,7 @@ const translations: Translations = {
   "pricing.sessions": { ar: "حصص", en: "Sessions", fr: "Sessions" },
   "pricing.session": { ar: "حصة", en: "Sessions", fr: "Sessions" },
   "pricing.duration": { ar: "30 دقيقة/حصة", en: "30 min/session", fr: "30 min/session" },
-  "pricing.subscribe": { ar: "اسأل عن الباقة واحجز البداية", en: "Ask About the Package", fr: "Demander les détails du forfait" },
+  "pricing.subscribe": { ar: "اسأل عن الباقة واحجز الحصة المجانية", en: "Ask About the Package & Book a Free Trial", fr: "Demander le forfait et réserver l'essai gratuit" },
   "pricing.popular": { ar: "الأكثر طلباً", en: "Most Popular", fr: "Le plus populaire" },
   "pricing.month": { ar: "شهرياً", en: "/month", fr: "/mois" },
   "pricing.features.flexibility": { ar: "مرونة في اختيار الوقت", en: "Flexible scheduling", fr: "Horaires flexibles" },

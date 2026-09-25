@@ -5,25 +5,55 @@ import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const CONSENT_COOKIE = "analytics_consent"
+const CONSENT_STORAGE_KEY = "analytics_consent"
+
+type ConsentValue = "granted" | "denied"
+
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void
+  }
+}
 
 function readConsent(): boolean | null {
-  if (typeof document === "undefined") return null
-  const value = document.cookie
+  if (typeof window === "undefined") return null
+
+  const stored = window.localStorage.getItem(CONSENT_STORAGE_KEY)
+  if (stored === "granted" || stored === "denied") return stored === "granted"
+
+  const cookie = document.cookie
     .split("; ")
-    .find((cookie) => cookie.startsWith(`${CONSENT_COOKIE}=`))
+    .find((value) => value.startsWith(`${CONSENT_COOKIE}=`))
     ?.split("=")[1]
-  return value === "granted" ? true : value === "denied" ? false : null
+
+  return cookie === "granted" ? true : cookie === "denied" ? false : null
+}
+
+function updateGoogleConsent(value: ConsentValue) {
+  window.gtag?.("consent", "update", {
+    ad_storage: value,
+    analytics_storage: value,
+    ad_user_data: value,
+    ad_personalization: value,
+  })
 }
 
 export function AnalyticsConsent() {
   const [consent, setConsent] = useState<boolean | null>(null)
 
   useEffect(() => {
-    setConsent(readConsent())
+    const savedConsent = readConsent()
+    setConsent(savedConsent)
+    if (savedConsent !== null) updateGoogleConsent(savedConsent ? "granted" : "denied")
   }, [])
 
   const chooseConsent = (value: boolean) => {
-    document.cookie = `${CONSENT_COOKIE}=${value ? "granted" : "denied"}; Max-Age=31536000; Path=/; SameSite=Lax${window.location.protocol === "https:" ? "; Secure" : ""}`
+    const consentValue: ConsentValue = value ? "granted" : "denied"
+    const secure = window.location.protocol === "https:" ? "; Secure" : ""
+
+    window.localStorage.setItem(CONSENT_STORAGE_KEY, consentValue)
+    document.cookie = `${CONSENT_COOKIE}=${consentValue}; Max-Age=31536000; Path=/; SameSite=Lax${secure}`
+    updateGoogleConsent(consentValue)
     window.dispatchEvent(new CustomEvent("analytics-consent-change", { detail: value }))
     setConsent(value)
   }

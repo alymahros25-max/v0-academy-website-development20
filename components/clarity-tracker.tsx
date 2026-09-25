@@ -6,23 +6,9 @@ const CONSENT_COOKIE = "analytics_consent"
 const PROJECT_ID = "ylvf05htdn"
 const SCRIPT_ID = "clarity-script"
 
-type ClarityApi = ((command: string, ...args: unknown[]) => void) & {
-  v?: unknown
-  q?: unknown[]
-}
-
-type ClarityDiagnostic = {
-  stage: string
-  timestamp: string
-  projectId: string
-  clarityResources?: string[]
-}
-
-type ClarityWindow = Window & {
-  __clarityInitialized?: boolean
-  __clarityDiagnostics?: ClarityDiagnostic[]
-  clarity?: ClarityApi
-}
+type ClarityApi = ((command: string, ...args: unknown[]) => void) & { v?: unknown; q?: unknown[] }
+type ClarityWindow = Window & { __clarityInitialized?: boolean; __clarityDiagnostics?: ClarityDiagnostic[]; clarity?: ClarityApi }
+type ClarityDiagnostic = { stage: string; timestamp: string; projectId: string; clarityResources?: string[] }
 
 function hasAnalyticsConsent() {
   return document.cookie.split(";").some((cookie) => cookie.trim() === `${CONSENT_COOKIE}=granted`)
@@ -33,11 +19,7 @@ function reportDiagnostic(stage: string) {
     stage,
     timestamp: new Date().toISOString(),
     projectId: PROJECT_ID,
-    clarityResources: performance
-      .getEntriesByType("resource")
-      .map((entry) => entry.name)
-      .filter((name) => /clarity/i.test(name))
-      .slice(-10),
+    clarityResources: performance.getEntriesByType("resource").map((entry) => entry.name).filter((name) => /clarity/i.test(name)).slice(-10),
   }
   const state = window as ClarityWindow
   state.__clarityDiagnostics = [...(state.__clarityDiagnostics ?? []), diagnostic].slice(-20)
@@ -48,15 +30,11 @@ function reportDiagnostic(stage: string) {
 function sendConsentAndDiagnosticEvent(attempt = 0) {
   const clarity = (window as ClarityWindow).clarity
   if (!clarity) {
-    if (attempt < 20) {
-      window.setTimeout(() => sendConsentAndDiagnosticEvent(attempt + 1), 250)
-    } else {
-      reportDiagnostic("manual-script-loaded-without-api")
-    }
+    if (attempt < 20) window.setTimeout(() => sendConsentAndDiagnosticEvent(attempt + 1), 250)
+    else reportDiagnostic("manual-script-loaded-without-api")
     return
   }
 
-  // Official manual-tag API and Consent V2 call.
   clarity("consentv2", { ad_Storage: "denied", analytics_Storage: "granted" })
   reportDiagnostic("consent-v2-called")
   clarity("set", "consent_status", "granted")
@@ -67,7 +45,6 @@ function sendConsentAndDiagnosticEvent(attempt = 0) {
 function installClarityBootstrap() {
   const state = window as ClarityWindow
   if (state.clarity) return state.clarity
-
   const clarity = ((...args: unknown[]) => {
     clarity.q = clarity.q ?? []
     clarity.q.push(args)
@@ -79,12 +56,7 @@ function installClarityBootstrap() {
 }
 
 function startClarity() {
-  if (typeof window === "undefined") return
-  if (!hasAnalyticsConsent()) {
-    reportDiagnostic("skipped-without-consent")
-    return
-  }
-
+  if (typeof window === "undefined" || !hasAnalyticsConsent()) return
   const state = window as ClarityWindow
   if (state.__clarityInitialized) return
 
@@ -116,13 +88,24 @@ function startClarity() {
 
 export function ClarityTracker() {
   useEffect(() => {
+    let interacted = false
+    const interactionEvents = ["pointerdown", "keydown", "touchstart", "scroll"] as const
+    const handleInteraction = () => {
+      if (interacted) return
+      interacted = true
+      startClarity()
+      interactionEvents.forEach((event) => window.removeEventListener(event, handleInteraction))
+    }
     const handleConsentChange = (event: Event) => {
-      if ((event as CustomEvent<boolean>).detail === true) startClarity()
+      if ((event as CustomEvent<boolean>).detail === true && interacted) startClarity()
     }
 
+    interactionEvents.forEach((event) => window.addEventListener(event, handleInteraction, { passive: true, once: true }))
     window.addEventListener("analytics-consent-change", handleConsentChange)
-    startClarity()
-    return () => window.removeEventListener("analytics-consent-change", handleConsentChange)
+    return () => {
+      interactionEvents.forEach((event) => window.removeEventListener(event, handleInteraction))
+      window.removeEventListener("analytics-consent-change", handleConsentChange)
+    }
   }, [])
 
   return null

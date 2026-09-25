@@ -41,11 +41,11 @@ function TeacherTrust({ teachers }: { teachers: Teacher[] }) {
 }
 
 function PackageIncludes() {
-  return <section className="new-country-package-includes"><div className="new-country-narrow"><p className="new-country-kicker">محتوى كل باقة</p><div className="new-country-package-features"><article><b>30 دقيقة</b><span>مدة كل حصة</span></article><article><b>مجانية</b><span>حصة تجريبية قبل الاشتراك</span></article><article><b>فردية</b><span>حصة خاصة بالطالب</span></article><article><b>مستمرة</b><span>متابعة وتقرير بعد كل حصة</span></article></div></div></section>
+  return <section className="new-country-package-includes"><div className="new-country-narrow"><p className="new-country-kicker">محتوى كل باقة</p><div className="new-country-package-features"><article><b>30 دقيقة</b><span>مدة كل حصة</span></article><article><b>مجانية</b><span>حصة تجريبية قبل أي دفع</span></article><article><b>فردية</b><span>حصة خاصة بالطالب</span></article><article><b>مستمرة</b><span>متابعة وتقرير بعد كل حصة</span></article></div></div></section>
 }
 
 function SharedClosing({ config, videos = [], teachers = [], contactUrl }: Props) {
-  return <><PackageIncludes /><NewCountryVideos videos={videos} /><TeacherTrust teachers={teachers} /><section className="new-country-section new-country-closing"><div className="new-country-narrow"><p className="new-country-kicker">خطوة عملية</p><h2>ابدأ بما يناسب أسبوعك الآن</h2><p>أرسل عمر الطالب ومستواه والبرنامج المطلوب، وسنوضح لك الخطوة التالية قبل التسجيل.</p><WhatsApp config={config} contactUrl={contactUrl} /><p className="new-country-independent-note">صفحة مستقلة لـ{config.name} · تعليم أونلاين فقط</p></div></section><CountryFooter config={config} /></>
+  return <><PackageIncludes /><NewCountryVideos videos={videos} /><TeacherTrust teachers={teachers} /><section className="new-country-section new-country-closing"><div className="new-country-narrow"><p className="new-country-kicker">خطوة عملية</p><h2>ابدأ بما يناسب أسبوعك الآن</h2><p>أرسل عمر الطالب ومستواه والبرنامج المطلوب، وسنوضح لك الخطوة التالية قبل أي التزام أو دفع.</p><WhatsApp config={config} contactUrl={contactUrl} /><p className="new-country-independent-note">صفحة مستقلة لـ{config.name} · تعليم أونلاين فقط</p></div></section><CountryFooter config={config} /></>
 }
 
 const countryLinks = [

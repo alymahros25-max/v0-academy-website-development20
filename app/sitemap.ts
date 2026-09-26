@@ -78,6 +78,7 @@ const staticRoutes = [
   '/brazil',
   '/mexico',
   '/colombia',
+  '/venezuela',
   '/teachers',
   '/reviews',
   '/games',

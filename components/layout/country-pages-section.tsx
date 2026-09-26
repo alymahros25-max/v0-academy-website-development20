@@ -30,6 +30,7 @@ const countryPages = [
   { href: "/mexico", label: "تحفيظ القرآن والعربية في المكسيك", flag: "🇲🇽" },
   { href: "/colombia", label: "تحفيظ القرآن والعربية في كولومبيا", flag: "🇨🇴" },
   { href: "/venezuela", label: "تحفيظ القرآن والعربية في فنزويلا", flag: "🇻🇪" },
+  { href: "/denmark", label: "تحفيظ القرآن والعربية في الدنمارك", flag: "🇩🇰" },
 ] as const
 
 export function CountryPagesSection() {

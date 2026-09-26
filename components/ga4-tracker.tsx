@@ -141,6 +141,18 @@ export function GA4Tracker() {
     if (hasAnalyticsConsent()) void trackPageView(pathname)
   }, [pathname, trackPageView])
 
+  useEffect(() => {
+    const handleWhatsAppClick = (event: MouseEvent) => {
+      if (!(event.target instanceof Element)) return
+      const link = event.target.closest<HTMLAnchorElement>('a[href*="wa.me/"]')
+      if (!link) return
+      trackAnalyticsEvent("whatsapp_click", { location: "direct_link" })
+    }
+
+    document.addEventListener("click", handleWhatsAppClick)
+    return () => document.removeEventListener("click", handleWhatsAppClick)
+  }, [])
+
   return null
 }
 

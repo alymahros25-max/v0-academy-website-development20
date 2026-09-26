@@ -21,6 +21,19 @@ function hasAnalyticsConsent() {
   return document.cookie.split(";").some((cookie) => cookie.trim() === `${CONSENT_COOKIE}=granted`)
 }
 
+export function trackAnalyticsEvent(
+  name: string,
+  params: Record<string, string | number | boolean | undefined> = {},
+) {
+  if (typeof window === "undefined" || !hasAnalyticsConsent()) return
+  ensureGtagQueue()
+  window.gtag?.("event", name, {
+    ...params,
+    page_path: window.location.pathname,
+    page_title: document.title,
+  })
+}
+
 function ensureGtagQueue() {
   window.dataLayer = window.dataLayer || []
   if (!window.gtag) {

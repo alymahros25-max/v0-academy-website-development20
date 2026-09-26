@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useI18n } from "@/lib/i18n"
 import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react"
 import { WhatsAppDialog } from "@/components/whatsapp-dialog"
+import { trackAnalyticsEvent } from "@/components/ga4-tracker"
 
 export default function ContactPage() {
   const { t, locale } = useI18n()
@@ -12,6 +13,13 @@ export default function ContactPage() {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const [whatsappDialogOpen, setWhatsappDialogOpen] = useState(false)
+  const [formStarted, setFormStarted] = useState(false)
+
+  function handleFormStart() {
+    if (formStarted) return
+    setFormStarted(true)
+    trackAnalyticsEvent("contact_form_start", { location: "contact_page" })
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -38,6 +46,8 @@ export default function ContactPage() {
       }
       setSent(true)
       form.reset()
+      setFormStarted(false)
+      trackAnalyticsEvent("contact_form_submit", { location: "contact_page" })
     } catch (err) {
       setError(err instanceof Error ? err.message : (locale === "ar" ? "تعذر إرسال الرسالة" : "Unable to send the message"))
     } finally {
@@ -87,7 +97,7 @@ export default function ContactPage() {
                     </button>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                  <form onSubmit={handleSubmit} onFocus={handleFormStart} className="flex flex-col gap-5">
                     <div>
                       <label className="block text-sm font-bold text-foreground mb-2">{t("contact.name")}</label>
                       <input
@@ -160,7 +170,10 @@ export default function ContactPage() {
 
               <div className="bg-card rounded-2xl p-6 shadow-sm border border-border">
                 <button
-                  onClick={() => setWhatsappDialogOpen(true)}
+                  onClick={() => {
+                    trackAnalyticsEvent("whatsapp_click", { location: "contact_page" })
+                    setWhatsappDialogOpen(true)
+                  }}
                   className="w-full flex items-center gap-4 mb-3 hover:opacity-80 transition-opacity text-left"
                 >
                   <div className="w-12 h-12 rounded-xl bg-[#25D366]/10 flex items-center justify-center">

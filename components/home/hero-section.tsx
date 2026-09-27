@@ -6,6 +6,7 @@ import { useI18n } from "@/lib/i18n"
 import { ArrowLeft, ArrowRight, MessageCircle } from "lucide-react"
 import type { PublicContent } from "@/lib/public-content"
 import { localizedContent } from "@/lib/public-content"
+import { TeachingLanguageNotice } from "@/components/teaching-language-notice"
 
 export function HeroSection({ content = {} }: { content?: Record<string, PublicContent> }) {
   const { locale, dir } = useI18n()
@@ -39,8 +40,8 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
               </h1>
               <p className="mt-3 text-2xl font-bold leading-relaxed text-foreground md:text-3xl">
                 <span className="block">{localizedContent(content.hero_subtitle, locale, "حصص فردية لتعليم القرآن الكريم والتجويد وتأسيس اللغة العربية")}</span>
-                <span className="block">للأطفال والكبار والمبتدئين</span>
-                <span className="mt-1 block text-lg font-semibold text-muted-foreground md:text-xl">حصص فردية عبر الإنترنت</span>
+                <span className="block">{locale === "ar" ? "للأطفال والكبار والمبتدئين" : locale === "en" ? "For children, adults, and beginners" : "Pour les enfants, adultes et débutants"}</span>
+                <span className="mt-1 block text-lg font-semibold text-muted-foreground md:text-xl">{locale === "ar" ? "حصص فردية عبر الإنترنت باللغة العربية" : locale === "en" ? "One-to-one lessons taught in Arabic" : "Cours individuels dispensés en arabe"}</span>
               </p>
             </div>
           </div>
@@ -63,20 +64,22 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="absolute inset-x-0 bottom-10 z-20 flex flex-col items-center justify-center gap-2 px-4 sm:flex-row sm:gap-8">
-        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="group inline-flex min-h-12 items-center gap-2 rounded-xl bg-primary px-7 py-3 text-base font-bold text-primary-foreground shadow-md transition-all hover:-translate-y-0.5 hover:bg-primary/90">
-          <MessageCircle className="size-4" />
-          {locale === "ar" ? "احجز حصتك التجريبية المجانية" : locale === "en" ? "Book your free trial lesson" : "Réserver votre cours d’essai gratuit"}
-        </a>
-        <Link
-          href="#home-programs-title"
-          className="group inline-flex min-h-12 items-center gap-2 rounded-xl border border-navy-primary/30 bg-background/80 px-7 py-3 text-base font-bold text-navy-primary transition-all hover:-translate-y-0.5 hover:bg-background"
-        >
-          {locale === "ar" ? "اختر البرنامج المناسب" : locale === "en" ? "Explore the programs" : "Découvrir les programmes"}
-          <Arrow className="size-4 transition-transform group-hover:-translate-x-1" />
-        </Link>
+        <div className="mt-8 flex flex-col items-center justify-center gap-3">
+          <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-8">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="group inline-flex min-h-12 items-center gap-2 rounded-xl bg-primary px-7 py-3 text-base font-bold text-primary-foreground shadow-md transition-all hover:-translate-y-0.5 hover:bg-primary/90">
+              <MessageCircle className="size-4" />
+              {locale === "ar" ? "احجز حصتك التجريبية المجانية" : locale === "en" ? "Book your free trial lesson" : "Réserver votre cours d’essai gratuit"}
+            </a>
+            <Link
+              href="#home-programs-title"
+              className="group inline-flex min-h-12 items-center gap-2 rounded-xl border border-navy-primary/30 bg-background/80 px-7 py-3 text-base font-bold text-navy-primary transition-all hover:-translate-y-0.5 hover:bg-background"
+            >
+              {locale === "ar" ? "اختر البرنامج المناسب" : locale === "en" ? "Explore the programs" : "Découvrir les programmes"}
+              <Arrow className="size-4 transition-transform group-hover:-translate-x-1" />
+            </Link>
+          </div>
+          <TeachingLanguageNotice variant="compact" className="w-full max-w-2xl bg-background/95" />
+        </div>
       </div>
 
       {/* Bottom wave */}

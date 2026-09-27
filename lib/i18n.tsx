@@ -23,8 +23,8 @@ const translations: Translations = {
   "nav.subscribe": { ar: "احجز حصة مجانية", en: "Book a Free Trial", fr: "Réserver un essai gratuit" },
 
   // Hero
-  "hero.title": { ar: "تعليم القرآن الكريم وتأسيس اللغة العربية بحصص فردية مباشرة", en: "One-to-one Quran and Arabic lessons", fr: "Cours individuels de Coran et d'arabe" },
-  "hero.subtitle": { ar: "دروس مباشرة باللغة العربية للأطفال والشباب والبالغين، مع اختيار Zoom أو Google Meet ومرونة في الموعد", en: "Live Arabic lessons for children, young learners, and adults with flexible platform and scheduling", fr: "Cours en arabe pour enfants, jeunes et adultes avec horaires flexibles" },
+  "hero.title": { ar: "تعليم القرآن الكريم وتأسيس اللغة العربية بحصص فردية مباشرة", en: "One-to-one Quran and Arabic lessons taught in Arabic", fr: "Cours individuels de Coran et d’arabe dispensés en arabe" },
+  "hero.subtitle": { ar: "دروس مباشرة باللغة العربية للأطفال والشباب والبالغين، مع اختيار Zoom أو Google Meet ومرونة في الموعد", en: "Online one-to-one lessons taught in Arabic for Arabic-speaking children and adults", fr: "Cours individuels en ligne dispensés en arabe pour les enfants et adultes arabophones" },
   "hero.cta": { ar: "احجز واستفسر عبر WhatsApp", en: "Contact us on WhatsApp", fr: "Contactez-nous sur WhatsApp" },
   "hero.cta2": { ar: "اطلع على البرامج", en: "Explore Programs", fr: "Découvrez les programmes" },
 
@@ -88,13 +88,13 @@ const translations: Translations = {
 
   // Quran page
   "quran.hero.title": { ar: "دروس فردية مباشرة لتعلم القرآن الكريم باللغة العربية", en: "One-to-one Quran lessons in Arabic", fr: "Cours individuels de Coran en arabe" },
-  "quran.hero.desc": { ar: "حفظ ومراجعة وتلاوة وتجويد بخطة تناسب مستوى الطالب وهدفه، عبر Zoom أو Google Meet.", en: "Memorization, revision, recitation, and Tajweed through a plan suited to the learner’s level and goal.", fr: "Mémorisation, révision, récitation et Tajweed selon le niveau et l'objectif de l'apprenant." },
+  "quran.hero.desc": { ar: "حفظ ومراجعة وتلاوة وتجويد بخطة تناسب مستوى الطالب وهدفه، عبر Zoom أو Google Meet.", en: "Memorization, revision, recitation, and Tajweed in one-to-one lessons taught in Arabic.", fr: "Mémorisation, révision, récitation et tajwid lors de cours individuels dispensés en arabe." },
   "quran.method.title": { ar: "منهجنا في تعليم القرآن", en: "Our Quran teaching method", fr: "Notre méthode d'enseignement du Coran" },
   "quran.method.desc": { ar: "يبدأ البرنامج بالتعرف على مستوى الطالب وهدفه، ثم يركز على الحفظ أو المراجعة أو التلاوة أو التجويد بما يناسب عمره ووقته، في حصة فردية مباشرة باللغة العربية.", en: "We begin by understanding the learner’s level and goal, then focus on memorization, revision, recitation, or Tajweed through live one-to-one lessons.", fr: "Nous commençons par comprendre le niveau et l'objectif, puis adaptons les cours individuels." },
 
   // Arabic page
   "arabic.hero.title": { ar: "تأسيس اللغة العربية أونلاين للأطفال والكبار", en: "Online Arabic foundation for children and adults", fr: "Fondation de la langue arabe en ligne" },
-  "arabic.hero.desc": { ar: "دروس فردية مباشرة باللغة العربية لتأسيس القراءة والكتابة والإملاء والفهم والتعبير، مع خطة تناسب مستوى الطالب وعمره وهدفه.", en: "Live one-to-one Arabic lessons for reading, writing, spelling, comprehension, and expression, adapted to the learner’s level and goal.", fr: "Cours individuels d'arabe pour la lecture, l'écriture, l'orthographe, la compréhension et l'expression." },
+  "arabic.hero.desc": { ar: "دروس فردية مباشرة باللغة العربية لتأسيس القراءة والكتابة والإملاء والفهم والتعبير، مع خطة تناسب مستوى الطالب وعمره وهدفه.", en: "One-to-one lessons taught in Arabic for reading, writing, spelling, comprehension, and expression, adapted to the learner’s level and goal.", fr: "Cours individuels dispensés en arabe pour la lecture, l’écriture, l’orthographe, la compréhension et l’expression, selon le niveau et l’objectif de l’apprenant." },
   "arabic.method.title": { ar: "مهارات عربية عملية تناسب احتياج الطالب", en: "Practical Arabic skills for each learner", fr: "Compétences pratiques adaptées à chaque apprenant" },
   "arabic.method.desc": { ar: "نبدأ من المستوى الفعلي للطالب، ثم نركز على المهارات التي يحتاج إليها في القراءة أو الكتابة أو الإملاء أو الفهم والتعبير، بدلًا من استخدام منهج واحد للجميع.", en: "We start from the learner’s actual level and focus on the skills they need instead of using one plan for everyone.", fr: "Nous partons du niveau réel de l'apprenant et ciblons ses besoins." },
 

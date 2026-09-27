@@ -4,6 +4,7 @@ import useSWR from "swr"
 import Image from "next/image"
 import Link from "next/link"
 import { useI18n } from "@/lib/i18n"
+import { TeachingLanguageNotice } from "@/components/teaching-language-notice"
 import { Check, BookOpen, Star, Users, Clock, Shield, X, MessageCircle, Target, RefreshCw } from "lucide-react"
 
 const methodSteps = [
@@ -87,6 +88,7 @@ export default function QuranPageClient() {
                 <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#12653D] px-6 py-3 font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#0B3D2E]"><MessageCircle className="size-5" aria-hidden="true" />احجز الحصة التجريبية الأولى المجانية</a>
                 <a href="#how-it-works" className="inline-flex items-center gap-2 rounded-xl border border-primary-foreground/30 px-6 py-3 font-bold text-primary-foreground transition hover:bg-primary-foreground/10">تعرّف على طريقة البدء</a>
               </div>
+              <TeachingLanguageNotice variant="full" className="mt-5 max-w-2xl" />
             </div>
             <div className="hidden lg:block">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">

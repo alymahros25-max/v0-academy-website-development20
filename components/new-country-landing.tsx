@@ -6,6 +6,7 @@ import { getPublishedClassroomVideos, type LandingVideo } from "@/lib/classroom-
 import { getTeachers, type Teacher } from "@/lib/data-store"
 import { NewCountryVideos } from "@/components/new-country-videos"
 import { CountryServiceLinks } from "@/components/country-service-links"
+import { TeachingLanguageNotice } from "@/components/teaching-language-notice"
 import KuwaitProgramSelector from "@/app/kuwait/kuwait-program-selector"
 
 type Props = { config: NewCountryConfig; videos?: LandingVideo[]; teachers?: Teacher[]; contactUrl?: string }
@@ -18,7 +19,7 @@ const isPriorityCountry = (config: NewCountryConfig) => isP1Country(config) || i
 
 function WhatsApp({ config, label = "احجز الحصة التجريبية", contactUrl }: { config: NewCountryConfig; label?: string; contactUrl?: string }) {
   const href = contactUrl || `https://bit.ly/4aJfOl6?text=${encodeURIComponent(config.whatsappMessage)}`
-  return <a href={href} target="_blank" rel="noreferrer" className="new-country-cta"><MessageCircle size={18} />{label}</a>
+  return <div className="w-full max-w-2xl"><a href={href} target="_blank" rel="noreferrer" className="new-country-cta"><MessageCircle size={18} />{label}</a><TeachingLanguageNotice variant="compact" className="mt-3" /></div>
 }
 
 function PriceTable({ config, compact = false }: { config: NewCountryConfig; compact?: boolean }) {

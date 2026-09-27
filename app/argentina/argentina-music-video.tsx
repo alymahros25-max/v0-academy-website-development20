@@ -1,0 +1,9 @@
+'use client'
+
+import { useState } from "react"
+import Image from "next/image"
+import { Play } from "lucide-react"
+import { VideoPlayer } from "@/components/VideoPlayer"
+import type { LandingVideo } from "@/lib/classroom-videos"
+
+export function ArgentinaMusicVideo({ videos }: { videos: LandingVideo[] }) { const [selected, setSelected] = useState<LandingVideo | null>(null); const items = videos.filter((video) => video.showOnLandingPages).slice(0, 4); return <section className="bg-[#F8FAFC] px-5 py-10 sm:px-8"><div className="mx-auto max-w-6xl rounded-2xl border-y-4 border-[#F59E0B] bg-white p-4"><div className="flex flex-wrap items-center justify-between gap-4"><div><p className="text-xs font-black tracking-[0.24em] text-[#0284C7]">شريط إضافي · قبل أن تغلق الدفتر</p><h2 className="mt-2 text-2xl font-black text-[#172554]">مقاطع قصيرة لمن يريد التعرف أكثر</h2></div>{items.length ? <div className="flex flex-wrap gap-3">{items.map((video, i) => <button type="button" key={video.id} onClick={() => setSelected(video)} className="group flex items-center gap-3 rounded-xl bg-[#E0F2FE] p-2 text-right"><span className="relative size-14 overflow-hidden rounded-lg bg-[#0284C7]">{video.thumbnail_url ? <Image loader={({ src }) => src} src={video.thumbnail_url} alt={video.title_ar} fill sizes="56px" className="object-cover" /> : null}<span className="absolute inset-0 grid place-items-center bg-[#0284C7]/40"><Play size={16} fill="currentColor" className="text-white" /></span></span><span className="max-w-36 text-xs font-black text-[#172554]">{video.title_ar}</span><span className="sr-only">افتح المقطع {i + 1}</span></button>)}</div> : <p className="text-sm font-bold text-[#172554]/65">محتوى التعريف المرئي سيظهر من المواد المنشورة.</p>}</div></div>{selected ? <VideoPlayer isOpen videoId={selected.youtube_embed_id} title={selected.title_ar} onClose={() => setSelected(null)} /> : null}</section> }

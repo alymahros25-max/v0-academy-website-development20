@@ -3,6 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useI18n } from "@/lib/i18n"
+import { TeachingLanguageNotice } from "@/components/teaching-language-notice"
 import useSWR from "swr"
 import { Check, PenTool, BookOpen, Lightbulb, GraduationCap, MessageCircle, Target, PencilLine, Languages } from "lucide-react"
 
@@ -69,10 +70,10 @@ export default function ArabicPage() {
   const features = [
     t("pricing.features.flexibility"),
     t("pricing.features.reading"),
-    t("pricing.features.certifiedTeachers"),
+    locale === "ar" ? "دروس فردية مباشرة باللغة العربية" : locale === "en" ? "Live one-to-one lessons in Arabic" : "Cours individuels en direct en arabe",
     t("pricing.features.supervision"),
   ]
-  const whatsappUrl = `https://wa.me/201130127894?text=${encodeURIComponent("السلام عليكم، أرغب في حجز حصة تجريبية مجانية في برنامج تأسيس اللغة العربية. عمر الطالب: ، الدولة: ، المستوى الحالي: ، المهارة المطلوبة: قراءة/كتابة/إملاء/فهم/تعبير، والوقت المناسب: ")}`
+  const whatsappUrl = `https://wa.me/201130127894?text=${encodeURIComponent("السلام عليكم، أرغب في حجز الحصة التجريبية الأولى المجانية في برنامج تأسيس اللغة العربية. عمر الطالب: ، الدولة: ، المستوى الحالي: ، المهارة المطلوبة: قراءة/كتابة/إملاء/فهم/تعبير، والوقت المناسب: ")}`
   const packageWhatsappUrl = (sessions: number, price: number) => `https://wa.me/201130127894?text=${encodeURIComponent(`السلام عليكم، أرغب في معرفة تفاصيل باقة تأسيس اللغة العربية: ${sessions} حصص شهريًا بسعر ${price}$، وأرغب في حجز الحصة التجريبية أولاً. عمر الطالب: ، الدولة: ، المستوى الحالي: ، والوقت المناسب: `)}`
   const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: arabicFaqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
 
@@ -100,9 +101,10 @@ export default function ArabicPage() {
                 <span className="rounded-full border border-primary-foreground/20 px-4 py-2">Zoom أو Google Meet</span>
               </div>
               <div className="mt-8 flex flex-wrap gap-3">
-                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#12653D] px-6 py-3 font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#0B3D2E]"><MessageCircle className="size-5" aria-hidden="true" />احجز حصة تجريبية مجانية</a>
+                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#12653D] px-6 py-3 font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#0B3D2E]"><MessageCircle className="size-5" aria-hidden="true" />احجز الحصة التجريبية الأولى المجانية</a>
                 <a href="#arabic-program" className="inline-flex items-center gap-2 rounded-xl border border-primary-foreground/30 px-6 py-3 font-bold text-primary-foreground transition hover:bg-primary-foreground/10">تعرّف على المهارات</a>
               </div>
+              <TeachingLanguageNotice variant="full" className="mt-5 max-w-2xl" />
             </div>
             <div className="hidden lg:block">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
@@ -277,7 +279,7 @@ export default function ArabicPage() {
             ))}
           </div>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#12653D] px-6 py-3 font-bold text-white transition hover:bg-[#0B3D2E]"><MessageCircle className="size-5" aria-hidden="true" />اسأل عن البرنامج عبر WhatsApp</a>
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#12653D] px-6 py-3 font-bold text-white transition hover:bg-[#0B3D2E]"><MessageCircle className="size-5" aria-hidden="true" />اسأل عن البرنامج واحجز الحصة التجريبية الأولى</a>
             <Link href="/faq" className="inline-flex items-center font-bold text-navy-primary underline underline-offset-4">اقرأ جميع الأسئلة</Link>
           </div>
         </div>
@@ -285,7 +287,6 @@ export default function ArabicPage() {
 
       <section className="bg-navy-pale/20 px-4 py-14" aria-label="روابط برنامج العربية">
         <div className="mx-auto flex max-w-5xl flex-wrap justify-center gap-x-6 gap-y-3 text-sm font-bold text-navy-primary">
-          <Link href="/teachers" className="hover:underline">تعرّف على المعلمين والمعلمات</Link>
           <Link href="/teachers" className="hover:underline">تعرّف على المعلمين والمعلمات</Link>
           <Link href="/quran" className="hover:underline">هل تبحث عن برنامج القرآن؟</Link>
           <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">تواصل عبر WhatsApp</a>

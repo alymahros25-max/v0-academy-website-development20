@@ -2,7 +2,6 @@ import type { MetadataRoute } from 'next'
 import { createClient } from '@supabase/supabase-js'
 
 const BASE_URL = 'https://quran-elhafez.com'
-const STATIC_CONTENT_LAST_MODIFIED = '2026-09-09'
 
 type BlogArticle = { slug: string; lastModified?: string }
 
@@ -28,7 +27,7 @@ async function getDynamicBlogArticles(): Promise<BlogArticle[]> {
         lastModified: article.updated_at || article.created_at,
       }))
 
-    return dynamicArticles.length ? dynamicArticles : getBlogArticlesFromFilesystem()
+    return mergeBlogArticles(dynamicArticles)
   } catch (error) {
     console.warn('[sitemap] Failed to fetch from Supabase:', error)
     return getBlogArticlesFromFilesystem()
@@ -40,10 +39,21 @@ const supportedBlogSlugs = new Set([
   'arabic-foundation-importance',
   'online-learning-benefits',
   'easy-arabic-learning-for-children',
+  'ahkam-noon-sakinah-tanween',
 ])
 
 function getBlogArticlesFromFilesystem(): BlogArticle[] {
   return [...supportedBlogSlugs].map((slug) => ({ slug }))
+}
+
+function mergeBlogArticles(dynamicArticles: BlogArticle[]): BlogArticle[] {
+  const articlesBySlug = new Map<string, BlogArticle>()
+  for (const article of getBlogArticlesFromFilesystem()) articlesBySlug.set(article.slug, article)
+  for (const article of dynamicArticles) {
+    const fallback = articlesBySlug.get(article.slug)
+    articlesBySlug.set(article.slug, { ...fallback, ...article })
+  }
+  return [...articlesBySlug.values()]
 }
 
 const staticRoutes = [
@@ -84,7 +94,6 @@ const staticRoutes = [
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
     url: `${BASE_URL}${route === '/' ? '/' : route}`,
-    lastModified: STATIC_CONTENT_LAST_MODIFIED,
   }))
 
   const blogEntries: MetadataRoute.Sitemap = (await getDynamicBlogArticles())

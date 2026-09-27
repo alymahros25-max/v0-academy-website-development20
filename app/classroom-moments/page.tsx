@@ -9,13 +9,13 @@ import { getPublishedClassroomVideos } from '@/lib/classroom-videos'
 export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: 'فيديوهات من حصصنا - أكاديمية الحافظ المتميز',
-  description: 'شاهد فيديوهات الحصص واللقطات الترويجية للأكاديمية. حصص تفاعلية في التجويد واللغة العربية والقرآن الكريم.',
-  keywords: 'فيديوهات حصص، تجويد، قرآن، حصص أون لاين، أكاديمية الحافظ',
+  title: 'شاهد طريقة حصص القرآن وتأسيس العربية أونلاين | الحافظ المتميز',
+  description: 'شاهد المقاطع المنشورة التي تعرض أسلوب التفاعل في دروس القرآن والتجويد وتأسيس العربية، وطريقة شرح المهارة والتدرب عليها.',
+  keywords: 'فيديوهات حصص القرآن أونلاين، فيديوهات تجويد، طريقة تعليم القرآن للأطفال، حصص تأسيس العربية أونلاين',
   alternates: { canonical: 'https://quran-elhafez.com/classroom-moments' },
   openGraph: {
-    title: 'فيديوهات من حصصنا - أكاديمية الحافظ المتميز',
-    description: 'شاهد فيديوهات الحصص واللقطات الترويجية للأكاديمية',
+    title: 'شاهد طريقة حصص القرآن وتأسيس العربية أونلاين | الحافظ المتميز',
+    description: 'مقاطع منشورة تعرض أسلوب التفاعل في دروس القرآن والتجويد وتأسيس العربية.',
     url: 'https://quran-elhafez.com/classroom-moments',
     type: 'website',
     locale: 'ar_SA',
@@ -23,8 +23,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'فيديوهات من حصصنا - أكاديمية الحافظ المتميز',
-    description: 'شاهد فيديوهات الحصص واللقطات الترويجية',
+    title: 'شاهد طريقة حصص القرآن وتأسيس العربية أونلاين | الحافظ المتميز',
+    description: 'مقاطع منشورة تعرض أسلوب التفاعل في دروس القرآن والتجويد وتأسيس العربية.',
     images: ['https://quran-elhafez.com/images/og-default.webp'],
   },
 }

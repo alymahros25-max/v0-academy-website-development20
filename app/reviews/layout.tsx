@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { getSeoAlternates } from '@/lib/seo-metadata'
 
 export const metadata: Metadata = {
-  title: 'آراء الطلاب وأولياء الأمور | أكاديمية الحافظ المتميز',
-  description: 'تجارب الطلاب وأولياء الأمور مع برامج تحفيظ القرآن الكريم وتعليم العربية عبر الإنترنت.',
+  title: 'آراء وتجارب الطلاب وأولياء الأمور | الحافظ المتميز',
+  description: 'اقرأ آراء وتجارب الطلاب وأولياء الأمور المنشورة عن حصص القرآن وتأسيس العربية في أكاديمية الحافظ المتميز.',
   alternates: getSeoAlternates('https://quran-elhafez.com/reviews'),
 }
 

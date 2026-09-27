@@ -1,6 +1,5 @@
 'use client'
 
-import { Star } from 'lucide-react'
 import { Game } from '@/lib/games-data'
 
 interface GameCardProps {
@@ -35,7 +34,7 @@ const getGamePreview = (gameId: string) => {
     ),
     "tajweed-rules-1": (
       <div className={`${previewStyle} from-amber-100 to-amber-50`}>
-        <div className="space-y-1"><div className="text-lg">ـــــن</div><div className="text-xs">أحكام التنوين</div></div>
+        <div className="space-y-1"><div className="text-lg">نْ + ب</div><div className="text-xs">أحكام النون الساكنة والتنوين</div></div>
       </div>
     ),
     "shapes-colors-1": (
@@ -95,14 +94,7 @@ export function GameCard({ game, locale, onClick }: GameCardProps) {
         <p className="text-xs text-muted-foreground leading-relaxed mb-3 line-clamp-2">
           {locale === 'ar' ? game.descriptionAr : locale === 'en' ? game.descriptionEn : game.descriptionFr}
         </p>
-        <div className="flex items-center justify-between text-xs mb-3">
-          <span className="text-muted-foreground">{game.playersCount}</span>
-          <div className="flex items-center gap-0.5">
-            {[1, 2, 3].map((s) => (
-              <Star key={s} className="w-3 h-3 text-secondary fill-secondary" />
-            ))}
-          </div>
-        </div>
+
         <div className="py-2 bg-primary/10 text-primary rounded-lg text-center font-bold text-xs group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
           ابدأ اللعبة
         </div>

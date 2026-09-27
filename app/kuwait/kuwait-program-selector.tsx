@@ -20,7 +20,7 @@ function Plans({ program, quranPrices, arabicPrices, contactUrl }: ProgramSelect
           {program === "quran" ? "باقات تحفيظ القرآن للناطقين بالعربية" : "باقات تأسيس اللغة العربية للناطقين بالعربية"}
         </h2>
         <p className="mx-auto mt-3 max-w-2xl leading-8 text-kw-muted">
-          {program === "quran" ? "اختر الباقة الشهرية التي تناسب إيقاع تعلم الطالب، مع حصة فردية مدتها 30 دقيقة." : "حصص فردية تركز على المهارات التي يحتاجها الطالب في القراءة والكتابة والنطق والفهم."}
+          {program === "quran" ? "اختر الباقة الشهرية التي تناسب مسار الطالب، مع حصص فردية مباشرة." : "حصص فردية تركز على المهارات التي يحتاجها الطالب في القراءة والكتابة والنطق والفهم."}
         </p>
       </div>
       <div className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
@@ -36,7 +36,7 @@ function Plans({ program, quranPrices, arabicPrices, contactUrl }: ProgramSelect
             <ul className="mt-5 grid gap-3 text-sm text-kw-ink">
               <li className="flex items-center gap-2"><Check className="size-4 text-kw-gold" />{plan.sessions} حصص شهريًا</li>
               <li className="flex items-center gap-2"><Check className="size-4 text-kw-gold" />{plan.weekly} أسبوعيًا</li>
-              <li className="flex items-center gap-2"><Check className="size-4 text-kw-gold" />مدة الحصة: 30 دقيقة</li>
+
               <li className="flex items-center gap-2"><Check className="size-4 text-kw-gold" />الفوترة: شهرية</li>
             </ul>
             <a href={contactUrl || "https://bit.ly/4aJfOl6"} target="_blank" rel="noreferrer" className="mt-7 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-kw-green px-4 py-3 text-sm font-bold text-white transition hover:bg-kw-green-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kw-gold focus-visible:ring-offset-2">

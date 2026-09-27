@@ -9,7 +9,6 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: ['Googlebot', 'Bingbot', 'Slurp', 'DuckDuckBot', 'Baiduspider', 'Sogou', 'YandexBot', 'YandexMobileBot'],
         allow: '/',
-        crawlDelay: 1,
       },
       // Standard rules for common bots
       {
@@ -23,17 +22,6 @@ export default function robots(): MetadataRoute.Robots {
           '/*?*sort=',
           '/*?*filter=',
         ],
-        crawlDelay: 2,
-      },
-      // Deny bad actors
-      {
-        userAgent: [
-          'AhrefsBot',
-          'SemrushBot',
-          'DotBot',
-          'MJ12bot',
-        ],
-        disallow: '/',
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,

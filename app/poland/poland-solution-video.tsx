@@ -1,0 +1,9 @@
+'use client'
+
+import { useState } from "react"
+import Image from "next/image"
+import { Play } from "lucide-react"
+import { VideoPlayer } from "@/components/VideoPlayer"
+import type { LandingVideo } from "@/lib/classroom-videos"
+
+export function PolandSolutionVideo({ videos }: { videos: LandingVideo[] }) { const [selected, setSelected] = useState<LandingVideo | null>(null); const items = videos.filter((video) => video.showOnLandingPages).slice(0, 5); return <section className="bg-[#172554] px-5 py-20 text-white sm:px-8"><div className="mx-auto max-w-6xl"><p className="text-xs font-black tracking-[0.28em] text-[#FEE2E2]">دفتر الحلول · سؤال وجواب مرئي</p><h2 className="mt-4 text-4xl font-black sm:text-6xl">اختر السؤال الذي تريد رؤيته</h2>{items.length ? <div className="mt-10 grid gap-4 md:grid-cols-2">{items.map((video, i) => <button type="button" key={video.id} onClick={() => setSelected(video)} className="group flex items-center gap-4 rounded-lg border border-white/20 bg-white/10 p-4 text-right transition-colors hover:bg-white/20 motion-reduce:transition-none"><div className="relative size-24 shrink-0 overflow-hidden rounded-md bg-[#B91C1C]">{video.thumbnail_url ? <Image loader={({ src }) => src} src={video.thumbnail_url} alt={video.title_ar} fill sizes="96px" className="object-cover" /> : null}<span className="absolute inset-0 grid place-items-center bg-[#B91C1C]/40"><Play size={20} fill="currentColor" /></span></div><div><span className="text-xs font-black text-[#FEE2E2]">سؤال مرئي {i + 1}</span><p className="mt-2 font-black">{video.title_ar}</p><p className="mt-1 text-sm text-white/60">اضغط لفتح الإجابة المرئية</p></div></button>)}</div> : <p className="mt-8 rounded-lg border border-white/20 bg-white/10 p-6 font-bold">محتوى التعريف المرئي سيظهر من المواد المنشورة.</p>}{selected ? <VideoPlayer isOpen videoId={selected.youtube_embed_id} title={selected.title_ar} onClose={() => setSelected(null)} /> : null}</div></section> }

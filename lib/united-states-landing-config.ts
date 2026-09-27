@@ -49,6 +49,6 @@ export function getUnitedStatesWhatsAppUrl(plan: UnitedStatesPlan | string) {
   const details = isPlan
     ? `الباقة المطلوبة: ${plan.name}\nالبرنامج: ${program}\nمدة الحصة: ${plan.duration} دقيقة\nعدد الحصص شهرياً: ${plan.monthlySessions}\nعدد المرات أسبوعياً: ${plan.weeklySessions}\nالسعر الشهري: $${plan.price}`
     : `نوع التواصل: ${plan}`
-  const message = `السلام عليكم،\nأرغب في الحجز في ${program} للناطقين بالعربية في الولايات المتحدة.\n\n${details}\n\nالاسم:\nالعمر:\nولد أم بنت:\nمستوى الطالب الحالي:\nمعلم أم معلمة:\nالولاية والمدينة داخل أمريكا:\nالتوقيت المناسب للحصة حسب توقيت الولايات المتحدة:\nالوقت المناسب للحصة التجريبية المجانية:\nهل يوجد إخوة للاستفادة من خصم الإخوة؟\n\nشكراً لكم.`
+  const message = `السلام عليكم،\nأرغب في الحجز في ${program} للناطقين بالعربية في الولايات المتحدة.\n\n${details}\n\nالاسم:\nالعمر:\nولد أم بنت:\nمستوى الطالب الحالي:\nمعلم أم معلمة:\nالوقت المناسب للحصة التجريبية المجانية:\n\nشكراً لكم.`
   return `https://wa.me/${UNITED_STATES_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 }

@@ -20,7 +20,7 @@ const methodSteps = [
   {
     icon: Star,
     title: { ar: "تعليم التجويد", en: "Tajweed Teaching", fr: "Enseignement du Tajweed" },
-    desc: { ar: "تعلم أحكام التجويد وتطبيقها أثناء التلاوة مع معلم مجاز", en: "Learning Tajweed rules and applying them during recitation with a certified teacher", fr: "Apprentissage des regles de Tajweed avec un enseignant certifie" },
+    desc: { ar: "تعلم أحكام التجويد وتطبيقها أثناء التلاوة خطوة بخطوة", en: "Learn and apply Tajweed rules during recitation step by step", fr: "Apprendre et appliquer les règles du Tajweed pendant la récitation, étape par étape" },
   },
   {
     icon: Shield,
@@ -52,11 +52,11 @@ export default function QuranPageClient() {
 
   const features = [
     t("pricing.features.flexibility"),
-    t("pricing.features.certified"),
+    locale === "ar" ? "دروس فردية مباشرة باللغة العربية" : locale === "en" ? "Live one-to-one lessons" : "Cours individuels en direct",
     t("pricing.features.supervision"),
-    t("pricing.features.memorization"),
+    locale === "ar" ? "حفظ ومراجعة وتلاوة وتجويد" : locale === "en" ? "Memorization, review, recitation, and Tajweed" : "Mémorisation, révision, récitation et Tajweed",
   ]
-  const whatsappUrl = `https://wa.me/201130127894?text=${encodeURIComponent("السلام عليكم، أرغب في حجز حصة تجريبية مجانية في برنامج القرآن. عمر الطالب: ، الدولة: ، المستوى الحالي: ، الهدف: حفظ/مراجعة/تجويد، والوقت المناسب: ")}`
+  const whatsappUrl = `https://wa.me/201130127894?text=${encodeURIComponent("السلام عليكم، أرغب في حجز الحصة التجريبية الأولى المجانية في برنامج القرآن. عمر الطالب: ، الدولة: ، المستوى الحالي: ، الهدف: حفظ/مراجعة/تجويد، والوقت المناسب: ")}`
   const packageWhatsappUrl = (sessions: number, price: number) => `https://wa.me/201130127894?text=${encodeURIComponent(`السلام عليكم، أرغب في معرفة تفاصيل باقة القرآن: ${sessions} حصص شهريًا بسعر ${price}$، وأرغب في حجز الحصة التجريبية أولاً. عمر الطالب: ، الدولة: ، المستوى الحالي: ، والوقت المناسب: `)}`
   const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: quranFaqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
 
@@ -84,7 +84,7 @@ export default function QuranPageClient() {
                 <span className="rounded-full border border-primary-foreground/20 px-4 py-2">Zoom أو Google Meet</span>
               </div>
               <div className="mt-8 flex flex-wrap gap-3">
-                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#12653D] px-6 py-3 font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#0B3D2E]"><MessageCircle className="size-5" aria-hidden="true" />احجز حصة تجريبية مجانية</a>
+                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-[#12653D] px-6 py-3 font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#0B3D2E]"><MessageCircle className="size-5" aria-hidden="true" />احجز الحصة التجريبية الأولى المجانية</a>
                 <a href="#how-it-works" className="inline-flex items-center gap-2 rounded-xl border border-primary-foreground/30 px-6 py-3 font-bold text-primary-foreground transition hover:bg-primary-foreground/10">تعرّف على طريقة البدء</a>
               </div>
             </div>
@@ -251,7 +251,7 @@ export default function QuranPageClient() {
                 </ul>
 
                 <a href={packageWhatsappUrl(pkg.sessions, pkg.price)} target="_blank" rel="noopener noreferrer" className={`block w-full py-3.5 rounded-xl font-bold text-center transition-all hover:-translate-y-0.5 hover:shadow-lg ${pkg.popular ? "bg-secondary text-secondary-foreground hover:brightness-110" : "bg-primary text-primary-foreground hover:brightness-110"}`}>
-                  اسأل عن الباقة واحجز الحصة التجريبية
+                  اسأل عن الباقة واحجز الحصة التجريبية الأولى المجانية
                 </a>
               </div>
             ))}

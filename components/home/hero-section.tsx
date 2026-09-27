@@ -35,7 +35,7 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
           <div className="text-center transition-transform lg:text-start">
             <div className="mx-auto inline-flex w-fit max-w-full flex-col items-center rounded-3xl bg-background/75 px-5 py-6 shadow-lg backdrop-blur-[2px] lg:mx-0 lg:items-start lg:px-8 lg:py-7">
               <h1 className="text-4xl font-extrabold leading-tight text-foreground text-balance md:text-5xl lg:text-6xl">
-                {localizedContent(content.hero_title, locale, "تعلّم القرآن الكريم واللغة العربية أونلاين")}
+                {localizedContent(content.hero_title, locale, "حصص فردية لتحفيظ القرآن وتأسيس اللغة العربية أونلاين")}
               </h1>
               <p className="mt-3 text-2xl font-bold leading-relaxed text-foreground md:text-3xl">
                 <span className="block">{localizedContent(content.hero_subtitle, locale, "حصص فردية لتعليم القرآن الكريم والتجويد وتأسيس اللغة العربية")}</span>
@@ -71,10 +71,10 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
           {locale === "ar" ? "احجز حصتك التجريبية المجانية" : locale === "en" ? "Book your free trial lesson" : "Réserver votre cours d’essai gratuit"}
         </a>
         <Link
-          href="/teachers"
+          href="#home-programs-title"
           className="group inline-flex min-h-12 items-center gap-2 rounded-xl border border-navy-primary/30 bg-background/80 px-7 py-3 text-base font-bold text-navy-primary transition-all hover:-translate-y-0.5 hover:bg-background"
         >
-          {locale === "ar" ? "تعرّف على المعلمين والمعلمات" : locale === "en" ? "Meet our teachers" : "Découvrir les programmes"}
+          {locale === "ar" ? "اختر البرنامج المناسب" : locale === "en" ? "Explore the programs" : "Découvrir les programmes"}
           <Arrow className="size-4 transition-transform group-hover:-translate-x-1" />
         </Link>
       </div>

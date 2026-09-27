@@ -56,14 +56,16 @@ async function PlansSection({ program, title }: { program: UaeProgram; title: st
   const databasePlans = areaData.packages.map(toAreaDisplayPlan).filter((plan) => plan.program === program)
   const plans = databasePlans.length ? databasePlans : (uaeLandingConfig.plans.filter((plan) => plan.program === program && plan.visible) as unknown as AreaDisplayPlan[])
   const info = planInfoByProgram[program]
-  const faqs = faqGroupsByProgram[program]
+  const databaseFaq = areaData.faq.filter((item) => item.question_key.includes(`-${program}-`)).map((item) => [item.question_ar, item.answer_ar] as const)
+  const faqs = databaseFaq.length ? Array.from({ length: Math.ceil(databaseFaq.length / 2) }, (_, index) => databaseFaq.slice(index * 2, index * 2 + 2)) : faqGroupsByProgram[program]
   return <section className="mt-16" aria-labelledby={`${program}-plans`}><h3 id={`${program}-plans`} className="text-center text-2xl font-bold text-foreground">{title}</h3>{Array.from({ length: Math.ceil(plans.length / 4) }, (_, groupIndex) => <div key={`${program}-group-${groupIndex}`}><div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">{plans.slice(groupIndex * 4, groupIndex * 4 + 4).map((plan) => <PlanCard key={plan.id} plan={plan} contactUrl={getAreaWhatsAppUrl(areaData.links, plan.name, getUaeWhatsAppUrl(plan.name))} />)}</div><PlanInfoCard title={info[groupIndex][0]} text={info[groupIndex][1]} /><FAQGroup items={faqs[groupIndex]} /></div>)}</section>
 }
 
 export default async function UaeArabiaPage() {
   const trialUrl = getUaeWhatsAppUrl("طلب حصة تجريبية مجانية")
   const areaData = await getAreaLandingData("united-arab-emirates")
-  const faqItems = [...faqGroupsByProgram.quran.flat(1), ...faqGroupsByProgram.arabic.flat(1)]
+  const databaseFaq = areaData.faq.map((item) => [item.question_ar, item.answer_ar] as const)
+  const faqItems = databaseFaq.length ? databaseFaq : [...faqGroupsByProgram.quran.flat(1), ...faqGroupsByProgram.arabic.flat(1)]
   const areaTrialUrl = getAreaWhatsAppUrl(areaData.links, "طلب حصة تجريبية مجانية", getUaeWhatsAppUrl("طلب حصة تجريبية مجانية"))
   return <main dir="rtl" style={getCountryThemeStyle(areaData.theme)} className="min-h-screen overflow-hidden bg-background">
     <header className="bg-primary text-primary-foreground"><div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3 sm:px-8"><Link href="/" className="flex items-center gap-3"><Image src="/logo.png" alt="شعار أكاديمية الحافظ المتميز" width={44} height={44} className="size-11 rounded-lg bg-secondary object-contain" priority /><span className="font-bold">أكاديمية الحافظ المتميز</span></Link><div className="flex items-center gap-3"><span className="text-2xl" aria-label="الإمارات العربية المتحدة" title="الإمارات العربية المتحدة" role="img">🇦🇪</span><a className="saudi-secondary-cta bg-primary-foreground px-3 py-2 text-sm text-primary" href={areaTrialUrl} target="_blank" rel="noreferrer">احجز الحصة التجريبية الأولى المجانية</a></div></div></header>

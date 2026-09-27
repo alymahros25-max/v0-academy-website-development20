@@ -6,11 +6,11 @@ import { audioSystem } from '@/lib/audio-system'
 import { GameResults } from './GameResults'
 
 const surahs = [
-  { name: 'الفاتحة', verse: 'بسم الله الرحمن الرحيم' },
-  { name: 'يس', verse: 'يس والقرآن الحكيم' },
-  { name: 'الملك', verse: 'تبارك الذي بيده الملك' },
-  { name: 'الإخلاص', verse: 'قل هو الله أحد' },
-  { name: 'النور', verse: 'سورة أنزلناها وفرضناها' },
+  { name: 'الفاتحة', verse: 'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ' },
+  { name: 'يس', verse: 'يس ۝ وَالْقُرْآنِ الْحَكِيمِ' },
+  { name: 'الملك', verse: 'تَبَارَكَ الَّذِي بِيَدِهِ الْمُلْكُ' },
+  { name: 'الإخلاص', verse: 'قُلْ هُوَ اللَّهُ أَحَدٌ' },
+  { name: 'النور', verse: 'سُورَةٌ أَنْزَلْنَاهَا وَفَرَضْنَاهَا' },
 ]
 
 export function SurahGuessGame() {
@@ -35,6 +35,7 @@ export function SurahGuessGame() {
   }, [done])
 
   const handleAns = (name: string) => {
+    if (selected !== null || done) return
     setSelected(name)
     if (name === surahs[idx].name) {
       audioSystem.playCorrect()
@@ -69,8 +70,8 @@ export function SurahGuessGame() {
         <div className="text-center"><div className="text-3xl font-extrabold text-emerald-600">{timer}s</div></div>
       </div>
       <div className="h-2 bg-muted rounded-full overflow-hidden mb-8"><div className="h-full bg-primary transition-all" style={{ width: `${((idx + 1) / surahs.length) * 100}%` }} /></div>
-      <div className="bg-white dark:bg-background rounded-2xl p-8 mb-8 text-center"><p className="text-foreground text-sm mb-4">{locale === 'ar' ? 'أي سورة يبدأ بهذه الآية؟' : 'Which Surah starts with this verse?'}</p><p className="text-xl italic text-primary font-bold">{surahs[idx].verse}</p></div>
-      <div className="grid grid-cols-2 gap-3">{shuffled.map((name, i) => (<button key={i} onClick={() => handleAns(name)} className={`py-4 px-3 rounded-xl font-bold transition-all ${selected === name ? name === surahs[idx].name ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white' : 'bg-primary/10 text-primary hover:bg-primary/20'}`}>{name}</button>))}</div>
+      <div className="bg-white dark:bg-background rounded-2xl p-8 mb-8 text-center"><p className="text-foreground text-sm mb-4">{locale === 'ar' ? 'إلى أي سورة ينتمي هذا المقطع القرآني؟' : 'Which Surah contains this Quranic excerpt?'}</p><p dir="rtl" className="text-xl text-primary font-bold">{surahs[idx].verse}</p></div>
+      <div className="grid grid-cols-2 gap-3">{shuffled.map((name, i) => (<button key={i} onClick={() => handleAns(name)} disabled={selected !== null} className={`py-4 px-3 rounded-xl font-bold transition-all disabled:opacity-60 ${selected === name ? name === surahs[idx].name ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white' : 'bg-primary/10 text-primary hover:bg-primary/20'}`}>{name}</button>))}</div>
     </div>
   )
 }

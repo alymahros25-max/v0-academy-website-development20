@@ -2,12 +2,12 @@ import type { Metadata } from 'next'
 import { getSeoAlternates } from '@/lib/seo-metadata'
 
 export const metadata: Metadata = {
-  title: 'مدونة أكاديمية الحافظ المتميز',
-  description: 'مقالات ونصائح عملية في تحفيظ القرآن الكريم والتجويد وتعليم اللغة العربية.',
+  title: 'مدونة القرآن واللغة العربية | أكاديمية الحافظ المتميز',
+  description: 'مقالات وإرشادات عملية عن حفظ القرآن ومراجعته والتجويد، وعن تأسيس القراءة والكتابة بالعربية، مع روابط إلى البرامج المناسبة.',
   alternates: getSeoAlternates('https://quran-elhafez.com/blog'),
   openGraph: {
-    title: 'مدونة أكاديمية الحافظ المتميز',
-    description: 'مقالات ونصائح عملية في تحفيظ القرآن الكريم والتجويد وتعليم اللغة العربية.',
+    title: 'مدونة القرآن واللغة العربية | أكاديمية الحافظ المتميز',
+    description: 'مقالات وإرشادات عملية عن حفظ القرآن ومراجعته والتجويد، وعن تأسيس القراءة والكتابة بالعربية، مع روابط إلى البرامج المناسبة.',
     url: 'https://quran-elhafez.com/blog',
     type: 'website',
     locale: 'ar_SA',

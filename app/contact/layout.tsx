@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { getSeoAlternates } from '@/lib/seo-metadata'
 
 export const metadata: Metadata = {
-  title: 'تواصل معنا | أكاديمية الحافظ المتميز',
-  description: 'تواصل مع أكاديمية الحافظ المتميز للاستفسار عن تحفيظ القرآن الكريم وتعليم اللغة العربية عبر الإنترنت.',
+  title: 'تواصل معنا واحجز حصة تجريبية مجانية | الحافظ المتميز',
+  description: 'تواصل مع أكاديمية الحافظ المتميز للاستفسار عن برنامج القرآن أو تأسيس العربية، وأرسل عمر الطالب ومستواه وموعدك المناسب عبر WhatsApp.',
   alternates: getSeoAlternates('https://quran-elhafez.com/contact'),
 }
 

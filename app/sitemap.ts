@@ -28,7 +28,7 @@ async function getDynamicBlogArticles(): Promise<BlogArticle[]> {
         lastModified: article.updated_at || article.created_at,
       }))
 
-    return dynamicArticles.length ? dynamicArticles : getBlogArticlesFromFilesystem()
+    return mergeBlogArticles(dynamicArticles)
   } catch (error) {
     console.warn('[sitemap] Failed to fetch from Supabase:', error)
     return getBlogArticlesFromFilesystem()
@@ -40,10 +40,21 @@ const supportedBlogSlugs = new Set([
   'arabic-foundation-importance',
   'online-learning-benefits',
   'easy-arabic-learning-for-children',
+  'ahkam-noon-sakinah-tanween',
 ])
 
 function getBlogArticlesFromFilesystem(): BlogArticle[] {
   return [...supportedBlogSlugs].map((slug) => ({ slug }))
+}
+
+function mergeBlogArticles(dynamicArticles: BlogArticle[]): BlogArticle[] {
+  const articlesBySlug = new Map<string, BlogArticle>()
+  for (const article of getBlogArticlesFromFilesystem()) articlesBySlug.set(article.slug, article)
+  for (const article of dynamicArticles) {
+    const fallback = articlesBySlug.get(article.slug)
+    articlesBySlug.set(article.slug, { ...fallback, ...article })
+  }
+  return [...articlesBySlug.values()]
 }
 
 const staticRoutes = [

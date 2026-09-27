@@ -6,8 +6,8 @@ import { GameResults } from "./GameResults"
 
 const verseQuestions = [
   { words: ["الحمد", "لله", "رب", "العالمين"], correct: [0, 1, 2, 3] },
-  { words: ["المصحف", "كتاب", "الله", "المبين"], correct: [2, 1, 0, 3] },
-  { words: ["الصلاة", "أركان", "خمس", "والإيمان"], correct: [0, 2, 3, 1] },
+  { words: ["اللَّهُ", "لَا", "إِلَٰهَ", "إِلَّا"], correct: [0, 1, 2, 3] },
+  { words: ["قُلْ", "هُوَ", "اللَّهُ", "أَحَدٌ"], correct: [0, 1, 2, 3] },
 ]
 
 function shuffleArray<T>(arr: T[]): T[] {

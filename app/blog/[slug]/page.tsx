@@ -7,34 +7,34 @@ import { createClient } from '@supabase/supabase-js'
 // المقالات الثابتة الافتراضية
 const blogPosts: Record<string, any> = {
   "quran-memorization-techniques": {
-    title: { ar: "تقنيات فعالة لحفظ القرآن الكريم في أقل وقت", en: "Effective Techniques for Quran Memorization in Less Time", fr: "Techniques efficaces pour mémoriser le Coran en moins de temps" },
+    title: { ar: "تقنيات عملية لحفظ القرآن الكريم ومراجعته", en: "Practical Quran Memorization and Revision Techniques", fr: "Méthodes pratiques pour mémoriser et réviser le Coran" },
     category: { ar: "تحفيظ القرآن", en: "Quran Memorization", fr: "Mémorisation du Coran" },
     author: { ar: "فريق الأكاديمية", en: "Academy Team", fr: "Équipe de l'académie" },
     date: "2024-06-15",
     readTime: 9,
     image: "/images/quran-memorization-techniques.webp",
-    keywords: { ar: "طرق حفظ القرآن للأطفال، أسهل طريقة لحفظ القرآن، تقنيات حفظ القرآن، مراجعة القرآن، أحكام التجويد", en: "Quran memorization for children, Quran memorization techniques, Quran revision, Tajweed", fr: "Mémorisation du Coran pour enfants, méthodes de mémorisation, révision du Coran" },
-    description: { ar: "دليل عملي يشرح أسهل طرق حفظ القرآن للأطفال والكبار، مع تقنيات المراجعة والتكرار والاستماع والتجويد لتثبيت الحفظ.", en: "A practical guide to effective Quran memorization, revision, repetition, listening, and Tajweed techniques for children and adults.", fr: "Un guide pratique pour mémoriser le Coran avec des méthodes de révision, de répétition et de tajwid." },
+    keywords: { ar: "حفظ القرآن للأطفال، طرق حفظ القرآن، مراجعة القرآن، تثبيت الحفظ، الاستماع للقرآن، أحكام التجويد", en: "Quran memorization for children, Quran revision, repetition, Quran listening, Tajweed", fr: "Mémorisation du Coran pour enfants, révision du Coran, répétition, tajwid" },
+    description: { ar: "خطوات عملية لتنظيم حفظ القرآن ومراجعته، مع أفكار للتكرار والاستماع وفهم المعاني والمتابعة المناسبة لمستوى الطالب.", en: "Practical steps for organizing Quran memorization and revision, with ideas for repetition, listening, understanding, and suitable progress review.", fr: "Des étapes pratiques pour organiser la mémorisation et la révision du Coran, avec des idées de répétition et d’écoute." },
     content: {
       ar: `<h2>مقدمة</h2>
-<p>حفظ القرآن الكريم أمنية غالية لكل مسلم ومسلمة، ولأولياء الأمور الذين يطمحون لرؤية أبنائهم من أهل القرآن. ومع تسارع وتيرة الحياة، يبحث الكثيرون عن طرق ذكية وعملية تساعدهم على تحقيق هذا الهدف العظيم بكفاءة عالية وبأقل جهد ووقت ممكن.</p>
+<p>حفظ القرآن الكريم هدف يسعى إليه كثير من المسلمين وأولياء الأمور. وتساعد الخطة الواضحة والمراجعة المنتظمة على تنظيم وقت التعلّم، مع اختيار مقدار يناسب مستوى الطالب وظروفه.</p>
 
 <h2>أبرز التقنيات العملية لحفظ سريع ومتقن</h2>
 
-<h3>1. تقنية "الربط البصري والذهني"</h3>
-<p>تعتمد هذه الطريقة على قراءة الآيات من مصحف واحد ثابت (لا تتغير طبعته). العقل البشري يقوم بـ "تصوير" الصفحة وتخزين مكان الآيات (أعلى، منتصف، أو أسفل الصفحة)، مما يسهل استرجاعها أثناء التسميع.</p>
+<h3>1. الاستمرار على نسخة مصحف واحدة</h3>
+<p>قد يساعد استخدام النسخة نفسها أثناء الحفظ والمراجعة على الاعتياد على شكل الصفحة وموضع الآيات. جرّب هذه الطريقة إن كانت مناسبة لك، ولا تجعل تذكّر موضع الصفحة بديلًا عن ضبط الآية ومراجعتها.</p>
 
 <h3>2. التكرار الموزع (Spaced Repetition)</h3>
-<p>بدلاً من تكرار الآية 50 مرة متتالية في نفس الجلسة، أثبتت الدراسات أن تكرارها 10 مرات في الصباح، و10 مرات في المساء، ومراجعتها قبل النوم، يرسخ الحفظ في الذاكرة طويلة المدى بشكل أسرع وأقوى.</p>
+<p>يمكن تقسيم وقت المراجعة إلى جلسات قصيرة موزعة على اليوم، مع اختيار مقدار يناسب قدرة الطالب. جرّب تكرار المقطع مع الاستماع إليه، ثم استرجاعه من الذاكرة ومراجعته في وقت لاحق، وعدّل الخطة بحسب ما يثبت معك فعليًا.</p>
 
-<h3>3. فهم المعاني وسياق الآيات</h3>
-<p>من المستحيل تقريباً حفظ ما لا تفهمه بشكل سريع. قراءة تفسير ميسر قبل البدء بالحفظ تختصر نصف الوقت، حيث يصبح الحفظ عبارة عن تسلسل أفكار وقصص مترابطة بدلاً من مجرد كلمات مجردة.</p>
+<h3>3. الاطلاع على المعاني والسياق</h3>
+<p>قد يساعد فهم المعاني العامة والسياق على متابعة المقطع، مع الاعتماد على تفسير موثوق عند الحاجة. يبقى الحفظ والمراجعة والاستماع للقراءة من المصحف خطوات مستقلة لا يغني بعضها عن بعض.</p>
 
-<h3>4. الاستماع النشط قبل الحفظ</h3>
-<p>الاستماع للقارئ المفضل لديك بتركيز (مع التركيز على أحكام التجويد ومخارج الحروف) لعدة مرات قبل البدء بالحفظ الفعلي، يجعل لسانك ينطق الآيات بسلاسة ودون أخطاء عند الحفظ.</p>
+<h3>4. الاستماع والترديد</h3>
+<p>يمكن أن يعرّفك الاستماع إلى تلاوة متقنة على نطق المقطع وإيقاعه. استمع مع متابعة المصحف، ثم ردّد الآيات واعرض قراءتك على معلّم لتصحيح ما يحتاج إلى مراجعة.</p>
 
 <h2>دور التوجيه والمتابعة</h2>
-<p>الحفظ الفردي قد يصيبه الفتور؛ لذلك فإن الانضمام إلى حلقات تحفيظ تحت إشراف معلمين متخصصين يوفر لك:</p>
+<p>قد تساعد المتابعة المنتظمة على المحافظة على خطة الحفظ، ومن المفيد عند التعلّم مع معلّم أو مجموعة أن تتضمن المتابعة:</p>
 <ul>
 <li>خطة زمنية مخصصة لقدراتك.</li>
 <li>التزاماً يومياً يمنع التسويف.</li>
@@ -119,9 +119,9 @@ const blogPosts: Record<string, any> = {
 <h2>مستقبل التعليم بين يديك</h2>
 <p>إن دمج التكنولوجيا بالتعليم يساعد الطلاب أيضاً على اكتساب مهارات تقنية يحتاجونها في مستقبلهِم المهني، ويجعلهم أكثر اعتماداً على أنفسهم في البحث والمعرفة.</p>`,
       en: `<h2>Introduction</h2>
-<p>Online education is no longer just a temporary alternative, but has become a fundamental pillar of modern education. Virtual classrooms and educational platforms have proven their high ability to bridge educational gaps and develop student skills significantly compared to traditional methods.</p>`,
+<p>Online education is one way to access lessons and learning materials remotely. Virtual classrooms and educational platforms can provide a setting for live instruction, practice, and communication between students and teachers.</p>`,
       fr: `<h2>Introduction</h2>
-<p>L'apprentissage en ligne n'est plus seulement une alternative temporaire, mais est devenu un pilier fondamental de l'éducation moderne.</p>`
+<p>L’apprentissage en ligne permet d’accéder à des cours et à des ressources à distance. Une classe virtuelle peut offrir un cadre pour les leçons en direct, les exercices et les échanges entre élèves et enseignants.</p>`
     }
   },
   "easy-arabic-learning-for-children": {
@@ -197,6 +197,66 @@ const blogPosts: Record<string, any> = {
 <h2>Le rôle des adultes</h2>
 <p>Les parents et les enseignants favorisent les progrès par des encouragements précis, des corrections bienveillantes, un environnement riche en arabe et des objectifs hebdomadaires simples.</p>`
     }
+  },
+  "ahkam-noon-sakinah-tanween": {
+    title: { ar: "أحكام النون الساكنة والتنوين: شرح مبسط مع أمثلة قرآنية", en: "Noon Sakinah and Tanween Rules: A Beginner’s Guide with Quran Examples", fr: "Règles du nûn sākinah et du tanwīn : guide simple et exemples coraniques" },
+    category: { ar: "تعليم التجويد", en: "Tajweed Learning", fr: "Apprentissage du tajwid" },
+    author: { ar: "فريق الأكاديمية", en: "Academy Team", fr: "Équipe de l'académie" },
+    date: "2026-09-27",
+    readTime: 8,
+    image: "/images/og-default.webp",
+    keywords: { ar: "أحكام النون الساكنة والتنوين، الإظهار الحلقي، الإدغام بغنة، الإدغام بغير غنة، الإقلاب، الإخفاء الحقيقي، أمثلة التجويد من القرآن", en: "noon sakinah rules, tanween rules, izhar, idgham, iqlab, ikhfa, Tajweed examples", fr: "règles du nûn sākinah, tanwin, izhār, idghām, iqlāb, ikhfā, exemples de tajwid" },
+    description: { ar: "شرح تعليمي موجز لأحكام النون الساكنة والتنوين الأربعة—الإظهار والإدغام والإقلاب والإخفاء—مع حروف كل حكم وأمثلة قرآنية ومصدر للمراجعة.", en: "A clear introduction to the four noon sakinah and tanween rules—izhar, idgham, iqlab, and ikhfa—with their letters, Quran examples, and a reference for further study.", fr: "Une introduction claire aux quatre règles du nûn sākinah et du tanwīn — izhār, idghām, iqlāb et ikhfā — avec leurs lettres et des exemples coraniques." },
+    content: {
+      ar: `<h2>ما النون الساكنة وما التنوين؟</h2>
+<p>النون الساكنة هي نون لا تحمل حركة، وقد تأتي في وسط الكلمة أو آخرها. أما التنوين فهو نون ساكنة زائدة تُنطق في آخر الاسم ولا تُكتب نونًا مستقلة. عند التلاوة، يتحدد حكمهما بحسب الحرف الذي يأتي بعدهما؛ وأحكامهما الأساسية أربعة: الإظهار، والإدغام، والإقلاب، والإخفاء.</p>
+<p>هذا ملخص تعليمي للتعرّف إلى أسماء الأحكام وحروفها. أما ضبط الأداء ومقدار الغنة ومخارج الحروف فيُتعلّم بالمشافهة والتلقي من معلّم متقن، مع الرجوع إلى المصحف والرواية التي يقرأ بها الطالب.</p>
+
+<h2>1. الإظهار الحلقي</h2>
+<p>يكون الإظهار إذا جاء بعد النون الساكنة أو التنوين واحد من حروف الحلق الستة: <strong>ء، هـ، ع، ح، غ، خ</strong>. ومعناه إبانة النون أو التنوين عند النطق، من غير إدغام في الحرف التالي. ومن أمثلته القرآنية: <a href="https://quran.com/1/7" target="_blank" rel="noreferrer">«أَنْعَمْتَ عَلَيْهِمْ»</a> في سورة الفاتحة؛ جاءت النون الساكنة قبل العين.</p>
+
+<h2>2. الإدغام</h2>
+<p>حروف الإدغام ستة، مجموعة في كلمة <strong>يرملون</strong>، ويكون الإدغام عند التقاء النون الساكنة أو التنوين بحرف منها في الكلمة التالية. وينقسم إلى نوعين:</p>
+<ul>
+<li><strong>إدغام بغنة:</strong> حروفه <strong>ي، ن، م، و</strong>، وتبقى الغنة عند الأداء. ومن أمثلته «مِنْ مَسَدٍ» في <a href="https://quran.com/111/5" target="_blank" rel="noreferrer">سورة المسد، الآية 5</a>.</li>
+<li><strong>إدغام بغير غنة:</strong> حرفاه <strong>ل، ر</strong>. ومن أمثلته «هُدًى لِلْمُتَّقِينَ» في <a href="https://quran.com/2/2" target="_blank" rel="noreferrer">سورة البقرة، الآية 2</a>.</li>
+</ul>
+<p>ومن الاستثناءات التعليمية المشهورة أن النون الساكنة إذا جاء بعدها الواو أو الياء داخل كلمة واحدة تُظهر، كما في «الدنيا» و«بنيان»؛ لذلك لا يكفي حفظ الحروف دون ملاحظة موقع النون والحرف التالي.</p>
+
+<h2>3. الإقلاب</h2>
+<p>للإقلاب حرف واحد هو <strong>الباء</strong>. إذا جاءت الباء بعد النون الساكنة أو التنوين، تُقلب النون أو التنوين ميمًا مخفاة مع الغنة في التلاوة. ومن أمثلته «أَنْبِئْهُمْ» في <a href="https://quran.com/2/33" target="_blank" rel="noreferrer">سورة البقرة، الآية 33</a>.</p>
+
+<h2>4. الإخفاء الحقيقي</h2>
+<p>حروف الإخفاء خمسة عشر حرفًا، وهي بقية الحروف بعد حروف الإظهار والإدغام والإقلاب: <strong>ص، ذ، ث، ك، ج، ش، ق، س، د، ط، ز، ف، ت، ض، ظ</strong>. يكون النطق بين الإظهار والإدغام مع بقاء الغنة. ومن أمثلته «مِنْ شَرِّ» في <a href="https://quran.com/113/2" target="_blank" rel="noreferrer">سورة الفلق، الآية 2</a>.</p>
+
+<h2>طريقة سهلة للمراجعة</h2>
+<ol>
+<li>ابحث عن النون الساكنة أو التنوين في المثال.</li>
+<li>حدّد الحرف التالي مباشرة، وانتبه إلى كونه في الكلمة نفسها أو في كلمة تالية.</li>
+<li>طابق الحرف مع مجموعة أحكامه: حروف الحلق للإظهار، و«يرملون» للإدغام، والباء للإقلاب، وبقية الحروف الخمسة عشر للإخفاء.</li>
+<li>استمع إلى تلاوة متقنة وراجع المثال في المصحف، ثم اعرض قراءتك على معلّم؛ فالكتابة وحدها لا تكفي لضبط الأداء.</li>
+</ol>
+
+<h2>خلاصة أحكام النون الساكنة والتنوين</h2>
+<p>الإظهار ستة أحرف، والإدغام ستة، والإقلاب حرف واحد هو الباء، والإخفاء خمسة عشر حرفًا. هذا التقسيم مدخل للمراجعة وليس بديلًا عن التلقي والتطبيق على التلاوة. يمكنك التعرّف إلى <a href="/quran">برنامج تعليم القرآن والتلاوة</a>، أو التدريب عبر <a href="/games">الألعاب القرآنية والتعليمية</a>، والاطلاع على <a href="/library">المكتبة الرقمية</a> للموارد المنشورة.</p>
+<p><strong>المصدر التعليمي للحروف والتقسيم والأمثلة:</strong> <a href="https://awkafonline.gov.eg/content-sections/116/4995/%D8%A3%D8%AD%D9%83%D8%A7%D9%85-%D8%A7%D9%84%D9%86%D9%88%D9%86-%D8%A7%D9%84%D8%B3%D8%A7%D9%83%D9%86%D8%A9%D8%8C-%D9%88%D8%A7%D9%84%D8%AA%D9%86%D9%88%D9%8A%D9%86" target="_blank" rel="noreferrer">أحكام النون الساكنة والتنوين – وزارة الأوقاف المصرية</a>. وروابط الآيات تقود إلى نصها في Quran.com للمراجعة.</p>`,
+      en: `<h2>What are noon sakinah and tanween?</h2>
+<p>Noon sakinah is a still nūn that may occur within or at the end of a word. Tanween is an ending sound of nūn sakinah added to a noun in pronunciation, though it is not written as a separate nūn. The letter that follows determines one of four basic rules: izhar, idgham, iqlab, or ikhfa.</p>
+<h2>The four rules</h2>
+<h3>1. Izhar (clear pronunciation)</h3><p>Izhar applies before the six throat letters: hamzah, hāʾ, ʿayn, ḥāʾ, ghayn, and khāʾ. A Quran example is <a href="https://quran.com/1/7">أَنْعَمْتَ عَلَيْهِمْ</a> (Al-Fatihah 1:7), where nūn sakinah is followed by ʿayn.</p>
+<h3>2. Idgham (merging)</h3><p>Its six letters are gathered in <em>yarmalūn</em>. With yāʾ, nūn, mīm, or wāw it is with ghunnah; with lām or rāʾ it is without ghunnah. Examples include <a href="https://quran.com/111/5">مِنْ مَسَدٍ</a> and <a href="https://quran.com/2/2">هُدًى لِلْمُتَّقِينَ</a>. Notice that the usual rule applies across two words; nūn before yāʾ or wāw within one word is pronounced clearly in well-known examples such as الدنيا and بنيان.</p>
+<h3>3. Iqlab (conversion)</h3><p>Before the single letter bāʾ, nūn sakinah or tanween is changed to a concealed mīm sound with ghunnah in recitation. See <a href="https://quran.com/2/33">أَنْبِئْهُمْ</a> (Al-Baqarah 2:33).</p>
+<h3>4. Ikhfa (concealment)</h3><p>Ikhfa applies before the remaining fifteen letters: ص ذ ث ك ج ش ق س د ط ز ف ت ض ظ. The sound is between clear pronunciation and merging, with ghunnah. An example is <a href="https://quran.com/113/2">مِنْ شَرِّ</a> (Al-Falaq 113:2).</p>
+<h2>How to practise</h2><p>Locate the nūn sakinah or tanween, identify the next letter, and match it to its group. Then listen to a proficient recitation and review the text in a mushaf. Written examples are an introduction; pronunciation and ghunnah should be learned by listening and reciting to a qualified teacher. Read the official <a href="https://awkafonline.gov.eg/content-sections/116/4995/%D8%A3%D8%AD%D9%83%D8%A7%D9%85-%D8%A7%D9%84%D9%86%D9%88%D9%86-%D8%A7%D9%84%D8%B3%D8%A7%D9%83%D9%86%D8%A9%D8%8C-%D9%88%D8%A7%D9%84%D8%AA%D9%86%D9%88%D9%8A%D9%86">Egyptian Ministry of Awqaf reference</a>, explore the <a href="/quran">Quran learning program</a>, <a href="/games">educational games</a>, and <a href="/library">digital library</a>.</p>`,
+      fr: `<h2>Qu’est-ce que le nûn sākinah et le tanwīn ?</h2>
+<p>Le nûn sākinah est une lettre nûn sans voyelle, qui peut se trouver au milieu ou à la fin d’un mot. Le tanwīn est un son final de nûn ajouté à un nom à la prononciation, sans être écrit comme un nûn distinct. La lettre suivante détermine l’une des quatre règles : izhār, idghām, iqlāb ou ikhfā.</p>
+<h2>Les quatre règles</h2>
+<h3>1. Izhār</h3><p>L’izhār s’applique devant les six lettres gutturales : hamza, hāʾ, ʿayn, ḥāʾ, ghayn et khāʾ. Un exemple coranique est <a href="https://quran.com/1/7">أَنْعَمْتَ عَلَيْهِمْ</a> (Al-Fātiḥa, 1:7).</p>
+<h3>2. Idghām</h3><p>Ses six lettres sont réunies dans le mot arabe <em>yarmalūn</em>. Avec yāʾ, nūn, mīm et wāw, il comporte une ghunna ; avec lām et rāʾ, il se fait sans ghunna. Exemples : <a href="https://quran.com/111/5">مِنْ مَسَدٍ</a> et <a href="https://quran.com/2/2">هُدًى لِلْمُتَّقِينَ</a>.</p>
+<h3>3. Iqlāb</h3><p>Devant l’unique lettre bāʾ, le nûn sākinah ou le tanwīn prend le son d’un mīm dissimulé avec ghunna. Voir <a href="https://quran.com/2/33">أَنْبِئْهُمْ</a> (Al-Baqara, 2:33).</p>
+<h3>4. Ikhfā</h3><p>Cette règle concerne les quinze lettres restantes : ص ذ ث ك ج ش ق س د ط ز ف ت ض ظ. Le son se situe entre la prononciation claire et la fusion, avec ghunna. Exemple : <a href="https://quran.com/113/2">مِنْ شَرِّ</a> (Al-Falaq, 113:2).</p>
+<h2>Conseils de révision</h2><p>Repérez le nûn sākinah ou le tanwīn, observez la lettre suivante et associez-la à son groupe. Écoutez ensuite une récitation maîtrisée et vérifiez l’exemple dans le muṣḥaf. La lecture seule ne suffit pas à maîtriser la prononciation : apprenez par écoute et récitation auprès d’un enseignant compétent. Consultez la <a href="https://awkafonline.gov.eg/content-sections/116/4995/%D8%A3%D8%AD%D9%83%D8%A7%D9%85-%D8%A7%D9%84%D9%86%D9%88%D9%86-%D8%A7%D9%84%D8%B3%D8%A7%D9%83%D9%86%D8%A9%D8%8C-%D9%88%D8%A7%D9%84%D8%AA%D9%86%D9%88%D9%8A%D9%86">référence du ministère égyptien des Awqaf</a>, le <a href="/quran">programme de lecture du Coran</a>, les <a href="/games">jeux éducatifs</a> et la <a href="/library">bibliothèque numérique</a>.</p>`
+    }
   }
 }
 
@@ -243,15 +303,40 @@ async function getBlogPost(slug: string) {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (supabaseUrl && supabaseAnonKey) {
-    const supabase = createClient(supabaseUrl, supabaseAnonKey)
-    const { data } = await supabase
-      .from('blog_posts')
-      .select('slug,title_ar,title_en,title_fr,excerpt_ar,excerpt_en,excerpt_fr,content_ar,content_en,content_fr,category_ar,category_en,category_fr,author_ar,author_en,author_fr,read_time,cover_image,published_at,updated_at')
-      .eq('slug', slug)
-      .eq('is_published', true)
-      .maybeSingle()
+    try {
+      const supabase = createClient(supabaseUrl, supabaseAnonKey)
+      const { data } = await supabase
+        .from('blog_posts')
+        .select('slug,title_ar,title_en,title_fr,excerpt_ar,excerpt_en,excerpt_fr,content_ar,content_en,content_fr,category_ar,category_en,category_fr,author_ar,author_en,author_fr,read_time,cover_image,published_at,updated_at')
+        .eq('slug', slug)
+        .eq('is_published', true)
+        .maybeSingle()
 
-    if (data) return normalizeCmsPost(data as CmsBlogPost)
+      if (data) {
+        const cmsPost = normalizeCmsPost(data as CmsBlogPost)
+        const fallback = blogPosts[slug]
+        if (!fallback) return cmsPost
+        const mergeLocale = (cms: Record<string, string>, local: Record<string, string>) => ({
+          ar: cms.ar?.trim() || local.ar || '',
+          en: cms.en?.trim() || local.en || '',
+          fr: cms.fr?.trim() || local.fr || '',
+        })
+        return {
+          ...fallback,
+          ...cmsPost,
+          title: mergeLocale(cmsPost.title, fallback.title),
+          category: mergeLocale(cmsPost.category, fallback.category),
+          author: mergeLocale(cmsPost.author, fallback.author),
+          description: mergeLocale(cmsPost.description, fallback.description),
+          content: mergeLocale(cmsPost.content, fallback.content),
+          keywords: mergeLocale(cmsPost.keywords, fallback.keywords),
+          image: cmsPost.image || fallback.image,
+          readTime: cmsPost.readTime || fallback.readTime,
+        }
+      }
+    } catch (error) {
+      console.warn('[blog] CMS lookup failed; using the static article when available:', error)
+    }
   }
 
   return blogPosts[slug]

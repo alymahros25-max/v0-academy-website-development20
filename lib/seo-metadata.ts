@@ -38,12 +38,14 @@ const countryAlternateUrls = {
 export type CountrySeoSlug = keyof typeof countryAlternateUrls
 
 export function getCountrySeoAlternates(slug: CountrySeoSlug): NonNullable<Metadata['alternates']> {
-  const languages: Record<string, string> = {
-    ar: "https://quran-elhafez.com/",
-    "x-default": "https://quran-elhafez.com/",
+  const canonical = countryAlternateUrls[slug].url
+  // Country pages target different geographic intents, not alternate language
+  // versions of one another. Do not publish a misleading 17-country hreflang
+  // cluster; each page is its own Arabic canonical landing page.
+  return {
+    canonical,
+    languages: { ar: canonical, "x-default": canonical },
   }
-  for (const country of Object.values(countryAlternateUrls)) languages[country.locale] = country.url
-  return { canonical: countryAlternateUrls[slug].url, languages }
 }
 
 export function withSeoAlternates(metadata: Metadata, canonical: string): Metadata {

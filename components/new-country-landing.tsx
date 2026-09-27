@@ -5,7 +5,6 @@ import { areaLocalized, getAreaLandingData, getAreaLinkHref, toAreaDisplayPlan }
 import { getPublishedClassroomVideos, type LandingVideo } from "@/lib/classroom-videos"
 import { getTeachers, type Teacher } from "@/lib/data-store"
 import { NewCountryVideos } from "@/components/new-country-videos"
-import { CountryServiceLinks } from "@/components/country-service-links"
 import { TeachingLanguageNotice } from "@/components/teaching-language-notice"
 import KuwaitProgramSelector from "@/app/kuwait/kuwait-program-selector"
 
@@ -55,10 +54,14 @@ function TeacherTrust({ teachers }: { teachers: Teacher[] }) {
 function PackageIncludes() {
   return <section className="new-country-package-includes"><div className="new-country-narrow"><p className="new-country-kicker">محتوى كل باقة</p><div className="new-country-package-features"><article><b>مجانية</b><span>حصة تجريبية قبل أي دفع</span></article><article><b>فردية</b><span>حصة خاصة بالطالب</span></article></div></div></section>
 }
+function CountryProgramsOverview({ config }: { config: NewCountryConfig }) {
+  return <section className="new-country-section new-country-programs-overview" aria-labelledby="country-programs-title"><div className="new-country-narrow"><p className="new-country-kicker">برامج {config.name}</p><h2 id="country-programs-title">القرآن وتأسيس العربية ودروس إضافية حسب الطلب</h2><p className="new-country-lead">تظهر الأسعار أدناه بعملة {config.currency}. اختر المسار المناسب عند التواصل، ولا تعتمد هذه الصفحة على أسعار الصفحات العامة بالدولار.</p><div className="new-country-program-grid"><article><h3>القرآن الكريم</h3><p>الحفظ والتحفيظ، المراجعة، التلاوة، التجويد، وتفسير المعاني ضمن الحصة أو في حصص مستقلة عند الطلب.</p></article><article><h3>تأسيس اللغة العربية</h3><p>القراءة والكتابة والحركات والإملاء والتعبير والفهم للأطفال والشباب والبالغين حسب المستوى.</p></article><article><h3>دروس إسلامية إضافية</h3><p>التفسير والفقه والتوحيد والأخلاق والآداب متاحة حسب طلب الأسرة وتخصص المعلم أو المعلمة.</p></article></div></div></section>
+}
+
 
 function SharedClosing({ config, videos = [], teachers = [], contactUrl }: Props) {
   const priority = isPriorityCountry(config)
-  return <>{!priority && <PackageIncludes />}{priority && <CountryServiceLinks />}<NewCountryVideos videos={videos} /><TeacherTrust teachers={teachers} /><section className="new-country-section new-country-closing"><div className="new-country-narrow"><p className="new-country-kicker">خطوة عملية</p><h2>ابدأ بخطوة واضحة</h2><p>أرسل البرنامج الذي تريده عبر WhatsApp، وسنوضح لك تفاصيل بدء الحصة الفردية أونلاين.</p><WhatsApp config={config} contactUrl={contactUrl} label={priority ? "تواصل لطلب الحصة التجريبية الأولى المجانية" : undefined} /><p className="new-country-independent-note">صفحة مستقلة لـ{config.name} · تعليم أونلاين فقط</p></div></section><CountryFooter config={config} /></>
+  return <>{!priority && <PackageIncludes />}<CountryProgramsOverview config={config} /><NewCountryVideos videos={videos} /><TeacherTrust teachers={teachers} /><section className="new-country-section new-country-closing"><div className="new-country-narrow"><p className="new-country-kicker">خطوة عملية</p><h2>ابدأ بخطوة واضحة</h2><p>أرسل البرنامج الذي تريده عبر WhatsApp، وسنوضح لك تفاصيل بدء الحصة الفردية أونلاين.</p><WhatsApp config={config} contactUrl={contactUrl} label={priority ? "تواصل لطلب الحصة التجريبية الأولى المجانية" : undefined} /><p className="new-country-independent-note">صفحة مستقلة لـ{config.name} · تعليم أونلاين فقط</p></div></section><CountryFooter config={config} /></>
 }
 
 const countryLinks = [

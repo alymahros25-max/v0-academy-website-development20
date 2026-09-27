@@ -81,6 +81,7 @@ const staticRoutes = [
   '/venezuela',
   '/denmark',
   '/greece',
+  '/new-zealand',
   '/teachers',
   '/reviews',
   '/games',

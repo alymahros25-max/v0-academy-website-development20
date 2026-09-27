@@ -408,10 +408,16 @@ html {
 
 
 .new-country-programs-overview { background:color-mix(in srgb,var(--country-surface) 45%,var(--country-background)); }
-.new-country-program-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1.25rem; }
+.new-country-program-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; margin-top:1.25rem; }
 .new-country-program-grid article { padding:1.25rem; border:1px solid color-mix(in srgb,var(--country-primary) 14%,transparent); border-radius:1.1rem; background:color-mix(in srgb,#fff 78%,var(--country-surface)); }
+.new-country-program-grid article:last-child { grid-column:1 / -1; }
 .new-country-program-grid h3 { color:var(--country-primary); font-size:1.15rem; font-weight:850; }
 .new-country-program-grid p { margin-top:.5rem; color:color-mix(in srgb,var(--country-ink) 72%,transparent); line-height:1.8; }
+.new-country-program-card-on-request { background:color-mix(in srgb,var(--country-primary) 5%,var(--country-background)) !important; }
+@media (max-width:700px) {
+  .new-country-program-grid { grid-template-columns:1fr; }
+  .new-country-program-grid article:last-child { grid-column:auto; }
+}
 .new-country-package-includes { padding:3.5rem 1.25rem; background:color-mix(in srgb,var(--country-surface) 65%,var(--country-background)); }
 .new-country-package-features { display:grid; grid-template-columns:repeat(4,1fr); gap:.75rem; margin-top:1rem; }
 .new-country-package-features article { padding:1.25rem; border:1px solid color-mix(in srgb,var(--country-primary) 14%,transparent); border-radius:1.1rem; background:color-mix(in srgb,#fff 78%,var(--country-surface)); }

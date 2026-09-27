@@ -35,8 +35,8 @@ function makePlans(program: UnitedStatesProgram, prices: Record<UnitedStatesDura
 export const unitedStatesLandingConfig = {
   whatsappNumber: UNITED_STATES_WHATSAPP_NUMBER,
   seo: {
-    title: "تحفيظ القرآن وتعليم العربية أونلاين للعرب في أمريكا | Quran Classes in the USA",
-    description: "حصص فردية أونلاين للأسر في الولايات المتحدة بباقات بالـالدولار الأمريكي، مع معلمين ومعلمات مجازين بالإسناد وخريجي الأزهر، وخصم للإخوة وحصة تجريبية مجانية.",
+    title: "تحفيظ القرآن أونلاين للعرب في الولايات المتحدة",
+    description: "للعرب في الولايات المتحدة: حصص فردية بالعربية لحفظ القرآن ومراجعته وتجويده، وتأسيس القراءة والكتابة عبر Zoom أو Google Meet. الحصة التجريبية الأولى مجانية.",
     canonical: "https://quran-elhafez.com/united-states",
   },
   cities: ["نيويورك", "نيوجيرسي", "واشنطن", "فيلادلفيا", "بوسطن", "ديترويت", "شيكاغو", "هيوستن", "دالاس", "أورلاندو", "أتلانتا", "لوس أنجلوس", "سان فرانسيسكو", "فلوريدا"],

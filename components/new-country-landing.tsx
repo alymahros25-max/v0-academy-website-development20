@@ -70,7 +70,7 @@ const countryLinks = [
   ["/germany", "ألمانيا", "🇩🇪"], ["/kuwait", "الكويت", "🇰🇼"],
   ["/qatar", "قطر", "🇶🇦"], ["/oman", "عُمان", "🇴🇲"], ["/jordan", "الأردن", "🇯🇴"],
   ["/bahrain", "البحرين", "🇧🇭"], ["/france", "فرنسا", "🇫🇷"], ["/spain", "إسبانيا", "🇪🇸"],
-  ["/netherlands", "هولندا", "🇳🇱"], ["/belgium", "بلجيكا", "🇧🇪"], ["/sweden", "السويد", "🇸🇪"],
+  ["/netherlands", "هولندا", "🇳🇱"], ["/belgium", "بلجيكا", "🇧🇪"], ["/sweden", "السويد", "🇸🇪"], ["/south-africa", "جنوب أفريقيا", "🇿🇦"],
 ] as const
 
 function CountryFooter({ config }: Props) {

@@ -1,3 +1,4 @@
+import { CountryLearningHub } from "@/components/country-learning-hub"
 import type { Metadata } from "next"
 import Link from "next/link"
 import Image from "next/image"
@@ -170,7 +171,8 @@ export default async function KuwaitPage() {
       <NewCountryVideos videos={videos} />
 
       {/* Minimal Footer */}
-      <footer className="bg-kw-green px-5 py-10 text-white sm:px-8">
+            <CountryLearningHub slug="kuwait" variant="minimal" />
+<footer className="bg-kw-green px-5 py-10 text-white sm:px-8">
         <div className="mx-auto max-w-6xl">
           <div className="border-b border-white/20 pb-8 mb-8">
             <div className="flex items-center gap-3 mb-6">
@@ -192,8 +194,8 @@ export default async function KuwaitPage() {
             <nav>
               <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/75">روابط مهمة</p>
               <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/85">
-                <Link href="/quran" className="transition hover:text-kw-gold">تحفيظ القرآن</Link>
-                <Link href="/arabic" className="transition hover:text-kw-gold">تأسيس العربية</Link>
+
+
                 <Link href="/privacy" className="transition hover:text-kw-gold">الخصوصية</Link>
                 <Link href="/terms" className="transition hover:text-kw-gold">الشروط</Link>
                 <Link href="/refund-policy" className="transition hover:text-kw-gold">سياسة الاسترجاع</Link>

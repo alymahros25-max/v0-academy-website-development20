@@ -1,3 +1,4 @@
+import { CountryLearningHub } from "@/components/country-learning-hub"
 import type { Metadata } from "next"
 import { getCountrySeoAlternates } from "@/lib/seo-metadata"
 import Link from "next/link"
@@ -63,7 +64,8 @@ export default async function CanadaPage() {
     <section className="bg-secondary/40 px-5 py-16 sm:px-8"><div className="mx-auto max-w-4xl text-center"><h2 className="text-3xl font-bold">تعليم أونلاين للعائلات العربية في كندا</h2><p className="mt-5 leading-8 text-muted-foreground">نخدم الأسر في أونتاريو وكيبيك، من تورونتو وميسيساغا وبرامبتون وأوتاوا إلى مونتريال وفانكوفر وكالغاري وإدمونتون ووينيبيغ وهاملتون.</p></div></section>
     <section className="mx-auto max-w-5xl px-5 py-16 sm:px-8"><h2 className="text-center text-3xl font-bold">الأسئلة الشائعة</h2><div className="mt-8 grid gap-3 sm:grid-cols-2">{faqItems.map(([question, answer]) => <details key={question} className="rounded-xl border border-border bg-card p-5"><summary className="cursor-pointer font-bold">{question}</summary><p className="mt-3 leading-7 text-muted-foreground">{answer}</p></details>)}</div></section>
     <CountryEnrichmentSection countryName="كندا" theme={areaData.theme} cities={areaData.cities} timezones={areaData.timezones} />
-    <footer className="bg-primary px-5 py-10 text-primary-foreground"><div className="mx-auto max-w-6xl"><CountryPagesSection /><div className="mt-8 flex flex-wrap gap-4 text-sm"><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/teachers">المعلمين والمعلمات</Link><Link href="/blog">المدونة</Link><Link href="/privacy">سياسة الخصوصية</Link><Link href="/terms">شروط الاستخدام</Link><Link href="/refund-policy">سياسة الاسترداد</Link></div><p className="mt-8 border-t border-primary-foreground/10 pt-6 text-sm text-primary-foreground/80">© {new Date().getFullYear()} أكاديمية الحافظ المتميز. تحفيظ القرآن وتأسيس اللغة العربية أونلاين في كندا.</p></div></footer>
+          <CountryLearningHub slug="canada" variant="notebook" />
+<footer className="bg-primary px-5 py-10 text-primary-foreground"><div className="mx-auto max-w-6xl"><CountryPagesSection /><div className="mt-8 flex flex-wrap gap-4 text-sm"><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/teachers">المعلمين والمعلمات</Link><Link href="/blog">المدونة</Link><Link href="/privacy">سياسة الخصوصية</Link><Link href="/terms">شروط الاستخدام</Link><Link href="/refund-policy">سياسة الاسترداد</Link></div><p className="mt-8 border-t border-primary-foreground/10 pt-6 text-sm text-primary-foreground/80">© {new Date().getFullYear()} أكاديمية الحافظ المتميز. تحفيظ القرآن وتأسيس اللغة العربية أونلاين في كندا.</p></div></footer>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
   </main>
 }

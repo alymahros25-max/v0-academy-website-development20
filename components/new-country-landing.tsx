@@ -5,6 +5,7 @@ import { areaLocalized, getAreaLandingData, getAreaLinkHref, getAreaWhatsAppUrl,
 import { getPublishedClassroomVideos, type LandingVideo } from "@/lib/classroom-videos"
 import { getTeachers, type Teacher } from "@/lib/data-store"
 import { NewCountryVideos } from "@/components/new-country-videos"
+import { CountryLearningHub } from "@/components/country-learning-hub"
 
 type Props = { config: NewCountryConfig; videos?: LandingVideo[]; teachers?: Teacher[]; contactUrl?: string }
 
@@ -44,7 +45,7 @@ function PackageIncludes() {
 }
 
 function SharedClosing({ config, videos = [], teachers = [], contactUrl }: Props) {
-  return <><PackageIncludes /><NewCountryVideos videos={videos} /><TeacherTrust teachers={teachers} /><section className="new-country-section new-country-closing"><div className="new-country-narrow"><p className="new-country-kicker">خطوة عملية</p><h2>ابدأ بما يناسب أسبوعك الآن</h2><p>أرسل عمر الطالب ومستواه والبرنامج المطلوب، وسنوضح لك الخطوة التالية قبل التسجيل.</p><WhatsApp config={config} contactUrl={contactUrl} /><p className="new-country-independent-note">صفحة مستقلة لـ{config.name} · تعليم أونلاين فقط</p></div></section><CountryFooter config={config} /></>
+  return <><PackageIncludes /><NewCountryVideos videos={videos} /><TeacherTrust teachers={teachers} /><CountryLearningHub slug={config.variant} variant="minimal" /><section className="new-country-section new-country-closing"><div className="new-country-narrow"><p className="new-country-kicker">خطوة عملية</p><h2>ابدأ بما يناسب أسبوعك الآن</h2><p>أرسل عمر الطالب ومستواه والبرنامج المطلوب، وسنوضح لك الخطوة التالية قبل التسجيل.</p><WhatsApp config={config} contactUrl={contactUrl} /><p className="new-country-independent-note">صفحة مستقلة لـ{config.name} · تعليم أونلاين فقط</p></div></section><CountryFooter config={config} /></>
 }
 
 const countryLinks = [
@@ -73,7 +74,7 @@ function QatarLayout({ config, videos, teachers, contactUrl }: Props) {
 }
 
 function OmanLayout({ config, videos, teachers, contactUrl }: Props) {
-  return <><section className="new-country-intro new-country-intro-oman"><div className="new-country-intro-copy"><p className="new-country-kicker">{config.flag} {config.eyebrow}</p><h1>{config.title}</h1><p className="new-country-lead">{config.description}</p><WhatsApp config={config} contactUrl={contactUrl} label="ابدأ بهدوء" /></div><div className="new-country-quiet-card"><span>قبل ��ن تبدأ</span><strong>مستوى الطالب</strong><small>الوقت المتاح · الهدف</small></div></section><section className="new-country-section new-country-paper"><div className="new-country-narrow"><p className="new-country-kicker">منهج متدرج</p><h2>الحفظ والمراجعة في ثلاث حركات</h2><Steps config={config} /></div></section><section className="new-country-section"><div className="new-country-narrow"><h2>اختيار الباقة</h2><PriceTable config={config} compact /></div></section><LocalSection config={config} /><FAQ config={config} /><section className="new-country-note"><b>يوجد باقات مخصصة</b><span>خصم 10٪ للأخوات والإحالة</span></section><SharedClosing config={config} videos={videos} teachers={teachers} contactUrl={contactUrl} /></>
+  return <><section className="new-country-intro new-country-intro-oman"><div className="new-country-intro-copy"><p className="new-country-kicker">{config.flag} {config.eyebrow}</p><h1>{config.title}</h1><p className="new-country-lead">{config.description}</p><WhatsApp config={config} contactUrl={contactUrl} label="ابدأ بهدوء" /></div><div className="new-country-quiet-card"><span>قبل أن تبدأ</span><strong>مستوى الطالب</strong><small>الوقت المتاح · الهدف</small></div></section><section className="new-country-section new-country-paper"><div className="new-country-narrow"><p className="new-country-kicker">منهج متدرج</p><h2>الحفظ والمراجعة في ثلاث حركات</h2><Steps config={config} /></div></section><section className="new-country-section"><div className="new-country-narrow"><h2>اختيار الباقة</h2><PriceTable config={config} compact /></div></section><LocalSection config={config} /><FAQ config={config} /><section className="new-country-note"><b>يوجد باقات مخصصة</b><span>خصم 10٪ للأخوات والإحالة</span></section><SharedClosing config={config} videos={videos} teachers={teachers} contactUrl={contactUrl} /></>
 }
 
 function JordanLayout({ config, videos, teachers, contactUrl }: Props) {

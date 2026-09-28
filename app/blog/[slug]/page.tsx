@@ -1,8 +1,9 @@
 import { Metadata } from 'next'
 import BlogArticleClient from "./client"
 import { getSeoAlternates } from '@/lib/seo-metadata'
-import { notFound } from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
+import { getCanonicalBlogSlug, getStoredBlogSlugs, isLegacyBlogSlug } from '@/lib/blog-slugs'
 
 // المقالات الثابتة الافتراضية
 const blogPosts: Record<string, any> = {
@@ -44,6 +45,35 @@ const blogPosts: Record<string, any> = {
 <p>Memorizing the Holy Quran is a precious wish for every Muslim, and for parents who aspire to see their children as people of the Quran. With the accelerating pace of life, many seek smart and practical ways to achieve this great goal with high efficiency and minimal effort and time.</p>`,
       fr: `<h2>Introduction</h2>
 <p>Mémoriser le Saint Coran est un vœu précieux pour chaque musulman et musulmane. Avec l'accélération du rythme de la vie, beaucoup cherchent des moyens intelligents et pratiques pour atteindre cet objectif merveilleux.</p>`
+    }
+  },
+  "quran-memorization-tools": {
+    title: { ar: "بوصلة الحافظ: 5 أدوات وطرق حديثة لتسهيل حفظ القرآن الكريم", en: "A Guide to Five Practical Tools for Quran Memorization", fr: "Cinq outils pratiques pour faciliter la mémorisation du Coran" },
+    category: { ar: "تحفيظ القرآن", en: "Quran Memorization", fr: "Mémorisation du Coran" },
+    author: { ar: "فريق الأكاديمية", en: "Academy Team", fr: "Équipe de l'académie" },
+    date: "2026-07-25",
+    readTime: 5,
+    image: "/images/hero-children.jpg",
+    keywords: { ar: "أدوات حفظ القرآن، طرق حفظ القرآن، مراجعة القرآن، تطبيقات القرآن، المتشابهات، التجويد", en: "Quran memorization tools, Quran revision, memorization methods, Tajweed", fr: "outils de mémorisation du Coran, révision, tajwid" },
+    description: { ar: "خمس طرق وأدوات عملية تساعد على تنظيم حفظ القرآن الكريم وتثبيت المراجعة، مع التأكيد على التدرج والتلقي من معلّم متقن.", en: "Five practical methods and tools for organizing Quran memorization and strengthening revision, with guidance from a qualified teacher.", fr: "Cinq méthodes et outils pratiques pour organiser la mémorisation et la révision du Coran avec l’accompagnement d’un enseignant compétent." },
+    content: {
+      ar: `<h2>مقدمة</h2>
+<p>حفظ كتاب الله رحلة إيمانية مباركة، لكنها تحتاج إلى خطة تجمع بين الإخلاص والتدرج والتكرار المنهجي. ويمكن للأدوات الحديثة أن تساعد الطالب على التنظيم والمراجعة، لكنها لا تغني عن التلقي والتسميع أمام معلّم متقن.</p>
+<h2>1. الربط التراكمي بين الآيات</h2>
+<p>لا تتعامل مع الصفحة ككتلة واحدة. احفظ آية أو مقطعًا قصيرًا، ثم اربطه بما قبله قبل الانتقال إلى الجزء التالي. يساعد هذا الأسلوب على تقليل التعثر عند الانتقال بين الآيات وتثبيت التسلسل.</p>
+<h2>2. تطبيقات المصحف التفاعلية</h2>
+<p>يمكن الاستفادة من تطبيقات المصحف التي تتيح تكرار الآيات والاستماع إلى قراء مختلفين وإخفاء النص لاختبار الاسترجاع. اختر مصدرًا موثوقًا، وراجع النص في المصحف، ولا تجعل التطبيق بديلًا عن تصحيح القراءة مع المعلّم.</p>
+<h2>3. الاستماع المتكرر</h2>
+<p>يساعد الاستماع إلى المقطع المراد حفظه قبل الحصة وأثناء المراجعة على تهيئة الأذن للنطق الصحيح. الأفضل أن يكون الاستماع بتركيز مع متابعة المصحف، ثم يقرأ الطالب بنفسه ويعرض قراءته للتصحيح.</p>
+<h2>4. خرائط المتشابهات وفهم المعاني</h2>
+<p>قد يقلل فهم المعنى العام والسياق من الخلط بين الآيات المتشابهة. استخدم تفسيرًا ميسرًا موثوقًا ودوّن الفروق التي تلاحظها، مع الانتباه إلى أن الفهم يساعد على الحفظ ولا يحل محل التكرار والمراجعة.</p>
+<h2>5. التسجيل الصوتي الشخصي</h2>
+<p>سجّل قراءتك ثم استمع إليها وقارنها بتلاوة متقنة أو اعرضها على المعلّم. تكشف هذه الطريقة بعض أخطاء النطق ومخارج الحروف وأحكام التجويد التي قد لا ينتبه إليها الطالب أثناء القراءة.</p>
+<h2>خطة مراجعة بسيطة</h2>
+<ol><li>حدّد مقدارًا يوميًا يناسب وقتك ومستواك.</li><li>راجع المحفوظ القديم قبل إضافة الجديد.</li><li>وزّع التكرار على جلسات قصيرة بدل الاعتماد على جلسة واحدة طويلة.</li><li>اجعل التسميع الدوري مع المعلّم جزءًا ثابتًا من الخطة.</li></ol>
+<p><strong>الخلاصة:</strong> السر ليس في كثرة المقدار المحفوظ يوميًا، بل في المداومة وتثبيت المراجعة. قليل دائم خير من كثير منقطع.</p>`,
+      en: `<h2>Introduction</h2><p>A clear plan, gradual progress, and regular revision are more useful than trying to memorize a large amount at once. Digital tools can support organization and listening, but they do not replace recitation with a qualified teacher.</p><h2>Five practical tools and methods</h2><ol><li>Connect each new verse to the previous one.</li><li>Use a trusted interactive mushaf for repetition and listening.</li><li>Listen carefully while following the mushaf.</li><li>Review meanings and similar verses with a reliable reference.</li><li>Record your recitation and ask a teacher to correct it.</li></ol><p>Consistency and revision are the foundation of lasting memorization.</p>`,
+      fr: `<h2>Introduction</h2><p>Une méthode progressive et une révision régulière sont plus utiles que la mémorisation d’une grande quantité en une seule fois. Les outils numériques peuvent aider à organiser le travail, sans remplacer la récitation auprès d’un enseignant compétent.</p><h2>Cinq méthodes pratiques</h2><ol><li>Relier chaque nouveau verset au précédent.</li><li>Utiliser un muṣḥaf interactif fiable pour répéter et écouter.</li><li>Écouter en suivant le muṣḥaf.</li><li>Réviser le sens et les versets similaires avec une source fiable.</li><li>Enregistrer sa récitation et la faire corriger.</li></ol><p>La régularité et la révision sont la base d’une mémorisation durable.</p>`
     }
   },
   "arabic-foundation-importance": {
@@ -299,6 +329,7 @@ function normalizeCmsPost(post: CmsBlogPost) {
 }
 
 async function getBlogPost(slug: string) {
+  const canonicalSlug = getCanonicalBlogSlug(slug)
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
@@ -308,18 +339,27 @@ async function getBlogPost(slug: string) {
       const { data } = await supabase
         .from('blog_posts')
         .select('slug,title_ar,title_en,title_fr,excerpt_ar,excerpt_en,excerpt_fr,content_ar,content_en,content_fr,category_ar,category_en,category_fr,author_ar,author_en,author_fr,read_time,cover_image,published_at,updated_at')
-        .eq('slug', slug)
+        .in('slug', getStoredBlogSlugs(slug))
         .eq('is_published', true)
+        .order('updated_at', { ascending: false })
+        .limit(1)
         .maybeSingle()
 
       if (data) {
         const cmsPost = normalizeCmsPost(data as CmsBlogPost)
-        const fallback = blogPosts[slug]
+        const fallback = blogPosts[canonicalSlug]
         if (!fallback) return cmsPost
         const mergeLocale = (cms: Record<string, string>, local: Record<string, string>) => ({
           ar: cms.ar?.trim() || local.ar || '',
           en: cms.en?.trim() || local.en || '',
           fr: cms.fr?.trim() || local.fr || '',
+        })
+        const mergeArticleContent = (cms: Record<string, string>, local: Record<string, string>) => ({
+          // A legacy CMS row may contain only a teaser in content_ar/content_en/content_fr.
+          // Prefer the complete editorial fallback instead of rendering a nearly empty article.
+          ar: (cms.ar?.trim().length || 0) >= 400 ? cms.ar.trim() : local.ar || cms.ar || '',
+          en: (cms.en?.trim().length || 0) >= 400 ? cms.en.trim() : local.en || cms.en || '',
+          fr: (cms.fr?.trim().length || 0) >= 400 ? cms.fr.trim() : local.fr || cms.fr || '',
         })
         return {
           ...fallback,
@@ -328,7 +368,7 @@ async function getBlogPost(slug: string) {
           category: mergeLocale(cmsPost.category, fallback.category),
           author: mergeLocale(cmsPost.author, fallback.author),
           description: mergeLocale(cmsPost.description, fallback.description),
-          content: mergeLocale(cmsPost.content, fallback.content),
+          content: mergeArticleContent(cmsPost.content, fallback.content),
           keywords: mergeLocale(cmsPost.keywords, fallback.keywords),
           image: cmsPost.image || fallback.image,
           readTime: cmsPost.readTime || fallback.readTime,
@@ -339,7 +379,7 @@ async function getBlogPost(slug: string) {
     }
   }
 
-  return blogPosts[slug]
+  return blogPosts[canonicalSlug]
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -348,7 +388,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!post) return { title: "Not Found" }
 
   const baseUrl = 'https://quran-elhafez.com'
-  const articleUrl = `${baseUrl}/blog/${slug}`
+  const articleUrl = `${baseUrl}/blog/${getCanonicalBlogSlug(slug)}`
 
   return {
     title: post.title.ar,
@@ -371,6 +411,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
+  if (isLegacyBlogSlug(slug)) permanentRedirect(`/blog/${getCanonicalBlogSlug(slug)}`)
   const post = await getBlogPost(slug)
 
   if (!post) notFound()

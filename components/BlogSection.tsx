@@ -9,6 +9,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Calendar, Clock, User, Tag } from "lucide-react"
 import { useI18n, type Locale } from "@/lib/i18n"
+import { getCanonicalBlogSlug } from "@/lib/blog-slugs"
 import useSWR from "swr"
 
 export interface BlogPost {
@@ -56,7 +57,7 @@ function BlogCard({ post, locale, t }: { post: BlogPost; locale: Locale; t: (k: 
     : ''
 
   return (
-    <Link href={`/blog/${post.slug}`}>
+    <Link href={`/blog/${getCanonicalBlogSlug(post.slug)}`}>
       <article className="group cursor-pointer h-full">
         <div className="rounded-xl overflow-hidden bg-card border border-border transition-all hover:shadow-lg hover:border-primary/50 h-full flex flex-col">
           {/* Image */}

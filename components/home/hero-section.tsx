@@ -6,8 +6,6 @@ import { useI18n } from "@/lib/i18n"
 import { ArrowLeft, ArrowRight, MessageCircle } from "lucide-react"
 import type { PublicContent } from "@/lib/public-content"
 import { localizedContent } from "@/lib/public-content"
-import { TeachingLanguageNotice } from "@/components/teaching-language-notice"
-
 export function HeroSection({ content = {} }: { content?: Record<string, PublicContent> }) {
   const { locale, dir } = useI18n()
   const Arrow = dir === "rtl" ? ArrowLeft : ArrowRight
@@ -78,7 +76,7 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
               <Arrow className="size-4 transition-transform group-hover:-translate-x-1" />
             </Link>
           </div>
-          <TeachingLanguageNotice variant="compact" className="w-full max-w-2xl bg-background/95" />
+
         </div>
       </div>
 

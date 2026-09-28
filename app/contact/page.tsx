@@ -5,8 +5,6 @@ import { useI18n } from "@/lib/i18n"
 import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react"
 import { WhatsAppDialog } from "@/components/whatsapp-dialog"
 import { trackGA4Event } from "@/components/ga4-events"
-import { TeachingLanguageNotice } from "@/components/teaching-language-notice"
-
 export default function ContactPage() {
   const { t, locale } = useI18n()
   const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || ""
@@ -39,7 +37,6 @@ export default function ContactPage() {
           phone: data.get("phone"),
           message: data.get("message"),
           language: locale,
-          language_acknowledged: data.get("language_acknowledged") === "on",
         }),
       })
       if (!response.ok) {
@@ -141,11 +138,6 @@ export default function ContactPage() {
                         placeholder={locale === "ar" ? "اكتب رسالتك هنا..." : locale === "en" ? "Write your message here..." : "Ecrivez votre message ici..."}
                       />
                     </div>
-                    <TeachingLanguageNotice variant="full" />
-                    <label className="flex items-start gap-3 rounded-xl border border-border bg-background p-4 text-sm leading-6 text-foreground">
-                      <input type="checkbox" name="language_acknowledged" required className="mt-1 size-4 shrink-0 accent-primary" />
-                      <span>{locale === "ar" ? "أؤكد أنني فهمت أن الحصص تُقدَّم بالعربية فقط، وأن الطالب يستطيع متابعة الدرس باللغة العربية." : locale === "en" ? "I understand that lessons are taught in Arabic only and confirm that the student can follow lessons in Arabic." : "Je comprends que les cours sont dispensés uniquement en arabe et confirme que l’élève peut les suivre en arabe."}</span>
-                    </label>
                     <button
                       type="submit"
                       disabled={loading}

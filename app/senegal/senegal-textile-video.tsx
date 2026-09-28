@@ -1,0 +1,9 @@
+'use client'
+
+import { useState } from "react"
+import Image from "next/image"
+import { Play } from "lucide-react"
+import { VideoPlayer } from "@/components/VideoPlayer"
+import type { LandingVideo } from "@/lib/classroom-videos"
+
+export function SenegalTextileVideo({ videos }: { videos: LandingVideo[] }) { const [selected, setSelected] = useState<LandingVideo | null>(null); const items = videos.filter((video) => video.showOnLandingPages).slice(0, 3); return <section className="bg-[#166534] px-5 py-20 text-white sm:px-8"><div className="mx-auto max-w-6xl"><p className="text-xs font-black tracking-[0.24em] text-[#FACC15]">مقاطع من داخل التعلم</p><h2 className="mt-4 text-4xl font-black">افتح المقطع الذي تريد مشاهدته</h2>{items.length ? <div className="mt-10 grid gap-6 md:grid-cols-3">{items.map((video, i) => <button key={video.id} type="button" onClick={() => setSelected(video)} className="group text-right"><span className="relative block aspect-[4/3] overflow-hidden rounded-[2rem] border-4 border-[#FACC15] bg-[#78350F]"><span className="absolute inset-0 z-10 grid place-items-center bg-[#166534]/35"><span className="grid size-16 place-items-center rounded-full bg-[#FACC15] text-[#78350F] transition-transform group-hover:scale-110"><Play size={26} fill="currentColor" /></span></span>{video.thumbnail_url ? <Image loader={({ src }) => src} src={video.thumbnail_url} alt={video.title_ar} fill sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" className="object-cover" /> : null}</span><span className="mt-4 block text-lg font-black">{video.title_ar}</span><span className="mt-2 block text-sm text-white/70">المقطع {i + 1} · اضغط للمشاهدة</span></button>)}</div> : <p className="mt-8 rounded-2xl bg-white/10 p-6 text-white/80">محتوى التعريف المرئي سيظهر من المواد المنشورة.</p>}{selected ? <VideoPlayer isOpen videoId={selected.youtube_embed_id} title={selected.title_ar} onClose={() => setSelected(null)} /> : null}</div></section> }

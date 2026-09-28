@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { usePathname } from "next/navigation"
 import { DeferredClientIntegrations } from "@/components/deferred-client-integrations"
+import { TeachingLanguageNotice } from "@/components/teaching-language-notice"
 
 function LayoutWrapper({ children }: { children: ReactNode }) {
   const { dir, locale } = useI18n()
@@ -55,6 +56,7 @@ function LayoutWrapper({ children }: { children: ReactNode }) {
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
+      <TeachingLanguageNotice />
     </div>
   )
 }

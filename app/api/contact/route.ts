@@ -12,7 +12,6 @@ const contactSchema = z.object({
   message: z.string().trim().min(1).max(5000),
   subject: z.string().trim().max(200).optional().default("Contact Form"),
   language: z.enum(["ar", "en", "fr"]).optional().default("ar"),
-  language_acknowledged: z.literal(true),
 }).strict()
 
 async function notifyContactByEmail(message: { name: string; email: string; phone: string; subject: string; message: string }) {

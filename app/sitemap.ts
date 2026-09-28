@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { createClient } from '@supabase/supabase-js'
+import { getCanonicalBlogSlug } from '@/lib/blog-slugs'
 
 const BASE_URL = 'https://quran-elhafez.com'
 
@@ -97,9 +98,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   const blogEntries: MetadataRoute.Sitemap = (await getDynamicBlogArticles())
-    .filter(({ slug }) => slug && slug !== '-5-')
+    .filter(({ slug }) => Boolean(slug))
     .map(({ slug, lastModified }) => ({
-      url: `${BASE_URL}/blog/${slug}`,
+      url: `${BASE_URL}/blog/${getCanonicalBlogSlug(slug)}`,
       ...(lastModified ? { lastModified } : {}),
     }))
 

@@ -94,13 +94,23 @@ export async function GET(request: NextRequest) {
         .select('*')
         .in('slug', getStoredBlogSlugs(slug))
         .eq('is_published', true)
-        .single()
+        .order('updated_at', { ascending: false })
+        .limit(1)
+        .maybeSingle()
 
       if (error) {
         const post = getStaticBlogPost(slug)
         return post ? NextResponse.json(post) : NextResponse.json({ error: 'Post not found' }, { status: 404 })
       }
-      return NextResponse.json(data)
+      if (data) {
+        return NextResponse.json({
+          ...data,
+          slug: getCanonicalBlogSlug(data.slug),
+          cover_image: staticBlogCoverBySlug[data.slug] || data.cover_image,
+        })
+      }
+      const post = getStaticBlogPost(slug)
+      return post ? NextResponse.json(post) : NextResponse.json({ error: 'Post not found' }, { status: 404 })
     }
 
     let query = supabase

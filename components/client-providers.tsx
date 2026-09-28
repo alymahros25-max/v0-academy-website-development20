@@ -7,53 +7,13 @@ import { Footer } from "@/components/layout/footer"
 import { usePathname } from "next/navigation"
 import { DeferredClientIntegrations } from "@/components/deferred-client-integrations"
 import { TeachingLanguageNotice } from "@/components/teaching-language-notice"
+import { countryPages } from "@/components/layout/country-pages-section"
 
 function LayoutWrapper({ children }: { children: ReactNode }) {
   const { dir, locale } = useI18n()
   const pathname = usePathname()
   const isAdmin = pathname.startsWith("/admin")
-  const isSaudiLanding = pathname === "/saudi-arabia"
-  const isUaeLanding = pathname === "/united-arab-emirates"
-  const isUnitedStatesLanding = pathname === "/united-states"
-  const isCanadaLanding = pathname === "/canada"
-  const isUnitedKingdomLanding = pathname === "/united-kingdom"
-  const isAustraliaLanding = pathname === "/australia"
-  const isGermanyLanding = pathname === "/germany"
-  const isKuwaitLanding = pathname === "/kuwait"
-  const isNewCountryLanding = [
-    "/qatar",
-    "/oman",
-    "/jordan",
-    "/bahrain",
-    "/france",
-    "/spain",
-    "/netherlands",
-    "/belgium",
-    "/sweden",
-    "/south-africa",
-    "/china",
-    "/italy",
-    "/russia",
-    "/norway",
-    "/austria",
-    "/switzerland",
-    "/brazil",
-    "/mexico",
-    "/colombia",
-    "/venezuela",
-    "/denmark",
-    "/greece",
-    "/new-zealand",
-    "/finland",
-    "/turkey",
-    "/indonesia",
-    "/malaysia",
-    "/portugal",
-    "/poland",
-    "/argentina",
-    "/senegal",
-    "/nigeria",
-  ].includes(pathname)
+  const isCountryLanding = countryPages.some(({ href }) => href === pathname)
 
   useEffect(() => {
     document.documentElement.lang = locale
@@ -64,7 +24,7 @@ function LayoutWrapper({ children }: { children: ReactNode }) {
     return <div dir={dir}>{children}</div>
   }
 
-  if (isSaudiLanding || isUaeLanding || isUnitedStatesLanding || isCanadaLanding || isUnitedKingdomLanding || isAustraliaLanding || isGermanyLanding || isKuwaitLanding || isNewCountryLanding) {
+  if (isCountryLanding) {
     return (
       <div dir={dir}>
         {!isAdmin && <DeferredClientIntegrations />}

@@ -46,6 +46,12 @@ export function proxy(request: NextRequest) {
     return NextResponse.next()
   }
 
+  if (pathname === '/blog/-5-') {
+    const redirectUrl = request.nextUrl.clone()
+    redirectUrl.pathname = '/blog/quran-memorization-tools'
+    return NextResponse.redirect(redirectUrl, { status: 308 })
+  }
+
   const legacyTarget = LEGACY_ROUTES[pathname]
   if (legacyTarget) {
     let redirectPath = legacyTarget

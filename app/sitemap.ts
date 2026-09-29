@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { createClient } from '@supabase/supabase-js'
 import { getCanonicalBlogSlug } from '@/lib/blog-slugs'
+import { countryEducationalContent } from '@/lib/country-educational-content'
 
 const BASE_URL = 'https://quran-elhafez.com'
 
@@ -127,5 +128,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...(lastModified ? { lastModified } : {}),
     }))
 
-  return [...staticEntries, ...blogEntries]
+  const countryArticleEntries: MetadataRoute.Sitemap = Object.keys(countryEducationalContent).flatMap((slug) =>
+    (['quran', 'arabic'] as const).map((topic) => ({
+      url: `${BASE_URL}/blog/country/${slug}/${topic}`,
+    })),
+  )
+
+  return [...staticEntries, ...blogEntries, ...countryArticleEntries]
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { ArrowLeft, Bird, MessageCircle, Sparkles, X } from 'lucide-react'
 
 type Props = {
@@ -8,9 +9,10 @@ type Props = {
   body: string
   tone?: 'quran' | 'arabic'
   mode?: 'button' | 'answer' | 'side-tab' | 'glow'
+  href?: string
 }
 
-export function CountryArticleDrawer({ title, body, tone = 'quran', mode = 'button' }: Props) {
+export function CountryArticleDrawer({ title, body, tone = 'quran', mode = 'button', href }: Props) {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -29,6 +31,12 @@ export function CountryArticleDrawer({ title, body, tone = 'quran', mode = 'butt
       : mode === 'glow'
         ? <button type="button" className={`country-article-trigger country-article-trigger-${tone} country-article-trigger-glow`} onClick={() => setOpen(true)} aria-haspopup="dialog"><Sparkles size={16} aria-hidden="true" /><span>{title}</span><ArrowLeft size={16} aria-hidden="true" /></button>
         : <button type="button" className={`country-article-trigger country-article-trigger-${tone}`} onClick={() => setOpen(true)} aria-haspopup="dialog"><span>{title}</span><ArrowLeft size={16} aria-hidden="true" /></button>
+
+  if (href) {
+    return <Link href={href} className={`country-article-trigger country-article-trigger-${tone}`}>
+      <span>{title}</span><ArrowLeft size={16} aria-hidden="true" />
+    </Link>
+  }
 
   return <>
     {trigger}

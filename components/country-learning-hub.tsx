@@ -34,7 +34,7 @@ export async function CountryLearningHub({ slug, variant = "cards", showLocalCar
             <summary>المزيد عن حصة القرآن</summary>
             <div className="country-more-body"><p>تبدأ الحصة من مستوى الطالب وما يحتاج إلى قراءته أو حفظه أو مراجعته. يقرأ الطالب المقطع، ثم يسمّع ما حفظه، ويتلقى تصحيحًا مباشرًا في القراءة والتلاوة، وينتهي بخطوة واضحة للمراجعة قبل الحصة التالية.</p><p>يمكن أن يتركز اللقاء على الحفظ الجديد، أو التسميع، أو تثبيت المحفوظ السابق، بحسب هدف الطالب وخطته.</p></div>
           </details>
-          <div className="mt-5 border-t border-slate-200 pt-4"><CountryArticleDrawer title={content.quranArticleTitle} body={content.quranArticleBody} tone="quran" mode={articleMode} /></div>
+          <div className="mt-5 border-t border-slate-200 pt-4"><CountryArticleDrawer href={`/blog/country/${slug}/quran`} title={content.quranArticleTitle} body={content.quranArticleBody} tone="quran" mode={articleMode} /></div>
         </article>
         <article className={`${cardClass} p-7`}>
           <div className="flex items-center justify-center gap-3 text-indigo-700"><Lightbulb size={22} aria-hidden="true" /><p className="text-sm font-black">مسار اللغة العربية</p></div>
@@ -44,7 +44,7 @@ export async function CountryLearningHub({ slug, variant = "cards", showLocalCar
             <summary>المزيد عن حصة العربية</summary>
             <div className="country-more-body"><p>تبدأ الحصة بتحديد المهارة التي يحتاج إليها الطالب: القراءة، أو النطق، أو فهم الكلمات والجمل. يقرأ الطالب مادة مناسبة لمستواه، ثم يتدرب مع المعلم على النطق والفهم خطوة خطوة.</p><p>لا تعتمد الحصة على حفظ كلمات منفصلة فقط؛ بل تربط الكلمة بصوتها ومعناها واستخدامها في جملة مفهومة.</p></div>
           </details>
-          <div className="mt-5 border-t border-slate-200 pt-4"><CountryArticleDrawer title={content.arabicArticleTitle} body={content.arabicArticleBody} tone="arabic" mode={articleMode} /></div>
+          <div className="mt-5 border-t border-slate-200 pt-4"><CountryArticleDrawer href={`/blog/country/${slug}/arabic`} title={content.arabicArticleTitle} body={content.arabicArticleBody} tone="arabic" mode={articleMode} /></div>
         </article>
       </div>
       <article className={`${cardClass} mx-auto mt-5 max-w-5xl p-7 text-right`}>
@@ -55,6 +55,7 @@ export async function CountryLearningHub({ slug, variant = "cards", showLocalCar
           <summary>المزيد عن المعلمين والمعلمات</summary>
           <div className="country-more-body"><p>يشرح المعلم للطالب ما الذي سيقرأه أو يراجعه، ويستمع إلى القراءة والتسميع، ثم يصحح المواضع التي تحتاج إلى تحسين. وفي العربية يقرأ الطالب كلمات وجملًا مناسبة لمستواه ويتدرب على النطق والفهم.</p><p>تظهر في الشريط أسماء المعلمين والمعلمات النشطين وتخصصاتهم وخبراتهم المسجلة في الموقع. عند التواصل يمكنك ذكر عمر الطالب ومستواه والبرنامج المفضل، وكذلك تفضيل معلم أو معلمة، ليتم تنسيق الاختيار المناسب.</p></div>
         </details>
+        <div className="mx-auto mt-5 max-w-4xl border-t border-slate-200 pt-4"><CountryArticleDrawer href="/teachers" title="تعرّف على المعلمين والمعلمات" body={content.teacherAngle} tone="quran" mode="button" /></div>
         <CountryTeacherMarquee teachers={teachers} />
       </article>
       {showLocalCard && <div className="mx-auto mt-7 max-w-4xl rounded-2xl border border-slate-200 bg-white/70 p-5 text-center" dir="auto"><p className="text-xs font-black uppercase tracking-[0.16em] text-slate-500">{content.name} · Al-Hafiz Academy</p><p className="mt-2 leading-7 text-slate-600">{content.localTitle}</p><p className="mt-2 leading-7 text-slate-600">{content.localDescription}</p></div>}

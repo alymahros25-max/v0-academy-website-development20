@@ -55,7 +55,7 @@ export async function CountryLearningHub({ slug, variant = "cards", showLocalCar
           <summary>المزيد عن المعلمين والمعلمات</summary>
           <div className="country-more-body"><p>يشرح المعلم للطالب ما الذي سيقرأه أو يراجعه، ويستمع إلى القراءة والتسميع، ثم يصحح المواضع التي تحتاج إلى تحسين. وفي العربية يقرأ الطالب كلمات وجملًا مناسبة لمستواه ويتدرب على النطق والفهم.</p><p>تظهر في الشريط أسماء المعلمين والمعلمات النشطين وتخصصاتهم وخبراتهم المسجلة في الموقع. عند التواصل يمكنك ذكر عمر الطالب ومستواه والبرنامج المفضل، وكذلك تفضيل معلم أو معلمة، ليتم تنسيق الاختيار المناسب.</p></div>
         </details>
-        <div className="mx-auto mt-5 max-w-4xl border-t border-slate-200 pt-4"><CountryArticleDrawer href="/teachers" title="تعرّف على المعلمين والمعلمات" body={content.teacherAngle} tone="quran" mode="button" /></div>
+        <div className="mx-auto mt-5 max-w-4xl border-t border-slate-200 pt-4"><CountryArticleDrawer href={`/blog/country/${slug}/teachers`} title="تعرّف على المعلمين والمعلمات" body={content.teacherAngle} tone="quran" mode="button" /></div>
         <CountryTeacherMarquee teachers={teachers} />
       </article>
       {showLocalCard && <div className="mx-auto mt-7 max-w-4xl rounded-2xl border border-slate-200 bg-white/70 p-5 text-center" dir="auto"><p className="text-xs font-black uppercase tracking-[0.16em] text-slate-500">{content.name} · Al-Hafiz Academy</p><p className="mt-2 leading-7 text-slate-600">{content.localTitle}</p><p className="mt-2 leading-7 text-slate-600">{content.localDescription}</p></div>}

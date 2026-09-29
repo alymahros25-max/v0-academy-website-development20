@@ -12,6 +12,7 @@ function LayoutWrapper({ children }: { children: ReactNode }) {
   const { dir, locale } = useI18n()
   const pathname = usePathname()
   const isAdmin = pathname.startsWith("/admin")
+  const isCountryArticle = pathname.startsWith("/blog/country/")
   const isSaudiLanding = pathname === "/saudi-arabia"
   const isUaeLanding = pathname === "/united-arab-emirates"
   const isUnitedStatesLanding = pathname === "/united-states"
@@ -64,7 +65,7 @@ function LayoutWrapper({ children }: { children: ReactNode }) {
     return <div dir={dir}>{children}</div>
   }
 
-  if (isSaudiLanding || isUaeLanding || isUnitedStatesLanding || isCanadaLanding || isUnitedKingdomLanding || isAustraliaLanding || isGermanyLanding || isKuwaitLanding || isNewCountryLanding) {
+  if (isCountryArticle || isSaudiLanding || isUaeLanding || isUnitedStatesLanding || isCanadaLanding || isUnitedKingdomLanding || isAustraliaLanding || isGermanyLanding || isKuwaitLanding || isNewCountryLanding) {
     return (
       <div dir={dir}>
         {!isAdmin && <DeferredClientIntegrations />}

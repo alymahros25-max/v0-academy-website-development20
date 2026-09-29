@@ -129,7 +129,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }))
 
   const countryArticleEntries: MetadataRoute.Sitemap = Object.keys(countryEducationalContent).flatMap((slug) =>
-    (['quran', 'arabic'] as const).map((topic) => ({
+    (['quran', 'arabic', 'teachers'] as const).map((topic) => ({
       url: `${BASE_URL}/blog/country/${slug}/${topic}`,
     })),
   )

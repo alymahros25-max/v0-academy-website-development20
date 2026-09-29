@@ -458,3 +458,40 @@ html {
 .new-country-video-tile em { padding-bottom:.85rem; color:#ffffff9c; font-size:.78rem; font-style:normal; }
 @media (max-width:800px) { .new-country-package-features { grid-template-columns:repeat(2,1fr); } .new-country-video-header { align-items:flex-start; } .new-country-video-count { min-width:74px; min-height:74px; } .new-country-video-wall { grid-template-columns:repeat(2,1fr); } .new-country-video-tile.is-featured { grid-column:span 2; grid-row:auto; } }
 @media (max-width:480px) { .new-country-package-features { grid-template-columns:1fr 1fr; gap:.5rem; } .new-country-package-features article { padding:.85rem .7rem; } .new-country-video-header { display:block; } .new-country-video-count { margin-top:1rem; } }
+
+/* Country learning decisions: centered copy, side articles, and teacher marquee. */
+.country-learning-hub > div > .grid > article { text-align: center; }
+.country-article-trigger { display:inline-flex; align-items:center; justify-content:center; gap:.55rem; width:100%; min-height:3rem; padding:.7rem 1rem; border:1px solid #a7f3d0; border-radius:999px; color:#047857; background:#ecfdf5; font-weight:900; cursor:pointer; text-align:center; transition:transform .18s ease, box-shadow .18s ease, background .18s ease; }
+.country-article-trigger:hover { transform:translateY(-2px); box-shadow:0 10px 24px #0478571c; }
+.country-article-trigger-arabic { border-color:#c7d2fe; color:#4338ca; background:#eef2ff; }
+.country-article-trigger-answer { justify-content:flex-start; text-align:right; }
+.country-article-trigger-side { position:relative; width:auto; min-width:8.5rem; border-radius:0 1.2rem 1.2rem 0; margin-inline-start:-1.75rem; box-shadow:4px 5px 0 #0000000d; }
+.country-article-trigger-glow { color:#fff; border-color:transparent; background:linear-gradient(135deg,var(--country-primary,#047857),var(--country-accent,#d6a84f)); box-shadow:0 0 0 4px #ffffff55,0 10px 28px color-mix(in srgb,var(--country-accent,#d6a84f) 35%,transparent); }
+.country-article-backdrop { position:fixed; inset:0; z-index:80; display:flex; justify-content:flex-start; background:#0f172a80; direction:rtl; }
+.country-article-drawer { position:relative; width:min(34rem,92vw); height:100%; padding:5rem 2rem 2rem; overflow:auto; background:#fff; box-shadow:-20px 0 60px #0003; animation:country-drawer-in .22s ease-out; }
+.country-article-close { position:absolute; top:1.1rem; inset-inline-start:1.1rem; display:grid; place-items:center; width:2.6rem; height:2.6rem; border:1px solid #e2e8f0; border-radius:50%; color:#334155; background:#fff; cursor:pointer; }
+.country-article-kicker { color:#047857; font-size:.8rem; font-weight:900; letter-spacing:.04em; }
+.country-article-kicker-arabic { color:#4338ca; }
+.country-article-drawer h3 { margin-top:1rem; color:#0f172a; font-size:1.65rem; font-weight:900; line-height:1.45; }
+.country-article-drawer > p:last-child { margin-top:1.25rem; color:#475569; font-size:1.05rem; line-height:2; }
+.country-teacher-marquee { width:100%; margin-top:1.5rem; overflow:hidden; direction:ltr; mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent); }
+.country-teacher-marquee-track { display:flex; width:max-content; gap:.8rem; animation:country-teacher-scroll 32s linear infinite; }
+.country-teacher-marquee:hover .country-teacher-marquee-track { animation-play-state:paused; }
+.country-teacher-profile { display:flex; min-width:16rem; align-items:center; gap:.75rem; padding:.7rem .9rem; border:1px solid #f3d48a; border-radius:1rem; background:#fffbeb; direction:rtl; text-align:right; }
+.country-teacher-avatar { display:grid; flex:none; place-items:center; width:3.25rem; height:3.25rem; overflow:hidden; border-radius:50%; background:#fef3c7; }
+.country-teacher-avatar img { width:100%; height:100%; object-fit:cover; }
+.country-teacher-profile strong,.country-teacher-profile span,.country-teacher-profile small { display:block; }
+.country-teacher-profile strong { color:#78350f; font-size:.9rem; }
+.country-teacher-profile span { margin-top:.15rem; color:#92400e; font-size:.72rem; line-height:1.4; }
+.country-teacher-profile small { margin-top:.15rem; color:#a16207; font-size:.68rem; }
+@keyframes country-drawer-in { from { transform:translateX(-100%); opacity:.7; } to { transform:translateX(0); opacity:1; } }
+@keyframes country-teacher-scroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .country-teacher-marquee-track,.country-article-drawer { animation:none; } }
+@media (max-width:600px) { .country-article-trigger-side { margin-inline-start:-.75rem; } .country-article-drawer { padding-inline:1.25rem; } .country-teacher-profile { min-width:14rem; } }
+.country-more { border-top:1px solid #e2e8f0; }
+.country-more summary { display:inline-flex; align-items:center; gap:.4rem; padding-top:.85rem; color:#475569; font-size:.9rem; font-weight:900; cursor:pointer; list-style:none; }
+.country-more summary::-webkit-details-marker { display:none; }
+.country-more summary::after { content:'⌄'; color:#b7791f; font-size:1.15rem; transition:transform .18s ease; }
+.country-more[open] summary::after { transform:rotate(180deg); }
+.country-more-body { padding:.85rem 0 .1rem; color:#64748b; font-size:.92rem; line-height:1.95; }
+.country-more-body p + p { margin-top:.7rem; }

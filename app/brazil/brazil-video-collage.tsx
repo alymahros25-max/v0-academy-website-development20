@@ -1,0 +1,14 @@
+'use client'
+
+import { useState } from "react"
+import Image from "next/image"
+import { Play, Video } from "lucide-react"
+import { VideoPlayer } from "@/components/VideoPlayer"
+import type { LandingVideo } from "@/lib/classroom-videos"
+
+export function BrazilVideoCollage({ videos }: { videos: LandingVideo[] }) {
+  const selected = videos.filter((video) => video.showOnLandingPages).slice(0, 5)
+  const [active, setActive] = useState<string | null>(null)
+  const image = (video: LandingVideo) => video.thumbnail_url || video.poster || `https://img.youtube.com/vi/${video.youtube_embed_id}/mqdefault.jpg`
+  return <section className="bg-[#1756A1] px-5 py-16 text-white sm:px-8" aria-labelledby="brazil-video-title"><div className="mx-auto max-w-6xl"><p className="flex items-center gap-2 text-sm font-black tracking-[0.2em] text-[#F6C945]"><Video size={16} /> من داخل الأكاديمية</p><h2 id="brazil-video-title" className="mt-3 text-4xl font-black sm:text-6xl">شاهد أولًا، ثم اختر سؤالك</h2>{selected.length ? <div className="mt-9 grid gap-5 lg:grid-cols-[1.5fr_.8fr]">{selected.slice(0, 1).map((video) => <button key={video.id} type="button" onClick={() => setActive(video.id)} className="group relative overflow-hidden rounded-[2.5rem] border-4 border-[#F6C945] bg-[#14251F] p-3 text-right shadow-[10px_10px_0_#087F5B]"><span className="relative block aspect-video overflow-hidden rounded-[2rem]"><Image loader={({ src }) => src} src={image(video)} alt={video.title_ar} fill sizes="(max-width: 1024px) 100vw, 65vw" className="object-cover transition duration-300 group-hover:scale-105 motion-reduce:transition-none" /><span className="absolute inset-0 grid place-items-center bg-black/20"><span className="grid size-16 place-items-center rounded-full bg-[#F6C945] text-[#14251F]"><Play size={26} fill="currentColor" /></span></span></span><strong className="block px-3 py-4 text-lg">{video.title_ar}</strong></button>)}<div className="space-y-4">{selected.slice(1).map((video, index) => <button key={video.id} type="button" onClick={() => setActive(video.id)} className="flex w-full items-center gap-3 rounded-2xl bg-white/10 p-3 text-right hover:bg-white/20"><span className="relative size-24 shrink-0 overflow-hidden rounded-xl"><Image loader={({ src }) => src} src={image(video)} alt="" fill sizes="96px" className="object-cover" /></span><span className="flex-1 font-black leading-7">{video.title_ar}</span><span className="text-[#F6C945]">0{index + 2}</span></button>)}</div></div> : <p className="mt-8 rounded-2xl bg-white/10 p-6 font-bold">محتوى التعريف المرئي سيظهر هنا من المواد المنشورة.</p>}{active ? <VideoPlayer isOpen videoId={selected.find((video) => video.id === active)?.youtube_embed_id || ""} title={selected.find((video) => video.id === active)?.title_ar || "مقطع من الأكاديمية"} onClose={() => setActive(null)} /> : null}</div></section>
+}

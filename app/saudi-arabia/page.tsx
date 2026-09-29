@@ -1,3 +1,4 @@
+import { CountryLearningHub } from "@/components/country-learning-hub"
 import type { Metadata } from "next"
 import { getCountrySeoAlternates } from "@/lib/seo-metadata"
 import Link from "next/link"
@@ -81,5 +82,7 @@ export default async function SaudiArabiaPage() {
     <CountryServiceLinks />
     <footer className="bg-primary text-primary-foreground"><div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 sm:px-8 md:grid-cols-[1.2fr_1fr]"><div><div className="flex items-center gap-3"><Image src="/logo.png" alt="شعار أكاديمية الحافظ المتميز" width={48} height={48} className="size-12 rounded-lg bg-secondary object-contain" /><div><p className="font-bold">أكاديمية الحافظ المتميز</p><p className="mt-1 text-sm text-primary-foreground/70">تحفيظ القرآن وتأسيس اللغة العربية أونلاين في السعودية</p></div></div><p className="mt-4 max-w-md text-sm leading-7 text-primary-foreground/75">حصص فردية مباشرة باللغة العربية أونلاين لحفظ القرآن وتأسيس القراءة والكتابة.</p></div><nav aria-label="روابط صفحة السعودية" className="grid content-start gap-x-6 gap-y-3 text-sm text-primary-foreground/90 sm:grid-cols-2"><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/teachers">المعلمين والمعلمات</Link><Link href="/blog">المدونة</Link><Link href="/privacy">سياسة الخصوصية</Link><Link href="/terms">شروط الاستخدام</Link><Link href="/refund-policy">سياسة الاسترداد</Link></nav><CountryPagesSection /></div><div className="border-t border-primary-foreground/10 px-5 py-5 text-center text-xs text-primary-foreground/65 sm:px-8">© {new Date().getFullYear()} أكاديمية الحافظ المتميز. جميع الحقوق محفوظة.</div></footer>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: (faqItems.length ? faqItems : [...faqGroupsByProgram.quran.flat(1), ...faqGroupsByProgram.arabic.flat(1)]).map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }) }} />
-  </main>
+
+      <CountryLearningHub slug="saudi-arabia" variant="cards" showLocalCard={false} />
+</main>
 }

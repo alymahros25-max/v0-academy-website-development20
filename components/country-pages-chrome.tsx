@@ -5,47 +5,21 @@ import Image from "next/image"
 import { BookOpen, Feather } from "lucide-react"
 import { usePathname } from "next/navigation"
 
-const countries: Record<string, { ar: string; local: string; flag: string }> = {
-  "/argentina": { ar: "الأرجنتين", local: "Argentina", flag: "🇦🇷" },
-  "/australia": { ar: "أستراليا", local: "Australia", flag: "🇦🇺" },
-  "/austria": { ar: "النمسا", local: "Österreich", flag: "🇦🇹" },
-  "/bahrain": { ar: "البحرين", local: "البحرين", flag: "🇧🇭" },
-  "/belgium": { ar: "بلجيكا", local: "België", flag: "🇧🇪" },
-  "/brazil": { ar: "البرازيل", local: "Brasil", flag: "🇧🇷" },
-  "/canada": { ar: "كندا", local: "Canada", flag: "🇨🇦" },
-  "/china": { ar: "الصين", local: "中国", flag: "🇨🇳" },
-  "/colombia": { ar: "كولومبيا", local: "Colombia", flag: "🇨🇴" },
-  "/denmark": { ar: "الدنمارك", local: "Danmark", flag: "🇩🇰" },
-  "/finland": { ar: "فنلندا", local: "Suomi", flag: "🇫🇮" },
-  "/france": { ar: "فرنسا", local: "France", flag: "🇫🇷" },
-  "/germany": { ar: "ألمانيا", local: "Deutschland", flag: "🇩🇪" },
-  "/greece": { ar: "اليونان", local: "Ελλάδα", flag: "🇬🇷" },
-  "/indonesia": { ar: "إندونيسيا", local: "Indonesia", flag: "🇮🇩" },
-  "/italy": { ar: "إيطاليا", local: "Italia", flag: "🇮🇹" },
-  "/jordan": { ar: "الأردن", local: "الأردن", flag: "🇯🇴" },
-  "/kuwait": { ar: "الكويت", local: "الكويت", flag: "🇰🇼" },
-  "/malaysia": { ar: "ماليزيا", local: "Malaysia", flag: "🇲🇾" },
-  "/mexico": { ar: "المكسيك", local: "México", flag: "🇲🇽" },
-  "/netherlands": { ar: "هولندا", local: "Nederland", flag: "🇳🇱" },
-  "/new-zealand": { ar: "نيوزيلندا", local: "New Zealand", flag: "🇳🇿" },
-  "/nigeria": { ar: "نيجيريا", local: "Nigeria", flag: "🇳🇬" },
-  "/norway": { ar: "النرويج", local: "Norge", flag: "🇳🇴" },
-  "/oman": { ar: "عُمان", local: "عُمان", flag: "🇴🇲" },
-  "/poland": { ar: "بولندا", local: "Polska", flag: "🇵🇱" },
-  "/portugal": { ar: "البرتغال", local: "Portugal", flag: "🇵🇹" },
-  "/qatar": { ar: "قطر", local: "قطر", flag: "🇶🇦" },
-  "/russia": { ar: "روسيا", local: "Россия", flag: "🇷🇺" },
-  "/saudi-arabia": { ar: "السعودية", local: "السعودية", flag: "🇸🇦" },
-  "/senegal": { ar: "السنغال", local: "Sénégal", flag: "🇸🇳" },
-  "/south-africa": { ar: "جنوب أفريقيا", local: "South Africa", flag: "🇿🇦" },
-  "/spain": { ar: "إسبانيا", local: "España", flag: "🇪🇸" },
-  "/sweden": { ar: "السويد", local: "Sverige", flag: "🇸🇪" },
-  "/switzerland": { ar: "سويسرا", local: "Schweiz", flag: "🇨🇭" },
-  "/turkey": { ar: "تركيا", local: "Türkiye", flag: "🇹🇷" },
-  "/united-arab-emirates": { ar: "الإمارات العربية المتحدة", local: "الإمارات العربية المتحدة", flag: "🇦🇪" },
-  "/united-kingdom": { ar: "المملكة المتحدة", local: "United Kingdom", flag: "🇬🇧" },
-  "/united-states": { ar: "الولايات المتحدة", local: "United States", flag: "🇺🇸" },
-  "/venezuela": { ar: "فنزويلا", local: "Venezuela", flag: "🇻🇪" },
+const countries: Record<string, { ar: string; code: string }> = {
+  "/argentina": { ar: "الأرجنتين", code: "ar" }, "/australia": { ar: "أستراليا", code: "au" }, "/austria": { ar: "النمسا", code: "at" },
+  "/bahrain": { ar: "البحرين", code: "bh" }, "/belgium": { ar: "بلجيكا", code: "be" }, "/brazil": { ar: "البرازيل", code: "br" },
+  "/canada": { ar: "كندا", code: "ca" }, "/china": { ar: "الصين", code: "cn" }, "/colombia": { ar: "كولومبيا", code: "co" },
+  "/denmark": { ar: "الدنمارك", code: "dk" }, "/finland": { ar: "فنلندا", code: "fi" }, "/france": { ar: "فرنسا", code: "fr" },
+  "/germany": { ar: "ألمانيا", code: "de" }, "/greece": { ar: "اليونان", code: "gr" }, "/indonesia": { ar: "إندونيسيا", code: "id" },
+  "/italy": { ar: "إيطاليا", code: "it" }, "/jordan": { ar: "الأردن", code: "jo" }, "/kuwait": { ar: "الكويت", code: "kw" },
+  "/malaysia": { ar: "ماليزيا", code: "my" }, "/mexico": { ar: "المكسيك", code: "mx" }, "/netherlands": { ar: "هولندا", code: "nl" },
+  "/new-zealand": { ar: "نيوزيلندا", code: "nz" }, "/nigeria": { ar: "نيجيريا", code: "ng" }, "/norway": { ar: "النرويج", code: "no" },
+  "/oman": { ar: "عُمان", code: "om" }, "/poland": { ar: "بولندا", code: "pl" }, "/portugal": { ar: "البرتغال", code: "pt" },
+  "/qatar": { ar: "قطر", code: "qa" }, "/russia": { ar: "روسيا", code: "ru" }, "/saudi-arabia": { ar: "السعودية", code: "sa" },
+  "/senegal": { ar: "السنغال", code: "sn" }, "/south-africa": { ar: "جنوب أفريقيا", code: "za" }, "/spain": { ar: "إسبانيا", code: "es" },
+  "/sweden": { ar: "السويد", code: "se" }, "/switzerland": { ar: "سويسرا", code: "ch" }, "/turkey": { ar: "تركيا", code: "tr" },
+  "/united-arab-emirates": { ar: "الإمارات العربية المتحدة", code: "ae" }, "/united-kingdom": { ar: "المملكة المتحدة", code: "gb" },
+  "/united-states": { ar: "الولايات المتحدة", code: "us" }, "/venezuela": { ar: "فنزويلا", code: "ve" },
 }
 
 const countryVisuals: Record<string, string> = {
@@ -69,18 +43,18 @@ export function CountryPagesChrome({ children }: { children: React.ReactNode }) 
             <Image src="/logo.png" alt="" width={44} height={44} priority className="country-pages-logo-image" />
           </div>
           <div className="country-pages-title">
-            <span>أكاديمية الحافظ المتميز</span>
+            <span>أكاديمية الحافظ المتميز Online</span>
             <i>—</i>
             <b>{country.ar}</b>
             <i>—</i>
-            <em dir="ltr">{country.local}</em>
+            <em dir="ltr">{pathname.slice(1)}</em>
           </div>
           <div className="country-pages-ornament" aria-hidden="true">
             <span className="country-pages-country-visual">{countryVisuals[pathname] ?? "✒️"}</span>
             <BookOpen size={25} strokeWidth={1.7} />
             <Feather size={17} strokeWidth={1.7} />
           </div>
-          <div className="country-pages-flag" role="img" aria-label={`علم ${country.ar}`}>{country.flag}</div>
+          <div className="country-pages-flag" role="img" aria-label={`علم ${country.ar}`}><Image loader={({ src }) => src} unoptimized src={`https://flagcdn.com/w80/${country.code}.png`} alt={`علم ${country.ar}`} width={80} height={52} /></div>
         </div>
       </header>
       {children}
@@ -88,8 +62,9 @@ export function CountryPagesChrome({ children }: { children: React.ReactNode }) 
         <div className="country-pages-footer-inner">
           <div><strong>أكاديمية الحافظ المتميز</strong><span>تعليم فردي أونلاين للقرآن والعربية</span></div>
           <nav aria-label="روابط صفحة الدولة"><Link href="/">الرئيسية</Link><Link href="/contact">تواصل معنا</Link><Link href="/privacy">الخصوصية</Link><Link href="/terms">الشروط</Link></nav>
-          <p>{country.flag} صفحة {country.ar} المستقلة · © {new Date().getFullYear()}</p>
+          <p>صفحة {country.ar} المستقلة · © {new Date().getFullYear()}</p>
         </div>
+        <div className="country-pages-countries"><details><summary>صفحاتنا حسب الدولة</summary><nav>{Object.entries(countries).map(([href, item]) => <Link key={href} href={href} className={href === pathname ? "is-current" : ""}><Image loader={({ src }) => src} unoptimized src={`https://flagcdn.com/w40/${item.code}.png`} alt="" width={40} height={26} /> {item.ar}</Link>)}</nav></details></div>
       </footer>
     </div>
   )

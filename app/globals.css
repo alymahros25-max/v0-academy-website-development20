@@ -20,8 +20,10 @@
 @keyframes country-pages-float { 0%,100% { transform:translateY(0) rotate(-3deg); } 50% { transform:translateY(-4px) rotate(3deg); } }
 @keyframes country-pages-write { 0%,100% { transform:rotate(-8deg); } 50% { transform:rotate(10deg) translateY(-2px); } }
 .country-pages-ornament::before,.country-pages-ornament::after { content:""; width:3.25rem; height:1px; background:rgb(224 190 124 / .42); }
-.country-pages-flag { position:absolute; inset-inline-start:1.25rem; top:65px; z-index:30; display:grid; place-items:center; width:3rem; height:2.25rem; font-size:1.65rem; line-height:1; background:#fff; border:3px solid #fff; border-radius:.35rem .35rem .85rem .85rem; box-shadow:0 8px 18px rgb(8 27 40 / .28); transform:rotate(-4deg); }
+.country-pages-flag { position:absolute; inset-inline-start:1.25rem; top:65px; z-index:30; display:grid; place-items:center; width:4rem; height:2.55rem; padding:0; overflow:hidden; background:#fff; border:3px solid #fff; border-radius:.35rem .35rem .85rem .85rem; box-shadow:0 8px 18px rgb(8 27 40 / .28); transform-origin:top left; animation:country-pages-flag-wave 2.8s ease-in-out infinite; }
+.country-pages-flag img { display:block; width:100%; height:100%; object-fit:cover; }
 .country-pages-flag::after { content:""; position:absolute; inset:100% auto auto 50%; width:1px; height:1.1rem; background:#d9b56f; }
+@keyframes country-pages-flag-wave { 0%,100% { transform:perspective(80px) rotateY(0deg) rotate(-4deg); } 50% { transform:perspective(80px) rotateY(-12deg) rotate(-1deg); } }
 .country-pages-footer { position:relative; z-index:5; padding:2.5rem 1.25rem 1.25rem; color:#e7edf0; background:#102b3e; border-top:4px solid #d9b56f; }
 .country-pages-footer-inner { display:grid; grid-template-columns:1.2fr 1fr 1fr; align-items:center; gap:1.5rem; width:min(1180px,100%); margin:auto; }
 .country-pages-footer strong,.country-pages-footer span { display:block; }
@@ -31,6 +33,12 @@
 .country-pages-footer a { color:#e7edf0; font-size:.85rem; text-decoration:none; }
 .country-pages-footer a:hover { color:#f1dca8; }
 .country-pages-footer p { margin:0; text-align:end; }
+.country-pages-countries { width:min(1180px,100%); margin:1.5rem auto 0; padding-top:1.25rem; border-top:1px solid rgb(231 237 240 / .14); }
+.country-pages-countries summary { cursor:pointer; color:#f1dca8; font-weight:800; }
+.country-pages-countries nav { display:grid; grid-template-columns:repeat(4,1fr); gap:.55rem; margin-top:1rem; }
+.country-pages-countries a { display:flex; align-items:center; gap:.45rem; padding:.45rem .55rem; border:1px solid rgb(231 237 240 / .14); border-radius:.5rem; }
+.country-pages-countries a.is-current { color:#102b3e; background:#f1dca8; border-color:#f1dca8; }
+.country-pages-countries img { width:1.45rem; height:.95rem; object-fit:cover; border-radius:2px; }
 .country-pages-shell > main > header,
 .country-pages-shell > main > footer,
 .country-pages-shell .new-country-footer { display:none !important; }
@@ -45,6 +53,7 @@
   .country-pages-flag { inset-inline-start:1rem; top:60px; }
   .country-pages-footer-inner { grid-template-columns:1fr; gap:1rem; }
   .country-pages-footer p { text-align:start; }
+  .country-pages-countries nav { grid-template-columns:repeat(2,1fr); }
 }
 
 @layer utilities {

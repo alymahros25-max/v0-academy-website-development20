@@ -5,6 +5,7 @@ import { generateEducationalOrganizationSchema, generateWebSiteSchema, generateC
 import "./globals.css"
 import { ClientProviders } from "@/components/client-providers"
 import { AnalyticsConsent } from "@/components/analytics-consent"
+import { CountryPagesChrome } from "@/components/country-pages-chrome"
 
 const rootStructuredData = generateCombinedSchema(
   generateEducationalOrganizationSchema(),
@@ -109,7 +110,7 @@ export default function RootLayout({
         className={`${notoArabic.variable} ${inter.variable} font-sans antialiased`}
       >
         <ErrorBoundary context="RootLayout">
-          <ClientProviders>{children}</ClientProviders>
+          <ClientProviders><CountryPagesChrome>{children}</CountryPagesChrome></ClientProviders>
         </ErrorBoundary>
         <AnalyticsConsent />
       </body>

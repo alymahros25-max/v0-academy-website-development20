@@ -58,10 +58,10 @@ export default async function UnitedStatesPage() {
 
     <section className="mx-auto max-w-5xl px-5 py-16 sm:px-8"><h2 className="text-center text-3xl font-bold">الأسئلة الشائعة</h2><div className="mt-8 grid gap-3 sm:grid-cols-2">{faqItems.map(([question, answer]) => <details key={question} className="rounded-xl border border-border bg-card p-5"><summary className="cursor-pointer font-bold">{question}</summary><p className="mt-3 leading-7 text-muted-foreground">{answer}</p></details>)}</div></section>
 
+      <CountryLearningHub slug="united-states" variant="minimal" showLocalCard={false} />
     <CountryServiceLinks />
     <footer className="bg-primary px-5 py-10 text-primary-foreground"><div className="mx-auto max-w-6xl"><CountryPagesSection /><nav className="mt-4 flex flex-wrap gap-4 text-sm"><Link href="/">الرئيسية</Link><Link href="/saudi-arabia">تحفيظ القرآن واللغة العربية في السعودية</Link><Link href="/united-arab-emirates">تحفيظ القرآن واللغة العربية في الإمارات</Link></nav><div className="mt-8 flex flex-wrap gap-4 text-sm"><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/teachers">المعلمون والمعلمات</Link><Link href="/blog">المدونة</Link><Link href="/privacy">سياسة الخصوصية</Link><Link href="/terms">شروط الاستخدام</Link><Link href="/refund-policy">سياسة الاسترداد</Link></div></div></footer>
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <CountryLearningHub slug="united-states" variant="minimal" showLocalCard={false} />
 </main>
 }

@@ -32,13 +32,14 @@ const countryVisuals: Record<string, string> = {
 
 const suggestionDismissalKey = "country-currency-suggestion-dismissed"
 const suggestionDismissalDays = 30
+type Suggestion = { kind: "country"; country: Country & { path: string } } | { kind: "usd" }
 
 function CountryFlag({ code, size = 80, alt = "" }: { code: string; size?: number; alt?: string }) {
   return <Image loader={({ src }) => src} unoptimized src={`https://flagcdn.com/w${size}/${code}.png`} alt={alt} width={size} height={Math.round(size * 0.65)} />
 }
 
 function CountryCurrencySuggestion({ currentPath }: { currentPath: string }) {
-  const [suggestedCountry, setSuggestedCountry] = useState<(Country & { path: string }) | null>(null)
+  const [suggestion, setSuggestion] = useState<Suggestion | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -52,20 +53,35 @@ function CountryCurrencySuggestion({ currentPath }: { currentPath: string }) {
       .then((data) => {
         if (cancelled || !data?.countryCode) return
         const match = Object.entries(countries).find(([, item]) => item.code.toUpperCase() === data.countryCode)
-        if (!match || match[0] === currentPath) return
+        if (!match) {
+          if (currentPath !== "/quran" && currentPath !== "/arabic") setSuggestion({ kind: "usd" })
+          return
+        }
+        if (match[0] === currentPath) return
         const [path, item] = match
-        setSuggestedCountry({ path, ...item })
+        setSuggestion({ kind: "country", country: { path, ...item } })
       })
       .catch(() => undefined)
     return () => { cancelled = true }
   }, [currentPath])
 
-  if (!suggestedCountry) return null
+  if (!suggestion) return null
   const dismiss = () => {
     try { window.localStorage.setItem(suggestionDismissalKey, String(Date.now())) } catch { /* private browsing */ }
-    setSuggestedCountry(null)
+    setSuggestion(null)
   }
 
+  if (suggestion.kind === "usd") {
+    const quranVisible = currentPath !== "/quran"
+    const arabicVisible = currentPath !== "/arabic"
+    return <aside className="country-currency-suggestion country-usd-suggestion" role="status" aria-live="polite">
+      <div className="country-currency-suggestion-flag country-usd-mark">$</div>
+      <div className="country-currency-suggestion-copy"><strong>هل تريد مشاهدة الأسعار بالدولار الأمريكي؟</strong><span>اختر القسم الذي تريد معرفة أسعاره بالدولار.</span></div>
+      <div className="country-currency-suggestion-actions">{quranVisible && <Link href="/quran" onClick={dismiss}>أسعار القرآن بالدولار</Link>}{arabicVisible && <Link href="/arabic" onClick={dismiss}>أسعار العربي بالدولار</Link>}<button type="button" onClick={dismiss}>لا، أبقى هنا</button></div>
+    </aside>
+  }
+
+  const suggestedCountry = suggestion.country
   return <aside className="country-currency-suggestion" role="status" aria-live="polite">
     <div className="country-currency-suggestion-flag"><CountryFlag code={suggestedCountry.code} alt="" /></div>
     <div className="country-currency-suggestion-copy"><strong>هل تريد مشاهدة الأسعار بـ{suggestedCountry.currency}؟</strong><span>اطّلع على الباقات والمواعيد المناسبة للعائلات في {suggestedCountry.ar}.</span></div>

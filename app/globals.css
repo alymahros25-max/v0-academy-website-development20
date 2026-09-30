@@ -42,6 +42,7 @@
 .country-currency-suggestion { position:fixed; inset-inline-end:1.25rem; bottom:1.25rem; z-index:60; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:1rem; width:min(720px,calc(100% - 2.5rem)); padding:1rem 1.1rem; color:#102b3e; background:#fffdf7; border:1px solid #d9b56f; border-radius:1rem; box-shadow:0 16px 40px rgb(8 27 40 / .24); }
 .country-currency-suggestion-flag { display:grid; place-items:center; width:3.5rem; height:2.3rem; overflow:hidden; border-radius:.35rem; box-shadow:0 3px 8px rgb(8 27 40 / .18); }
 .country-currency-suggestion-flag img { width:100%; height:100%; object-fit:cover; }
+.country-usd-mark { color:#173f56; background:#f1dca8; font-size:1.6rem; font-weight:900; }
 .country-currency-suggestion-copy { display:grid; gap:.3rem; }
 .country-currency-suggestion-copy strong { color:#102b3e; font-size:.96rem; }
 .country-currency-suggestion-copy span { color:#52636d; font-size:.8rem; line-height:1.6; }
@@ -49,6 +50,7 @@
 .country-currency-suggestion-actions a,.country-currency-suggestion-actions button { cursor:pointer; padding:.55rem .75rem; border-radius:.55rem; font:inherit; font-size:.76rem; font-weight:800; text-decoration:none; }
 .country-currency-suggestion-actions a { color:#fff; background:#173f56; }
 .country-currency-suggestion-actions button { color:#173f56; background:transparent; border:1px solid #cbd4d7; }
+.country-usd-suggestion .country-currency-suggestion-actions { max-width:25rem; }
 .country-pages-shell > main > header,
 .country-pages-shell > main > footer,
 .country-pages-shell .new-country-footer { display:none !important; }

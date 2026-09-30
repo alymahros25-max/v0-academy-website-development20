@@ -4,7 +4,8 @@ import Link from "next/link"
 import Image from "next/image"
 import { BookOpen, Feather } from "lucide-react"
 import { usePathname } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import { trackGA4Event } from "@/components/ga4-events"
 
 type Country = { ar: string; code: string; currency: string }
 
@@ -40,6 +41,7 @@ function CountryFlag({ code, size = 80, alt = "" }: { code: string; size?: numbe
 
 function CountryCurrencySuggestion({ currentPath }: { currentPath: string }) {
   const [suggestion, setSuggestion] = useState<Suggestion | null>(null)
+  const trackedSuggestion = useRef<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -54,19 +56,30 @@ function CountryCurrencySuggestion({ currentPath }: { currentPath: string }) {
         if (cancelled || !data?.countryCode) return
         const match = Object.entries(countries).find(([, item]) => item.code.toUpperCase() === data.countryCode)
         if (!match) {
-          if (currentPath !== "/quran" && currentPath !== "/arabic") setSuggestion({ kind: "usd" })
+          if (currentPath !== "/quran" && currentPath !== "/arabic") {
+            setSuggestion({ kind: "usd" })
+            if (trackedSuggestion.current !== `usd:${currentPath}`) {
+              trackedSuggestion.current = `usd:${currentPath}`
+              trackGA4Event("country_suggestion_shown", { suggestion_type: "usd", detected_country: data.countryCode, current_path: currentPath, destination: "/quran,/arabic" })
+            }
+          }
           return
         }
         if (match[0] === currentPath) return
         const [path, item] = match
         setSuggestion({ kind: "country", country: { path, ...item } })
+        if (trackedSuggestion.current !== `country:${path}:${currentPath}`) {
+          trackedSuggestion.current = `country:${path}:${currentPath}`
+          trackGA4Event("country_suggestion_shown", { suggestion_type: "local_currency", detected_country: item.code.toUpperCase(), suggested_currency: item.currency, current_path: currentPath, destination: path })
+        }
       })
       .catch(() => undefined)
     return () => { cancelled = true }
   }, [currentPath])
 
   if (!suggestion) return null
-  const dismiss = () => {
+  const dismiss = (trackNo = true) => {
+    if (trackNo) trackGA4Event("country_suggestion_no", { suggestion_type: suggestion.kind, current_path: currentPath })
     try { window.localStorage.setItem(suggestionDismissalKey, String(Date.now())) } catch { /* private browsing */ }
     setSuggestion(null)
   }
@@ -77,7 +90,7 @@ function CountryCurrencySuggestion({ currentPath }: { currentPath: string }) {
     return <aside className="country-currency-suggestion country-usd-suggestion" role="status" aria-live="polite">
       <div className="country-currency-suggestion-flag country-usd-mark">$</div>
       <div className="country-currency-suggestion-copy"><strong>هل تريد مشاهدة الأسعار بالدولار الأمريكي؟</strong><span>اختر القسم الذي تريد معرفة أسعاره بالدولار.</span></div>
-      <div className="country-currency-suggestion-actions">{quranVisible && <Link href="/quran" onClick={dismiss}>أسعار القرآن بالدولار</Link>}{arabicVisible && <Link href="/arabic" onClick={dismiss}>أسعار العربي بالدولار</Link>}<button type="button" onClick={dismiss}>لا، أبقى هنا</button></div>
+      <div className="country-currency-suggestion-actions">{quranVisible && <Link href="/quran" onClick={() => { trackGA4Event("usd_pricing_quran_click", { current_path: currentPath, destination: "/quran" }); dismiss(false) }}>أسعار القرآن بالدولار</Link>}{arabicVisible && <Link href="/arabic" onClick={() => { trackGA4Event("usd_pricing_arabic_click", { current_path: currentPath, destination: "/arabic" }); dismiss(false) }}>أسعار العربي بالدولار</Link>}<button type="button" onClick={() => dismiss()}>لا، أبقى هنا</button></div>
     </aside>
   }
 
@@ -85,7 +98,7 @@ function CountryCurrencySuggestion({ currentPath }: { currentPath: string }) {
   return <aside className="country-currency-suggestion" role="status" aria-live="polite">
     <div className="country-currency-suggestion-flag"><CountryFlag code={suggestedCountry.code} alt="" /></div>
     <div className="country-currency-suggestion-copy"><strong>هل تريد مشاهدة الأسعار بـ{suggestedCountry.currency}؟</strong><span>اطّلع على الباقات والمواعيد المناسبة للعائلات في {suggestedCountry.ar}.</span></div>
-    <div className="country-currency-suggestion-actions"><Link href={suggestedCountry.path} onClick={dismiss}>نعم، انتقل إلى صفحة {suggestedCountry.ar}</Link><button type="button" onClick={dismiss}>لا، أبقى هنا</button></div>
+    <div className="country-currency-suggestion-actions"><Link href={suggestedCountry.path} onClick={() => { trackGA4Event("country_suggestion_yes", { suggestion_type: "local_currency", current_path: currentPath, detected_country: suggestedCountry.code.toUpperCase(), suggested_currency: suggestedCountry.currency, destination: suggestedCountry.path }); dismiss(false) }}>نعم، انتقل إلى صفحة {suggestedCountry.ar}</Link><button type="button" onClick={() => dismiss()}>لا، أبقى هنا</button></div>
   </aside>
 }
 

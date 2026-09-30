@@ -57,7 +57,7 @@ export default async function ChinaPage() {
         <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
           <div>
             <p className="text-sm font-black uppercase tracking-[0.25em] text-[#f3d79d]">دفتر الهدف · الصين</p>
-            <h1 id="china-opening-title" className="mt-6 max-w-4xl text-balance text-5xl font-black leading-[1.08] sm:text-7xl">ابدأ من هدفك، ثم اختر وقتك، ثم اسأل</h1>
+            <h1 id="china-opening-title" className="mt-6 max-w-4xl text-balance text-5xl font-black leading-[1.08] sm:text-7xl">تعلم القرآن أونلاين بالعربية من الصين في حلقة فردية</h1>
             <p className="mt-7 max-w-2xl text-lg leading-9 text-[#f9e8d2] sm:text-xl">من بكين إلى شنغهاي وغوانغجو وشِنْجِن، يمكنك التعرف إلى برامج القرآن والعربية أونلاين بطريقة واضحة. اختر ما تريد تعلمه، اذكر الوقت المناسب لك، وأرسل سؤالك قبل اتخاذ القرار.</p>
             <div className="mt-8 flex flex-wrap gap-3"><a href="#china-steps" className="inline-flex items-center gap-2 rounded-full bg-[#c9953d] px-6 py-3 font-black text-[#211a18]">اختر هدفك</a><a href={trialUrl} target="_blank" rel="noreferrer" className="rounded-full border border-[#f9e8d2] px-6 py-3 font-black text-[#fffaf1]">تواصل واسأل عن الموعد</a></div>
           </div>

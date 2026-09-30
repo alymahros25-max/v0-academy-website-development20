@@ -14,7 +14,7 @@ export default function QuranPage() {
         descriptionAr="دروس فردية مباشرة باللغة العربية لتعلم حفظ القرآن والتلاوة والتجويد والمراجعة عبر Zoom أو Google Meet."
         url="https://quran-elhafez.com/quran"
         image="https://quran-elhafez.com/images/teacher-quran.webp"
-        teaches={["Quranic Memorization", "Tajweed", "Islamic Education"]}
+        teaches={["Quranic Memorization", "Tajweed"]}
       />
       <QuranPageClient />
     </>

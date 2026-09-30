@@ -32,8 +32,8 @@ const questions: Question[] = [
     correctIndex: 2,
   },
   {
-    question: { ar: "ما اسم السورة التي تسمى قلب القرآن؟", en: "Which Surah is called the heart of the Quran?", fr: "Quelle sourate est le coeur du Coran?" },
-    options: { ar: ["الرحمن", "يس", "الملك", "الواقعة"], en: ["Ar-Rahman", "Yaseen", "Al-Mulk", "Al-Waqi'ah"], fr: ["Ar-Rahman", "Yaseen", "Al-Mulk", "Al-Waqi'ah"] },
+    question: { ar: "ما السورة التي تبدأ بعبارة «الحمد لله رب العالمين»؟", en: "Which Surah begins with “All praise is for Allah, Lord of all worlds”?", fr: "Quelle sourate commence par « Louange à Allah, Seigneur des mondes » ?" },
+    options: { ar: ["البقرة", "الفاتحة", "آل عمران", "الملك"], en: ["Al-Baqarah", "Al-Fatihah", "Ali 'Imran", "Al-Mulk"], fr: ["Al-Baqara", "Al-Fatiha", "Al-Imran", "Al-Mulk"] },
     correctIndex: 1,
   },
   {
@@ -42,8 +42,8 @@ const questions: Question[] = [
     correctIndex: 2,
   },
   {
-    question: { ar: "كم مرة ذُكر اسم النبي محمد في القرآن؟", en: "How many times is Prophet Muhammad mentioned?", fr: "Combien de fois le Prophete Muhammad est mentionne?" },
-    options: { ar: ["3 مرات", "4 مرات", "5 مرات", "6 مرات"], en: ["3", "4", "5", "6"], fr: ["3", "4", "5", "6"] },
+    question: { ar: "في أي سورة وردت عبارة «إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ»؟", en: "Which Surah contains “Indeed, We have granted you Al-Kawthar”?", fr: "Dans quelle sourate trouve-t-on « Nous t’avons certes accordé Al-Kawthar » ?" },
+    options: { ar: ["الماعون", "الكوثر", "النصر", "الإخلاص"], en: ["Al-Ma'un", "Al-Kawthar", "An-Nasr", "Al-Ikhlas"], fr: ["Al-Ma'un", "Al-Kawthar", "An-Nasr", "Al-Ikhlas"] },
     correctIndex: 1,
   },
   {
@@ -52,14 +52,14 @@ const questions: Question[] = [
     correctIndex: 2,
   },
   {
-    question: { ar: "كم عدد السجدات في القرآن الكريم؟", en: "How many prostrations (Sujud) are in the Quran?", fr: "Combien de prosternations dans le Coran?" },
-    options: { ar: ["12 سجدة", "13 سجدة", "14 سجدة", "15 سجدة"], en: ["12", "13", "14", "15"], fr: ["12", "13", "14", "15"] },
-    correctIndex: 3,
+    question: { ar: "ما اسم السورة التي تلي سورة الفاتحة في ترتيب المصحف؟", en: "Which Surah follows Al-Fatihah in the standard Quran order?", fr: "Quelle sourate suit Al-Fatiha dans l’ordre du Coran ?" },
+    options: { ar: ["البقرة", "آل عمران", "الناس", "الإخلاص"], en: ["Al-Baqarah", "Ali 'Imran", "An-Nas", "Al-Ikhlas"], fr: ["Al-Baqara", "Al-Imran", "An-Nas", "Al-Ikhlas"] },
+    correctIndex: 0,
   },
   {
-    question: { ar: "ما هي السورة الملقبة بعروس القرآن؟", en: "Which Surah is called the Bride of the Quran?", fr: "Quelle sourate est la Mariee du Coran?" },
-    options: { ar: ["الرحمن", "يس", "الكهف", "مريم"], en: ["Ar-Rahman", "Yaseen", "Al-Kahf", "Maryam"], fr: ["Ar-Rahman", "Yaseen", "Al-Kahf", "Maryam"] },
-    correctIndex: 0,
+    question: { ar: "في أي سورة ورد اسم «أحمد» في البشارة بعيسى عليه السلام؟", en: "In which Surah does the name “Ahmad” occur in Jesus’s announcement?", fr: "Dans quelle sourate le nom « Ahmad » apparaît-il dans l’annonce de Jésus ?" },
+    options: { ar: ["الأحزاب", "الصف", "الفتح", "الجمعة"], en: ["Al-Ahzab", "As-Saff", "Al-Fath", "Al-Jumu'ah"], fr: ["Al-Ahzab", "As-Saff", "Al-Fath", "Al-Jumu'ah"] },
+    correctIndex: 1,
   },
 ]
 

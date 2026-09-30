@@ -5,7 +5,13 @@ import { calculateStars, earnBadges } from '@/lib/games-engine'
 import { audioSystem } from '@/lib/audio-system'
 import { GameResults } from './GameResults'
 
-const qAnimals = [{animal: 'السمكة', verse: 'في قصة أصحاب السبت'}, {animal: 'الجراد', verse: 'إحدى الآيات التسع'}, {animal: 'الذباب', verse: 'لا يخلقون ذبابة'}, {animal: 'النحل', verse: 'وأوحى ربك للنحل'}, {animal: 'الفيل', verse: 'أصحاب الفيل'}]
+const qAnimals = [
+  { animal: 'النمل', verse: 'ما الحيوان المذكور في سورة النمل، الآية 18؟' },
+  { animal: 'النحل', verse: 'ما الحشرة المذكورة في سورة النحل، الآية 68؟' },
+  { animal: 'الفيل', verse: 'ما الحيوان المذكور في سورة الفيل، الآية 1؟' },
+  { animal: 'الإبل', verse: 'ما الحيوان الذي تشير إليه سورة الغاشية، الآية 17؟' },
+  { animal: 'الذباب', verse: 'ما الحشرة المذكورة في سورة الحج، الآية 73؟' },
+]
 
 export function QuranAnimalsGame() {
   const { locale } = useI18n()

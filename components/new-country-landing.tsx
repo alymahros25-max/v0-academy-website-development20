@@ -35,17 +35,12 @@ function LocalSection({ config }: Props) {
   return <section className="new-country-section new-country-local"><div className="new-country-narrow"><div className="new-country-local-icon"><MapPin size={20} /></div><p className="new-country-kicker">الخدمة من أي مكان</p><h2>أونلاين للعائلات في {config.name}</h2><p>{config.localLead}</p><div className="new-country-city-list">{config.cities.map(city => <span key={city}>{city}</span>)}</div><div className="new-country-time"><Clock3 size={18} /><span>المواعيد تُنسق حسب {config.timezone}</span></div></div></section>
 }
 
-function TeacherTrust({ teachers }: { teachers: Teacher[] }) {
-  const activeTeachers = teachers.filter((teacher) => teacher.active)
-  return <section className="new-country-trust"><div className="new-country-narrow"><p className="new-country-kicker">فريق التعليم</p><h2>معلمون ومعلمات للطلاب والطالبات</h2><p>بيانات الفريق التعليمي تُدار من لوحة التحكم. عند الحجز يمكنك توضيح ما إذا كان الطالب يحتاج إلى معلم أو تحتاج الطالبة إلى معلمة، ويتم تنسيق البرنامج وفق المعلومات المسجلة والمتاحة في النظام.</p><div className="new-country-trust-stats"><span><b>{activeTeachers.length ? "مُدار" : "—"}</b><small>بيانات الفريق من لوحة التحكم</small></span><span><b>30</b><small>دقيقة للحصة</small></span><span><b>1:1</b><small>حصة فردية</small></span></div></div></section>
-}
-
 function PackageIncludes() {
   return <section className="new-country-package-includes"><div className="new-country-narrow"><p className="new-country-kicker">محتوى كل باقة</p><div className="new-country-package-features"><article><b>30 دقيقة</b><span>مدة كل حصة</span></article><article><b>مجانية</b><span>حصة تجريبية قبل الاشتراك</span></article><article><b>فردية</b><span>حصة خاصة بالطالب</span></article><article><b>مستمرة</b><span>متابعة وتقرير بعد كل حصة</span></article></div></div></section>
 }
 
-function SharedClosing({ config, videos = [], teachers = [], contactUrl }: Props) {
-  return <><PackageIncludes /><NewCountryVideos videos={videos} /><TeacherTrust teachers={teachers} /><CountryLearningHub slug={config.variant} variant="minimal" /><section className="new-country-section new-country-closing"><div className="new-country-narrow"><p className="new-country-kicker">خطوة عملية</p><h2>ابدأ بما يناسب أسبوعك الآن</h2><p>أرسل عمر الطالب ومستواه والبرنامج المطلوب، وسنوضح لك الخطوة التالية قبل التسجيل.</p><WhatsApp config={config} contactUrl={contactUrl} /><p className="new-country-independent-note">صفحة مستقلة لـ{config.name} · تعليم أونلاين فقط</p></div></section><CountryFooter config={config} /></>
+function SharedClosing({ config, videos = [], contactUrl }: Props) {
+  return <><PackageIncludes /><NewCountryVideos videos={videos} /><CountryLearningHub slug={config.variant} variant="minimal" /><section className="new-country-section new-country-closing"><div className="new-country-narrow"><p className="new-country-kicker">خطوة عملية</p><h2>ابدأ بما يناسب أسبوعك الآن</h2><p>أرسل عمر الطالب ومستواه والبرنامج المطلوب، وسنوضح لك الخطوة التالية قبل التسجيل.</p><WhatsApp config={config} contactUrl={contactUrl} /><p className="new-country-independent-note">صفحة مستقلة لـ{config.name} · تعليم أونلاين فقط</p></div></section><CountryFooter config={config} /></>
 }
 
 const countryLinks = [

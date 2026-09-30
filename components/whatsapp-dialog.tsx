@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
+import { trackGA4Event } from "@/components/ga4-events"
 
 interface WhatsAppDialogProps {
   open: boolean
@@ -77,6 +78,7 @@ export function WhatsAppDialog({ open, onOpenChange }: WhatsAppDialogProps) {
   const currentOptions = options[locale as keyof typeof options]
 
   const handleSelect = (option: (typeof currentOptions)[0]) => {
+    trackGA4Event("whatsapp_chat_start", { program: option.id, location: "whatsapp_dialog" })
     const encodedMessage = encodeURIComponent(option.message)
     // Using wa.me with phone number to open the correct chat
     const whatsappUrl = `https://wa.me/201130127894?text=${encodedMessage}`

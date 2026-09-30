@@ -6,11 +6,11 @@ import { calculateScore, calculateStars, earnBadges } from "@/lib/games-engine"
 import { GameResults } from "./GameResults"
 
 const tajweedQuestions = [
-  { question: "حكم التنوين عند البدء ب الهمزة؟", options: ["إدغام", "إظهار", "إخفاء"], correct: 1, hint: "تُظهر الحرف" },
+  { question: "ما حكم النون الساكنة أو التنوين قبل الهمزة؟", options: ["إدغام", "إظهار حلقي", "إخفاء"], correct: 1, hint: "الهمزة من حروف الإظهار الحلقي الستة: ء، هـ، ع، ح، غ، خ." },
   { question: "ماذا يعني الإظهار في التجويد؟", options: ["الدمج", "الإبانة والوضوح", "الخفاء"], correct: 1, hint: "وضوح الحرف" },
-  { question: "حكم الميم الساكنة قبل الباء؟", options: ["إظهار", "إخفاء", "إدغام"], correct: 2, hint: "الدمج" },
-  { question: "اللام الشمسية تكون؟", options: ["مفتوحة دائماً", "مسكنة مظهرة", "مسكنة مدغمة"], correct: 2, hint: "الإدغام" },
-  { question: "ما أحكام النون الساكنة والتنوين؟", options: ["ثلاثة", "أربعة", "خمسة"], correct: 1, hint: "الإظهار، الإدغام، الإخفاء" },
+  { question: "ما حكم الميم الساكنة قبل الباء؟", options: ["إظهار شفوي", "إخفاء شفوي", "إدغام شفوي"], correct: 1, hint: "يُسمى إخفاءً شفويًا، ويكون عند الباء." },
+  { question: "ما حكم اللام في «الشَّمْس»؟", options: ["لام قمرية ظاهرة", "لام شمسية مدغمة", "لام ساكنة مظهرة"], correct: 1, hint: "تُدغم لام التعريف في الحرف الشمسي، وتُكتب ولا تُنطق لامًا ظاهرة." },
+  { question: "كم حكمًا أساسيًا للنون الساكنة والتنوين؟", options: ["ثلاثة", "أربعة", "خمسة"], correct: 1, hint: "الإظهار، والإدغام، والإقلاب، والإخفاء." },
 ]
 
 export function TajweedRulesGame() {
@@ -37,6 +37,8 @@ export function TajweedRulesGame() {
 
   const handleAnswer = useCallback(
     (idx: number) => {
+      if (selectedAnswer !== null || gameComplete) return
+      setSelectedAnswer(idx)
       const isCorrect = idx === currentQuestion.correct
       if (isCorrect) {
         const newCombo = combo + 1
@@ -56,7 +58,7 @@ export function TajweedRulesGame() {
         setGameComplete(true)
       }
     },
-    [currentQ, currentQuestion, combo, totalQuestions]
+    [currentQ, currentQuestion, combo, totalQuestions, selectedAnswer, gameComplete]
   )
 
   if (gameComplete) {

@@ -4,7 +4,13 @@ import { useI18n } from '@/lib/i18n'
 import { calculateStars, earnBadges } from '@/lib/games-engine'
 import { GameResults } from './GameResults'
 
-const lamRules = [{rule: 'اللام قبل الحروف الحلقية', type: 'إظهار'}, {rule: 'اللام قبل الميم والباء', type: 'إدغام'}, {rule: 'اللام قبل الراء', type: 'إدغام'}, {rule: 'اللام قبل الساكن من حروف آخر', type: 'إظهار'}, {rule: 'لام الفعل الماضي', type: 'تفخيم'}]
+const lamRules = [
+  { rule: 'ما حكم لام التعريف في كلمة «الشَّمْس»؟', type: 'إدغام' },
+  { rule: 'ما حكم لام التعريف في كلمة «الْقَمَر»؟', type: 'إظهار' },
+  { rule: 'ما حكم لام التعريف في كلمة «النَّاس»؟', type: 'إدغام' },
+  { rule: 'ما حكم لام التعريف في كلمة «الْكِتَاب»؟', type: 'إظهار' },
+  { rule: 'ما حكم لام التعريف في كلمة «النَّجْم»؟', type: 'إدغام' },
+]
 
 export function TajweedLamGame() {
   const { locale } = useI18n()

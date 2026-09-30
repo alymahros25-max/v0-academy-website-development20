@@ -2,13 +2,13 @@ import { Metadata } from "next"
 import { getSeoAlternates } from "@/lib/seo-metadata"
 
 export const metadata: Metadata = {
-  title: "الألعاب التعليمية | أكاديمية الحافظ المتميز",
-  description: "20 لعبة تعليمية تفاعلية للأطفال تغطي الحروف العربية والتجويد والقرآن الكريم والسيرة النبوية",
+  title: "ألعاب تعليمية تفاعلية للقرآن والعربية للأطفال | الحافظ المتميز",
+  description: "استكشف ألعابًا وأنشطة تفاعلية في الحروف العربية والقرآن والتجويد والسيرة، تساعد على المراجعة والتدرب بطريقة مشوقة.",
   alternates: getSeoAlternates('https://quran-elhafez.com/games'),
   keywords: ["ألعاب تعليمية", "قرآن", "تجويد", "حروف عربية", "تعليم الأطفال", "ألعاب إسلامية"],
   openGraph: {
-    title: "الألعاب التعليمية",
-    description: "تعلم من خلال اللعب - 20 لعبة تفاعلية للأطفال",
+    title: "ألعاب تعليمية تفاعلية للقرآن والعربية للأطفال",
+    description: "ألعاب وأنشطة تفاعلية في الحروف العربية والقرآن والتجويد والسيرة.",
     type: "website",
     images: [{ url: "https://quran-elhafez.com/images/og-default.webp", width: 1200, height: 630, alt: "أكاديمية الحافظ المتميز" }],
   },

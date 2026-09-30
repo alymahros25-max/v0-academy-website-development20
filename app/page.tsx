@@ -11,12 +11,12 @@ import { getPublicContent } from "@/lib/public-content-server"
 export const revalidate = 3600
 
 export const metadata: Metadata = {
-  title: "تحفيظ قرآن وتأسيس عربي أون لاين للناطقين بالعربية",
-  description: "تحفيظ قرآن أون لاين وتأسيس اللغة العربية للأطفال والكبار، بحصص فردية مباشرة باللغة العربية وحصة تجريبية مجانية.",
-  keywords: "تحفيظ قرآن أون لاين، تحفيظ قرآن للأطفال، محفظ قرآن عن بعد، تأسيس عربي للأطفال أون لاين، تعليم القراءة والكتابة بالعربية، حصة تجريبية مجانية",
+  title: "تحفيظ القرآن وتأسيس العربية أونلاين | الحافظ المتميز",
+  description: "للطلاب الناطقين بالعربية: دروس فردية مباشرة لتحفيظ القرآن ومراجعته وتعليم التلاوة والتجويد، وتأسيس القراءة والكتابة. لغة التدريس العربية فقط. تعرّف على البرامج واحجز الحصة التجريبية الأولى المجانية.",
+  keywords: "أكاديمية تحفيظ قرآن وتعليم عربي أونلاين، أكاديمية الحافظ المتميز أونلاين، تحفيظ القرآن وتأسيس العربية، دروس فردية مباشرة باللغة العربية، الحصة التجريبية المجانية",
   openGraph: {
-    title: "تحفيظ قرآن وتأسيس عربي أون لاين للناطقين بالعربية",
-    description: "حصص فردية مباشرة لتحفيظ القرآن وتأسيس العربية للأطفال والكبار، مع حصة تجريبية مجانية.",
+    title: "تحفيظ القرآن وتأسيس العربية أونلاين | الحافظ المتميز",
+    description: "للطلاب الناطقين بالعربية: دروس فردية مباشرة لتحفيظ القرآن ومراجعته وتعليم التلاوة والتجويد، وتأسيس القراءة والكتابة. لغة التدريس العربية فقط. احجز الحصة التجريبية الأولى المجانية.",
     type: "website",
     locale: "ar_SA",
     images: [{ url: "https://quran-elhafez.com/images/og-default.webp", width: 1200, height: 630, alt: "أكاديمية الحافظ المتميز" }],
@@ -51,7 +51,8 @@ export default function HomePage() {
   return (
     <>
       <AcademyBanner />
-      <Suspense fallback={<HeroSection />}>
+      {/* Keep the loading fallback free of headings so streamed HTML has one H1. */}
+      <Suspense fallback={<div aria-hidden="true" className="min-h-screen bg-warm-bg" />}>
         <DynamicHeroContent />
       </Suspense>
       <HomeContentSections />

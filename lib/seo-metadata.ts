@@ -15,29 +15,37 @@ export function getSeoAlternates(canonical: string): NonNullable<Metadata['alter
   }
 }
 
-const legacyCountryCanonicalBySlug: Record<string, string> = {
-  australia: "https://quran-elhafez.com/australia",
-  canada: "https://quran-elhafez.com/canada",
-  germany: "https://quran-elhafez.com/germany",
-  saudiArabia: "https://quran-elhafez.com/saudi-arabia",
-  unitedArabEmirates: "https://quran-elhafez.com/united-arab-emirates",
-  unitedKingdom: "https://quran-elhafez.com/united-kingdom",
-  unitedStates: "https://quran-elhafez.com/united-states",
-  kuwait: "https://quran-elhafez.com/kuwait",
-  qatar: "https://quran-elhafez.com/qatar",
-  oman: "https://quran-elhafez.com/oman",
-  jordan: "https://quran-elhafez.com/jordan",
-  bahrain: "https://quran-elhafez.com/bahrain",
-  france: "https://quran-elhafez.com/france",
-  spain: "https://quran-elhafez.com/spain",
-  netherlands: "https://quran-elhafez.com/netherlands",
-  belgium: "https://quran-elhafez.com/belgium",
-  sweden: "https://quran-elhafez.com/sweden",
-}
+const countryAlternateUrls = {
+  australia: { locale: "ar-AU", url: "https://quran-elhafez.com/australia" },
+  canada: { locale: "ar-CA", url: "https://quran-elhafez.com/canada" },
+  germany: { locale: "ar-DE", url: "https://quran-elhafez.com/germany" },
+  saudiArabia: { locale: "ar-SA", url: "https://quran-elhafez.com/saudi-arabia" },
+  unitedArabEmirates: { locale: "ar-AE", url: "https://quran-elhafez.com/united-arab-emirates" },
+  unitedKingdom: { locale: "ar-GB", url: "https://quran-elhafez.com/united-kingdom" },
+  unitedStates: { locale: "ar-US", url: "https://quran-elhafez.com/united-states" },
+  kuwait: { locale: "ar-KW", url: "https://quran-elhafez.com/kuwait" },
+  qatar: { locale: "ar-QA", url: "https://quran-elhafez.com/qatar" },
+  oman: { locale: "ar-OM", url: "https://quran-elhafez.com/oman" },
+  jordan: { locale: "ar-JO", url: "https://quran-elhafez.com/jordan" },
+  bahrain: { locale: "ar-BH", url: "https://quran-elhafez.com/bahrain" },
+  france: { locale: "ar-FR", url: "https://quran-elhafez.com/france" },
+  spain: { locale: "ar-ES", url: "https://quran-elhafez.com/spain" },
+  netherlands: { locale: "ar-NL", url: "https://quran-elhafez.com/netherlands" },
+  belgium: { locale: "ar-BE", url: "https://quran-elhafez.com/belgium" },
+  sweden: { locale: "ar-SE", url: "https://quran-elhafez.com/sweden" },
+} as const
 
-export function getCountrySeoAlternates(canonicalOrSlug: string): NonNullable<Metadata['alternates']> {
-  const canonical = canonicalOrSlug.startsWith("http") ? canonicalOrSlug : legacyCountryCanonicalBySlug[canonicalOrSlug] ?? canonicalOrSlug
-  return { canonical, languages: { ar: canonical, 'x-default': canonical } }
+export type CountrySeoSlug = keyof typeof countryAlternateUrls
+
+export function getCountrySeoAlternates(slug: CountrySeoSlug): NonNullable<Metadata['alternates']> {
+  const canonical = countryAlternateUrls[slug].url
+  // Country pages target different geographic intents, not alternate language
+  // versions of one another. Do not publish a misleading 17-country hreflang
+  // cluster; each page is its own Arabic canonical landing page.
+  return {
+    canonical,
+    languages: { ar: canonical, "x-default": canonical },
+  }
 }
 
 export function withSeoAlternates(metadata: Metadata, canonical: string): Metadata {

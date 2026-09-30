@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { MessageCircle, X } from "lucide-react"
 import { WhatsAppDialog } from "./whatsapp-dialog"
+import { trackGA4Event } from "@/components/ga4-events"
 
 export function FloatingButtons() {
   const [expanded, setExpanded] = useState(false)
@@ -20,7 +21,10 @@ export function FloatingButtons() {
       >
         {/* WhatsApp */}
         <button
-          onClick={() => setWhatsappDialogOpen(true)}
+          onClick={() => {
+            trackGA4Event("whatsapp_click", { location: "floating_button" })
+            setWhatsappDialogOpen(true)
+          }}
           className="group flex items-center gap-2"
           aria-label="WhatsApp"
         >

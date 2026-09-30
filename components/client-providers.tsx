@@ -4,15 +4,15 @@ import { type ReactNode, useEffect } from "react"
 import { I18nProvider, useI18n } from "@/lib/i18n"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
-import { FloatingButtons } from "@/components/floating-buttons"
 import { usePathname } from "next/navigation"
-import { GA4Tracker } from "@/components/ga4-tracker"
-import { ClarityTracker } from "@/components/clarity-tracker"
+import { DeferredClientIntegrations } from "@/components/deferred-client-integrations"
+import { TeachingLanguageNotice } from "@/components/teaching-language-notice"
 
 function LayoutWrapper({ children }: { children: ReactNode }) {
   const { dir, locale } = useI18n()
   const pathname = usePathname()
   const isAdmin = pathname.startsWith("/admin")
+  const isCountryArticle = pathname.startsWith("/blog/country/")
   const isSaudiLanding = pathname === "/saudi-arabia"
   const isUaeLanding = pathname === "/united-arab-emirates"
   const isUnitedStatesLanding = pathname === "/united-states"
@@ -65,10 +65,10 @@ function LayoutWrapper({ children }: { children: ReactNode }) {
     return <div dir={dir}>{children}</div>
   }
 
-  if (isSaudiLanding || isUaeLanding || isUnitedStatesLanding || isCanadaLanding || isUnitedKingdomLanding || isAustraliaLanding || isGermanyLanding || isKuwaitLanding || isNewCountryLanding) {
+  if (isCountryArticle || isSaudiLanding || isUaeLanding || isUnitedStatesLanding || isCanadaLanding || isUnitedKingdomLanding || isAustraliaLanding || isGermanyLanding || isKuwaitLanding || isNewCountryLanding) {
     return (
       <div dir={dir}>
-        {!isAdmin && <><GA4Tracker /><ClarityTracker /></>}
+        {!isAdmin && <DeferredClientIntegrations />}
         {children}
       </div>
     )
@@ -76,12 +76,11 @@ function LayoutWrapper({ children }: { children: ReactNode }) {
 
   return (
     <div dir={dir} className="flex flex-col min-h-screen">
-      <GA4Tracker />
-      <ClarityTracker />
+      <DeferredClientIntegrations />
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
-      <FloatingButtons />
+      <TeachingLanguageNotice />
     </div>
   )
 }

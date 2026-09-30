@@ -1,7 +1,8 @@
 "use client"
 
 import { useI18n } from "@/lib/i18n"
-import { Gamepad2, Trophy, Brain, Star, Filter, X, Volume2, VolumeX } from "lucide-react"
+import Link from "next/link"
+import { Gamepad2, Trophy, Brain, Filter, X, Volume2, VolumeX } from "lucide-react"
 import { useState, useEffect, lazy, Suspense } from "react"
 import dynamic from "next/dynamic"
 import { audioSystem } from "@/lib/audio-system"
@@ -246,14 +247,7 @@ export default function GamesPage() {
                     <p className="text-xs text-muted-foreground leading-relaxed mb-3 line-clamp-2">
                       {locale === "ar" ? game.descriptionAr : locale === "en" ? game.descriptionEn : game.descriptionFr}
                     </p>
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-muted-foreground">{game.playersCount}</span>
-                      <div className="flex items-center gap-0.5">
-                        {[1, 2, 3].map((s) => (
-                          <Star key={s} className="w-3 h-3 text-secondary fill-secondary" />
-                        ))}
-                      </div>
-                    </div>
+
                     <div className="mt-3 py-2 bg-primary/10 text-primary rounded-lg text-center font-bold text-xs group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                       {t("common.play")}
                     </div>
@@ -269,6 +263,26 @@ export default function GamesPage() {
                 </p>
               </div>
             )}
+          </div>
+        </section>
+      )}
+
+      {activeGame === "none" && (
+        <section aria-labelledby="games-learning-links" className="bg-background pb-16">
+          <div className="mx-auto max-w-6xl px-4">
+            <div className="rounded-2xl border border-primary/15 bg-primary/5 p-6 md:p-8">
+              <h2 id="games-learning-links" className="text-xl font-bold text-foreground">
+                {locale === "ar" ? "حوّل التدريب إلى تعلّم أعمق" : locale === "en" ? "Continue learning beyond the games" : "Approfondissez votre apprentissage"}
+              </h2>
+              <p className="mt-2 max-w-3xl leading-7 text-muted-foreground">
+                {locale === "ar" ? "راجع شرح أحكام النون الساكنة والتنوين، وتعرّف على برامج تعليم القرآن واللغة العربية." : locale === "en" ? "Review the noon sakinah and tanween guide, and explore Quran and Arabic learning programs." : "Consultez le guide sur le nûn sākinah et le tanwīn, et découvrez les programmes de Coran et d’arabe."}
+              </p>
+              <nav aria-label={locale === "ar" ? "روابط تعليمية" : "Learning links"} className="mt-5 flex flex-wrap gap-3">
+                <Link href="/blog/ahkam-noon-sakinah-tanween" className="rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90">{locale === "ar" ? "شرح أحكام التجويد" : locale === "en" ? "Tajweed rules guide" : "Guide de tajwid"}</Link>
+                <a href="/quran" className="rounded-lg border border-primary/30 bg-card px-4 py-2.5 text-sm font-semibold text-primary hover:bg-primary/5">{locale === "ar" ? "برنامج تعليم القرآن" : locale === "en" ? "Quran learning program" : "Programme coranique"}</a>
+                <a href="/arabic" className="rounded-lg border border-primary/30 bg-card px-4 py-2.5 text-sm font-semibold text-primary hover:bg-primary/5">{locale === "ar" ? "برنامج اللغة العربية" : locale === "en" ? "Arabic learning program" : "Programme d’arabe"}</a>
+              </nav>
+            </div>
           </div>
         </section>
       )}

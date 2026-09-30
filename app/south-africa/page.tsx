@@ -81,7 +81,7 @@ export default async function SouthAfricaPage() {
         <div className="mx-auto max-w-6xl">
           <div>
             <p className="text-sm font-black uppercase tracking-[0.25em] text-[#f09a67]">مسار هادئ لأسبوع مزدحم</p>
-            <h1 id="south-africa-opening-title" className="mt-6 max-w-4xl text-balance text-5xl font-black leading-[1.08] sm:text-7xl">وقتٌ ثابت للقرآن، وبدايةٌ واضحة للعربية.</h1>
+            <h1 id="south-africa-opening-title" className="mt-6 max-w-4xl text-balance text-5xl font-black leading-[1.08] sm:text-7xl">حلقات فردية لتحفيظ القرآن من جنوب أفريقيا</h1>
             <p className="mt-7 max-w-2xl text-lg leading-9 text-[#eadbe5] sm:text-xl">صفحة جنوب أفريقيا مصممة حول قرار واحد: ما الوقت الذي تستطيع الأسرة المحافظة عليه؟ ابدأ من مدينتك، اختر هدفك، ثم اسأل عن المسار المناسب دون قوائم جاهزة أو قالب مكرر.</p>
             <div className="mt-8 flex flex-wrap gap-3"><a href={trialUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-md bg-[#f09a67] px-6 py-3 font-black text-[#251b2b]"><MessageCircle size={18} /> ابدأ بحصة تجريبية مجانية</a><a href="#plans" className="rounded-md border border-[#eadbe5] px-6 py-3 font-black text-[#fff8ef]">انتقل إلى الأسعار</a></div>
           </div>

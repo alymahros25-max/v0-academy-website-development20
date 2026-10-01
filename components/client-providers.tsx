@@ -7,7 +7,7 @@ import { Footer } from "@/components/layout/footer"
 import { usePathname } from "next/navigation"
 import { DeferredClientIntegrations } from "@/components/deferred-client-integrations"
 import { TeachingLanguageNotice } from "@/components/teaching-language-notice"
-import { countryPages } from "@/components/layout/country-pages-section"
+import { countryPages } from "@/lib/country-pages-registry"
 
 function LayoutWrapper({ children }: { children: ReactNode }) {
   const { dir, locale } = useI18n()

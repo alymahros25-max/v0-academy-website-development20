@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const config = getNewCountryConfig(slug)
   return {
-    title: config ? `Preview: ${config.seoTitle}` : "Country preview",
+    title: config?.seoTitle ?? "Country preview",
     robots: { index: false, follow: false },
   }
 }

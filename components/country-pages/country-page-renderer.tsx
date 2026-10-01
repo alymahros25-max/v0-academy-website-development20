@@ -13,8 +13,8 @@ function Hero({ page }: Props) {
     <section className="country-central-hero" style={{ background: page.theme.background, color: page.theme.ink }}>
       <div>
         <p className="country-central-eyebrow">{page.country.nameAr} · {page.country.currencySymbol}</p>
-        <h1>{page.seo.title}</h1>
-        <p>{page.seo.description}</p>
+        <h1>{page.country.headline}</h1>
+        <p>{page.country.lead}</p>
         <a href={page.links.find((link) => link.key === "whatsapp")?.href ?? "#"}>اطلب الحصة التجريبية الأولى</a>
       </div>
     </section>

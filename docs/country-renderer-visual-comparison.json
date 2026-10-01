@@ -12,8 +12,8 @@
       "sameSize": true,
       "width": 1440,
       "height": 5000,
-      "changedRatio": 0.752175,
-      "meanAbs": 61.923,
+      "changedRatio": 0.749126,
+      "meanAbs": 61.647,
       "p95Abs": 244
     },
     {
@@ -21,8 +21,8 @@
       "sameSize": true,
       "width": 1440,
       "height": 5000,
-      "changedRatio": 0.555326,
-      "meanAbs": 37.76,
+      "changedRatio": 0.565603,
+      "meanAbs": 37.653,
       "p95Abs": 219
     },
     {
@@ -30,8 +30,8 @@
       "sameSize": true,
       "width": 1440,
       "height": 5000,
-      "changedRatio": 0.655453,
-      "meanAbs": 46.888,
+      "changedRatio": 0.673263,
+      "meanAbs": 47.185,
       "p95Abs": 239
     },
     {
@@ -39,8 +39,8 @@
       "sameSize": true,
       "width": 1440,
       "height": 5000,
-      "changedRatio": 0.544263,
-      "meanAbs": 68.034,
+      "changedRatio": 0.550613,
+      "meanAbs": 68.461,
       "p95Abs": 239
     },
     {
@@ -48,8 +48,8 @@
       "sameSize": true,
       "width": 1440,
       "height": 5000,
-      "changedRatio": 0.320195,
-      "meanAbs": 50.011,
+      "changedRatio": 0.320193,
+      "meanAbs": 50.001,
       "p95Abs": 232
     },
     {
@@ -57,8 +57,8 @@
       "sameSize": true,
       "width": 1440,
       "height": 5000,
-      "changedRatio": 0.643043,
-      "meanAbs": 35.594,
+      "changedRatio": 0.646802,
+      "meanAbs": 35.893,
       "p95Abs": 210
     },
     {
@@ -66,8 +66,8 @@
       "sameSize": true,
       "width": 1440,
       "height": 5000,
-      "changedRatio": 0.274041,
-      "meanAbs": 42.009,
+      "changedRatio": 0.259657,
+      "meanAbs": 41.215,
       "p95Abs": 232
     },
     {
@@ -75,8 +75,8 @@
       "sameSize": true,
       "width": 1440,
       "height": 5000,
-      "changedRatio": 0.326605,
-      "meanAbs": 52.268,
+      "changedRatio": 0.346289,
+      "meanAbs": 52.749,
       "p95Abs": 224
     },
     {
@@ -84,8 +84,8 @@
       "sameSize": true,
       "width": 1440,
       "height": 5000,
-      "changedRatio": 0.398307,
-      "meanAbs": 35.929,
+      "changedRatio": 0.404745,
+      "meanAbs": 36.072,
       "p95Abs": 239
     },
     {
@@ -93,16 +93,16 @@
       "sameSize": true,
       "width": 1440,
       "height": 5000,
-      "changedRatio": 0.288741,
-      "meanAbs": 52.37,
+      "changedRatio": 0.30293,
+      "meanAbs": 54.489,
       "p95Abs": 240
     }
   ],
   "summary": {
     "pages": 10,
     "allScreenshotsCaptured": true,
-    "averageChangedRatio": 0.475815,
-    "averageMeanAbs": 48.279,
+    "averageChangedRatio": 0.481922,
+    "averageMeanAbs": 48.537,
     "note": "This is a fixed viewport screenshot diff, not a semantic equivalence score. Different renderers are expected to produce visual differences before migration."
   }
 }

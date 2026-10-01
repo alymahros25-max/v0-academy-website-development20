@@ -8,6 +8,8 @@ export const countryPageModelSchema = z.object({
     slug: nonEmpty.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
     nameAr: nonEmpty,
     nameEn: z.string().optional(),
+    headline: nonEmpty,
+    lead: nonEmpty,
     countryCode: nonEmpty.length(2),
     currencyCode: nonEmpty,
     currencySymbol: nonEmpty,

@@ -83,6 +83,8 @@ export type CountryPageModel = {
     slug: string
     nameAr: string
     nameEn?: string
+    headline: string
+    lead: string
     countryCode: string
     currencyCode: string
     currencySymbol: string

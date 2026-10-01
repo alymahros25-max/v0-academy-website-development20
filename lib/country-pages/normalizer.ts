@@ -85,6 +85,8 @@ export function normalizeCountryPageModel(slug: string, config: NewCountryConfig
       slug,
       nameAr: area?.name_ar || config.name,
       nameEn: area?.name_en || undefined,
+      headline: config.title,
+      lead: config.description,
       countryCode: area?.country_code || "XX",
       currencyCode: area?.currency_code || config.currencyCode,
       currencySymbol: area?.currency_symbol || config.currencyCode,

@@ -565,3 +565,30 @@ html {
 .country-more[open] summary::after { transform:rotate(180deg); }
 .country-more-body { padding:.85rem 0 .1rem; color:#64748b; font-size:.92rem; line-height:1.95; }
 .country-more-body p + p { margin-top:.7rem; }
+/* Shadow-only central country renderer. Not used by production country routes. */
+.country-central-page { min-height:100vh; color:#102a43; background:#f8fafc; }
+.country-central-section > *, .country-central-hero > div { width:min(1120px,calc(100% - 2.5rem)); margin-inline:auto; }
+.country-central-hero { padding:6rem 0; }
+.country-central-hero > div { display:grid; gap:1.25rem; }
+.country-central-hero h1 { max-width:52rem; font-size:clamp(2.25rem,6vw,4.75rem); line-height:1.12; }
+.country-central-hero p:not(.country-central-eyebrow) { max-width:48rem; font-size:1.1rem; line-height:2; }
+.country-central-hero a, .country-central-closing a { display:inline-flex; width:max-content; padding:.8rem 1.15rem; border-radius:999px; color:#fff; background:#102a43; font-weight:800; }
+.country-central-eyebrow, .country-central-kicker { color:#b7791f; font-size:.8rem; font-weight:900; letter-spacing:.04em; }
+.country-central-section { padding:4.5rem 0; }
+.country-central-section h2 { margin-top:.65rem; font-size:clamp(1.75rem,4vw,3rem); }
+.country-central-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; margin-top:1.5rem; }
+.country-central-grid article { padding:1.2rem; border:1px solid #dbe4ee; border-radius:1rem; background:#fff; }
+.country-central-grid article.is-popular { border-color:#c9a96e; box-shadow:0 10px 28px #c9a96e22; }
+.country-central-grid article h3 { margin:.5rem 0; font-size:1.15rem; }
+.country-central-grid article strong, .country-central-grid article small { display:block; }
+.country-central-grid article strong { font-size:1.35rem; }
+.country-central-grid article small { margin-top:.3rem; color:#64748b; }
+.country-central-grid ul { margin-top:.8rem; padding-inline-start:1.2rem; color:#475569; line-height:1.8; }
+.country-central-faq details { width:min(760px,100%); padding:1rem 0; border-bottom:1px solid #dbe4ee; }
+.country-central-faq summary { cursor:pointer; font-weight:800; }
+.country-central-faq details p { margin-top:.75rem; color:#475569; line-height:1.9; }
+.country-central-closing { padding:4rem 0; }
+.country-central-closing h2 { color:inherit; }
+.country-central-closing a { margin-top:1rem; color:#102a43; background:#c9a96e; }
+@media (max-width:800px) { .country-central-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:520px) { .country-central-grid { grid-template-columns:1fr; } .country-central-section > *, .country-central-hero > div { width:min(100% - 1.5rem,1120px); } }

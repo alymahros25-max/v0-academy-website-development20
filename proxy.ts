@@ -25,6 +25,14 @@ function isRateLimited(request: NextRequest): boolean {
 export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
+  if (pathname.startsWith('/country-preview/')) {
+    const expectedToken = process.env.COUNTRY_PREVIEW_TOKEN
+    const suppliedToken = request.nextUrl.searchParams.get('token')
+    if (!expectedToken || suppliedToken !== expectedToken) {
+      return new NextResponse('Not Found', { status: 404 })
+    }
+  }
+
   if (pathname.startsWith('/api/') && isRateLimited(request)) {
     return NextResponse.json({ error: 'Too many requests' }, { status: 429, headers: { 'Retry-After': '60' } })
   }

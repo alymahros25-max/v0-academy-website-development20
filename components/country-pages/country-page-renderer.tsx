@@ -99,7 +99,17 @@ function Faq({ page }: Props) {
 function Closing({ page }: Props) {
   return (
     <section className="country-central-section country-central-closing" style={{ background: page.theme.primary, color: "white" }}>
+      <div className="country-central-includes">
+        <p className="country-central-kicker">محتوى كل باقة</p>
+        <div className="country-central-grid">
+          <article><strong>30 دقيقة</strong><span>مدة كل حصة</span></article>
+          <article><strong>مجانية</strong><span>حصة تجريبية قبل الاشتراك</span></article>
+          <article><strong>فردية</strong><span>حصة خاصة بالطالب</span></article>
+          <article><strong>مستمرة</strong><span>متابعة وتقرير بعد كل حصة</span></article>
+        </div>
+      </div>
       <h2>ابدأ من {page.country.nameAr}</h2>
+      <p>أرسل عمر الطالب ومستواه والبرنامج المطلوب، وسنوضح لك الخطوة التالية قبل التسجيل.</p>
       <a href={page.links.find((link) => link.key === "whatsapp")?.href ?? "#"}>تواصل معنا</a>
     </section>
   )

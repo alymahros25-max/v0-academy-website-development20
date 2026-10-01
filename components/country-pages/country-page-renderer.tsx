@@ -45,6 +45,22 @@ function Hero({ page }: Props) {
     )
   }
 
+  if (variant === "oman") {
+    return (
+      <section className="country-central-hero country-central-hero-oman" style={{ background: page.theme.background, color: page.theme.ink }}>
+        <div>
+          <div className="country-central-oman-copy">
+            <p className="country-central-eyebrow">{page.country.nameAr} · {page.country.currencySymbol}</p>
+            <h1>{page.country.headline}</h1>
+            <p>{page.country.lead}</p>
+            <a href={page.links.find((link) => link.key === "whatsapp")?.href ?? "#"}>ابدأ بهدوء</a>
+          </div>
+          <div className="country-central-quiet-card"><span>قبل أن تبدأ</span><strong>مستوى الطالب</strong><small>الوقت المتاح · الهدف</small></div>
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section className="country-central-hero" style={{ background: page.theme.background, color: page.theme.ink }}>
       <div>

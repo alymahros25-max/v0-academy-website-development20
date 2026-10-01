@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "slug": "qatar",
+  "baselineSource": "docs/country-pages-batch-baseline.json",
+  "currentRenderer": {
+    "route": "app/qatar/page.tsx",
+    "component": "NewCountryLanding",
+    "note": "The existing route remains the production renderer and was not replaced."
+  },
+  "centralRenderer": {
+    "repository": "lib/country-pages/repository.ts",
+    "normalizer": "lib/country-pages/normalizer.ts",
+    "contract": "lib/country-pages/types.ts",
+    "visualImplementation": "not-separate-yet",
+    "note": "This run proves contract/data parity; a separate visual renderer has not been introduced yet."
+  },
+  "summary": {
+    "comparedFields": 18,
+    "matches": 18,
+    "mismatches": 0,
+    "visualParity": "not-measured"
+  },
+  "checks": [
+    {
+      "key": "slug",
+      "baseline": "qatar",
+      "central": "qatar",
+      "status": "match"
+    },
+    {
+      "key": "url",
+      "baseline": "/qatar",
+      "central": "/qatar",
+      "status": "match"
+    },
+    {
+      "key": "nameAr",
+      "baseline": "قطر",
+      "central": "قطر",
+      "status": "match"
+    },
+    {
+      "key": "countryCode",
+      "baseline": "QA",
+      "central": "QA",
+      "status": "match"
+    },
+    {
+      "key": "currencyCode",
+      "baseline": "ر.ق",
+      "central": "ر.ق",
+      "status": "match"
+    },
+    {
+      "key": "currencySymbol",
+      "baseline": "ر.ق",
+      "central": "ر.ق",
+      "status": "match"
+    },
+    {
+      "key": "canonical",
+      "baseline": "https://quran-elhafez.com/qatar",
+      "central": "https://quran-elhafez.com/qatar",
+      "status": "match"
+    },
+    {
+      "key": "seoTitle",
+      "baseline": "تحفيظ القرآن أونلاين في قطر | أول حصة تجريبية مجانية",
+      "central": "تحفيظ القرآن أونلاين في قطر | أول حصة تجريبية مجانية",
+      "status": "match"
+    },
+    {
+      "key": "seoDescription",
+      "baseline": "حصص فردية بالعربية لتحفيظ القرآن وحفظه ومراجعته وتلاوته وتجويده أونلاين في قطر عبر Zoom أو Google Meet. الحصة التجريبية الأولى مجانية.",
+      "central": "حصص فردية بالعربية لتحفيظ القرآن وحفظه ومراجعته وتلاوته وتجويده أونلاين في قطر عبر Zoom أو Google Meet. الحصة التجريبية الأولى مجانية.",
+      "status": "match"
+    },
+    {
+      "key": "robots",
+      "baseline": {
+        "index": true,
+        "follow": true
+      },
+      "central": {
+        "index": true,
+        "follow": true
+      },
+      "status": "match"
+    },
+    {
+      "key": "sectionKeys",
+      "baseline": [
+        "hero:qatar",
+        "steps:qatar",
+        "pricing:qatar",
+        "local:default",
+        "faq:default",
+        "closing:default"
+      ],
+      "central": [
+        "hero:qatar",
+        "steps:qatar",
+        "pricing:qatar",
+        "local:default",
+        "faq:default",
+        "closing:default"
+      ],
+      "status": "match"
+    },
+    {
+      "key": "packageCount",
+      "baseline": 8,
+      "central": 8,
+      "status": "match"
+    },
+    {
+      "key": "packagePrograms",
+      "baseline": [
+        "quran",
+        "arabic"
+      ],
+      "central": [
+        "quran",
+        "arabic"
+      ],
+      "status": "match"
+    },
+    {
+      "key": "faqCount",
+      "baseline": 3,
+      "central": 3,
+      "status": "match"
+    },
+    {
+      "key": "cities",
+      "baseline": [
+        "الدوحة",
+        "الريان",
+        "الوكرة",
+        "الخور",
+        "أم صلال"
+      ],
+      "central": [
+        "الدوحة",
+        "الريان",
+        "الوكرة",
+        "الخور",
+        "أم صلال"
+      ],
+      "status": "match"
+    },
+    {
+      "key": "timezone",
+      "baseline": "توقيت قطر",
+      "central": "توقيت قطر",
+      "status": "match"
+    },
+    {
+      "key": "linkKeys",
+      "baseline": [
+        "whatsapp",
+        "country-page"
+      ],
+      "central": [
+        "whatsapp",
+        "country-page"
+      ],
+      "status": "match"
+    },
+    {
+      "key": "schemaVersion",
+      "baseline": 1,
+      "central": 1,
+      "status": "match"
+    }
+  ],
+  "limitations": [
+    "The baseline and central model currently use the same existing area loader and code fallback.",
+    "No screenshot or DOM comparison is claimed until CountryPageRenderer is implemented separately.",
+    "No route, SEO, or production database change is made by this report."
+  ]
+}

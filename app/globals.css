@@ -582,6 +582,12 @@ html {
 .country-central-includes article { padding:1rem; border:1px solid color-mix(in srgb,currentColor 18%,transparent); border-radius:1rem; }
 .country-central-includes article strong,.country-central-includes article span { display:block; }
 .country-central-includes article span { margin-top:.35rem; opacity:.82; }
+.country-central-learning { display:grid; gap:.75rem; margin-bottom:2rem; }
+.country-central-learning details { border:1px solid color-mix(in srgb,currentColor 18%,transparent); border-radius:1rem; padding:1rem 1.15rem; }
+.country-central-learning summary { cursor:pointer; font-weight:700; }
+.country-central-learning details p { margin:.75rem 0 0; opacity:.86; line-height:1.8; }
+.country-central-learning nav { display:flex; flex-wrap:wrap; gap:.5rem .9rem; margin-top:.75rem; }
+.country-central-learning nav a { color:inherit; text-decoration:underline; text-underline-offset:3px; }
 .country-central-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; margin-top:1.5rem; }
 .country-central-grid article { padding:1.2rem; border:1px solid #dbe4ee; border-radius:1rem; background:#fff; }
 .country-central-grid article.is-popular { border-color:#c9a96e; box-shadow:0 10px 28px #c9a96e22; }

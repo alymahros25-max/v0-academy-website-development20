@@ -24,9 +24,9 @@
         "robots": "noindex, nofollow",
         "h1Count": 1,
         "h2Count": 6,
-        "detailCount": 4,
+        "detailCount": 8,
         "linkCount": 97,
-        "textLength": 5286,
+        "textLength": 5646,
         "centralMarker": true
       },
       "differences": {
@@ -34,7 +34,7 @@
         "title": false,
         "h1Count": false,
         "h2Count": false,
-        "detailCount": true,
+        "detailCount": false,
         "linkCount": true,
         "textLength": true
       }
@@ -58,9 +58,9 @@
         "robots": "noindex, nofollow",
         "h1Count": 1,
         "h2Count": 6,
-        "detailCount": 4,
+        "detailCount": 8,
         "linkCount": 97,
-        "textLength": 5299,
+        "textLength": 5659,
         "centralMarker": true
       },
       "differences": {
@@ -68,7 +68,7 @@
         "title": false,
         "h1Count": false,
         "h2Count": false,
-        "detailCount": true,
+        "detailCount": false,
         "linkCount": true,
         "textLength": true
       }
@@ -92,9 +92,9 @@
         "robots": "noindex, nofollow",
         "h1Count": 1,
         "h2Count": 6,
-        "detailCount": 4,
+        "detailCount": 8,
         "linkCount": 97,
-        "textLength": 5283,
+        "textLength": 5643,
         "centralMarker": true
       },
       "differences": {
@@ -102,7 +102,7 @@
         "title": false,
         "h1Count": false,
         "h2Count": false,
-        "detailCount": true,
+        "detailCount": false,
         "linkCount": true,
         "textLength": true
       }
@@ -126,9 +126,9 @@
         "robots": "noindex, nofollow",
         "h1Count": 1,
         "h2Count": 6,
-        "detailCount": 4,
+        "detailCount": 8,
         "linkCount": 97,
-        "textLength": 5183,
+        "textLength": 5543,
         "centralMarker": true
       },
       "differences": {
@@ -136,7 +136,7 @@
         "title": false,
         "h1Count": false,
         "h2Count": false,
-        "detailCount": true,
+        "detailCount": false,
         "linkCount": true,
         "textLength": true
       }
@@ -160,9 +160,9 @@
         "robots": "noindex, nofollow",
         "h1Count": 1,
         "h2Count": 6,
-        "detailCount": 4,
+        "detailCount": 8,
         "linkCount": 97,
-        "textLength": 5153,
+        "textLength": 5513,
         "centralMarker": true
       },
       "differences": {
@@ -170,7 +170,7 @@
         "title": false,
         "h1Count": false,
         "h2Count": false,
-        "detailCount": true,
+        "detailCount": false,
         "linkCount": true,
         "textLength": true
       }
@@ -194,9 +194,9 @@
         "robots": "noindex, nofollow",
         "h1Count": 1,
         "h2Count": 6,
-        "detailCount": 4,
+        "detailCount": 8,
         "linkCount": 97,
-        "textLength": 5225,
+        "textLength": 5585,
         "centralMarker": true
       },
       "differences": {
@@ -204,7 +204,7 @@
         "title": false,
         "h1Count": false,
         "h2Count": false,
-        "detailCount": true,
+        "detailCount": false,
         "linkCount": true,
         "textLength": true
       }
@@ -228,9 +228,9 @@
         "robots": "noindex, nofollow",
         "h1Count": 1,
         "h2Count": 6,
-        "detailCount": 4,
+        "detailCount": 8,
         "linkCount": 97,
-        "textLength": 5235,
+        "textLength": 5595,
         "centralMarker": true
       },
       "differences": {
@@ -238,7 +238,7 @@
         "title": false,
         "h1Count": false,
         "h2Count": false,
-        "detailCount": true,
+        "detailCount": false,
         "linkCount": true,
         "textLength": true
       }
@@ -262,9 +262,9 @@
         "robots": "noindex, nofollow",
         "h1Count": 1,
         "h2Count": 6,
-        "detailCount": 4,
+        "detailCount": 8,
         "linkCount": 97,
-        "textLength": 5208,
+        "textLength": 5568,
         "centralMarker": true
       },
       "differences": {
@@ -272,7 +272,7 @@
         "title": false,
         "h1Count": false,
         "h2Count": false,
-        "detailCount": true,
+        "detailCount": false,
         "linkCount": true,
         "textLength": true
       }
@@ -296,9 +296,9 @@
         "robots": "noindex, nofollow",
         "h1Count": 1,
         "h2Count": 6,
-        "detailCount": 4,
+        "detailCount": 8,
         "linkCount": 97,
-        "textLength": 5246,
+        "textLength": 5606,
         "centralMarker": true
       },
       "differences": {
@@ -306,7 +306,7 @@
         "title": false,
         "h1Count": false,
         "h2Count": false,
-        "detailCount": true,
+        "detailCount": false,
         "linkCount": true,
         "textLength": true
       }
@@ -330,9 +330,9 @@
         "robots": "noindex, nofollow",
         "h1Count": 1,
         "h2Count": 6,
-        "detailCount": 4,
+        "detailCount": 8,
         "linkCount": 97,
-        "textLength": 5314,
+        "textLength": 5674,
         "centralMarker": true
       },
       "differences": {
@@ -340,7 +340,7 @@
         "title": false,
         "h1Count": false,
         "h2Count": false,
-        "detailCount": true,
+        "detailCount": false,
         "linkCount": true,
         "textLength": true
       }

@@ -97,8 +97,17 @@ function Faq({ page }: Props) {
 }
 
 function Closing({ page }: Props) {
+  const quranFeatures = page.packages.filter((pkg) => pkg.program === "quran").flatMap((pkg) => pkg.features).slice(0, 4)
+  const arabicFeatures = page.packages.filter((pkg) => pkg.program === "arabic").flatMap((pkg) => pkg.features).slice(0, 4)
+
   return (
     <section className="country-central-section country-central-closing" style={{ background: page.theme.primary, color: "white" }}>
+      <div className="country-central-learning">
+        <details><summary>المزيد عن حصة القرآن</summary><p>{quranFeatures.length ? quranFeatures.join(" · ") : "حفظ القرآن ومراجعته وتعلم التلاوة والتجويد ضمن حصة فردية مباشرة."}</p></details>
+        <details><summary>المزيد عن حصة العربية</summary><p>{arabicFeatures.length ? arabicFeatures.join(" · ") : "تأسيس القراءة والكتابة والنطق والفهم بالعربية ضمن مسار فردي."}</p></details>
+        <details><summary>المزيد عن المعلمين والمعلمات</summary><p>{page.teachers.length ? `يتوفر ${page.teachers.length} من المعلمين والمعلمات ضمن السجل الحالي.` : "يتم اختيار المعلم أو المعلمة حسب مستوى الطالب والبرنامج والتوقيت المناسب."}</p></details>
+        <details><summary>صفحاتنا حسب الدولة</summary><p>يمكنك الانتقال بين صفحات الدول من شريط الموقع والقائمة العامة.</p></details>
+      </div>
       <div className="country-central-includes">
         <p className="country-central-kicker">محتوى كل باقة</p>
         <div className="country-central-grid">

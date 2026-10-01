@@ -13,7 +13,8 @@
     "start": "next start",
     "lint": "eslint .",
     "test:country-pages": "tsx scripts/country-pages-contract-check.ts",
-    "report:country-pages": "tsx scripts/country-pages-batch-report.ts"
+    "report:country-pages": "tsx scripts/country-pages-batch-report.ts",
+    "baseline:country-pages": "tsx scripts/country-pages-baseline.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

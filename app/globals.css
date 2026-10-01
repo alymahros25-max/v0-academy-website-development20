@@ -573,6 +573,13 @@ html {
 .country-central-hero h1 { max-width:52rem; font-size:clamp(2.25rem,6vw,4.75rem); line-height:1.12; }
 .country-central-hero p:not(.country-central-eyebrow) { max-width:48rem; font-size:1.1rem; line-height:2; }
 .country-central-hero a, .country-central-closing a { display:inline-flex; width:max-content; padding:.8rem 1.15rem; border-radius:999px; color:#fff; background:#102a43; font-weight:800; }
+.country-central-hero-qatar > div { display:grid; grid-template-columns:minmax(0,1fr) minmax(13rem,18rem); align-items:center; gap:3rem; }
+.country-central-actions { display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; }
+.country-central-actions .country-central-secondary-action { color:inherit; background:transparent; border:1px solid currentColor; }
+.country-central-hero-card { display:grid; gap:.5rem; justify-items:center; padding:2rem 1.25rem; border:1px solid color-mix(in srgb,currentColor 18%,transparent); border-radius:1.5rem; background:#ffffffb8; box-shadow:0 18px 45px #102a4314; }
+.country-central-hero-card span { font-size:3.5rem; }
+.country-central-hero-card b { font-size:1.25rem; }
+.country-central-hero-card small { opacity:.72; }
 .country-central-eyebrow, .country-central-kicker { color:#b7791f; font-size:.8rem; font-weight:900; letter-spacing:.04em; }
 .country-central-section { padding:4.5rem 0; }
 .country-central-section h2 { margin-top:.65rem; font-size:clamp(1.75rem,4vw,3rem); }
@@ -602,5 +609,5 @@ html {
 .country-central-closing { padding:4rem 0; }
 .country-central-closing h2 { color:inherit; }
 .country-central-closing a { margin-top:1rem; color:#102a43; background:#c9a96e; }
-@media (max-width:800px) { .country-central-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:800px) { .country-central-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .country-central-hero-qatar > div { grid-template-columns:1fr; } .country-central-hero-card { justify-self:start; width:min(18rem,100%); } }
 @media (max-width:520px) { .country-central-grid { grid-template-columns:1fr; } .country-central-section > *, .country-central-hero > div { width:min(100% - 1.5rem,1120px); } }

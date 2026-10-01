@@ -9,6 +9,26 @@ function sectionClass(section: CountryPageSection) {
 }
 
 function Hero({ page }: Props) {
+  const variant = page.sections.find((section) => section.type === "hero")?.variant
+  if (variant === "qatar") {
+    return (
+      <section className="country-central-hero country-central-hero-qatar" style={{ background: page.theme.background, color: page.theme.ink }}>
+        <div>
+          <div className="country-central-hero-copy">
+            <p className="country-central-eyebrow">✦ {page.country.nameAr} · {page.country.currencySymbol}</p>
+            <h1>{page.country.headline}</h1>
+            <p>{page.country.lead}</p>
+            <div className="country-central-actions">
+              <a href={page.links.find((link) => link.key === "whatsapp")?.href ?? "#"}>احجز الحصة التجريبية</a>
+              <a className="country-central-secondary-action" href="#central-path">شاهد المسار</a>
+            </div>
+          </div>
+          <div className="country-central-hero-card"><span>🇶🇦</span><b>من الهدف</b><small>إلى متابعة منتظمة</small></div>
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section className="country-central-hero" style={{ background: page.theme.background, color: page.theme.ink }}>
       <div>
@@ -131,7 +151,7 @@ export function CountryPageRenderer({ page }: Props) {
       {sections.map((section) => {
         const className = sectionClass(section)
         if (section.type === "hero") return <div className={className} key={section.key}><Hero page={page} /></div>
-        if (section.type === "steps") return <div className={className} key={section.key}><Steps page={page} /></div>
+        if (section.type === "steps") return <div id={section.key === "steps" ? "central-path" : undefined} className={className} key={section.key}><Steps page={page} /></div>
         if (section.type === "pricing") return <div className={className} key={section.key}><Pricing page={page} /></div>
         if (section.type === "local") return <div className={className} key={section.key}><Local page={page} /></div>
         if (section.type === "faq") return <div className={className} key={section.key}><Faq page={page} /></div>

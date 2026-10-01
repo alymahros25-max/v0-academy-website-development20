@@ -101,6 +101,13 @@ export function normalizeCountryPageModel(slug: string, config: NewCountryConfig
     theme,
     sections: normalizeSections(config),
     packages,
+    steps: config.steps.map((step, index) => ({
+      id: `${slug}-step-${index + 1}`,
+      title: step.title,
+      text: step.text,
+      sortOrder: index,
+    })),
+    localLead: config.localLead,
     faq,
     links: normalizeLinks(data.links),
     teachers: [],

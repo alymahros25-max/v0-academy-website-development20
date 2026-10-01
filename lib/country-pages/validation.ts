@@ -48,6 +48,13 @@ export const countryPageModelSchema = z.object({
     popular: z.boolean(),
     sortOrder: z.number().int().nonnegative(),
   })),
+  steps: z.array(z.object({
+    id: nonEmpty,
+    title: nonEmpty,
+    text: nonEmpty,
+    sortOrder: z.number().int().nonnegative(),
+  })),
+  localLead: nonEmpty,
   faq: z.array(z.object({
     id: nonEmpty,
     question: nonEmpty,

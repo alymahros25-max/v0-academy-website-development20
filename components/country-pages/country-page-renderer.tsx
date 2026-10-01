@@ -22,39 +22,50 @@ function Hero({ page }: Props) {
 }
 
 function Steps({ page }: Props) {
-  const steps = page.sections.filter((section) => section.type === "steps" && section.isActive)
   return (
     <section className="country-central-section country-central-steps">
       <p className="country-central-kicker">طريقة البداية</p>
       <h2>مسار واضح يبدأ من احتياج الطالب</h2>
       <div className="country-central-grid">
-        {steps.length > 0 ? steps.map((step) => (
-          <article key={step.key}>
-            <strong>{step.variant}</strong>
-            <p>نحدد الهدف، ثم نرتب الحصة الفردية المناسبة.</p>
+        {page.steps.map((step) => (
+          <article key={step.id}>
+            <strong>{step.title}</strong>
+            <p>{step.text}</p>
           </article>
-        )) : <p>يتم تحديد الخطوات حسب إعدادات الدولة.</p>}
+        ))}
       </div>
     </section>
   )
 }
 
 function Pricing({ page }: Props) {
+  const groups = ["quran", "arabic", "other"] as const
+  const programLabel = (program: (typeof groups)[number]) => program === "quran" ? "تحفيظ القرآن" : program === "arabic" ? "تأسيس اللغة العربية" : "برامج أخرى"
+
   return (
     <section className="country-central-section country-central-pricing" style={{ background: page.theme.surface, color: page.theme.ink }}>
       <p className="country-central-kicker">الباقات</p>
       <h2>اختر المسار المناسب في {page.country.nameAr}</h2>
-      <div className="country-central-grid">
-        {page.packages.map((pkg) => (
-          <article key={pkg.id} className={pkg.popular ? "is-popular" : undefined}>
-            <p>{pkg.program === "quran" ? "القرآن" : pkg.program === "arabic" ? "العربية" : "برنامج"}</p>
-            <h3>{pkg.name}</h3>
-            <strong>{pkg.price} {pkg.currencyCode}</strong>
-            <small>{pkg.sessionsPerMonth} حصة شهريًا</small>
-            <ul>{pkg.features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
-          </article>
-        ))}
-      </div>
+      {groups.map((program) => {
+        const packages = page.packages.filter((pkg) => pkg.program === program)
+        if (packages.length === 0) return null
+        return (
+          <div className="country-central-program" key={program}>
+            <h2>{programLabel(program)} في {page.country.nameAr}</h2>
+            <div className="country-central-grid">
+              {packages.map((pkg) => (
+                <article key={pkg.id} className={pkg.popular ? "is-popular" : undefined}>
+                  <p>{programLabel(program)}</p>
+                  <h3>{pkg.name}</h3>
+                  <strong>{pkg.price} {pkg.currencyCode}</strong>
+                  <small>{pkg.sessionsPerMonth} حصة شهريًا</small>
+                  <ul>{pkg.features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
+                </article>
+              ))}
+            </div>
+          </div>
+        )
+      })}
     </section>
   )
 }
@@ -64,6 +75,7 @@ function Local({ page }: Props) {
     <section className="country-central-section country-central-local">
       <p className="country-central-kicker">التنسيق المحلي</p>
       <h2>خدمة أونلاين للطلاب في {page.country.nameAr}</h2>
+      <p>{page.localLead}</p>
       <p>{page.country.cities.join(" · ")}</p>
       {page.country.timezone && <p>{page.country.timezone}</p>}
     </section>

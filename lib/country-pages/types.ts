@@ -48,6 +48,13 @@ export type CountryPageFaq = {
   sortOrder: number
 }
 
+export type CountryPageStep = {
+  id: string
+  title: string
+  text: string
+  sortOrder: number
+}
+
 export type CountryPageLink = {
   key: string
   href: string
@@ -86,6 +93,8 @@ export type CountryPageModel = {
   theme: CountryPageTheme
   sections: CountryPageSection[]
   packages: CountryPagePackage[]
+  steps: CountryPageStep[]
+  localLead: string
   faq: CountryPageFaq[]
   links: CountryPageLink[]
   teachers: CountryPageTeacher[]

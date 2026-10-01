@@ -576,6 +576,8 @@ html {
 .country-central-eyebrow, .country-central-kicker { color:#b7791f; font-size:.8rem; font-weight:900; letter-spacing:.04em; }
 .country-central-section { padding:4.5rem 0; }
 .country-central-section h2 { margin-top:.65rem; font-size:clamp(1.75rem,4vw,3rem); }
+.country-central-program { margin-top:2rem; }
+.country-central-program h2 { font-size:clamp(1.35rem,3vw,2rem); }
 .country-central-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; margin-top:1.5rem; }
 .country-central-grid article { padding:1.2rem; border:1px solid #dbe4ee; border-radius:1rem; background:#fff; }
 .country-central-grid article.is-popular { border-color:#c9a96e; box-shadow:0 10px 28px #c9a96e22; }

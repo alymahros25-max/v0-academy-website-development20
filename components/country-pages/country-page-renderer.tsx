@@ -29,6 +29,22 @@ function Hero({ page }: Props) {
     )
   }
 
+  if (variant === "jordan") {
+    return (
+      <section className="country-central-hero country-central-hero-jordan" style={{ background: page.theme.background, color: page.theme.ink }}>
+        <div>
+          <div className="country-central-decision-sheet">
+            <p className="country-central-eyebrow">{page.country.nameAr} · {page.country.currencySymbol}</p>
+            <h1>{page.country.headline}</h1>
+            <p>{page.country.lead}</p>
+            <a href={page.links.find((link) => link.key === "whatsapp")?.href ?? "#"}>اطلب خطة البداية</a>
+          </div>
+          <div className="country-central-checklist"><span>✓ احتياج واضح</span><span>✓ وقت مناسب</span><span>✓ متابعة منتظمة</span></div>
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section className="country-central-hero" style={{ background: page.theme.background, color: page.theme.ink }}>
       <div>

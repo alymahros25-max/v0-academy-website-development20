@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "baseUrl": "http://127.0.0.1:3021",
+  "viewport": "1440,5000",
+  "scope": "first country renderer batch",
+  "currentRenderer": "NewCountryLanding",
+  "centralRenderer": "CountryPageRenderer",
+  "comparison": "fixed-viewport pixel diff",
+  "pages": [
+    {
+      "slug": "qatar",
+      "sameSize": true,
+      "width": 1440,
+      "height": 5000,
+      "changedRatio": 0.752175,
+      "meanAbs": 61.923,
+      "p95Abs": 244
+    },
+    {
+      "slug": "oman",
+      "sameSize": true,
+      "width": 1440,
+      "height": 5000,
+      "changedRatio": 0.555326,
+      "meanAbs": 37.76,
+      "p95Abs": 219
+    },
+    {
+      "slug": "jordan",
+      "sameSize": true,
+      "width": 1440,
+      "height": 5000,
+      "changedRatio": 0.655453,
+      "meanAbs": 46.888,
+      "p95Abs": 239
+    },
+    {
+      "slug": "bahrain",
+      "sameSize": true,
+      "width": 1440,
+      "height": 5000,
+      "changedRatio": 0.544263,
+      "meanAbs": 68.034,
+      "p95Abs": 239
+    },
+    {
+      "slug": "france",
+      "sameSize": true,
+      "width": 1440,
+      "height": 5000,
+      "changedRatio": 0.320195,
+      "meanAbs": 50.011,
+      "p95Abs": 232
+    },
+    {
+      "slug": "spain",
+      "sameSize": true,
+      "width": 1440,
+      "height": 5000,
+      "changedRatio": 0.643043,
+      "meanAbs": 35.594,
+      "p95Abs": 210
+    },
+    {
+      "slug": "netherlands",
+      "sameSize": true,
+      "width": 1440,
+      "height": 5000,
+      "changedRatio": 0.274041,
+      "meanAbs": 42.009,
+      "p95Abs": 232
+    },
+    {
+      "slug": "belgium",
+      "sameSize": true,
+      "width": 1440,
+      "height": 5000,
+      "changedRatio": 0.326605,
+      "meanAbs": 52.268,
+      "p95Abs": 224
+    },
+    {
+      "slug": "sweden",
+      "sameSize": true,
+      "width": 1440,
+      "height": 5000,
+      "changedRatio": 0.398307,
+      "meanAbs": 35.929,
+      "p95Abs": 239
+    },
+    {
+      "slug": "kuwait",
+      "sameSize": true,
+      "width": 1440,
+      "height": 5000,
+      "changedRatio": 0.288741,
+      "meanAbs": 52.37,
+      "p95Abs": 240
+    }
+  ],
+  "summary": {
+    "pages": 10,
+    "allScreenshotsCaptured": true,
+    "averageChangedRatio": 0.475815,
+    "averageMeanAbs": 48.279,
+    "note": "This is a fixed viewport screenshot diff, not a semantic equivalence score. Different renderers are expected to produce visual differences before migration."
+  }
+}

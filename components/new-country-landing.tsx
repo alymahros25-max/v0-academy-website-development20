@@ -1,12 +1,13 @@
 import Link from "next/link"
 import { ArrowLeft, Check, Clock3, MessageCircle, MapPin, Sparkles, CalendarDays, BookOpen, Gamepad2, Scale, Home, Newspaper, Globe2, ChevronDown } from "lucide-react"
 import type { NewCountryConfig } from "@/lib/new-country-pages"
-import { areaLocalized, getAreaLandingData, getAreaLinkHref, getAreaWhatsAppUrl, toAreaDisplayPlan } from "@/lib/country-content"
+import { areaLocalized, getAreaLandingData, getAreaLinkHref, getAreaWhatsAppUrl } from "@/lib/country-content"
 import { getPublishedClassroomVideos, type LandingVideo } from "@/lib/classroom-videos"
 import { getTeachers, type Teacher } from "@/lib/data-store"
 import { NewCountryVideos } from "@/components/new-country-videos"
 import { CountryLearningHub } from "@/components/country-learning-hub"
 import { countryPages } from "@/lib/country-pages-registry"
+import { normalizeCountryPageModel } from "@/lib/country-pages/normalizer"
 
 type Props = { config: NewCountryConfig; videos?: LandingVideo[]; teachers?: Teacher[]; contactUrl?: string }
 
@@ -95,9 +96,9 @@ export async function NewCountryLanding({ config }: Props) {
     getPublishedClassroomVideos(),
     getTeachers(),
   ])
-  const databasePlans = areaData.packages.map(toAreaDisplayPlan)
-  const quranPlans = databasePlans.filter((plan) => plan.program === "quran")
-  const arabicPlans = databasePlans.filter((plan) => plan.program === "arabic")
+  const pageModel = normalizeCountryPageModel(config.slug, config, areaData)
+  const quranPlans = pageModel.packages.filter((plan) => plan.program === "quran")
+  const arabicPlans = pageModel.packages.filter((plan) => plan.program === "arabic")
   const contentValue = (key: string) => areaLocalized(areaData.content.find((item) => item.content_key === key), "ar")
   const dynamicConfig: NewCountryConfig = {
     ...config,
@@ -105,12 +106,12 @@ export async function NewCountryLanding({ config }: Props) {
     title: contentValue("page_title") || config.title,
     description: contentValue("page_description") || config.description,
     localLead: contentValue("local_lead") || config.localLead,
-    currencyCode: areaData.area?.currency_symbol || areaData.area?.currency_code || config.currencyCode,
+    currencyCode: pageModel.country.currencySymbol || pageModel.country.currencyCode || config.currencyCode,
     quranPrices: quranPlans.length >= 4 ? quranPlans.slice(0, 4).map((plan) => plan.price) : config.quranPrices,
     arabicPrices: arabicPlans.length >= 4 ? arabicPlans.slice(0, 4).map((plan) => plan.price) : config.arabicPrices,
-    cities: areaData.cities.length ? areaData.cities.map((city) => city.name_ar) : config.cities,
-    faq: areaData.faq.length ? areaData.faq.map((item) => [item.question_ar, item.answer_ar] as [string, string]) : config.faq,
-    theme: areaData.theme ? { primary: areaData.theme.primary_color, accent: areaData.theme.accent_color, background: areaData.theme.background_color, surface: areaData.theme.secondary_color, ink: areaData.theme.text_color } : config.theme,
+    cities: pageModel.country.cities.length ? pageModel.country.cities : config.cities,
+    faq: pageModel.faq.length ? pageModel.faq.map((item) => [item.question, item.answer] as [string, string]) : config.faq,
+    theme: pageModel.theme,
   }
   const configuredWhatsApp = getAreaLinkHref(areaData.links, "whatsapp", "https://bit.ly/4aJfOl6")
   const contactUrl = getAreaWhatsAppUrl(areaData.links, "حصة تجريبية مجانية", configuredWhatsApp)

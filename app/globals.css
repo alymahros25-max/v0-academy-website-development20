@@ -618,8 +618,17 @@ html {
 .country-central-faq details { width:min(760px,100%); padding:1rem 0; border-bottom:1px solid #dbe4ee; }
 .country-central-faq summary { cursor:pointer; font-weight:800; }
 .country-central-faq details p { margin-top:.75rem; color:#475569; line-height:1.9; }
-.country-central-closing { padding:4rem 0; }
-.country-central-closing h2 { color:inherit; }
-.country-central-closing a { margin-top:1rem; color:#102a43; background:#c9a96e; }
-@media (max-width:800px) { .country-central-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .country-central-hero-qatar > div, .country-central-hero-jordan > div, .country-central-hero-oman > div { grid-template-columns:1fr; } .country-central-hero-card { justify-self:start; width:min(18rem,100%); } }
-@media (max-width:520px) { .country-central-grid { grid-template-columns:1fr; } .country-central-section > *, .country-central-hero > div { width:min(100% - 1.5rem,1120px); } }
+ .country-central-closing { padding:4rem 0; }
+ .country-central-closing h2 { color:inherit; }
+ .country-central-closing a { margin-top:1rem; color:#102a43; background:#c9a96e; }
+ .country-central-footer { padding:3rem 1.25rem 1.5rem; color:#eaf2f7; background:#102a43; border-top:4px solid #c9a96e; }
+ .country-central-footer-inner { display:grid; grid-template-columns:1fr 1fr 1.7fr; gap:2rem; width:min(1120px,100%); margin-inline:auto; }
+ .country-central-footer strong { display:block; font-size:1.05rem; }
+ .country-central-footer p { margin-top:.6rem; color:#bfd0dc; line-height:1.8; }
+ .country-central-footer nav { display:flex; flex-wrap:wrap; gap:.55rem 1rem; align-content:start; }
+ .country-central-footer a { color:inherit; text-decoration:none; }
+ .country-central-footer a:hover,.country-central-footer a.is-current { color:#c9a96e; }
+ .country-central-footer details summary { cursor:pointer; font-weight:800; }
+ .country-central-country-links { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.5rem; margin-top:.8rem; font-size:.88rem; }
+ @media (max-width:800px) { .country-central-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .country-central-hero-qatar > div, .country-central-hero-jordan > div, .country-central-hero-oman > div { grid-template-columns:1fr; } .country-central-hero-card { justify-self:start; width:min(18rem,100%); } }
+ @media (max-width:520px) { .country-central-grid { grid-template-columns:1fr; } .country-central-section > *, .country-central-hero > div { width:min(100% - 1.5rem,1120px); } .country-central-footer-inner { grid-template-columns:1fr; gap:1.25rem; } .country-central-country-links { grid-template-columns:repeat(2,minmax(0,1fr)); } }

@@ -1,4 +1,6 @@
+import Link from "next/link"
 import type { CountryPageModel, CountryPageSection } from "@/lib/country-pages/types"
+import { countryPages } from "@/lib/country-pages-registry"
 
 type Props = {
   page: CountryPageModel
@@ -176,6 +178,38 @@ function Closing({ page }: Props) {
   )
 }
 
+function Footer({ page }: Props) {
+  return (
+    <footer className="country-central-footer">
+      <div className="country-central-footer-inner">
+        <div>
+          <strong>{page.country.nameAr} · الحافظ المتميز</strong>
+          <p>تعليم فردي أونلاين لتحفيظ القرآن وتأسيس العربية.</p>
+        </div>
+        <nav aria-label={`روابط صفحة ${page.country.nameAr}`}>
+          <Link href="/">الرئيسية</Link>
+          <Link href="/blog">المدونة</Link>
+          <Link href="/games">الألعاب</Link>
+          <Link href="/library">المكتبة</Link>
+          <Link href="/contact">التواصل</Link>
+          <Link href="/privacy">الخصوصية</Link>
+          <Link href="/terms">الشروط</Link>
+        </nav>
+        <details>
+          <summary>صفحاتنا حسب الدولة</summary>
+          <div className="country-central-country-links">
+            {countryPages.map(({ href, label, flag }) => (
+              <Link href={href} key={href} className={href === `/${page.country.slug}` ? "is-current" : undefined}>
+                {flag} {label.replace(/^تحفيظ القرآن والعربية في /, "")}
+              </Link>
+            ))}
+          </div>
+        </details>
+      </div>
+    </footer>
+  )
+}
+
 export function CountryPageRenderer({ page }: Props) {
   const sections = page.sections.filter((section) => section.isActive).sort((a, b) => a.sortOrder - b.sortOrder)
   return (
@@ -190,6 +224,7 @@ export function CountryPageRenderer({ page }: Props) {
         if (section.type === "closing") return <div className={className} key={section.key}><Closing page={page} /></div>
         return null
       })}
+      <Footer page={page} />
     </main>
   )
 }

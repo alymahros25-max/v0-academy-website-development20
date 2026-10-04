@@ -6,6 +6,7 @@ import { getPublishedClassroomVideos, type LandingVideo } from "@/lib/classroom-
 import { getTeachers, type Teacher } from "@/lib/data-store"
 import { NewCountryVideos } from "@/components/new-country-videos"
 import { CountryLearningHub } from "@/components/country-learning-hub"
+import { countryPages } from "@/lib/country-pages-registry"
 
 type Props = { config: NewCountryConfig; videos?: LandingVideo[]; teachers?: Teacher[]; contactUrl?: string }
 
@@ -43,22 +44,13 @@ function SharedClosing({ config, videos = [], contactUrl }: Props) {
   return <><PackageIncludes /><NewCountryVideos videos={videos} /><CountryLearningHub slug={config.variant} variant="minimal" /><section className="new-country-section new-country-closing"><div className="new-country-narrow"><p className="new-country-kicker">خطوة عملية</p><h2>ابدأ بما يناسب أسبوعك الآن</h2><p>أرسل عمر الطالب ومستواه والبرنامج المطلوب، وسنوضح لك الخطوة التالية قبل التسجيل.</p><WhatsApp config={config} contactUrl={contactUrl} /><p className="new-country-independent-note">صفحة مستقلة لـ{config.name} · تعليم أونلاين فقط</p></div></section><CountryFooter config={config} /></>
 }
 
-const countryLinks = [
-  ["/saudi-arabia", "السعودية", "🇸🇦"], ["/united-arab-emirates", "الإمارات", "🇦🇪"], ["/united-states", "الولايات المتحدة", "🇺🇸"],
-  ["/canada", "كندا", "🇨🇦"], ["/united-kingdom", "المملكة المتحدة", "🇬🇧"], ["/australia", "أستراليا", "🇦🇺"],
-  ["/germany", "ألمانيا", "🇩🇪"], ["/kuwait", "الكويت", "🇰🇼"],
-  ["/qatar", "قطر", "🇶🇦"], ["/oman", "عُمان", "🇴🇲"], ["/jordan", "الأردن", "🇯🇴"],
-  ["/bahrain", "البحرين", "🇧🇭"], ["/france", "فرنسا", "🇫🇷"], ["/spain", "إسبانيا", "🇪🇸"],
-  ["/netherlands", "هولندا", "🇳🇱"], ["/belgium", "بلجيكا", "🇧🇪"], ["/sweden", "السويد", "🇸🇪"], ["/south-africa", "جنوب أفريقيا", "🇿🇦"],
-] as const
-
 function CountryFooter({ config }: Props) {
   const className = `new-country-footer new-country-footer-${config.variant}`
   return <footer className={className} aria-label={`تذييل صفحة ${config.name}`}>
     <div className="new-country-footer-inner">
       <div className="new-country-footer-brand"><span>{config.flag}</span><div><b>الحافظ · {config.name}</b><small>تعليم فردي أونلاين</small></div></div>
       <div className="new-country-footer-links"><h3>روابط تساعدك على القرار</h3><nav><Link href="/"><Home size={15} /> الرئيسية</Link><Link href="/blog"><Newspaper size={15} /> المدونة</Link><Link href="/games"><Gamepad2 size={15} /> الألعاب</Link><Link href="/library"><BookOpen size={15} /> المكتبة</Link></nav></div>
-      <div className="new-country-footer-links new-country-footer-countries"><details><summary><Globe2 size={15} /> <span>صفحاتنا حسب الدولة</span><ChevronDown size={16} /></summary><div className="new-country-country-links">{countryLinks.map(([href, name, flag]) => <a href={href} key={href} className={href === `/${config.slug}` ? "is-current" : ""}>{flag} {name}</a>)}</div></details></div>
+      <div className="new-country-footer-links new-country-footer-countries"><details><summary><Globe2 size={15} /> <span>صفحاتنا حسب الدولة</span><ChevronDown size={16} /></summary><div className="new-country-country-links">{countryPages.map(({ href, label, flag }) => <a href={href} key={href} className={href === `/${config.slug}` ? "is-current" : ""}>{flag} {label}</a>)}</div></details></div>
       <div className="new-country-footer-legal"><h3><Scale size={15} /> الشروط والخصوصية</h3><a href="/privacy">سياسة الخصوصية</a><a href="/terms">شروط الاستخدام</a><a href="/refund-policy">سياسة الاسترداد</a></div>
     </div><div className="new-country-footer-bottom">© 2026 · صفحة {config.name} المستقلة · <a href="/contact">تواصل معنا</a></div>
   </footer>

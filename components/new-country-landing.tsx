@@ -1,12 +1,13 @@
 import Link from "next/link"
 import { ArrowLeft, Check, Clock3, MessageCircle, MapPin, Sparkles, CalendarDays, BookOpen, Gamepad2, Scale, Home, Newspaper, Globe2, ChevronDown } from "lucide-react"
 import type { NewCountryConfig } from "@/lib/new-country-pages"
-import { areaLocalized, getAreaLandingData, getAreaLinkHref, getAreaWhatsAppUrl, toAreaDisplayPlan } from "@/lib/country-content"
+import { areaLocalized, getAreaLandingData, getAreaLinkHref, getAreaWhatsAppUrl } from "@/lib/country-content"
 import { getPublishedClassroomVideos, type LandingVideo } from "@/lib/classroom-videos"
 import { getTeachers, type Teacher } from "@/lib/data-store"
 import { NewCountryVideos } from "@/components/new-country-videos"
 import { CountryLearningHub } from "@/components/country-learning-hub"
 import { countryPages } from "@/lib/country-pages-registry"
+import { normalizeCountryPageModel } from "@/lib/country-pages/normalizer"
 
 type Props = { config: NewCountryConfig; videos?: LandingVideo[]; teachers?: Teacher[]; contactUrl?: string }
 
@@ -50,7 +51,7 @@ function CountryFooter({ config }: Props) {
     <div className="new-country-footer-inner">
       <div className="new-country-footer-brand"><span>{config.flag}</span><div><b>الحافظ · {config.name}</b><small>تعليم فردي أونلاين</small></div></div>
       <div className="new-country-footer-links"><h3>روابط تساعدك على القرار</h3><nav><Link href="/"><Home size={15} /> الرئيسية</Link><Link href="/blog"><Newspaper size={15} /> المدونة</Link><Link href="/games"><Gamepad2 size={15} /> الألعاب</Link><Link href="/library"><BookOpen size={15} /> المكتبة</Link></nav></div>
-      <div className="new-country-footer-links new-country-footer-countries"><details><summary><Globe2 size={15} /> <span>صفحاتنا حسب الدولة</span><ChevronDown size={16} /></summary><div className="new-country-country-links">{countryPages.map(({ href, label, flag }) => <a href={href} key={href} className={href === `/${config.slug}` ? "is-current" : ""}>{flag} {label}</a>)}</div></details></div>
+      <div className="new-country-footer-links new-country-footer-countries"><details><summary><Globe2 size={15} /> <span>صفحاتنا حسب الدولة</span><ChevronDown size={16} /></summary><div className="new-country-country-links">{countryPages.map(({ href, label, flag }) => <Link href={href} key={href} className={href === `/${config.slug}` ? "is-current" : ""}>{flag} {label.replace(/^تحفيظ القرآن والعربية في /, "")}</Link>)}</div></details></div>
       <div className="new-country-footer-legal"><h3><Scale size={15} /> الشروط والخصوصية</h3><a href="/privacy">سياسة الخصوصية</a><a href="/terms">شروط الاستخدام</a><a href="/refund-policy">سياسة الاسترداد</a></div>
     </div><div className="new-country-footer-bottom">© 2026 · صفحة {config.name} المستقلة · <a href="/contact">تواصل معنا</a></div>
   </footer>
@@ -95,9 +96,9 @@ export async function NewCountryLanding({ config }: Props) {
     getPublishedClassroomVideos(),
     getTeachers(),
   ])
-  const databasePlans = areaData.packages.map(toAreaDisplayPlan)
-  const quranPlans = databasePlans.filter((plan) => plan.program === "quran")
-  const arabicPlans = databasePlans.filter((plan) => plan.program === "arabic")
+  const pageModel = normalizeCountryPageModel(config.slug, config, areaData)
+  const quranPlans = pageModel.packages.filter((plan) => plan.program === "quran")
+  const arabicPlans = pageModel.packages.filter((plan) => plan.program === "arabic")
   const contentValue = (key: string) => areaLocalized(areaData.content.find((item) => item.content_key === key), "ar")
   const dynamicConfig: NewCountryConfig = {
     ...config,
@@ -105,12 +106,12 @@ export async function NewCountryLanding({ config }: Props) {
     title: contentValue("page_title") || config.title,
     description: contentValue("page_description") || config.description,
     localLead: contentValue("local_lead") || config.localLead,
-    currencyCode: areaData.area?.currency_symbol || areaData.area?.currency_code || config.currencyCode,
+    currencyCode: pageModel.country.currencySymbol || pageModel.country.currencyCode || config.currencyCode,
     quranPrices: quranPlans.length >= 4 ? quranPlans.slice(0, 4).map((plan) => plan.price) : config.quranPrices,
     arabicPrices: arabicPlans.length >= 4 ? arabicPlans.slice(0, 4).map((plan) => plan.price) : config.arabicPrices,
-    cities: areaData.cities.length ? areaData.cities.map((city) => city.name_ar) : config.cities,
-    faq: areaData.faq.length ? areaData.faq.map((item) => [item.question_ar, item.answer_ar] as [string, string]) : config.faq,
-    theme: areaData.theme ? { primary: areaData.theme.primary_color, accent: areaData.theme.accent_color, background: areaData.theme.background_color, surface: areaData.theme.secondary_color, ink: areaData.theme.text_color } : config.theme,
+    cities: pageModel.country.cities.length ? pageModel.country.cities : config.cities,
+    faq: pageModel.faq.length ? pageModel.faq.map((item) => [item.question, item.answer] as [string, string]) : config.faq,
+    theme: pageModel.theme,
   }
   const configuredWhatsApp = getAreaLinkHref(areaData.links, "whatsapp", "https://bit.ly/4aJfOl6")
   const contactUrl = getAreaWhatsAppUrl(areaData.links, "حصة تجريبية مجانية", configuredWhatsApp)

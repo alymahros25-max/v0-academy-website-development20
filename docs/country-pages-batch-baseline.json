@@ -1,0 +1,438 @@
+{
+  "schemaVersion": 1,
+  "source": "current-area-loader-with-code-fallback",
+  "scope": "NewCountryLanding batch",
+  "pageCount": 10,
+  "pages": [
+    {
+      "slug": "qatar",
+      "url": "/qatar",
+      "nameAr": "قطر",
+      "countryCode": "QA",
+      "currencyCode": "ر.ق",
+      "currencySymbol": "ر.ق",
+      "canonical": "https://quran-elhafez.com/qatar",
+      "seoTitle": "تحفيظ القرآن أونلاين في قطر | أول حصة تجريبية مجانية",
+      "seoDescription": "حصص فردية بالعربية لتحفيظ القرآن وحفظه ومراجعته وتلاوته وتجويده أونلاين في قطر عبر Zoom أو Google Meet. الحصة التجريبية الأولى مجانية.",
+      "robots": {
+        "index": true,
+        "follow": true
+      },
+      "sectionKeys": [
+        "hero:qatar",
+        "steps:qatar",
+        "pricing:qatar",
+        "local:default",
+        "faq:default",
+        "closing:default"
+      ],
+      "packageCount": 8,
+      "packagePrograms": [
+        "quran",
+        "arabic"
+      ],
+      "faqCount": 3,
+      "cities": [
+        "الدوحة",
+        "الريان",
+        "الوكرة",
+        "الخور",
+        "أم صلال"
+      ],
+      "timezone": "توقيت قطر",
+      "linkKeys": [
+        "whatsapp",
+        "country-page"
+      ],
+      "status": "in-progress",
+      "schemaVersion": 1
+    },
+    {
+      "slug": "oman",
+      "url": "/oman",
+      "nameAr": "عُمان",
+      "countryCode": "OM",
+      "currencyCode": "ر.ع",
+      "currencySymbol": "ر.ع",
+      "canonical": "https://quran-elhafez.com/oman",
+      "seoTitle": "تحفيظ القرآن أونلاين في عُمان | أول حصة تجريبية مجانية",
+      "seoDescription": "تحفيظ ومراجعة وتلاوة القرآن بالتجويد أونلاين في عُمان، مع تأسيس العربية قراءة وكتابة. حصص فردية بالعربية والحصة التجريبية الأولى مجانية.",
+      "robots": {
+        "index": true,
+        "follow": true
+      },
+      "sectionKeys": [
+        "hero:oman",
+        "steps:oman",
+        "pricing:oman",
+        "local:default",
+        "faq:default",
+        "closing:default"
+      ],
+      "packageCount": 8,
+      "packagePrograms": [
+        "quran",
+        "arabic"
+      ],
+      "faqCount": 3,
+      "cities": [
+        "مسقط",
+        "صلالة",
+        "صحار",
+        "نزوى",
+        "صور"
+      ],
+      "timezone": "توقيت عُمان",
+      "linkKeys": [
+        "whatsapp",
+        "country-page"
+      ],
+      "status": "in-progress",
+      "schemaVersion": 1
+    },
+    {
+      "slug": "jordan",
+      "url": "/jordan",
+      "nameAr": "الأردن",
+      "countryCode": "JO",
+      "currencyCode": "د.أ",
+      "currencySymbol": "د.أ",
+      "canonical": "https://quran-elhafez.com/jordan",
+      "seoTitle": "تحفيظ القرآن أونلاين في الأردن | أول حصة تجريبية مجانية",
+      "seoDescription": "حصص فردية مباشرة بالعربية لحفظ ومراجعة وتلاوة وتجويد القرآن أونلاين في الأردن عبر Zoom أو Google Meet. الحصة التجريبية الأولى مجانية.",
+      "robots": {
+        "index": true,
+        "follow": true
+      },
+      "sectionKeys": [
+        "hero:jordan",
+        "steps:jordan",
+        "pricing:jordan",
+        "local:default",
+        "faq:default",
+        "closing:default"
+      ],
+      "packageCount": 8,
+      "packagePrograms": [
+        "quran",
+        "arabic"
+      ],
+      "faqCount": 3,
+      "cities": [
+        "عمّان",
+        "إربد",
+        "الزرقاء",
+        "العقبة",
+        "السلط"
+      ],
+      "timezone": "توقيت الأردن",
+      "linkKeys": [
+        "whatsapp",
+        "country-page"
+      ],
+      "status": "in-progress",
+      "schemaVersion": 1
+    },
+    {
+      "slug": "bahrain",
+      "url": "/bahrain",
+      "nameAr": "البحرين",
+      "countryCode": "BH",
+      "currencyCode": "د.ب",
+      "currencySymbol": "د.ب",
+      "canonical": "https://quran-elhafez.com/bahrain",
+      "seoTitle": "تحفيظ القرآن أونلاين في البحرين | الحافظ المتميز",
+      "seoDescription": "تحفيظ ومراجعة وتلاوة وتجويد القرآن بحصص فردية بالعربية في البحرين، مع تأسيس القراءة والكتابة أونلاين. الحصة التجريبية الأولى مجانية.",
+      "robots": {
+        "index": true,
+        "follow": true
+      },
+      "sectionKeys": [
+        "hero:bahrain",
+        "steps:bahrain",
+        "pricing:bahrain",
+        "local:default",
+        "faq:default",
+        "closing:default"
+      ],
+      "packageCount": 8,
+      "packagePrograms": [
+        "quran",
+        "arabic"
+      ],
+      "faqCount": 3,
+      "cities": [
+        "المنامة",
+        "المحرق",
+        "الرفاع",
+        "مدينة حمد",
+        "الحد"
+      ],
+      "timezone": "توقيت البحرين",
+      "linkKeys": [
+        "whatsapp",
+        "country-page"
+      ],
+      "status": "in-progress",
+      "schemaVersion": 1
+    },
+    {
+      "slug": "france",
+      "url": "/france",
+      "nameAr": "فرنسا",
+      "countryCode": "FR",
+      "currencyCode": "€",
+      "currencySymbol": "€",
+      "canonical": "https://quran-elhafez.com/france",
+      "seoTitle": "تحفيظ القرآن أونلاين للعرب في فرنسا | الحافظ المتميز",
+      "seoDescription": "حصص فردية بالعربية للعرب في فرنسا لتحفيظ القرآن ومراجعته وتلاوته وتجويده، مع تأسيس القراءة والكتابة أونلاين. الحصة التجريبية الأولى مجانية.",
+      "robots": {
+        "index": true,
+        "follow": true
+      },
+      "sectionKeys": [
+        "hero:france",
+        "steps:france",
+        "pricing:france",
+        "local:default",
+        "faq:default",
+        "closing:default"
+      ],
+      "packageCount": 8,
+      "packagePrograms": [
+        "quran",
+        "arabic"
+      ],
+      "faqCount": 3,
+      "cities": [
+        "باريس",
+        "ليون",
+        "مرسيليا",
+        "تولوز",
+        "ليل"
+      ],
+      "timezone": "توقيت فرنسا",
+      "linkKeys": [
+        "whatsapp",
+        "country-page"
+      ],
+      "status": "in-progress",
+      "schemaVersion": 1
+    },
+    {
+      "slug": "spain",
+      "url": "/spain",
+      "nameAr": "إسبانيا",
+      "countryCode": "ES",
+      "currencyCode": "€",
+      "currencySymbol": "€",
+      "canonical": "https://quran-elhafez.com/spain",
+      "seoTitle": "تحفيظ القرآن أونلاين للعرب في إسبانيا | أول حصة تجريبية مجانية",
+      "seoDescription": "حصص فردية بالعربية للعرب في إسبانيا لتحفيظ القرآن ومراجعته وتعلم التجويد، مع تأسيس القراءة والكتابة. أونلاين والحصة التجريبية الأولى مجانية.",
+      "robots": {
+        "index": true,
+        "follow": true
+      },
+      "sectionKeys": [
+        "hero:spain",
+        "steps:spain",
+        "pricing:spain",
+        "local:default",
+        "faq:default",
+        "closing:default"
+      ],
+      "packageCount": 8,
+      "packagePrograms": [
+        "quran",
+        "arabic"
+      ],
+      "faqCount": 3,
+      "cities": [
+        "مدريد",
+        "برشلونة",
+        "فالنسيا",
+        "إشبيلية",
+        "ملقة"
+      ],
+      "timezone": "توقيت إسبانيا",
+      "linkKeys": [
+        "whatsapp",
+        "country-page"
+      ],
+      "status": "in-progress",
+      "schemaVersion": 1
+    },
+    {
+      "slug": "netherlands",
+      "url": "/netherlands",
+      "nameAr": "هولندا",
+      "countryCode": "NL",
+      "currencyCode": "€",
+      "currencySymbol": "€",
+      "canonical": "https://quran-elhafez.com/netherlands",
+      "seoTitle": "تحفيظ القرآن أونلاين للعرب في هولندا | أول حصة تجريبية مجانية",
+      "seoDescription": "حصص فردية مباشرة بالعربية للعرب في هولندا لتحفيظ القرآن ومراجعته وتلاوته وتجويده، وتأسيس العربية قراءة وكتابة. الحصة التجريبية الأولى مجانية.",
+      "robots": {
+        "index": true,
+        "follow": true
+      },
+      "sectionKeys": [
+        "hero:netherlands",
+        "steps:netherlands",
+        "pricing:netherlands",
+        "local:default",
+        "faq:default",
+        "closing:default"
+      ],
+      "packageCount": 8,
+      "packagePrograms": [
+        "quran",
+        "arabic"
+      ],
+      "faqCount": 3,
+      "cities": [
+        "أمستردام",
+        "روتردام",
+        "أوتريخت",
+        "لاهاي",
+        "أيندهوفن"
+      ],
+      "timezone": "توقيت هولندا",
+      "linkKeys": [
+        "whatsapp",
+        "country-page"
+      ],
+      "status": "in-progress",
+      "schemaVersion": 1
+    },
+    {
+      "slug": "belgium",
+      "url": "/belgium",
+      "nameAr": "بلجيكا",
+      "countryCode": "BE",
+      "currencyCode": "€",
+      "currencySymbol": "€",
+      "canonical": "https://quran-elhafez.com/belgium",
+      "seoTitle": "تحفيظ القرآن أونلاين للعرب في بلجيكا | أول حصة تجريبية مجانية",
+      "seoDescription": "حصص فردية بالعربية للعرب في بلجيكا لحفظ القرآن ومراجعته وتلاوته وتجويده، وتأسيس العربية قراءة وكتابة أونلاين. الحصة التجريبية الأولى مجانية.",
+      "robots": {
+        "index": true,
+        "follow": true
+      },
+      "sectionKeys": [
+        "hero:belgium",
+        "steps:belgium",
+        "pricing:belgium",
+        "local:default",
+        "faq:default",
+        "closing:default"
+      ],
+      "packageCount": 8,
+      "packagePrograms": [
+        "quran",
+        "arabic"
+      ],
+      "faqCount": 3,
+      "cities": [
+        "بروكسل",
+        "أنتويرب",
+        "غنت",
+        "لييج",
+        "بروج"
+      ],
+      "timezone": "توقيت بلجيكا",
+      "linkKeys": [
+        "whatsapp",
+        "country-page"
+      ],
+      "status": "in-progress",
+      "schemaVersion": 1
+    },
+    {
+      "slug": "sweden",
+      "url": "/sweden",
+      "nameAr": "السويد",
+      "countryCode": "SE",
+      "currencyCode": "كرونة",
+      "currencySymbol": "كرونة",
+      "canonical": "https://quran-elhafez.com/sweden",
+      "seoTitle": "تحفيظ القرآن أونلاين للعرب في السويد | الحافظ المتميز",
+      "seoDescription": "حصص فردية بالعربية للعرب في السويد لحفظ القرآن ومراجعته وتلاوته وتجويده، مع تأسيس العربية قراءة وكتابة. الحصة التجريبية الأولى مجانية.",
+      "robots": {
+        "index": true,
+        "follow": true
+      },
+      "sectionKeys": [
+        "hero:sweden",
+        "steps:sweden",
+        "pricing:sweden",
+        "local:default",
+        "faq:default",
+        "closing:default"
+      ],
+      "packageCount": 8,
+      "packagePrograms": [
+        "quran",
+        "arabic"
+      ],
+      "faqCount": 3,
+      "cities": [
+        "ستوكهولم",
+        "غوتنبرغ",
+        "مالمو",
+        "أوبسالا",
+        "أوربرو"
+      ],
+      "timezone": "توقيت السويد",
+      "linkKeys": [
+        "whatsapp",
+        "country-page"
+      ],
+      "status": "in-progress",
+      "schemaVersion": 1
+    },
+    {
+      "slug": "kuwait",
+      "url": "/kuwait",
+      "nameAr": "الكويت",
+      "countryCode": "KW",
+      "currencyCode": "د.ك",
+      "currencySymbol": "د.ك",
+      "canonical": "https://quran-elhafez.com/kuwait",
+      "seoTitle": "تحفيظ القرآن أونلاين في الكويت | أول حصة تجريبية مجانية",
+      "seoDescription": "تعلم القرآن أونلاين في الكويت بحصص فردية بالعربية للحفظ والمراجعة والتلاوة والتجويد، أو لتأسيس القراءة والكتابة. الحصة التجريبية الأولى مجانية.",
+      "robots": {
+        "index": true,
+        "follow": true
+      },
+      "sectionKeys": [
+        "hero:kuwait",
+        "steps:kuwait",
+        "pricing:kuwait",
+        "local:default",
+        "faq:default",
+        "closing:default"
+      ],
+      "packageCount": 8,
+      "packagePrograms": [
+        "quran",
+        "arabic"
+      ],
+      "faqCount": 3,
+      "cities": [
+        "مدينة الكويت",
+        "حولي",
+        "الفروانية",
+        "مبارك الكبير",
+        "الأحمدي"
+      ],
+      "timezone": "توقيت الكويت",
+      "linkKeys": [
+        "whatsapp",
+        "country-page"
+      ],
+      "status": "in-progress",
+      "schemaVersion": 1
+    }
+  ]
+}

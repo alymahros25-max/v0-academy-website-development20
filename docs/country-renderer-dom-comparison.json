@@ -1,0 +1,357 @@
+{
+  "schemaVersion": 1,
+  "baseUrl": "http://127.0.0.1:3021",
+  "scope": "NewCountryLanding first batch",
+  "currentRenderer": "NewCountryLanding",
+  "centralRenderer": "CountryPageRenderer",
+  "pages": [
+    {
+      "slug": "qatar",
+      "current": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين في قطر | أول حصة تجريبية مجانية",
+        "robots": "index, follow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 100,
+        "textLength": 6460,
+        "centralMarker": false
+      },
+      "central": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين في قطر | أول حصة تجريبية مجانية",
+        "robots": "noindex, nofollow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 97,
+        "textLength": 5646,
+        "centralMarker": true
+      },
+      "differences": {
+        "status": false,
+        "title": false,
+        "h1Count": false,
+        "h2Count": false,
+        "detailCount": false,
+        "linkCount": true,
+        "textLength": true
+      }
+    },
+    {
+      "slug": "oman",
+      "current": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين في عُمان | أول حصة تجريبية مجانية",
+        "robots": "index, follow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 99,
+        "textLength": 6509,
+        "centralMarker": false
+      },
+      "central": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين في عُمان | أول حصة تجريبية مجانية",
+        "robots": "noindex, nofollow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 97,
+        "textLength": 5659,
+        "centralMarker": true
+      },
+      "differences": {
+        "status": false,
+        "title": false,
+        "h1Count": false,
+        "h2Count": false,
+        "detailCount": false,
+        "linkCount": true,
+        "textLength": true
+      }
+    },
+    {
+      "slug": "jordan",
+      "current": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين في الأردن | أول حصة تجريبية مجانية",
+        "robots": "index, follow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 99,
+        "textLength": 6376,
+        "centralMarker": false
+      },
+      "central": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين في الأردن | أول حصة تجريبية مجانية",
+        "robots": "noindex, nofollow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 97,
+        "textLength": 5643,
+        "centralMarker": true
+      },
+      "differences": {
+        "status": false,
+        "title": false,
+        "h1Count": false,
+        "h2Count": false,
+        "detailCount": false,
+        "linkCount": true,
+        "textLength": true
+      }
+    },
+    {
+      "slug": "bahrain",
+      "current": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين في البحرين | الحافظ المتميز",
+        "robots": "index, follow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 99,
+        "textLength": 6425,
+        "centralMarker": false
+      },
+      "central": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين في البحرين | الحافظ المتميز",
+        "robots": "noindex, nofollow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 97,
+        "textLength": 5543,
+        "centralMarker": true
+      },
+      "differences": {
+        "status": false,
+        "title": false,
+        "h1Count": false,
+        "h2Count": false,
+        "detailCount": false,
+        "linkCount": true,
+        "textLength": true
+      }
+    },
+    {
+      "slug": "france",
+      "current": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين للعرب في فرنسا | الحافظ المتميز",
+        "robots": "index, follow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 99,
+        "textLength": 6284,
+        "centralMarker": false
+      },
+      "central": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين للعرب في فرنسا | الحافظ المتميز",
+        "robots": "noindex, nofollow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 97,
+        "textLength": 5513,
+        "centralMarker": true
+      },
+      "differences": {
+        "status": false,
+        "title": false,
+        "h1Count": false,
+        "h2Count": false,
+        "detailCount": false,
+        "linkCount": true,
+        "textLength": true
+      }
+    },
+    {
+      "slug": "spain",
+      "current": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين للعرب في إسبانيا | أول حصة تجريبية مجانية",
+        "robots": "index, follow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 99,
+        "textLength": 6452,
+        "centralMarker": false
+      },
+      "central": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين للعرب في إسبانيا | أول حصة تجريبية مجانية",
+        "robots": "noindex, nofollow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 97,
+        "textLength": 5585,
+        "centralMarker": true
+      },
+      "differences": {
+        "status": false,
+        "title": false,
+        "h1Count": false,
+        "h2Count": false,
+        "detailCount": false,
+        "linkCount": true,
+        "textLength": true
+      }
+    },
+    {
+      "slug": "netherlands",
+      "current": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين للعرب في هولندا | أول حصة تجريبية مجانية",
+        "robots": "index, follow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 99,
+        "textLength": 6477,
+        "centralMarker": false
+      },
+      "central": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين للعرب في هولندا | أول حصة تجريبية مجانية",
+        "robots": "noindex, nofollow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 97,
+        "textLength": 5595,
+        "centralMarker": true
+      },
+      "differences": {
+        "status": false,
+        "title": false,
+        "h1Count": false,
+        "h2Count": false,
+        "detailCount": false,
+        "linkCount": true,
+        "textLength": true
+      }
+    },
+    {
+      "slug": "belgium",
+      "current": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين للعرب في بلجيكا | أول حصة تجريبية مجانية",
+        "robots": "index, follow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 99,
+        "textLength": 6387,
+        "centralMarker": false
+      },
+      "central": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين للعرب في بلجيكا | أول حصة تجريبية مجانية",
+        "robots": "noindex, nofollow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 97,
+        "textLength": 5568,
+        "centralMarker": true
+      },
+      "differences": {
+        "status": false,
+        "title": false,
+        "h1Count": false,
+        "h2Count": false,
+        "detailCount": false,
+        "linkCount": true,
+        "textLength": true
+      }
+    },
+    {
+      "slug": "sweden",
+      "current": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين للعرب في السويد | الحافظ المتميز",
+        "robots": "index, follow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 99,
+        "textLength": 6376,
+        "centralMarker": false
+      },
+      "central": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين للعرب في السويد | الحافظ المتميز",
+        "robots": "noindex, nofollow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 97,
+        "textLength": 5606,
+        "centralMarker": true
+      },
+      "differences": {
+        "status": false,
+        "title": false,
+        "h1Count": false,
+        "h2Count": false,
+        "detailCount": false,
+        "linkCount": true,
+        "textLength": true
+      }
+    },
+    {
+      "slug": "kuwait",
+      "current": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين في الكويت | أول حصة تجريبية مجانية",
+        "robots": "index, follow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 99,
+        "textLength": 6526,
+        "centralMarker": false
+      },
+      "central": {
+        "status": 200,
+        "title": "تحفيظ القرآن أونلاين في الكويت | أول حصة تجريبية مجانية",
+        "robots": "noindex, nofollow",
+        "h1Count": 1,
+        "h2Count": 6,
+        "detailCount": 8,
+        "linkCount": 97,
+        "textLength": 5674,
+        "centralMarker": true
+      },
+      "differences": {
+        "status": false,
+        "title": false,
+        "h1Count": false,
+        "h2Count": false,
+        "detailCount": false,
+        "linkCount": true,
+        "textLength": true
+      }
+    }
+  ],
+  "summary": {
+    "pages": 10,
+    "currentSuccess": 10,
+    "centralSuccess": 10,
+    "pagesWithDomDifferences": 10,
+    "visualParity": "signature-only"
+  },
+  "note": "This is a lightweight server HTML signature comparison, not a pixel screenshot comparison."
+}

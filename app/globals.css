@@ -358,6 +358,8 @@ html {
 .new-country-coral { background:#f3dfd9!important; }
 .new-country-intro-france,.new-country-intro-belgium { min-height:620px; padding:4rem max(1.25rem,calc((100vw - 1120px)/2)); background:linear-gradient(115deg,#172a46 0 54%,#eaf1f8 54%); color:#fff; }
 .new-country-intro-belgium { background:linear-gradient(110deg,#1f2527 0 45%,#d8a928 45% 70%,#e8f0f2 70%); }
+.new-country-intro-germany { min-height:580px; padding:4rem max(1.25rem,calc((100vw - 1120px)/2)); color:#fff; background:linear-gradient(125deg,#202124 0 72%,#c79a3b 72%); }
+.new-country-intro-germany .new-country-lead { color:#f0f1f2; }
 .new-country-language-card { max-width:700px; padding:3rem; background:#fff8ef; color:#172a46; border-radius:2rem; box-shadow:24px 24px 0 #d97761; }
 .new-country-language-card .new-country-lead { color:#334155; }
 .new-country-language-pills { display:flex; flex-wrap:wrap; gap:.55rem; margin:1.5rem 0; }

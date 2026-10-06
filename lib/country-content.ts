@@ -237,11 +237,12 @@ export function getAreaLinkHref(links: Array<Partial<AreaLink>> | undefined, lin
   return match?.href?.trim() || fallback
 }
 
-export function getAreaWhatsAppUrl(links: Array<Partial<AreaLink>> | undefined, planName: string, fallback: string): string {
+export function getAreaWhatsAppUrl(links: Array<Partial<AreaLink>> | undefined, planName: string, fallback: string, customMessage?: string): string {
   const configured = getAreaLinkHref(links, "whatsapp", fallback)
   const base = configured.replace(/[?&]text=[^&]*/g, "")
   const separator = base.includes("?") ? "&" : "?"
-  return `${base}${separator}text=${encodeURIComponent(`السلام عليكم، أرغب في حجز باقة ${planName}.`)}`
+  const message = customMessage ?? `السلام عليكم، أرغب في حجز باقة ${planName}.`
+  return `${base}${separator}text=${encodeURIComponent(message)}`
 }
 
 export function toAreaDisplayPlan(pkg: AreaPackage): AreaDisplayPlan {

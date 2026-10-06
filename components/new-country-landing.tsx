@@ -1,11 +1,13 @@
 import Link from "next/link"
 import { ArrowLeft, Check, Clock3, MessageCircle, MapPin, Sparkles, CalendarDays, BookOpen, Gamepad2, Scale, Home, Newspaper, Globe2, ChevronDown } from "lucide-react"
 import type { NewCountryConfig } from "@/lib/new-country-pages"
-import { areaLocalized, getAreaLandingData, getAreaLinkHref, getAreaWhatsAppUrl, toAreaDisplayPlan } from "@/lib/country-content"
+import { areaLocalized, getAreaLandingData, getAreaLinkHref, getAreaWhatsAppUrl, toAreaDisplayPlan, type AreaDisplayPlan, type AreaLink } from "@/lib/country-content"
 import { getPublishedClassroomVideos, type LandingVideo } from "@/lib/classroom-videos"
 import { getTeachers, type Teacher } from "@/lib/data-store"
 import { NewCountryVideos } from "@/components/new-country-videos"
 import { CountryLearningHub } from "@/components/country-learning-hub"
+import { CountryServiceLinks } from "@/components/country-service-links"
+import { germanyLandingConfig } from "@/lib/germany-landing-config"
 
 type Props = { config: NewCountryConfig; videos?: LandingVideo[]; teachers?: Teacher[]; contactUrl?: string }
 
@@ -80,6 +82,46 @@ function BahrainLayout({ config, videos, teachers, contactUrl }: Props) {
   return <><section className="new-country-intro new-country-intro-bahrain"><div className="new-country-intro-copy"><p className="new-country-kicker">{config.flag} {config.eyebrow}</p><h1>{config.title}</h1><p className="new-country-lead">{config.description}</p><a className="new-country-cta" href="#week"><CalendarDays size={18} /> ضع الحصة في أسبوعك</a></div><div className="new-country-week-grid">{["السبت","الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس"].map((day, i) => <span key={day} className={i === 2 ? "is-selected" : ""}>{day}</span>)}</div></section><section id="week" className="new-country-section"><div className="new-country-narrow"><p className="new-country-kicker">مخطط أسبوعي</p><h2>ضع الحصة في مكانها ثم اختر المسار</h2><Steps config={config} /></div></section><section className="new-country-section new-country-coral"><div className="new-country-narrow"><h2>قرار الباقة</h2><PriceTable config={config} /></div></section><LocalSection config={config} /><FAQ config={config} /><section className="new-country-note"><b>يوجد باقات مخصصة</b><span>خصم 10٪ للأخوات والإحالة</span></section><SharedClosing config={config} videos={videos} teachers={teachers} contactUrl={contactUrl} /></>
 }
 
+function GermanyPlanCard({ plan, contactUrl }: { plan: AreaDisplayPlan; contactUrl: string }) {
+  return <article className={`saudi-plan-card ${plan.popular ? "saudi-plan-card-featured" : ""}`}>
+    {plan.popular && <span className="saudi-popular-badge"><Sparkles size={14} /> الأكثر طلباً</span>}
+    <p className="text-sm font-semibold text-muted-foreground">{plan.program === "quran" ? "تحفيظ القرآن" : "تأسيس اللغة العربية"}</p>
+    <h3 className="mt-2 text-xl font-bold">{plan.duration} دقيقة للحصة</h3>
+    <div className="mt-6 flex items-end gap-2"><strong className="text-4xl font-bold text-primary">€{plan.price}</strong><span className="pb-1 text-sm text-muted-foreground">شهرياً</span></div>
+    <p className="mt-2 text-sm text-muted-foreground">{plan.monthlySessions} حصص شهرياً، {plan.weeklySessions} أسبوعياً</p>
+    <p className="mt-4 min-h-12 text-sm leading-6 text-muted-foreground">{plan.description}</p>
+    <ul className="mt-5 grid gap-3 border-t border-border pt-5 text-sm">{plan.features.map((feature) => <li key={feature} className="flex items-center gap-2"><Check size={17} className="text-accent" />{feature}</li>)}</ul>
+    <a className="saudi-plan-cta mt-7" href={contactUrl} target="_blank" rel="noreferrer"><MessageCircle size={18} /> احجز عبر واتساب</a>
+  </article>
+}
+
+function GermanyLayout({ config, videos, contactUrl, plans, links }: Props & { plans: AreaDisplayPlan[]; links: Array<Partial<AreaLink>> }) {
+  const whatsappFallback = `https://wa.me/${germanyLandingConfig.whatsappNumber}`
+  const quranPlans = plans.filter((plan) => plan.program === "quran")
+  const arabicPlans = plans.filter((plan) => plan.program === "arabic")
+  const jsonLd = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: config.faq.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
+  const planCards = (items: AreaDisplayPlan[]) => <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">{items.map((plan) => <GermanyPlanCard key={plan.id} plan={plan} contactUrl={getAreaWhatsAppUrl(links, plan.name, whatsappFallback)} />)}</div>
+  return <>
+    <section className="new-country-intro new-country-intro-germany"><div className="new-country-intro-copy">
+      <p className="new-country-kicker"><Sparkles size={16} /> <span lang="en" dir="ltr">{config.eyebrow}</span></p>
+      <h1>{config.title}</h1><p className="new-country-lead">{config.description}</p>
+      <div className="new-country-actions"><WhatsApp config={config} contactUrl={contactUrl} label="احجز الحصة التجريبية الأولى المجانية" /><a className="new-country-ghost" href="#plans">استعرض الباقات <ArrowLeft size={17} /></a></div>
+    </div></section>
+    <NewCountryVideos videos={videos ?? []} />
+    <section id="plans" className="new-country-section"><div className="new-country-narrow">
+      <section className="mb-16"><h2 className="text-center">حفظ القرآن ومراجعته مع التلاوة والتجويد</h2><p className="mx-auto mt-4 max-w-3xl text-center leading-8">باقات شهرية باليورو لحصص فردية في الحفظ والتسميع والمراجعة.</p>{planCards(quranPlans)}</section>
+      <section><h2 className="text-center">تأسيس العربية قراءة وكتابة أونلاين في ألمانيا</h2><p className="mx-auto mt-4 max-w-3xl text-center leading-8">تأسيس القراءة والكتابة والنطق والفهم بالعربية.</p>{planCards(arabicPlans)}</section>
+    </div></section>
+    <LocalSection config={config} /><FAQ config={config} />
+    <CountryLearningHub slug="germany" variant="minimal" showLocalCard={false} />
+    <CountryServiceLinks />
+    <PackageIncludes />
+    <section className="new-country-section new-country-closing"><div className="new-country-narrow"><p className="new-country-kicker">الخطوة التالية</p><h2>ابدأ بحصة تجريبية مجانية</h2><p>أرسل بيانات الطالب والبرنامج والوقت المناسب، وسننسق معك موعد الحصة التجريبية الأولى.</p><WhatsApp config={config} contactUrl={contactUrl} label="اطلب الحصة التجريبية الأولى المجانية" /></div></section>
+    <CountryFooter config={config} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+  </>
+}
+
 function LanguageLayout({ config, videos, teachers, contactUrl }: Props) {
   const isBelgium = config.variant === "belgium"
   return <><section className={`new-country-intro ${isBelgium ? "new-country-intro-belgium" : "new-country-intro-france"}`}><div className="new-country-language-card"><p className="new-country-kicker">{config.flag} {config.eyebrow}</p><h1>{config.title}</h1><p className="new-country-lead">{config.description}</p><div className="new-country-language-pills"><span>العربية</span><span>{isBelgium ? "المنطقة" : "اللغة العربية"}</span><span>{config.currency}</span></div><WhatsApp config={config} contactUrl={contactUrl} label="اسأل عن المسار" /></div></section><section className="new-country-section"><div className="new-country-narrow"><p className="new-country-kicker">بوابة الاختيار</p><h2>{isBelgium ? "البرنامج ثم المنطقة" : "البرنامج ثم اللغة"}</h2><Steps config={config} /></div></section><section className="new-country-section new-country-language-surface"><div className="new-country-narrow"><h2>باقات شهرية واضحة</h2><PriceTable config={config} /></div></section><LocalSection config={config} /><FAQ config={config} /><section className="new-country-note"><b>يوجد باقات مخصصة</b><span>خصم 10٪ للأخوات والإحالة</span></section><SharedClosing config={config} videos={videos} teachers={teachers} contactUrl={contactUrl}/></>
@@ -120,9 +162,20 @@ export async function NewCountryLanding({ config }: Props) {
     faq: areaData.faq.length ? areaData.faq.map((item) => [item.question_ar, item.answer_ar] as [string, string]) : config.faq,
     theme: areaData.theme ? { primary: areaData.theme.primary_color, accent: areaData.theme.accent_color, background: areaData.theme.background_color, surface: areaData.theme.secondary_color, ink: areaData.theme.text_color } : config.theme,
   }
-  const configuredWhatsApp = getAreaLinkHref(areaData.links, "whatsapp", "https://bit.ly/4aJfOl6")
-  const contactUrl = getAreaWhatsAppUrl(areaData.links, "حصة تجريبية مجانية", configuredWhatsApp)
+  const germanyWhatsAppFallback = `https://wa.me/${germanyLandingConfig.whatsappNumber}`
+  const fallbackWhatsApp = dynamicConfig.variant === "germany" ? germanyWhatsAppFallback : "https://bit.ly/4aJfOl6"
+  const configuredWhatsApp = getAreaLinkHref(areaData.links, "whatsapp", fallbackWhatsApp)
+  const trialMessage = dynamicConfig.variant === "germany" ? dynamicConfig.whatsappMessage : undefined
+  const contactUrl = getAreaWhatsAppUrl(areaData.links, "حصة تجريبية مجانية", configuredWhatsApp, trialMessage)
   const props = { config: dynamicConfig, videos, teachers, contactUrl }
+  if (dynamicConfig.variant === "germany") {
+    const fallbackGermanyPlans = germanyLandingConfig.plans.map((plan) => ({ ...plan, popular: Boolean(plan.popular) }))
+    const germanyPlans = (["quran", "arabic"] as const).flatMap((program) => {
+      const databaseProgramPlans = databasePlans.filter((plan) => plan.program === program)
+      return databaseProgramPlans.length ? databaseProgramPlans : fallbackGermanyPlans.filter((plan) => plan.program === program)
+    })
+    return <main dir="rtl" className="new-country-page" style={{ "--country-primary": dynamicConfig.theme.primary, "--country-accent": dynamicConfig.theme.accent, "--country-background": dynamicConfig.theme.background, "--country-surface": dynamicConfig.theme.surface, "--country-ink": dynamicConfig.theme.ink } as React.CSSProperties}><GermanyLayout {...props} plans={germanyPlans} links={areaData.links} /></main>
+  }
   if (dynamicConfig.variant === "qatar") return <main dir="rtl" className="new-country-page" style={{"--country-primary":dynamicConfig.theme.primary,"--country-accent":dynamicConfig.theme.accent,"--country-background":dynamicConfig.theme.background,"--country-surface":dynamicConfig.theme.surface,"--country-ink":dynamicConfig.theme.ink} as React.CSSProperties}><QatarLayout {...props}/></main>
   if (dynamicConfig.variant === "oman") return <main dir="rtl" className="new-country-page" style={{"--country-primary":dynamicConfig.theme.primary,"--country-accent":dynamicConfig.theme.accent,"--country-background":dynamicConfig.theme.background,"--country-surface":dynamicConfig.theme.surface,"--country-ink":dynamicConfig.theme.ink} as React.CSSProperties}><OmanLayout {...props}/></main>
   if (dynamicConfig.variant === "jordan") return <main dir="rtl" className="new-country-page" style={{"--country-primary":dynamicConfig.theme.primary,"--country-accent":dynamicConfig.theme.accent,"--country-background":dynamicConfig.theme.background,"--country-surface":dynamicConfig.theme.surface,"--country-ink":dynamicConfig.theme.ink} as React.CSSProperties}><JordanLayout {...props}/></main>

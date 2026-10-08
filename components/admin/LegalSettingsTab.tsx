@@ -35,7 +35,7 @@ export function LegalSettingsTab() {
     setError(null)
 
     try {
-      const response = await fetch(`/api/admin/legal-pages?page=${selectedPage}`)
+      const response = await fetch(`/api/cms/legal-pages?page=${selectedPage}`, { cache: 'no-store' })
 
       if (!response.ok) {
         throw new Error('فشل في تحميل الصفحات')
@@ -88,16 +88,12 @@ export function LegalSettingsTab() {
     setSuccess(false)
 
     try {
-      const currentPage = pages[selectedLocale]
-
-      if (!currentPage) {
-        throw new Error('الصفحة غير موجودة')
-      }
-
-      const response = await fetch(`/api/admin/legal-pages/${currentPage.id}`, {
-        method: 'PUT',
+      const response = await fetch('/api/cms/legal-pages', {
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          page_slug: selectedPage,
+          locale: selectedLocale,
           title: editTitle,
           content: editContent,
         }),

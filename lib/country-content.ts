@@ -1,216 +1,98 @@
-import { supabaseAdmin } from "@/lib/supabaseAdmin"
-
-import { unstable_cache } from "next/cache"
+import { revalidatePath, revalidateTag, unstable_cache } from "next/cache"
 import { getCountryFallback } from "@/lib/country-fallbacks"
+import { areaRepository } from "@/lib/repositories"
+import { countryLandingCacheTag, isCountrySlug, packageDuration, resolveCountryLandingData } from "@/lib/country-data-resolution.mjs"
+import type {
+  AreaCity,
+  AreaContentItem,
+  AreaDisplayPlan,
+  AreaFaqItem,
+  AreaLandingSnapshot,
+  AreaLink,
+  AreaPackage,
+  AreaTheme,
+  AreaTimezone,
+  SiteArea,
+} from "@/lib/domain/area-content"
 
-export type AreaPackage = {
-  id: number
-  program: "quran" | "arabic" | "other"
-  package_key: string
-  name_ar: string
-  name_en: string | null
-  name_fr: string | null
-  description_ar: string | null
-  description_en: string | null
-  description_fr: string | null
-  price: number | string
-  currency_code: string
-  sessions_per_month: number | null
-  features_ar: unknown
-  features_en: unknown
-  features_fr: unknown
-  is_popular: boolean
-  sort_order: number
-}
-
-export type AreaDisplayPlan = {
-  id: string
-  program: "quran" | "arabic"
-  duration: number
-  monthlySessions: number
-  weeklySessions: number
-  price: number
-  name: string
-  description: string
-  features: string[]
-  popular: boolean
-}
-
-export type AreaLink = {
-  id: number
-  link_key: string
-  label_ar: string | null
-  label_en: string | null
-  label_fr: string | null
-  href: string
-  link_type: string
-  is_external: boolean
-  sort_order: number
-}
-
-export type AreaTheme = {
-  id: number
-  theme_name_ar: string
-  theme_name_en: string | null
-  primary_color: string
-  secondary_color: string
-  accent_color: string
-  background_color: string
-  text_color: string
-  quran_fact_title_ar: string | null
-  quran_fact_body_ar: string | null
-  quran_fact_reference_ar: string | null
-  sort_order: number
-}
-
-export type AreaCity = {
-  id: number
-  city_key: string
-  name_ar: string
-  name_en: string
-  region_name: string | null
-  sort_order: number
-}
-
-export type AreaTimezone = {
-  id: number
-  timezone_name: string
-  label_ar: string
-  label_en: string
-  is_primary: boolean
-  sort_order: number
-}
-
-export type SiteArea = {
-  id: number
-  slug: string
-  area_type: "global" | "country"
-  country_code: string | null
-  name_ar: string
-  name_en: string | null
-  name_fr: string | null
-  currency_code: string | null
-  currency_symbol: string | null
-}
+export type {
+  AreaCity,
+  AreaContentItem,
+  AreaDisplayPlan,
+  AreaFaqItem,
+  AreaLandingSnapshot,
+  AreaLink,
+  AreaPackage,
+  AreaTheme,
+  AreaTimezone,
+  SiteArea,
+} from "@/lib/domain/area-content"
+export { packageDuration } from "@/lib/country-data-resolution.mjs"
 
 export async function getSiteArea(slug: string): Promise<SiteArea | null> {
-  if (!supabaseAdmin || !slug) return null
-  const { data, error } = await supabaseAdmin
-    .from("site_areas")
-    .select("id, slug, area_type, country_code, name_ar, name_en, name_fr, currency_code, currency_symbol")
-    .eq("slug", slug)
-    .eq("is_active", true)
-    .maybeSingle()
-  if (error) {
-    console.warn("[Country Content] area read failed:", error.message)
+  if (!areaRepository || !isCountrySlug(slug)) return null
+  try {
+    return await areaRepository.getAreaBySlug(slug)
+  } catch (error) {
+    console.warn("[Country Content] area read failed:", error instanceof Error ? error.message : error)
     return null
   }
-  return data as SiteArea | null
 }
 
 export async function getAreaPackages(slug: string) {
-  const area = await getSiteArea(slug)
-  if (!area || !supabaseAdmin) return { area, packages: [] }
-  const { data, error } = await supabaseAdmin
-    .from("area_packages")
-    .select("id, program, package_key, name_ar, name_en, name_fr, description_ar, description_en, description_fr, price, currency_code, billing_period, sessions_per_month, features_ar, features_en, features_fr, is_popular, sort_order")
-    .eq("area_id", area.id)
-    .eq("is_active", true)
-    .order("sort_order", { ascending: true })
-  if (error) console.warn("[Country Content] packages read failed:", error.message)
-  return { area, packages: data ?? [] }
+  const data = await getAreaLandingData(slug)
+  return { area: data.area, packages: data.packages }
 }
 
 export async function getAreaFaq(slug: string) {
-  const area = await getSiteArea(slug)
-  if (!area || !supabaseAdmin) return { area, faq: [] }
-  const { data, error } = await supabaseAdmin
-    .from("area_faq_items")
-    .select("id, question_key, question_ar, question_en, question_fr, answer_ar, answer_en, answer_fr, sort_order")
-    .eq("area_id", area.id)
-    .eq("is_active", true)
-    .order("sort_order", { ascending: true })
-  if (error) console.warn("[Country Content] FAQ read failed:", error.message)
-  return { area, faq: data ?? [] }
+  const data = await getAreaLandingData(slug)
+  return { area: data.area, faq: data.faq }
 }
 
 export async function getAreaContent(slug: string, section?: string) {
-  const area = await getSiteArea(slug)
-  if (!area || !supabaseAdmin) return { area, content: [] }
-  let query = supabaseAdmin
-    .from("area_content")
-    .select("id, content_key, content_ar, content_en, content_fr, content_type, section, href, sort_order")
-    .eq("area_id", area.id)
-    .eq("is_active", true)
-    .order("sort_order", { ascending: true })
-  if (section) query = query.eq("section", section)
-  const { data, error } = await query
-  if (error) console.warn("[Country Content] content read failed:", error.message)
-  return { area, content: data ?? [] }
+  const data = await getAreaLandingData(slug)
+  return { area: data.area, content: section ? data.content.filter((item) => item.section === section) : data.content }
 }
 
-const getCachedAreaLandingData = unstable_cache(
-  async (slug: string) => {
-  const area = await getSiteArea(slug)
-  if (!area || !supabaseAdmin) return { area, packages: [], faq: [], content: [], links: [], theme: null, cities: [], timezones: [] }
-  const [
-    { data: packages, error: packagesError },
-    { data: faq, error: faqError },
-    { data: content, error: contentError },
-    { data: links, error: linksError },
-    { data: themes, error: themesError },
-    { data: cities, error: citiesError },
-    { data: timezones, error: timezonesError },
-  ] = await Promise.all([
-    supabaseAdmin.from("area_packages").select("id, program, package_key, name_ar, name_en, name_fr, description_ar, description_en, description_fr, price, currency_code, billing_period, sessions_per_month, features_ar, features_en, features_fr, is_popular, sort_order").eq("area_id", area.id).eq("is_active", true).order("sort_order", { ascending: true }),
-    supabaseAdmin.from("area_faq_items").select("id, question_key, question_ar, question_en, question_fr, answer_ar, answer_en, answer_fr, sort_order").eq("area_id", area.id).eq("is_active", true).order("sort_order", { ascending: true }),
-    supabaseAdmin.from("area_content").select("id, content_key, content_ar, content_en, content_fr, content_type, section, href, sort_order").eq("area_id", area.id).eq("is_active", true).order("sort_order", { ascending: true }),
-    supabaseAdmin.from("area_links").select("id, link_key, label_ar, label_en, label_fr, href, link_type, is_external, sort_order").eq("area_id", area.id).eq("is_active", true).order("sort_order", { ascending: true }),
-    supabaseAdmin.from("area_themes").select("id, theme_name_ar, theme_name_en, primary_color, secondary_color, accent_color, background_color, text_color, quran_fact_title_ar, quran_fact_body_ar, quran_fact_reference_ar, sort_order").eq("area_id", area.id).eq("is_active", true).order("sort_order", { ascending: true }).limit(1),
-    supabaseAdmin.from("area_cities").select("id, city_key, name_ar, name_en, region_name, sort_order").eq("area_id", area.id).eq("is_active", true).order("sort_order", { ascending: true }),
-    supabaseAdmin.from("area_timezones").select("id, timezone_name, label_ar, label_en, is_primary, sort_order").eq("area_id", area.id).eq("is_active", true).order("sort_order", { ascending: true }),
-  ])
-  if (packagesError) console.warn("[Country Content] landing packages read failed:", packagesError.message)
-  if (faqError) console.warn("[Country Content] landing FAQ read failed:", faqError.message)
-  if (contentError) console.warn("[Country Content] landing content read failed:", contentError.message)
-  if (linksError) console.warn("[Country Content] landing links read failed:", linksError.message)
-  if (themesError) console.warn("[Country Content] landing theme read failed:", themesError.message)
-  if (citiesError) console.warn("[Country Content] landing cities read failed:", citiesError.message)
-  if (timezonesError) console.warn("[Country Content] landing timezones read failed:", timezonesError.message)
-  return {
-    area,
-    packages: (packages ?? []).filter((pkg) => packageDuration(pkg.package_key) === 30),
-    faq: faq ?? [],
-    content: content ?? [],
-    links: links ?? [],
-    theme: (themes?.[0] as AreaTheme | undefined) ?? null,
-    cities: (cities ?? []) as AreaCity[],
-    timezones: (timezones ?? []) as AreaTimezone[],
-  }
-  },
-  ["country-landing-data"],
-  { revalidate: 3600, tags: ["country-content"] },
-)
+function emptyAreaLandingData(): AreaLandingSnapshot {
+  return { area: null, packages: [], faq: [], content: [], links: [], theme: null, cities: [], timezones: [] }
+}
 
-export async function getAreaLandingData(slug: string) {
+async function loadAreaLandingData(slug: string): Promise<AreaLandingSnapshot> {
+  if (!areaRepository) return emptyAreaLandingData()
+  const data = await areaRepository.getSnapshot(slug)
+  if (!data.area) return data
+  return {
+    ...data,
+    packages: data.packages.filter((pkg) => Number(pkg.duration_minutes ?? packageDuration(pkg.package_key)) === 30 && (!data.area?.currency_code || pkg.currency_code === data.area.currency_code)),
+  }
+}
+
+function getCachedAreaLandingData(slug: string) {
+  return unstable_cache(
+    () => loadAreaLandingData(slug),
+    ["country-landing-data", slug],
+    { revalidate: 3600, tags: [countryLandingCacheTag(slug)] },
+  )()
+}
+
+export async function getAreaLandingData(slug: string): Promise<AreaLandingSnapshot> {
+  if (!isCountrySlug(slug)) return emptyAreaLandingData()
   const fallback = getCountryFallback(slug)
   try {
     const data = await getCachedAreaLandingData(slug)
-    if (!fallback) return data
-    return {
-      area: data.area ?? fallback.area,
-      packages: data.packages.length ? data.packages : fallback.packages,
-      faq: data.faq.length ? data.faq : fallback.faq,
-      content: data.content.length ? data.content : fallback.content,
-      links: data.links.length ? data.links : fallback.links,
-      theme: data.theme ?? fallback.theme,
-      cities: data.cities.length ? data.cities : fallback.cities,
-      timezones: data.timezones.length ? data.timezones : fallback.timezones,
-    }
+    return resolveCountryLandingData<AreaLandingSnapshot>(slug, data, fallback)
   } catch (error) {
     console.warn(`[Country Content] landing fallback used for ${slug}:`, error instanceof Error ? error.message : error)
-    return fallback ?? { area: null, packages: [], faq: [], content: [], links: [], theme: null, cities: [], timezones: [] }
+    return resolveCountryLandingData(slug, emptyAreaLandingData(), fallback)
   }
+}
+
+/** Expire only the edited country's cached snapshot and rerender its route. */
+export function revalidateAreaLandingData(slug: string) {
+  if (!isCountrySlug(slug)) return
+  revalidateTag(countryLandingCacheTag(slug), { expire: 0 })
+  revalidatePath(`/${slug}`)
 }
 
 export function areaLocalized(value: { content_ar?: string | null; content_en?: string | null; content_fr?: string | null } | undefined, locale = "ar") {
@@ -222,10 +104,6 @@ export function packageFeatures(pkg: { features_ar?: unknown; features_en?: unkn
   const key = locale === "en" ? "features_en" : locale === "fr" ? "features_fr" : "features_ar"
   const value = pkg[key as keyof typeof pkg]
   return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : []
-}
-
-export function packageDuration(packageKey: string): number {
-  return packageKey.includes("-30-") ? 30 : 0
 }
 
 export function packageWeeklySessions(sessionsPerMonth: number | null | undefined): number {
@@ -249,7 +127,7 @@ export function toAreaDisplayPlan(pkg: AreaPackage): AreaDisplayPlan {
   return {
     id: String(pkg.id),
     program: pkg.program === "arabic" ? "arabic" : "quran",
-    duration: packageDuration(pkg.package_key),
+    duration: Number(pkg.duration_minutes ?? packageDuration(pkg.package_key)),
     monthlySessions: pkg.sessions_per_month ?? 4,
     weeklySessions: packageWeeklySessions(pkg.sessions_per_month),
     price: Number(pkg.price),
@@ -261,14 +139,6 @@ export function toAreaDisplayPlan(pkg: AreaPackage): AreaDisplayPlan {
 }
 
 export async function getAreaLinks(slug: string) {
-  const area = await getSiteArea(slug)
-  if (!area || !supabaseAdmin) return { area, links: [] }
-  const { data, error } = await supabaseAdmin
-    .from("area_links")
-    .select("id, link_key, label_ar, label_en, label_fr, href, link_type, is_external, sort_order")
-    .eq("area_id", area.id)
-    .eq("is_active", true)
-    .order("sort_order", { ascending: true })
-  if (error) console.warn("[Country Content] links read failed:", error.message)
-  return { area, links: data ?? [] }
+  const data = await getAreaLandingData(slug)
+  return { area: data.area, links: data.links }
 }

@@ -1,223 +1,90 @@
-import { requireAdmin } from '@/lib/api-auth'
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-import { revalidateThemeSettings } from '@/lib/api-revalidate'
+import { NextRequest, NextResponse } from "next/server"
+import { z } from "zod"
+import { requireAdmin } from "@/lib/api-auth"
+import { supabaseAdmin } from "@/lib/supabaseAdmin"
+import { revalidateThemeSettings } from "@/lib/api-revalidate"
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+export const dynamic = "force-dynamic"
 
-const supabase = supabaseUrl && supabaseServiceKey 
-  ? createClient(supabaseUrl, supabaseServiceKey)
-  : null
+const whatsappSchema = z.object({
+  position: z.enum(["left", "right"]),
+  phone: z.string().trim().regex(/^\+?[0-9]{8,15}$/),
+  size: z.enum(["small", "medium", "large"]),
+  color: z.string().regex(/^#[0-9a-fA-F]{6}$/),
+  showLabel: z.boolean(),
+  labelAr: z.string().trim().max(80),
+  labelEn: z.string().trim().max(80),
+  labelFr: z.string().trim().max(80),
+}).strict()
 
-interface WidgetConfig {
-  id?: number
-  widget_type: string
-  config_json: any
-  is_enabled?: boolean
-  display_order?: number
+const navbarSchema = z.object({
+  items: z.array(z.enum(["home", "about", "quran", "arabic", "teachers", "reviews", "library", "classroom", "games", "faq", "blog", "contact", "account"])).max(30),
+}).strict()
+
+const writeSchema = z.object({
+  widget_type: z.enum(["whatsapp_button", "navbar"]),
+  config_json: z.unknown(),
+  is_enabled: z.boolean().optional(),
+  display_order: z.number().int().min(0).max(10000).optional(),
+}).strict()
+
+function parseBody(body: unknown) {
+  const base = writeSchema.safeParse(body)
+  if (!base.success) return { error: "Invalid widget payload", issues: base.error.issues } as const
+  const config = base.data.widget_type === "whatsapp_button"
+    ? whatsappSchema.safeParse(base.data.config_json)
+    : navbarSchema.safeParse(base.data.config_json)
+  if (!config.success) return { error: "Invalid widget configuration", issues: config.error.issues } as const
+  return { data: { ...base.data, config_json: config.data } } as const
 }
 
-// GET: Fetch widget configurations
 export async function GET(request: NextRequest) {
-  try {
-    if (!supabase) {
-      return NextResponse.json({ error: 'Database not configured', data: [] }, { status: 200 })
-    }
-
-    const { searchParams } = new URL(request.url)
-    const widgetType = searchParams.get('type')
-
-    let query = supabase
-      .from('widget_configs')
-      .select('*')
-
-    if (widgetType) {
-      query = query.eq('widget_type', widgetType)
-    }
-
-    const { data, error } = await query.order('display_order', { ascending: true })
-
-    if (error) {
-      console.error('[v0] Widgets fetch error:', error)
-      return NextResponse.json({ error: error.message }, { status: 400 })
-    }
-
-    return NextResponse.json({ data }, { status: 200 })
-  } catch (error) {
-    console.error('[v0] GET /api/cms/widgets error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  const authError = await requireAdmin()
+  if (authError) return authError
+  if (!supabaseAdmin) return NextResponse.json({ error: "Database not configured", data: [], storageConfigured: false }, { status: 503 })
+  const type = request.nextUrl.searchParams.get("type")
+  if (type && type !== "whatsapp_button" && type !== "navbar") return NextResponse.json({ error: "Invalid widget type" }, { status: 400 })
+  let query = supabaseAdmin.from("widget_configs").select("id,widget_type,config_json,is_enabled,display_order,updated_at").order("display_order", { ascending: true })
+  if (type) query = query.eq("widget_type", type)
+  const { data, error } = await query
+  if (error) {
+    console.error("[CMS widgets] Read failed:", error.message)
+    return NextResponse.json({ error: "Failed to load widget settings" }, { status: 500 })
   }
+  return NextResponse.json({ data: data ?? [], storageConfigured: true })
 }
 
-// POST: Create or update widget configuration
 export async function POST(request: NextRequest) {
-    const authError = await requireAdmin()
-    if (authError) return authError
-
-  try {
-    if (!supabase) {
-      return NextResponse.json({ error: 'Database not configured' }, { status: 503 })
-    }
-
-    const body: WidgetConfig = await request.json()
-
-    if (!body.widget_type || !body.config_json) {
-      return NextResponse.json({ error: 'widget_type and config_json are required' }, { status: 400 })
-    }
-
-    // Check if widget already exists
-    const { data: existing } = await supabase
-      .from('widget_configs')
-      .select('id')
-      .eq('widget_type', body.widget_type)
-      .single()
-
-    if (existing) {
-      // Update existing widget
-      const { data, error } = await supabase
-        .from('widget_configs')
-        .update({
-          config_json: body.config_json,
-          is_enabled: body.is_enabled !== undefined ? body.is_enabled : true,
-          display_order: body.display_order !== undefined ? body.display_order : 0,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('widget_type', body.widget_type)
-        .select()
-
-      if (error) {
-        console.error('[v0] Widget update error:', error)
-        return NextResponse.json({ error: error.message }, { status: 400 })
-      }
-
-      // Revalidate theme settings when widgets updated
-      try {
-        await revalidateThemeSettings()
-      } catch (revalidateError) {
-        console.warn('[v0] Revalidation warning:', revalidateError)
-      }
-
-      return NextResponse.json({
-        success: true,
-        data: data?.[0],
-        updated: true,
-        message: 'Widget updated successfully',
-        revalidated: true,
-      }, { status: 200 })
-    }
-
-    // Create new widget
-    const { data, error } = await supabase
-      .from('widget_configs')
-      .insert({
-        widget_type: body.widget_type,
-        config_json: body.config_json,
-        is_enabled: body.is_enabled !== false,
-        display_order: body.display_order || 0,
-      })
-      .select()
-
-    if (error) {
-      console.error('[v0] Widget creation error:', error)
-      return NextResponse.json({ error: error.message }, { status: 400 })
-    }
-
-    // Revalidate theme settings when widgets created
-    try {
-      await revalidateThemeSettings()
-    } catch (revalidateError) {
-      console.warn('[v0] Revalidation warning:', revalidateError)
-    }
-
-    return NextResponse.json({
-      success: true,
-      data: data?.[0],
-      created: true,
-      message: 'Widget created successfully',
-      revalidated: true,
-    }, { status: 201 })
-  } catch (error) {
-    console.error('[v0] POST /api/cms/widgets error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  const authError = await requireAdmin()
+  if (authError) return authError
+  if (!supabaseAdmin) return NextResponse.json({ error: "Database not configured" }, { status: 503 })
+  let raw: unknown
+  try { raw = await request.json() } catch { return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 }) }
+  const parsed = parseBody(raw)
+  if ("error" in parsed) return NextResponse.json({ error: parsed.error, issues: parsed.issues }, { status: 400 })
+  const { data, error } = await supabaseAdmin.from("widget_configs").upsert({
+    widget_type: parsed.data.widget_type,
+    config_json: parsed.data.config_json,
+    is_enabled: parsed.data.is_enabled ?? true,
+    display_order: parsed.data.display_order ?? 0,
+    updated_at: new Date().toISOString(),
+  }, { onConflict: "widget_type" }).select("id,widget_type,config_json,is_enabled,display_order,updated_at").single()
+  if (error) {
+    console.error("[CMS widgets] Save failed:", error.message)
+    return NextResponse.json({ error: "Failed to save widget settings" }, { status: 500 })
   }
+  await revalidateThemeSettings()
+  return NextResponse.json({ success: true, data }, { status: 200 })
 }
 
-// PATCH: Update widget configuration
-export async function PATCH(request: NextRequest) {
-    const authError = await requireAdmin()
-    if (authError) return authError
-
-  try {
-    if (!supabase) {
-      return NextResponse.json({ error: 'Database not configured' }, { status: 503 })
-    }
-
-    const { searchParams } = new URL(request.url)
-    const widgetType = searchParams.get('type')
-
-    if (!widgetType) {
-      return NextResponse.json({ error: 'Widget type is required' }, { status: 400 })
-    }
-
-    const body: Partial<WidgetConfig> = await request.json()
-
-    const updateData: any = {
-      updated_at: new Date().toISOString(),
-    }
-
-    if (body.config_json) updateData.config_json = body.config_json
-    if (body.is_enabled !== undefined) updateData.is_enabled = body.is_enabled
-    if (body.display_order !== undefined) updateData.display_order = body.display_order
-
-    const { data, error } = await supabase
-      .from('widget_configs')
-      .update(updateData)
-      .eq('widget_type', widgetType)
-      .select()
-
-    if (error) {
-      console.error('[v0] Widget update error:', error)
-      return NextResponse.json({ error: error.message }, { status: 400 })
-    }
-
-    return NextResponse.json({ data: data?.[0] }, { status: 200 })
-  } catch (error) {
-    console.error('[v0] PATCH /api/cms/widgets error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-  }
-}
-
-// DELETE: Delete widget configuration
 export async function DELETE(request: NextRequest) {
-    const authError = await requireAdmin()
-    if (authError) return authError
-
-  try {
-    if (!supabase) {
-      return NextResponse.json({ error: 'Database not configured' }, { status: 503 })
-    }
-
-    const { searchParams } = new URL(request.url)
-    const widgetType = searchParams.get('type')
-
-    if (!widgetType) {
-      return NextResponse.json({ error: 'Widget type is required' }, { status: 400 })
-    }
-
-    const { error } = await supabase
-      .from('widget_configs')
-      .delete()
-      .eq('widget_type', widgetType)
-
-    if (error) {
-      console.error('[v0] Widget deletion error:', error)
-      return NextResponse.json({ error: error.message }, { status: 400 })
-    }
-
-    return NextResponse.json({ message: 'Widget deleted successfully' }, { status: 200 })
-  } catch (error) {
-    console.error('[v0] DELETE /api/cms/widgets error:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-  }
+  const authError = await requireAdmin()
+  if (authError) return authError
+  if (!supabaseAdmin) return NextResponse.json({ error: "Database not configured" }, { status: 503 })
+  const type = request.nextUrl.searchParams.get("type")
+  if (type !== "whatsapp_button" && type !== "navbar") return NextResponse.json({ error: "Invalid widget type" }, { status: 400 })
+  const { error } = await supabaseAdmin.from("widget_configs").delete().eq("widget_type", type)
+  if (error) return NextResponse.json({ error: "Failed to delete widget settings" }, { status: 500 })
+  await revalidateThemeSettings()
+  return NextResponse.json({ success: true })
 }

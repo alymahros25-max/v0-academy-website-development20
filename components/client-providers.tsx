@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/footer"
 import { usePathname } from "next/navigation"
 import { DeferredClientIntegrations } from "@/components/deferred-client-integrations"
 import { TeachingLanguageNotice } from "@/components/teaching-language-notice"
+import { PublicWidgetLayer } from "@/components/public-widget-layer"
 
 function LayoutWrapper({ children }: { children: ReactNode }) {
   const { dir, locale } = useI18n()
@@ -88,6 +89,7 @@ function LayoutWrapper({ children }: { children: ReactNode }) {
 export function ClientProviders({ children }: { children: ReactNode }) {
   return (
     <I18nProvider>
+      <PublicWidgetLayer />
       <LayoutWrapper>{children}</LayoutWrapper>
     </I18nProvider>
   )

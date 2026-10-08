@@ -12,19 +12,22 @@ import {
 import dynamic from "next/dynamic"
 import { AdminErrorBoundary } from "@/components/admin/AdminErrorBoundary"
 import { AdminLoadingSkeleton } from "@/components/admin/AdminLoadingSkeleton"
-import { OrdersTab } from "@/components/admin/OrdersTab"
-import { PaymentSettingsTab } from "@/components/admin/PaymentSettingsTab"
 import { useI18n } from "@/lib/i18n"
 import useSWR, { mutate as globalMutate } from "swr"
 import { VideoForm } from "@/components/classroom-moments/VideoForm"
 import { BlogManager } from "@/components/admin/BlogManager"
 import { LibraryManager } from "@/components/admin/LibraryManager"
+import { ThemeCustomizer } from "@/components/admin/ThemeCustomizer"
+import { WidgetsManager } from "@/components/admin/widgets-manager"
+import { PageBuilder } from "@/components/admin/page-builder"
+import { LegalSettingsTab } from "@/components/admin/LegalSettingsTab"
 import { SaudiLandingTab } from "@/components/admin/SaudiLandingTab"
 import { UaeLandingTab } from "@/components/admin/UaeLandingTab"
 import { CountryLandingPagesTab } from "@/components/admin/CountryLandingPagesTab"
 import { FAQManager } from "@/components/admin/faq-manager"
 import { UsersManager } from "@/components/admin/users-manager"
 import { PermissionsMatrix } from "@/components/admin/permissions-matrix"
+import { getAdminNavigation, type AdminTabId } from "@/components/admin/admin-navigation"
 
 const fetcher = (url: string) => fetch(url).then(r => r.json())
 
@@ -64,12 +67,10 @@ function AdminSectionToolbar({ section }: { section: string }) {
   </section>
 }
 
-type Tab = "faq" | "country-pages" | "saudi-landing" | "uae-landing" | "dashboard" | "packages" | "teachers" | "reviews" | "messages" | "settings" | "pages" | "seo-guide" | "cms" | "theme" | "pages-builder" | "users" | "classroom-videos" | "educational-games" | "gsc-dashboard" | "request-indexing" | "orders" | "payment-settings" | "blog" | "library"
-
 export default function AdminDashboard() {
   const router = useRouter()
   const { t } = useI18n()
-  const [activeTab, setActiveTab] = useState<Tab>("dashboard")
+  const [activeTab, setActiveTab] = useState<AdminTabId>("dashboard")
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [authenticated, setAuthenticated] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -101,26 +102,7 @@ export default function AdminDashboard() {
     )
   }
 
-  const tabs: { id: Tab; label: string; key: string; icon: typeof LayoutDashboard; group: string }[] = [
-    { id: "faq", label: "الأسئلة الشائعة", key: "admin.faq", icon: MessageSquare, group: "محتوى الموقع" },
-    { id: "dashboard", label: t("admin.dashboard"), key: "admin.dashboard", icon: LayoutDashboard, group: "الرئيسية" },
-    { id: "country-pages", label: "صفحاتنا حسب الدولة", key: "admin.countryPages", icon: MapPin, group: "محتوى الموقع" },
-    { id: "saudi-landing", label: "صفحة الهبوط السعودية", key: "admin.saudiLanding", icon: MapPin, group: "محتوى الموقع" },
-    { id: "uae-landing", label: "صفحة الهبوط الإماراتية", key: "admin.uaeLanding", icon: MapPin, group: "محتوى الموقع" },
-    { id: "packages", label: t("admin.packages"), key: "admin.packages", icon: Package, group: "محتوى الموقع" },
-    { id: "teachers", label: t("admin.teachers"), key: "admin.teachers", icon: Users, group: "محتوى الموقع" },
-    { id: "reviews", label: t("admin.reviews"), key: "admin.reviews", icon: Star, group: "محتوى الموقع" },
-    { id: "messages", label: t("admin.messages"), key: "admin.messages", icon: MessageSquare, group: "محتوى الموقع" },
-    { id: "cms", label: "صفحات الموقع والمحتوى", key: "admin.cms", icon: BookOpen, group: "محتوى الموقع" },
-    { id: "blog", label: t("admin.blog"), key: "admin.blog", icon: BookOpen, group: "محتوى الموقع" },
-    { id: "library", label: "المكتبة الرقمية", key: "admin.library", icon: BookOpen, group: "محتوى الموقع" },
-    { id: "classroom-videos", label: t("admin.classroomVideos"), key: "admin.classroomVideos", icon: Film, group: "الخدمات التعليمية" },
-    { id: "educational-games", label: t("admin.educationalGames"), key: "admin.educationalGames", icon: Gamepad2, group: "الخدمات التعليمية" },
-    { id: "pages-builder", label: t("admin.pagesBuilder"), key: "admin.pagesBuilder", icon: FileText, group: "أدوات الإدارة" },
-    { id: "theme", label: "المظهر والمعاينة الحية", key: "admin.theme", icon: Palette, group: "أدوات الإدارة" },
-    { id: "users", label: "المستخدمون والصلاحيات", key: "admin.users", icon: Lock, group: "أدوات الإدارة" },
-    { id: "settings", label: "إعدادات لوحة التحكم", key: "admin.settings", icon: Settings, group: "أدوات الإدارة" },
-  ]
+  const tabs = getAdminNavigation(t)
 
   return (
     <div className="min-h-screen bg-background flex" dir="rtl">
@@ -161,7 +143,7 @@ export default function AdminDashboard() {
                 )}
                 <button
                   data-tab={tab.id}
-                  onClick={() => { setActiveTab(tab.id as Tab); setSidebarOpen(false) }}
+                  onClick={() => { setActiveTab(tab.id); setSidebarOpen(false) }}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
                     activeTab === tab.id
                       ? "bg-primary-foreground/10 text-secondary"
@@ -265,12 +247,11 @@ export default function AdminDashboard() {
           </AdminErrorBoundary>
           <AdminErrorBoundary>
             {activeTab === "library" && <LibraryManager />}
+            {activeTab === "legal" && <LegalSettingsTab />}
+            {activeTab === "widgets" && <WidgetsManager />}
           </AdminErrorBoundary>
           <AdminErrorBoundary>
             {activeTab === "classroom-videos" && <ClassroomVideosTab />}
-          </AdminErrorBoundary>
-          <AdminErrorBoundary>
-            {activeTab === "orders" && <OrdersTab />}
           </AdminErrorBoundary>
           <AdminErrorBoundary>
             {activeTab === "educational-games" && <EducationalGamesTab />}
@@ -280,9 +261,6 @@ export default function AdminDashboard() {
           </AdminErrorBoundary>
           <AdminErrorBoundary>
             {activeTab === "request-indexing" && <RequestIndexingTab />}
-          </AdminErrorBoundary>
-          <AdminErrorBoundary>
-            {activeTab === "payment-settings" && <PaymentSettingsTab />}
           </AdminErrorBoundary>
         </div>
       </main>
@@ -1158,119 +1136,12 @@ function CMSManagementTab() {
   )
 }
 
-// Theme Customizer Tab - real color/font editor
 function ThemeCustomizerTab() {
-  const primaryColors = [
-    { name: "أخضر داكن (الحالي)", value: "#1a4d2e" },
-    { name: "أزرق داكن", value: "#1e3a5f" },
-    { name: "بنفسجي داكن", value: "#2d1b69" },
-    { name: "بني داكن", value: "#5c3317" },
-    { name: "رمادي أردوازي", value: "#2c3e50" },
-  ]
-  const accentColors = [
-    { name: "ذهبي (الحالي)", value: "#d4af37" },
-    { name: "برتقالي", value: "#e67e22" },
-    { name: "فضي", value: "#bdc3c7" },
-    { name: "نحاسي", value: "#b87333" },
-  ]
-  const [msg, setMsg] = useState("")
-  const handleApply = () => {
-    setMsg("التعديل يتطلب تحديث ملف globals.css — تواصل مع المطور لتطبيق اللون الجديد.")
-  }
-  return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-foreground mb-1">المظهر والألوان</h2>
-        <p className="text-sm text-muted-foreground">الألوان المتاحة للأكاديمية</p>
-      </div>
-      {msg && <div className="p-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-sm">{msg}</div>}
-      <div className="bg-card border border-border rounded-2xl p-5 space-y-5">
-        <div>
-          <p className="font-bold text-foreground mb-3">اللون الأساسي (Primary)</p>
-          <div className="flex flex-wrap gap-3">
-            {primaryColors.map(c => (
-              <button key={c.value} onClick={handleApply} className="flex items-center gap-2 px-3 py-2 rounded-xl border border-border hover:border-primary transition text-sm">
-                <span className="w-5 h-5 rounded-full border border-border" style={{ backgroundColor: c.value }} />
-                {c.name}
-              </button>
-            ))}
-          </div>
-        </div>
-        <div>
-          <p className="font-bold text-foreground mb-3">اللون الثانوي (Accent/Secondary)</p>
-          <div className="flex flex-wrap gap-3">
-            {accentColors.map(c => (
-              <button key={c.value} onClick={handleApply} className="flex items-center gap-2 px-3 py-2 rounded-xl border border-border hover:border-primary transition text-sm">
-                <span className="w-5 h-5 rounded-full border border-border" style={{ backgroundColor: c.value }} />
-                {c.name}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className="bg-card border border-border rounded-2xl p-5">
-        <p className="font-bold text-foreground mb-3">الألوان الحالية للموقع</p>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {[
-            { label: "Primary", bg: "#1a4d2e", text: "#fff" },
-            { label: "Secondary", bg: "#d4af37", text: "#000" },
-            { label: "Background", bg: "#ffffff", text: "#000" },
-            { label: "Foreground", bg: "#000000", text: "#fff" },
-          ].map(c => (
-            <div key={c.label} className="rounded-xl p-4 text-center text-sm font-bold border border-border" style={{ backgroundColor: c.bg, color: c.text }}>
-              {c.label}
-              <div className="text-xs font-normal mt-1 opacity-75">{c.bg}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
+  return <ThemeCustomizer />
 }
 
-// Pages Builder Tab - list of all site pages with quick links
 function PagesBuilderTab() {
-  const pages = [
-    { label: "الصفحة الرئيسية", path: "/", desc: "Hero، المميزات، الباقات، الشهادات" },
-    { label: "قرآن الكريم", path: "/quran", desc: "الباقات والأسعار وطريقة التسجيل" },
-    { label: "تأسيس العربي", path: "/arabic", desc: "باقات تعليم اللغة العربية" },
-    { label: "من نحن", path: "/about", desc: "قصة الأكاديمية وقيمها" },
-    { label: "المعلمين والمعلمات", path: "/teachers", desc: "نبذة عن فريق المعلمين" },
-    { label: "آراء الطلاب", path: "/reviews", desc: "شهادات وتقييمات الطلاب" },
-      { label: "لقطات من الحصص", path: "/classroom-moments", desc: "فيديوهات ترويجية" },
-    { label: "الألعاب والمسابقات", path: "/games", desc: "ألعاب تعليمية تفاعلية" },
-    { label: "الأسئلة الشائعة", path: "/faq", desc: "50 سؤال وجواب" },
-    { label: "المدونة", path: "/blog", desc: "مقالات تعليمية SEO" },
-    { label: "اتصل بنا", path: "/contact", desc: "نموذج التواصل" },
-    { label: "حسابي", path: "/account", desc: "تسجيل دخول وإنشاء حساب" },
-    { label: "الخصوصية", path: "/privacy", desc: "سياسة الخصوصية" },
-    { label: "شروط الاستخدام", path: "/terms", desc: "الشروط والأحكام" },
-  ]
-  return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-foreground mb-1">صفحات الموقع</h2>
-        <p className="text-sm text-muted-foreground">{pages.length} صفحة مُنشأة — اضغط للمعاينة</p>
-      </div>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {pages.map(p => (
-          <a
-            key={p.path}
-            href={p.path}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-card border border-border rounded-xl p-4 hover:border-primary hover:shadow-sm transition-all group"
-          >
-            <div className="flex items-center justify-between mb-1">
-              <p className="font-bold text-foreground text-sm group-hover:text-primary transition-colors">{p.label}</p>
-              <span className="text-xs text-muted-foreground font-mono">{p.path}</span>
-            </div>
-            <p className="text-xs text-muted-foreground">{p.desc}</p>
-          </a>
-        ))}
-      </div>
-    </div>
-  )
+  return <PageBuilder />
 }
 
 // Users Management Tab - admin account info

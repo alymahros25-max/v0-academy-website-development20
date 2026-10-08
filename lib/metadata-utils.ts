@@ -26,7 +26,7 @@ export const defaultMetadata: Metadata = {
   },
 }
 
-export function generatePageMetadata(page: 'quran' | 'arabic' | 'about' | 'teachers' | 'reviews' | 'games' | 'faq' | 'contact' | 'privacy' | 'terms' | 'checkout-success'): Metadata {
+export function generatePageMetadata(page: 'quran' | 'arabic' | 'about' | 'teachers' | 'reviews' | 'games' | 'faq' | 'contact' | 'privacy' | 'terms'): Metadata {
   const pageRoutes: Record<string, string> = {
     quran: '/quran',
     arabic: '/arabic',
@@ -38,18 +38,11 @@ export function generatePageMetadata(page: 'quran' | 'arabic' | 'about' | 'teach
     contact: '/contact',
     privacy: '/privacy',
     terms: '/terms',
-    'checkout-success': '/checkout-success',
   }
 
   const getAlternates = (route: string) => getSeoAlternates(`${baseUrl}${route}`)
 
   const metadataMap: Record<string, Metadata> = {
-    'checkout-success': {
-      title: 'تم الدفع بنجاح | أكاديمية الحافظ المتميز',
-      description: 'شكرًا لإتمام عملية الدفع.',
-      alternates: { canonical: `${baseUrl}/checkout-success` },
-      robots: { index: false, follow: false },
-    },
     quran: {
       title: 'تحفيظ القرآن أونلاين: حفظ ومراجعة وتجويد | الحافظ المتميز',
       description: 'للطلاب الناطقين بالعربية فقط: دروس فردية مباشرة بالعربية لحفظ القرآن ومراجعته وتصحيح التلاوة وتعلم التجويد، مع خطة تبدأ من مستوى الطالب عبر Zoom أو Google Meet.',

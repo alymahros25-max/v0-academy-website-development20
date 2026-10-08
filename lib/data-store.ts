@@ -1,6 +1,7 @@
 import { promises as fs } from "fs"
 import path from "path"
-import { supabaseAdmin } from "@/lib/supabaseAdmin"
+import { adminDataRepository } from "@/lib/repositories"
+import type { GlobalPackageRow } from "@/lib/repositories/contracts/admin-data"
 
 const DATA_DIR = path.join(process.cwd(), "data")
 
@@ -19,7 +20,6 @@ async function readData<T>(filename: string, defaultData: T): Promise<T> {
     const raw = await fs.readFile(filePath, "utf-8")
     return JSON.parse(raw) as T
   } catch {
-    await fs.writeFile(filePath, JSON.stringify(defaultData, null, 2))
     return defaultData
   }
 }
@@ -28,6 +28,10 @@ async function writeData<T>(filename: string, data: T): Promise<void> {
   await ensureDataDir()
   const filePath = path.join(DATA_DIR, filename)
   await fs.writeFile(filePath, JSON.stringify(data, null, 2))
+}
+
+async function readLocalFallback<T>(filename: string, defaultData: T): Promise<T> {
+  return adminDataRepository ? defaultData : readData(filename, defaultData)
 }
 
 // Types
@@ -165,66 +169,35 @@ const defaultSettings: SiteSettings = {
   aboutText: { ar: "أكاديمية الحافظ المتميز هي منصة تعليمية عالمية متخصصة", en: "Al-Hafiz Academy is a global educational platform", fr: "L'academie est une plateforme educative mondiale" },
 }
 
-// Persistent CRUD functions. Supabase is the production source of truth; JSON remains a local fallback.
-type AdminContentWrite = {
-  content_type: string
-  content_id: string
-  data: unknown
-}
-
+// Repository is the source of truth when configured; JSON is a local-development fallback only.
 async function getPersistent<T>(contentType: string, fallback: T): Promise<T> {
-  if (!supabaseAdmin) return fallback
-  const { data, error } = await supabaseAdmin.from("admin_content").select("data").eq("content_type", contentType).order("content_id")
-  if (error || !data?.length) {
-    await seedPersistent(contentType, fallback)
-    return fallback
-  }
-  if (contentType === "settings") return (data[0]?.data ?? fallback) as T
-  return data.map(row => row.data) as T
-}
-
-async function seedPersistent<T>(contentType: string, data: T) {
-  if (!supabaseAdmin) return
-  const rows: AdminContentWrite[] = contentType === "settings"
-    ? [{ content_type: contentType, content_id: "site", data }]
-    : (data as unknown as Array<{ id?: string }>).map((item, index) => ({ content_type: contentType, content_id: String(item.id ?? index), data: item }))
-  await supabaseAdmin.from("admin_content").upsert(rows as never, { onConflict: "content_type,content_id" })
+  if (!adminDataRepository) return fallback
+  const rows = await adminDataRepository.listContent(contentType)
+  if (!rows.length) return fallback
+  if (contentType === "settings") return (rows[0]?.data ?? fallback) as T
+  return rows.map((row) => row.data) as T
 }
 
 async function setPersistent<T extends Array<{ id?: string }> | SiteSettings>(contentType: string, data: T) {
-  if (!supabaseAdmin) return false
-  const deleted = await supabaseAdmin.from("admin_content").delete().eq("content_type", contentType)
-  if (deleted.error) throw deleted.error
-  const rows: AdminContentWrite[] = contentType === "settings"
-    ? [{ content_type: contentType, content_id: "site", data }]
-    : (data as Array<{ id?: string }>).map((item, index) => ({ content_type: contentType, content_id: String(item.id ?? index), data: item }))
-  if (rows.length === 0) return true
-  const inserted = await supabaseAdmin.from("admin_content").insert(rows as never)
-  if (inserted.error) throw inserted.error
+  if (!adminDataRepository) return false
+  const entries = contentType === "settings"
+    ? [{ content_id: "site", data }]
+    : (data as Array<{ id?: string }>).map((item, index) => ({ content_id: String(item.id ?? index), data: item }))
+  await adminDataRepository.replaceContent(contentType, entries)
   return true
 }
 
+async function writeLocalFallback<T>(filename: string, data: T) {
+  if (process.env.NODE_ENV === "production") throw new Error("Database not configured; persistent admin writes are disabled")
+  await writeData(filename, data)
+}
+
 export const getTeachers = async () => {
-  const teachers = await getPersistent<Teacher[]>("teachers", await readData<Teacher[]>("teachers.json", defaultTeachers))
+  const teachers = await getPersistent<Teacher[]>("teachers", await readLocalFallback("teachers.json", defaultTeachers))
   return teachers.map((teacher, index) => ({ ...teacher, sortOrder: teacher.sortOrder ?? index + 1 })).sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
 }
-export const setTeachers = async (data: Teacher[]) => { if (!(await setPersistent("teachers", data))) await writeData("teachers.json", data) }
-type PackageRow = {
-  id: string
-  type: "quran" | "arabic"
-  name_ar: string
-  name_en: string
-  name_fr: string
-  sessions: number
-  price: number
-  duration: number
-  features_ar: string
-  features_en: string
-  features_fr: string
-  popular: boolean
-  active: boolean
-  sort_order: number
-}
+export const setTeachers = async (data: Teacher[]) => { if (!(await setPersistent("teachers", data))) await writeLocalFallback("teachers.json", data) }
+type PackageRow = GlobalPackageRow
 
 function packageRowToPackage(row: PackageRow): Package {
   return {
@@ -266,43 +239,38 @@ function packageToRow(pkg: Package, index: number): PackageRow {
 }
 
 export const getPackages = async (): Promise<Package[]> => {
-  if (supabaseAdmin) {
-    const { data, error } = await supabaseAdmin.from("packages").select("*").order("type").order("sort_order")
-    if (!error && data?.length) return (data as PackageRow[]).filter((row) => row.duration === 30).map(packageRowToPackage)
+  const fallback = await readLocalFallback<Package[]>("packages.json", defaultPackages)
+  if (adminDataRepository) {
+    const data = await adminDataRepository.listPackages()
+    if (data.length) return data.filter((row) => row.duration === 30).map(packageRowToPackage)
   }
-  return (await readData<Package[]>("packages.json", defaultPackages)).filter((pkg) => pkg.duration === 30).map((pkg, index) => ({ ...pkg, sortOrder: pkg.sortOrder ?? index + 1 })).sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+  return fallback.filter((pkg) => pkg.duration === 30).map((pkg, index) => ({ ...pkg, sortOrder: pkg.sortOrder ?? index + 1 })).sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
 }
 
 export const setPackages = async (data: Package[]) => {
-  if (supabaseAdmin) {
+  if (adminDataRepository) {
     const rows = data.filter((pkg) => pkg.duration === 30).map(packageToRow)
-    const { data: saved, error } = await supabaseAdmin.rpc("replace_packages_atomic", { payload: rows })
-    if (error) throw error
-    return Array.isArray(saved) ? saved.map(packageRowToPackage) : data
+    const saved = await adminDataRepository.replacePackages(rows)
+    return saved.length ? saved.map(packageRowToPackage) : data
   }
-  await writeData("packages.json", data)
+  await writeLocalFallback("packages.json", data)
   return data
 }
 export const getReviews = async () => {
-  const reviews = await getPersistent<Review[]>("reviews", await readData<Review[]>("reviews.json", defaultReviews))
+  const reviews = await getPersistent<Review[]>("reviews", await readLocalFallback("reviews.json", defaultReviews))
   return reviews.map((review, index) => ({ ...review, sortOrder: review.sortOrder ?? index + 1 })).sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
 }
-export const setReviews = async (data: Review[]) => { if (!(await setPersistent("reviews", data))) await writeData("reviews.json", data) }
-export const getMessages = async () => getPersistent<ContactMessage[]>("messages", await readData<ContactMessage[]>("messages.json", []))
+export const setReviews = async (data: Review[]) => { if (!(await setPersistent("reviews", data))) await writeLocalFallback("reviews.json", data) }
+export const getMessages = async () => getPersistent<ContactMessage[]>("messages", await readLocalFallback("messages.json", []))
 export const addMessage = async (message: ContactMessage) => {
-  if (supabaseAdmin) {
-    const { error } = await supabaseAdmin.from("admin_content").insert({
-      content_type: "messages",
-      content_id: message.id,
-      data: message,
-    })
-    if (error) throw error
+  if (adminDataRepository) {
+    await adminDataRepository.addContent("messages", message.id, message)
     return
   }
 
   const messages = await getMessages()
-  await writeData("messages.json", [...messages, message])
+  await writeLocalFallback("messages.json", [...messages, message])
 }
-export const setMessages = async (data: ContactMessage[]) => { if (!(await setPersistent("messages", data))) await writeData("messages.json", data) }
-export const getSettings = async () => getPersistent<SiteSettings>("settings", await readData<SiteSettings>("settings.json", defaultSettings))
-export const setSettings = async (data: SiteSettings) => { if (!(await setPersistent("settings", data))) await writeData("settings.json", data) }
+export const setMessages = async (data: ContactMessage[]) => { if (!(await setPersistent("messages", data))) await writeLocalFallback("messages.json", data) }
+export const getSettings = async () => getPersistent<SiteSettings>("settings", await readLocalFallback("settings.json", defaultSettings))
+export const setSettings = async (data: SiteSettings) => { if (!(await setPersistent("settings", data))) await writeLocalFallback("settings.json", data) }

@@ -9,14 +9,20 @@ import { Menu, X, ChevronDown, Globe } from "lucide-react"
 const localeLabels: Record<Locale, string> = {
   ar: "العربية",
   en: "English",
-  fr: "Fran\u00e7ais",
+  fr: "Français",
 }
+
+type NavbarConfig = { items: string[] }
+const defaultNavbar: NavbarConfig = { items: ["home", "about", "quran", "arabic", "teachers", "reviews", "library", "classroom", "games", "faq", "blog", "contact", "account"] }
 
 export function Header() {
   const { t, locale, setLocale, dir } = useI18n()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
+  const [navbar, setNavbar] = useState(defaultNavbar)
+  const [navbarLoaded, setNavbarLoaded] = useState(false)
+  const [navbarEnabled, setNavbarEnabled] = useState(true)
 
   useEffect(() => {
     let frame = 0
@@ -37,21 +43,44 @@ export function Header() {
     }
   }, [])
 
+  useEffect(() => {
+    let active = true
+    const loadNavbar = async () => {
+      try {
+        const response = await fetch("/api/public/widgets", { cache: "no-store" })
+        if (!response.ok) return
+        const body = await response.json() as { data?: Array<{ widget_type: string; config_json: unknown; is_enabled: boolean }> }
+        const row = body.data?.find((item) => item.widget_type === "navbar")
+        if (!active || !row) return
+        const candidate = row.config_json as Partial<NavbarConfig>
+        const allowed = new Set(defaultNavbar.items)
+        const items = Array.isArray(candidate.items) ? candidate.items.filter((item): item is string => typeof item === "string" && allowed.has(item)) : defaultNavbar.items
+        setNavbar({ items })
+        setNavbarEnabled(row.is_enabled)
+        setNavbarLoaded(true)
+      } catch { /* keep compiled navigation as a safe fallback */ }
+    }
+    void loadNavbar()
+    window.addEventListener("widgets:updated", loadNavbar)
+    return () => { active = false; window.removeEventListener("widgets:updated", loadNavbar) }
+  }, [])
+
   const navLinks = [
-    { href: "/", label: t("nav.home") },
-    { href: "/about", label: t("nav.about") },
-    { href: "/quran", label: locale === "ar" ? "أسعار تحفيظ القرآن" : locale === "en" ? "Quran Pricing" : "Tarifs mémorisation du Coran" },
-    { href: "/arabic", label: locale === "ar" ? "أسعار تأسيس العربي" : locale === "en" ? "Arabic Foundation Pricing" : "Tarifs fondation arabe" },
-    { href: "/teachers", label: t("nav.teachers") },
-    { href: "/reviews", label: t("nav.reviews") },
-    { href: "/library", label: t("nav.library") },
-    { href: "/classroom-moments", label: locale === "ar" ? "فيديوهات من حصصنا" : locale === "fr" ? "Vidéos de nos cours" : "Videos from our classes" },
-    { href: "/games", label: t("nav.games") },
-    { href: "/faq", label: t("nav.faq") },
-    { href: "/blog", label: t("nav.blog") },
-    { href: "/contact", label: t("nav.contact") },
-    { href: "/account", label: t("nav.account") },
+    { key: "home", href: "/", label: t("nav.home") },
+    { key: "about", href: "/about", label: t("nav.about") },
+    { key: "quran", href: "/quran", label: locale === "ar" ? "أسعار تحفيظ القرآن" : locale === "en" ? "Quran Pricing" : "Tarifs mémorisation du Coran" },
+    { key: "arabic", href: "/arabic", label: locale === "ar" ? "أسعار تأسيس العربي" : locale === "en" ? "Arabic Foundation Pricing" : "Tarifs fondation arabe" },
+    { key: "teachers", href: "/teachers", label: t("nav.teachers") },
+    { key: "reviews", href: "/reviews", label: t("nav.reviews") },
+    { key: "library", href: "/library", label: t("nav.library") },
+    { key: "classroom", href: "/classroom-moments", label: locale === "ar" ? "فيديوهات من حصصنا" : locale === "fr" ? "Vidéos de nos cours" : "Videos from our classes" },
+    { key: "games", href: "/games", label: t("nav.games") },
+    { key: "faq", href: "/faq", label: t("nav.faq") },
+    { key: "blog", href: "/blog", label: t("nav.blog") },
+    { key: "contact", href: "/contact", label: t("nav.contact") },
+    { key: "account", href: "/account", label: t("nav.account") },
   ]
+  const activeNavLinks = navbarLoaded ? (navbarEnabled ? navbar.items.flatMap((key) => { const item = navLinks.find((link) => link.key === key); return item ? [item] : [] }) : []) : navLinks
 
   return (
     <header
@@ -80,7 +109,7 @@ export function Header() {
 
         {/* Desktop Nav */}
         <nav className="hidden xl:flex items-center gap-1">
-          {navLinks.map((link) => (
+          {activeNavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -179,7 +208,7 @@ export function Header() {
           dir={dir}
         >
           <nav className="p-4 flex flex-col gap-1">
-            {navLinks.map((link) => (
+            {activeNavLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}

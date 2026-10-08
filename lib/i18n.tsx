@@ -160,7 +160,6 @@ const translations: Translations = {
   "account.dontHaveAccount": { ar: "ليس لديك حساب؟", en: "Don't have an account?", fr: "Vous n'avez pas de compte?" },
   "account.haveAccount": { ar: "هل لديك حساب بالفعل؟", en: "Already have an account?", fr: "Vous avez déjà un compte?" },
   "account.profile": { ar: "الملف الشخصي", en: "Profile", fr: "Profil" },
-  "account.myOrders": { ar: "طلباتي", en: "My Orders", fr: "Mes commandes" },
 
   // Common
   "common.readMore": { ar: "اقرأ المزيد", en: "Read More", fr: "Lire la suite" },

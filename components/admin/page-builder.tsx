@@ -96,10 +96,10 @@ export function PageBuilder({ onPageSaved }: PageBuilderProps) {
       const response = await fetch(url, {
         method: formData.id ? 'PATCH' : 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
+        body: JSON.stringify((({ id: _id, ...pageInput }) => ({
+          ...pageInput,
           template_type: selectedTemplate || formData.template_type,
-        }),
+        }))(formData)),
       })
 
       if (!response.ok) {

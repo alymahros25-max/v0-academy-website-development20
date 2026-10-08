@@ -8,6 +8,7 @@ import "./globals.css"
 import { ClientProviders } from "@/components/client-providers"
 import { AnalyticsConsent } from "@/components/analytics-consent"
 import { CountryPagesChrome } from "@/components/country-pages-chrome"
+import { ThemeApplicator } from "@/components/theme-applicator"
 
 const rootStructuredData = generateCombinedSchema(
   generateEducationalOrganizationSchema(),
@@ -116,6 +117,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
       </head>
       <body className={`${notoArabic.variable} ${inter.variable} font-sans antialiased`}>
+        <ThemeApplicator />
         <ErrorBoundary context="RootLayout">
           <ClientProviders><CountryPagesChrome>{children}</CountryPagesChrome></ClientProviders>
         </ErrorBoundary>

@@ -1,241 +1,93 @@
-import { requireAdmin } from '@/lib/api-auth'
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-import { revalidateContentChanges } from '@/lib/api-revalidate'
+import { requireAdmin } from "@/lib/api-auth"
+import { NextRequest, NextResponse } from "next/server"
+import { z } from "zod"
+import { siteContentRepository } from "@/lib/repositories"
+import { revalidateContentChanges } from "@/lib/api-revalidate"
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+const localeSchema = z.enum(["ar", "en", "fr", "all"])
+const contentWriteSchema = z.object({
+  key: z.string().trim().min(1).max(180),
+  content_ar: z.string().max(20000).nullable().optional(),
+  content_en: z.string().max(20000).nullable().optional(),
+  content_fr: z.string().max(20000).nullable().optional(),
+  section: z.string().trim().min(1).max(100).optional().default("general"),
+  type: z.string().trim().min(1).max(40).optional().default("text"),
+  is_active: z.boolean().optional().default(true),
+}).strict().refine((value) => Boolean(value.content_ar || value.content_en || value.content_fr), {
+  message: "At least one language content is required",
+})
 
-// Initialize Supabase only if credentials are available
-const supabase = supabaseUrl && supabaseServiceKey 
-  ? createClient(supabaseUrl, supabaseServiceKey)
-  : null
-
-function requireSupabase() {
-  if (!supabase) throw new Error('Supabase is not configured')
-  return supabase
-}
-
-/**
- * GET: Fetch site content with optional filtering
- * Query params:
- *  - key?: string - specific content key
- *  - section?: string - filter by section (e.g., "homepage", "about")
- *  - locale?: string - return single language (ar, en, fr) or all
- */
 export async function GET(request: NextRequest) {
+  if (!siteContentRepository) return NextResponse.json({ error: "Database not configured", data: [] }, { status: 503 })
+  const { searchParams } = request.nextUrl
+  const localeResult = searchParams.has("locale") ? localeSchema.safeParse(searchParams.get("locale")) : { success: true as const, data: "all" as const }
+  if (!localeResult.success) return NextResponse.json({ error: "Invalid locale" }, { status: 400 })
+  const key = searchParams.get("key")?.trim() || undefined
+  const section = searchParams.get("section")?.trim() || undefined
+  if (key && key.length > 180 || section && section.length > 100) return NextResponse.json({ error: "Invalid content filter" }, { status: 400 })
+
   try {
-    if (!supabase) {
-      return NextResponse.json({ 
-        error: 'Database not configured',
-        data: [] 
-      }, { status: 200 })
-    }
-
-    const { searchParams } = new URL(request.url)
-    const key = searchParams.get('key')
-    const section = searchParams.get('section')
-    const locale = searchParams.get('locale') // 'ar', 'en', 'fr', or 'all'
-
-    let query = requireSupabase()
-      .from('site_content')
-      .select('*')
-      .eq('is_active', true)
-
-    if (key) {
-      query = query.eq('key', key)
-    }
-
-    if (section) {
-      query = query.eq('section', section)
-    }
-
-    const { data, error } = await query
-
-    if (error) {
-      console.error('[v0] Database error:', error)
-      return NextResponse.json(
-        { error: 'Failed to fetch content' },
-        { status: 500 }
-      )
-    }
-
-    // Transform data based on requested locale
-    const transformedData = data?.map((item) => {
-      if (locale && locale !== 'all') {
-        const contentKey = `content_${locale}` as keyof typeof item
-        return {
-          key: item.key,
-          content: item[contentKey],
-          section: item.section,
-          type: item.type,
-        }
+    const data = await siteContentRepository.list({ key, section })
+    const locale = localeResult.data
+    const transformedData = data.map((item) => {
+      if (locale !== "all") {
+        const contentKey = `content_${locale}` as const
+        return { key: item.key, content: item[contentKey], section: item.section, type: item.type }
       }
       return item
     })
-
-    return NextResponse.json({
-      success: true,
-      data: transformedData,
-      count: transformedData?.length || 0,
-    })
+    return NextResponse.json({ success: true, data: transformedData, count: transformedData.length }, { headers: { "Cache-Control": "no-store" } })
   } catch (error) {
-    console.error('[v0] Content API error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    console.error("[CMS Content] read failed", error)
+    return NextResponse.json({ error: "Failed to fetch content" }, { status: 500 })
   }
 }
 
-/**
- * POST: Create or update site content
- * Body: {
- *   key: string,
- *   content_ar: string,
- *   content_en: string,
- *   content_fr: string,
- *   section: string,
- *   type: string
- * }
- */
 export async function POST(request: NextRequest) {
-    const authError = await requireAdmin()
-    if (authError) return authError
+  const authError = await requireAdmin()
+  if (authError) return authError
+  if (!siteContentRepository) return NextResponse.json({ error: "Database not configured" }, { status: 503 })
+
+  let raw: unknown
+  try {
+    raw = await request.json()
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON in request body" }, { status: 400 })
+  }
+  const parsed = contentWriteSchema.safeParse(raw)
+  if (!parsed.success) return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "Invalid content" }, { status: 400 })
 
   try {
-    const body = await request.json() as {
-      key?: string
-      content_ar?: string
-      content_en?: string
-      content_fr?: string
-      section?: string
-      type?: string
-      is_active?: boolean
-    }
-
-    const {
-      key,
-      content_ar,
-      content_en,
-      content_fr,
-      section,
-      type,
-      is_active = true,
-    } = body
-
-    // Validation
-    if (!key) {
-      return NextResponse.json(
-        { error: 'Content key is required' },
-        { status: 400 }
-      )
-    }
-
-    if (!content_ar && !content_en && !content_fr) {
-      return NextResponse.json(
-        { error: 'At least one language content is required' },
-        { status: 400 }
-      )
-    }
-
-    // Upsert content (insert or update if exists)
-    const { data, error } = await requireSupabase()
-      .from('site_content')
-      .upsert(
-        {
-          key,
-          content_ar: content_ar || null,
-          content_en: content_en || null,
-          content_fr: content_fr || null,
-          section,
-          type,
-          is_active,
-          updated_at: new Date().toISOString(),
-        },
-        { onConflict: 'key' }
-      )
-      .select()
-
-    if (error) {
-      console.error('[v0] Upsert error:', error)
-      return NextResponse.json(
-        { error: 'Failed to save content' },
-        { status: 500 }
-      )
-    }
-
-    // Revalidate content on successful save
-    try {
-      await revalidateContentChanges()
-    } catch (revalidateError) {
-      console.warn('[v0] Revalidation warning:', revalidateError)
-    }
-
-    return NextResponse.json({
-      success: true,
-      data: data?.[0],
-      message: 'Content saved successfully',
-      revalidated: true,
+    const data = await siteContentRepository.upsert({
+      key: parsed.data.key,
+      content_ar: parsed.data.content_ar ?? null,
+      content_en: parsed.data.content_en ?? null,
+      content_fr: parsed.data.content_fr ?? null,
+      section: parsed.data.section,
+      type: parsed.data.type,
+      is_active: parsed.data.is_active,
     })
+    await revalidateContentChanges()
+    return NextResponse.json({ success: true, data, message: "Content saved successfully", revalidated: true }, { headers: { "Cache-Control": "no-store" } })
   } catch (error) {
-    console.error('[v0] Content creation error:', error)
-
-    if (error instanceof SyntaxError) {
-      return NextResponse.json(
-        { error: 'Invalid JSON in request body' },
-        { status: 400 }
-      )
-    }
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    console.error("[CMS Content] write failed", error)
+    return NextResponse.json({ error: "Failed to save content" }, { status: 500 })
   }
 }
 
-/**
- * DELETE: Delete content by key
- * Query params: key=string
- */
 export async function DELETE(request: NextRequest) {
-    const authError = await requireAdmin()
-    if (authError) return authError
+  const authError = await requireAdmin()
+  if (authError) return authError
+  if (!siteContentRepository) return NextResponse.json({ error: "Database not configured" }, { status: 503 })
+  const key = request.nextUrl.searchParams.get("key")?.trim()
+  if (!key || key.length > 180) return NextResponse.json({ error: "Valid content key is required" }, { status: 400 })
 
   try {
-    const { searchParams } = new URL(request.url)
-    const key = searchParams.get('key')
-
-    if (!key) {
-      return NextResponse.json(
-        { error: 'Content key is required' },
-        { status: 400 }
-      )
-    }
-
-    const { error } = await requireSupabase()
-      .from('site_content')
-      .delete()
-      .eq('key', key)
-
-    if (error) {
-      console.error('[v0] Delete error:', error)
-      return NextResponse.json(
-        { error: 'Failed to delete content' },
-        { status: 500 }
-      )
-    }
-
-    return NextResponse.json({
-      success: true,
-      message: 'Content deleted successfully',
-    })
+    await siteContentRepository.delete(key)
+    await revalidateContentChanges()
+    return NextResponse.json({ success: true, message: "Content deleted successfully" }, { headers: { "Cache-Control": "no-store" } })
   } catch (error) {
-    console.error('[v0] Content deletion error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    console.error("[CMS Content] delete failed", error)
+    return NextResponse.json({ error: "Failed to delete content" }, { status: 500 })
   }
 }

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { getAreaContent, getAreaFaq, getAreaLinks, getAreaPackages } from "@/lib/country-content"
+import { getAreaLandingData } from "@/lib/country-content"
 
 export const revalidate = 0
 
@@ -8,19 +8,14 @@ export async function GET(
   { params }: { params: Promise<{ slug: string }> },
 ) {
   const { slug } = await params
-  const [{ area, packages }, { faq }, { content }, { links }] = await Promise.all([
-    getAreaPackages(slug),
-    getAreaFaq(slug),
-    getAreaContent(slug),
-    getAreaLinks(slug),
-  ])
+  const { area, packages, faq, content, links, theme, cities, timezones } = await getAreaLandingData(slug)
 
   if (!area) {
     return NextResponse.json({ error: "Area not found" }, { status: 404 })
   }
 
   return NextResponse.json(
-    { area, packages, faq, content, links },
+    { area, packages, faq, content, links, theme, cities, timezones },
     { headers: { "Cache-Control": "no-store" } },
   )
 }

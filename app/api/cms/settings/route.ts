@@ -1,313 +1,109 @@
-import { requireAdmin } from '@/lib/api-auth'
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-import { revalidateThemeSettings } from '@/lib/api-revalidate'
+import { requireAdmin } from "@/lib/api-auth"
+import { NextRequest, NextResponse } from "next/server"
+import { z } from "zod"
+import { siteSettingsRepository } from "@/lib/repositories"
+import { revalidateThemeSettings } from "@/lib/api-revalidate"
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+const valueTypeSchema = z.enum(["color", "text", "url", "number", "json"])
+const settingSchema = z.object({
+  setting_key: z.string().trim().min(1).max(180),
+  setting_value: z.string().max(20000),
+  value_type: valueTypeSchema.optional().default("text"),
+  label: z.string().trim().max(180).nullable().optional().default(null),
+  description: z.string().trim().max(1000).nullable().optional().default(null),
+  category: z.string().trim().min(1).max(100).optional().default("general"),
+}).strict().superRefine((setting, context) => {
+  if (setting.value_type === "color" && !/^#[0-9A-F]{6}$/i.test(setting.setting_value)) {
+    context.addIssue({ code: "custom", path: ["setting_value"], message: "Invalid color format. Use hex format like #FF0000" })
+  }
+})
+const settingsBatchSchema = z.array(settingSchema).min(1).max(100)
 
-const supabase = supabaseUrl && supabaseServiceKey 
-  ? createClient(supabaseUrl, supabaseServiceKey)
-  : null
-
-function requireSupabase() {
-  if (!supabase) throw new Error('Supabase is not configured')
-  return supabase
+async function revalidateSettings() {
+  try {
+    await revalidateThemeSettings()
+  } catch (error) {
+    console.warn("[CMS Settings] revalidation warning:", error)
+  }
 }
 
-/**
- * GET: Fetch site settings
- * Query params:
- *  - key?: string - get specific setting
- *  - category?: string - filter by category (colors, typography, etc.)
- */
 export async function GET(request: NextRequest) {
+  if (!siteSettingsRepository) return NextResponse.json({ error: "Database not configured", data: [] }, { status: 503 })
+  const key = request.nextUrl.searchParams.get("key")?.trim() || null
+  const category = request.nextUrl.searchParams.get("category")?.trim() || null
+  if (key && key.length > 180 || category && category.length > 100) return NextResponse.json({ error: "Invalid settings filter" }, { status: 400 })
+
   try {
-    if (!supabase) {
-      return NextResponse.json({ 
-        error: 'Database not configured',
-        data: [] 
-      }, { status: 200 })
-    }
-
-    const { searchParams } = new URL(request.url)
-    const key = searchParams.get('key')
-    const category = searchParams.get('category')
-
-    let query = requireSupabase()
-      .from('site_settings')
-      .select('*')
-
-    if (key) {
-      query = query.eq('setting_key', key)
-    }
-
-    if (category) {
-      query = query.eq('category', category)
-    }
-
-    const { data, error } = await query
-
-    if (error) {
-      console.error('[v0] Database error:', error)
-      return NextResponse.json(
-        { error: 'Failed to fetch settings' },
-        { status: 500 }
-      )
-    }
-
-    // Transform to key-value format for easier consumption
-    const settingsMap: Record<string, string> = {}
-    data?.forEach((item) => {
-      settingsMap[item.setting_key] = item.setting_value
-    })
-
-    return NextResponse.json({
-      success: true,
-      data: key || category ? data : settingsMap,
-      count: data?.length || 0,
-    })
+    const data = await siteSettingsRepository.list({ key, category })
+    const settingsMap = Object.fromEntries(data.map((item) => [item.setting_key, item.setting_value]))
+    return NextResponse.json({ success: true, data: key || category ? data : settingsMap, count: data.length }, { headers: { "Cache-Control": "no-store" } })
   } catch (error) {
-    console.error('[v0] Settings API error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    console.error("[CMS Settings] read failed", error)
+    return NextResponse.json({ error: "Failed to fetch settings" }, { status: 500 })
   }
 }
 
-/**
- * POST/PUT: Create or update site settings
- * Body: {
- *   setting_key: string,
- *   setting_value: string,
- *   value_type?: 'color' | 'text' | 'url' | 'number' | 'json',
- *   label?: string,
- *   description?: string,
- *   category?: string
- * }
- */
 export async function POST(request: NextRequest) {
-    const authError = await requireAdmin()
-    if (authError) return authError
+  const authError = await requireAdmin()
+  if (authError) return authError
+  if (!siteSettingsRepository) return NextResponse.json({ error: "Database not configured" }, { status: 503 })
+
+  let body: unknown
+  try {
+    body = await request.json()
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON in request body" }, { status: 400 })
+  }
+  const parsed = settingSchema.safeParse(body)
+  if (!parsed.success) return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "Invalid setting" }, { status: 400 })
 
   try {
-    const body = await request.json() as {
-      setting_key?: string
-      setting_value?: string
-      value_type?: string
-      label?: string
-      description?: string
-      category?: string
-    }
-
-    const {
-      setting_key,
-      setting_value,
-      value_type = 'text',
-      label,
-      description,
-      category,
-    } = body
-
-    // Validation
-    if (!setting_key) {
-      return NextResponse.json(
-        { error: 'Setting key is required' },
-        { status: 400 }
-      )
-    }
-
-    if (setting_value === undefined || setting_value === null) {
-      return NextResponse.json(
-        { error: 'Setting value is required' },
-        { status: 400 }
-      )
-    }
-
-    // Validate color format if type is 'color'
-    if (value_type === 'color' && setting_value) {
-      const isValidColor = /^#[0-9A-F]{6}$/i.test(setting_value)
-      if (!isValidColor) {
-        return NextResponse.json(
-          { error: 'Invalid color format. Use hex format like #FF0000' },
-          { status: 400 }
-        )
-      }
-    }
-
-    // Upsert setting
-    const { data, error } = await requireSupabase()
-      .from('site_settings')
-      .upsert(
-        {
-          setting_key,
-          setting_value,
-          value_type,
-          label,
-          description,
-          category,
-          updated_at: new Date().toISOString(),
-        },
-        { onConflict: 'setting_key' }
-      )
-      .select()
-
-    if (error) {
-      console.error('[v0] Upsert error:', error)
-      return NextResponse.json(
-        { error: 'Failed to save setting' },
-        { status: 500 }
-      )
-    }
-
-    // Revalidate theme/settings on successful save
-    try {
-      await revalidateThemeSettings()
-    } catch (revalidateError) {
-      console.warn('[v0] Revalidation warning:', revalidateError)
-      // Don't fail the request if revalidation fails
-    }
-
-    return NextResponse.json({
-      success: true,
-      data: data?.[0],
-      message: 'Setting saved successfully',
-      revalidated: true,
-    })
+    const data = await siteSettingsRepository.upsertMany([parsed.data])
+    await revalidateSettings()
+    return NextResponse.json({ success: true, data: data[0], message: "Setting saved successfully", revalidated: true }, { headers: { "Cache-Control": "no-store" } })
   } catch (error) {
-    console.error('[v0] Settings creation error:', error)
-
-    if (error instanceof SyntaxError) {
-      return NextResponse.json(
-        { error: 'Invalid JSON in request body' },
-        { status: 400 }
-      )
-    }
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    console.error("[CMS Settings] write failed", error)
+    return NextResponse.json({ error: "Failed to save setting" }, { status: 500 })
   }
 }
 
-/**
- * PATCH: Batch update multiple settings
- * Body: [
- *   { setting_key: string, setting_value: string },
- *   ...
- * ]
- */
 export async function PATCH(request: NextRequest) {
-    const authError = await requireAdmin()
-    if (authError) return authError
+  const authError = await requireAdmin()
+  if (authError) return authError
+  if (!siteSettingsRepository) return NextResponse.json({ error: "Database not configured" }, { status: 503 })
+
+  let body: unknown
+  try {
+    body = await request.json()
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON in request body" }, { status: 400 })
+  }
+  const parsed = settingsBatchSchema.safeParse(body)
+  if (!parsed.success) return NextResponse.json({ error: parsed.error.issues[0]?.message ?? "Invalid settings batch" }, { status: 400 })
 
   try {
-    const body = await request.json() as Array<{
-      setting_key?: string
-      setting_value?: string
-    }>
-
-    if (!Array.isArray(body) || body.length === 0) {
-      return NextResponse.json(
-        { error: 'Body must be a non-empty array' },
-        { status: 400 }
-      )
-    }
-
-    // Prepare data for batch update
-    const updates = body.map((item) => ({
-      ...item,
-      updated_at: new Date().toISOString(),
-    }))
-
-    const { data, error } = await requireSupabase()
-      .from('site_settings')
-      .upsert(updates, { onConflict: 'setting_key' })
-      .select()
-
-    if (error) {
-      console.error('[v0] Batch update error:', error)
-      return NextResponse.json(
-        { error: 'Failed to update settings' },
-        { status: 500 }
-      )
-    }
-
-    // Revalidate theme/settings on successful batch save
-    try {
-      await revalidateThemeSettings()
-    } catch (revalidateError) {
-      console.warn('[v0] Revalidation warning:', revalidateError)
-      // Don't fail the request if revalidation fails
-    }
-
-    return NextResponse.json({
-      success: true,
-      data,
-      updated_count: data?.length || 0,
-      message: 'Settings updated successfully',
-      revalidated: true,
-    })
+    const data = await siteSettingsRepository.upsertMany(parsed.data)
+    await revalidateSettings()
+    return NextResponse.json({ success: true, data, updated_count: data.length, message: "Settings updated successfully", revalidated: true }, { headers: { "Cache-Control": "no-store" } })
   } catch (error) {
-    console.error('[v0] Settings batch update error:', error)
-
-    if (error instanceof SyntaxError) {
-      return NextResponse.json(
-        { error: 'Invalid JSON in request body' },
-        { status: 400 }
-      )
-    }
-
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    console.error("[CMS Settings] batch update failed", error)
+    return NextResponse.json({ error: "Failed to update settings" }, { status: 500 })
   }
 }
 
-/**
- * DELETE: Delete a setting
- * Query params: key=string
- */
 export async function DELETE(request: NextRequest) {
-    const authError = await requireAdmin()
-    if (authError) return authError
+  const authError = await requireAdmin()
+  if (authError) return authError
+  if (!siteSettingsRepository) return NextResponse.json({ error: "Database not configured" }, { status: 503 })
+  const key = request.nextUrl.searchParams.get("key")?.trim()
+  if (!key || key.length > 180) return NextResponse.json({ error: "Valid setting key is required" }, { status: 400 })
 
   try {
-    const { searchParams } = new URL(request.url)
-    const key = searchParams.get('key')
-
-    if (!key) {
-      return NextResponse.json(
-        { error: 'Setting key is required' },
-        { status: 400 }
-      )
-    }
-
-    const { error } = await requireSupabase()
-      .from('site_settings')
-      .delete()
-      .eq('setting_key', key)
-
-    if (error) {
-      console.error('[v0] Delete error:', error)
-      return NextResponse.json(
-        { error: 'Failed to delete setting' },
-        { status: 500 }
-      )
-    }
-
-    return NextResponse.json({
-      success: true,
-      message: 'Setting deleted successfully',
-    })
+    await siteSettingsRepository.delete(key)
+    await revalidateSettings()
+    return NextResponse.json({ success: true, message: "Setting deleted successfully" }, { headers: { "Cache-Control": "no-store" } })
   } catch (error) {
-    console.error('[v0] Settings deletion error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    console.error("[CMS Settings] delete failed", error)
+    return NextResponse.json({ error: "Failed to delete setting" }, { status: 500 })
   }
 }

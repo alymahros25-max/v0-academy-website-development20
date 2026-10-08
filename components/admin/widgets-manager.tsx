@@ -1,420 +1,107 @@
-'use client'
+"use client"
 
-import React, { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { MessageCircle, Menu, Eye, EyeOff, ArrowUp, ArrowDown } from 'lucide-react'
-import { useToast } from '@/hooks/use-toast'
+import { useCallback, useEffect, useState } from "react"
+import { ArrowDown, ArrowUp, Eye, EyeOff, MessageCircle, Save, Trash2 } from "lucide-react"
 
-interface WhatsAppConfig {
-  position: 'left' | 'right'
-  phone: string
-  size: 'small' | 'medium' | 'large'
-  color: string
-  showLabel: boolean
-  labelAr: string
-  labelEn: string
-  labelFr: string
-}
+type WhatsAppConfig = { position: "left" | "right"; phone: string; size: "small" | "medium" | "large"; color: string; showLabel: boolean; labelAr: string; labelEn: string; labelFr: string }
+type NavbarConfig = { items: string[] }
+type WidgetRow = { widget_type: "whatsapp_button" | "navbar"; config_json: WhatsAppConfig | NavbarConfig; is_enabled: boolean; display_order: number }
 
-interface NavbarConfig {
-  position: 'top' | 'bottom'
-  style: 'light' | 'dark'
-  alignment: 'left' | 'right' | 'center'
-  items: string[]
-}
+const defaultWhatsApp: WhatsAppConfig = { position: "right", phone: "201130127894", size: "large", color: "#1a4d2e", showLabel: true, labelAr: "اتصل بنا", labelEn: "Contact Us", labelFr: "Nous contacter" }
+const navChoices = [
+  ["home", "الرئيسية"], ["about", "من نحن"], ["quran", "أسعار القرآن"], ["arabic", "أسعار العربية"], ["teachers", "المعلمون"], ["reviews", "الآراء"], ["library", "المكتبة"], ["classroom", "فيديوهات الحصص"], ["games", "الألعاب"], ["faq", "الأسئلة الشائعة"], ["blog", "المدونة"], ["contact", "التواصل"], ["account", "الحساب"],
+] as const
+const defaultNavbar: NavbarConfig = { items: navChoices.map(([key]) => key) }
+const navLabel = (key: string) => navChoices.find(([item]) => item === key)?.[1] ?? key
 
-interface WidgetsManagerProps {
-  onWidgetUpdate?: (widgetType: string, config: any) => void
-}
-
-export function WidgetsManager({ onWidgetUpdate }: WidgetsManagerProps) {
-  const { toast } = useToast()
-  const [whatsappConfig, setWhatsappConfig] = useState<WhatsAppConfig>({
-    position: 'right',
-    phone: 'https://bit.ly/4aJfOl6',
-    size: 'large',
-    color: '#1a4d2e',
-    showLabel: true,
-    labelAr: 'اتصل بنا',
-    labelEn: 'Contact Us',
-    labelFr: 'Nous contacter',
-  })
-
-  const [navbarConfig, setNavbarConfig] = useState<NavbarConfig>({
-    position: 'top',
-    style: 'light',
-    alignment: 'right',
-    items: ['home', 'courses', 'about', 'teachers', 'contact'],
-  })
-
-  const [whatsappEnabled, setWhatsappEnabled] = useState(true)
+export function WidgetsManager() {
+  const [whatsapp, setWhatsApp] = useState(defaultWhatsApp)
+  const [navbar, setNavbar] = useState(defaultNavbar)
+  const [whatsappEnabled, setWhatsAppEnabled] = useState(true)
   const [navbarEnabled, setNavbarEnabled] = useState(true)
+  const [dirty, setDirty] = useState({ whatsapp: false, navbar: false })
+  const [connected, setConnected] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState<"whatsapp_button" | "navbar" | null>(null)
+  const [message, setMessage] = useState("")
 
-  // Handle WhatsApp config changes
-  const updateWhatsAppConfig = (key: string, value: any) => {
-    const updated = { ...whatsappConfig, [key]: value }
-    setWhatsappConfig(updated)
-    onWidgetUpdate?.('whatsapp_button', updated)
-  }
-
-  // Handle Navbar config changes
-  const updateNavbarConfig = (key: string, value: any) => {
-    const updated = { ...navbarConfig, [key]: value }
-    setNavbarConfig(updated)
-    onWidgetUpdate?.('navbar', updated)
-  }
-
-  // Add navbar item
-  const addNavbarItem = (item: string) => {
-    if (item && !navbarConfig.items.includes(item)) {
-      const updated = {
-        ...navbarConfig,
-        items: [...navbarConfig.items, item],
+  const load = useCallback(async () => {
+    setLoading(true)
+    try {
+      const response = await fetch("/api/cms/widgets", { cache: "no-store" })
+      const body = await response.json().catch(() => ({}))
+      if (!response.ok) throw new Error(body.error || "تعذر تحميل الودجات")
+      setConnected(true)
+      for (const row of (body.data ?? []) as WidgetRow[]) {
+        if (row.widget_type === "whatsapp_button") {
+          setWhatsApp({ ...defaultWhatsApp, ...(row.config_json as WhatsAppConfig) })
+          setWhatsAppEnabled(row.is_enabled)
+        }
+        if (row.widget_type === "navbar") {
+          const config = row.config_json as NavbarConfig
+          setNavbar({ items: Array.isArray(config.items) ? config.items.filter((key) => navChoices.some(([choice]) => choice === key)) : defaultNavbar.items })
+          setNavbarEnabled(row.is_enabled)
+        }
       }
-      setNavbarConfig(updated)
-      onWidgetUpdate?.('navbar', updated)
-    }
+      setDirty({ whatsapp: false, navbar: false })
+    } catch (error) {
+      setConnected(false)
+      setMessage(error instanceof Error ? error.message : "تعذر التحميل؛ المعروض معاينة افتراضية فقط")
+    } finally { setLoading(false) }
+  }, [])
+
+  useEffect(() => { void load() }, [load])
+
+  async function save(type: "whatsapp_button" | "navbar") {
+    setSaving(type)
+    setMessage("")
+    try {
+      const isWhatsApp = type === "whatsapp_button"
+      const response = await fetch("/api/cms/widgets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ widget_type: type, config_json: isWhatsApp ? whatsapp : navbar, is_enabled: isWhatsApp ? whatsappEnabled : navbarEnabled, display_order: isWhatsApp ? 0 : 1 }),
+      })
+      const body = await response.json().catch(() => ({}))
+      if (!response.ok) throw new Error(body.error || "تعذر حفظ الإعدادات")
+      setConnected(true)
+      setDirty((state) => ({ ...state, [isWhatsApp ? "whatsapp" : "navbar"]: false }))
+      setMessage(`تم حفظ ${isWhatsApp ? "زر التواصل" : "القائمة"} في قاعدة البيانات.`)
+      window.dispatchEvent(new CustomEvent("widgets:updated"))
+    } catch (error) { setMessage(error instanceof Error ? error.message : "تعذر الحفظ") }
+    finally { setSaving(null) }
   }
 
-  // Remove navbar item
-  const removeNavbarItem = (index: number) => {
-    const updated = {
-      ...navbarConfig,
-      items: navbarConfig.items.filter((_, i) => i !== index),
-    }
-    setNavbarConfig(updated)
-    onWidgetUpdate?.('navbar', updated)
+  const updateWhatsApp = <K extends keyof WhatsAppConfig>(key: K, value: WhatsAppConfig[K]) => { setWhatsApp((current) => ({ ...current, [key]: value })); setDirty((state) => ({ ...state, whatsapp: true })) }
+  const updateItems = (items: string[]) => { setNavbar({ items }); setDirty((state) => ({ ...state, navbar: true })) }
+  const moveItem = (index: number, direction: -1 | 1) => {
+    const target = index + direction
+    if (target < 0 || target >= navbar.items.length) return
+    const items = [...navbar.items]
+    ;[items[index], items[target]] = [items[target], items[index]]
+    updateItems(items)
   }
 
-  // Move navbar item up
-  const moveNavbarItemUp = (index: number) => {
-    if (index > 0) {
-      const items = [...navbarConfig.items]
-      const temp = items[index]
-      items[index] = items[index - 1]
-      items[index - 1] = temp
-      const updated = { ...navbarConfig, items }
-      setNavbarConfig(updated)
-      onWidgetUpdate?.('navbar', updated)
-    }
-  }
-
-  // Move navbar item down
-  const moveNavbarItemDown = (index: number) => {
-    if (index < navbarConfig.items.length - 1) {
-      const items = [...navbarConfig.items]
-      const temp = items[index]
-      items[index] = items[index + 1]
-      items[index + 1] = temp
-      const updated = { ...navbarConfig, items }
-      setNavbarConfig(updated)
-      onWidgetUpdate?.('navbar', updated)
-    }
-  }
-
-  return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle className="flex gap-2">
-          <Menu className="h-5 w-5" />
-          مدير الأدوات والقوائم
-        </CardTitle>
-        <CardDescription>
-          إدارة الأزرار العائمة والقوائم والعناصر المتحركة
-        </CardDescription>
-      </CardHeader>
-
-      <CardContent>
-        <Tabs defaultValue="whatsapp" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="whatsapp" className="flex gap-2">
-              <MessageCircle className="h-4 w-4" />
-              <span>WhatsApp</span>
-            </TabsTrigger>
-            <TabsTrigger value="navbar" className="flex gap-2">
-              <Menu className="h-4 w-4" />
-              <span>القائمة</span>
-            </TabsTrigger>
-          </TabsList>
-
-          {/* WhatsApp Widget Tab */}
-          <TabsContent value="whatsapp" className="space-y-4 mt-4">
-            <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200">
-              <div className="flex items-center gap-2">
-                <MessageCircle className="h-5 w-5 text-green-600" />
-                <span className="font-semibold text-green-900">زر WhatsApp</span>
-              </div>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => {
-                  setWhatsappEnabled(!whatsappEnabled)
-                  toast({
-                    title: 'تم التحديث',
-                    description: `زر WhatsApp ${!whatsappEnabled ? 'مفعّل' : 'معطّل'} الآن`,
-                  })
-                }}
-              >
-                {whatsappEnabled ? (
-                  <>
-                    <Eye className="h-4 w-4 mr-2" />
-                    مفعّل
-                  </>
-                ) : (
-                  <>
-                    <EyeOff className="h-4 w-4 mr-2" />
-                    معطّل
-                  </>
-                )}
-              </Button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Phone number */}
-              <div className="space-y-2">
-                <Label>رقم الهاتف</Label>
-                <Input
-                  type="tel"
-                  value={whatsappConfig.phone}
-                  onChange={e => updateWhatsAppConfig('phone', e.target.value)}
-                  placeholder="+20XXXXXXXXXXX"
-                />
-                <p className="text-xs text-gray-600">
-                  استخدم الصيغة الدولية (مثل: +20)
-                </p>
-              </div>
-
-              {/* Position */}
-              <div className="space-y-2">
-                <Label>الموضع</Label>
-                <select
-                  value={whatsappConfig.position}
-                  onChange={e => updateWhatsAppConfig('position', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                >
-                  <option value="left">اليسار</option>
-                  <option value="right">اليمين</option>
-                </select>
-              </div>
-
-              {/* Size */}
-              <div className="space-y-2">
-                <Label>الحجم</Label>
-                <select
-                  value={whatsappConfig.size}
-                  onChange={e => updateWhatsAppConfig('size', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                >
-                  <option value="small">صغير</option>
-                  <option value="medium">متوسط</option>
-                  <option value="large">كبير</option>
-                </select>
-              </div>
-
-              {/* Color */}
-              <div className="space-y-2">
-                <Label>اللون</Label>
-                <div className="flex gap-2">
-                  <Input
-                    type="color"
-                    value={whatsappConfig.color}
-                    onChange={e => updateWhatsAppConfig('color', e.target.value)}
-                    className="h-10 w-20 cursor-pointer"
-                  />
-                  <Input
-                    type="text"
-                    value={whatsappConfig.color}
-                    onChange={e => updateWhatsAppConfig('color', e.target.value)}
-                    className="flex-1"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Labels */}
-            <div className="pt-4 border-t space-y-4">
-              <h3 className="font-semibold text-sm">التسميات (متعدد اللغات)</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="space-y-2">
-                  <Label>عربي</Label>
-                  <Input
-                    value={whatsappConfig.labelAr}
-                    onChange={e => updateWhatsAppConfig('labelAr', e.target.value)}
-                    placeholder="اتصل بنا"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label>English</Label>
-                  <Input
-                    value={whatsappConfig.labelEn}
-                    onChange={e => updateWhatsAppConfig('labelEn', e.target.value)}
-                    placeholder="Contact Us"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label>Français</Label>
-                  <Input
-                    value={whatsappConfig.labelFr}
-                    onChange={e => updateWhatsAppConfig('labelFr', e.target.value)}
-                    placeholder="Nous contacter"
-                  />
-                </div>
-              </div>
-            </div>
-          </TabsContent>
-
-          {/* Navbar Tab */}
-          <TabsContent value="navbar" className="space-y-4 mt-4">
-            <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <div className="flex items-center gap-2">
-                <Menu className="h-5 w-5 text-blue-600" />
-                <span className="font-semibold text-blue-900">شريط التنقل</span>
-              </div>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => {
-                  setNavbarEnabled(!navbarEnabled)
-                  toast({
-                    title: 'تم التحديث',
-                    description: `شريط التنقل ${!navbarEnabled ? 'مفعّل' : 'معطّل'} الآن`,
-                  })
-                }}
-              >
-                {navbarEnabled ? (
-                  <>
-                    <Eye className="h-4 w-4 mr-2" />
-                    مفعّل
-                  </>
-                ) : (
-                  <>
-                    <EyeOff className="h-4 w-4 mr-2" />
-                    معطّل
-                  </>
-                )}
-              </Button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Position */}
-              <div className="space-y-2">
-                <Label>الموضع</Label>
-                <select
-                  value={navbarConfig.position}
-                  onChange={e => updateNavbarConfig('position', e.target.value as any)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                >
-                  <option value="top">أعلى</option>
-                  <option value="bottom">أسفل</option>
-                </select>
-              </div>
-
-              {/* Style */}
-              <div className="space-y-2">
-                <Label>الأسلوب</Label>
-                <select
-                  value={navbarConfig.style}
-                  onChange={e => updateNavbarConfig('style', e.target.value as any)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                >
-                  <option value="light">فاتح</option>
-                  <option value="dark">داكن</option>
-                </select>
-              </div>
-
-              {/* Alignment */}
-              <div className="space-y-2">
-                <Label>المحاذاة</Label>
-                <select
-                  value={navbarConfig.alignment}
-                  onChange={e => updateNavbarConfig('alignment', e.target.value as any)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                >
-                  <option value="left">يسار</option>
-                  <option value="center">وسط</option>
-                  <option value="right">يمين</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Navbar Items */}
-            <div className="pt-4 border-t space-y-4">
-              <h3 className="font-semibold text-sm">عناصر القائمة (اسحب لإعادة الترتيب)</h3>
-
-              <div className="space-y-2">
-                {navbarConfig.items.map((item, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-3 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition"
-                  >
-                    <span className="font-medium text-sm capitalize">{item}</span>
-                    <div className="flex gap-1">
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => moveNavbarItemUp(index)}
-                        disabled={index === 0}
-                      >
-                        <ArrowUp className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => moveNavbarItemDown(index)}
-                        disabled={index === navbarConfig.items.length - 1}
-                      >
-                        <ArrowDown className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => removeNavbarItem(index)}
-                      >
-                        حذف
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Add new item */}
-              <div className="flex gap-2 pt-2">
-                <Input
-                  id="new-item"
-                  placeholder="أضف عنصر جديد"
-                  onKeyPress={e => {
-                    if (e.key === 'Enter') {
-                      const input = e.currentTarget
-                      addNavbarItem(input.value)
-                      input.value = ''
-                    }
-                  }}
-                />
-                <Button
-                  onClick={() => {
-                    const input = document.getElementById('new-item') as HTMLInputElement
-                    if (input) {
-                      addNavbarItem(input.value)
-                      input.value = ''
-                    }
-                  }}
-                >
-                  إضافة
-                </Button>
-              </div>
-            </div>
-          </TabsContent>
-        </Tabs>
-
-        <div className="mt-6 p-4 bg-purple-50 border border-purple-200 rounded-lg text-sm text-purple-800">
-          <p className="font-semibold mb-2">ملاحظة:</p>
-          <p>يمكنك إعادة ترتيب عناصر القائمة بالنقر على الأزرار أعلى وأسفل. سيتم حفظ التغييرات فوراً.</p>
-        </div>
-      </CardContent>
-    </Card>
-  )
+  return <div className="space-y-6" dir="rtl">
+    <header><h2 className="text-2xl font-bold">الأدوات والقوائم</h2><p className="mt-1 text-sm text-muted-foreground">تُحمّل من قاعدة البيانات، ولا يُعرض الحفظ كناجح قبل تأكيد الخادم.</p><p className={`mt-2 text-sm ${connected ? "text-green-700" : "text-amber-700"}`} role="status">{loading ? "جارٍ التحميل…" : connected ? "اتصال قاعدة البيانات متاح" : "معاينة افتراضية — لا يوجد اتصال قاعدة"}</p></header>
+    {message && <p role="status" className="rounded-lg border border-border bg-card p-3 text-sm">{message}</p>}
+    <section className="space-y-5 rounded-2xl border border-border bg-card p-5">
+      <h3 className="flex items-center gap-2 text-lg font-bold"><MessageCircle size={20} />زر WhatsApp</h3>
+      <div className="grid gap-4 md:grid-cols-2">
+        <label className="grid gap-2 text-sm">رقم الهاتف الدولي<input value={whatsapp.phone} onChange={(e) => updateWhatsApp("phone", e.target.value)} placeholder="201130127894" dir="ltr" className="rounded-lg border border-input bg-background px-3 py-2" /></label>
+        <label className="grid gap-2 text-sm">الموضع<select value={whatsapp.position} onChange={(e) => updateWhatsApp("position", e.target.value as WhatsAppConfig["position"])} className="rounded-lg border border-input bg-background px-3 py-2"><option value="right">يمين</option><option value="left">يسار</option></select></label>
+        <label className="grid gap-2 text-sm">الحجم<select value={whatsapp.size} onChange={(e) => updateWhatsApp("size", e.target.value as WhatsAppConfig["size"])} className="rounded-lg border border-input bg-background px-3 py-2"><option value="small">صغير</option><option value="medium">متوسط</option><option value="large">كبير</option></select></label>
+        <label className="flex items-center gap-3 text-sm">اللون<input type="color" value={whatsapp.color} onChange={(e) => updateWhatsApp("color", e.target.value)} className="h-9 w-16" /></label>
+        <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={whatsapp.showLabel} onChange={(e) => updateWhatsApp("showLabel", e.target.checked)} />إظهار التسمية</label>
+        {(["labelAr", "labelEn", "labelFr"] as const).map((key) => <label key={key} className="grid gap-2 text-sm">{key === "labelAr" ? "التسمية بالعربية" : key === "labelEn" ? "Label (English)" : "Libellé (Français)"}<input value={whatsapp[key]} onChange={(e) => updateWhatsApp(key, e.target.value)} className="rounded-lg border border-input bg-background px-3 py-2" /></label>)}
+      </div>
+      <div className="flex flex-wrap items-center gap-3"><button type="button" onClick={() => { setWhatsAppEnabled((v) => !v); setDirty((s) => ({ ...s, whatsapp: true })) }} className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm">{whatsappEnabled ? <Eye size={16} /> : <EyeOff size={16} />}{whatsappEnabled ? "مفعّل" : "معطّل"}</button><button type="button" onClick={() => void save("whatsapp_button")} disabled={saving !== null || !dirty.whatsapp} className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground disabled:opacity-50"><Save size={16} />{saving === "whatsapp_button" ? "جارٍ الحفظ…" : "حفظ إعدادات التواصل"}</button></div>
+    </section>
+    <section className="space-y-5 rounded-2xl border border-border bg-card p-5">
+      <h3 className="text-lg font-bold">القائمة الرئيسية</h3>
+      <p className="text-sm text-muted-foreground">اسحب الترتيب باستخدام الأسهم، أو أخفِ عنصرًا بحذفه من القائمة. الروابط نفسها محددة داخل الكود لمنع الروابط غير الآمنة.</p>
+      <div className="space-y-2">{navbar.items.map((item, index) => <div key={`${item}-${index}`} className="flex items-center justify-between rounded-lg border border-border p-3"><span>{navLabel(item)}</span><div className="flex items-center gap-1"><button type="button" onClick={() => moveItem(index, -1)} disabled={index === 0} aria-label="تحريك لأعلى" className="rounded p-2 disabled:opacity-40"><ArrowUp size={16} /></button><button type="button" onClick={() => moveItem(index, 1)} disabled={index === navbar.items.length - 1} aria-label="تحريك لأسفل" className="rounded p-2 disabled:opacity-40"><ArrowDown size={16} /></button><button type="button" onClick={() => updateItems(navbar.items.filter((_, i) => i !== index))} aria-label={`حذف ${navLabel(item)}`} className="rounded p-2 text-destructive"><Trash2 size={16} /></button></div></div>)}</div>
+      <div className="flex flex-wrap items-center gap-3"><select id="add-nav-item" defaultValue="" className="rounded-lg border border-input bg-background px-3 py-2 text-sm"><option value="" disabled>اختر رابطًا لإضافته</option>{navChoices.filter(([key]) => !navbar.items.includes(key)).map(([key, label]) => <option key={key} value={key}>{label}</option>)}</select><button type="button" onClick={() => { const select = document.getElementById("add-nav-item") as HTMLSelectElement | null; if (select?.value) { updateItems([...navbar.items, select.value]); select.value = "" } }} className="rounded-lg border border-border px-3 py-2 text-sm">إضافة عنصر</button><button type="button" onClick={() => { setNavbarEnabled((v) => !v); setDirty((s) => ({ ...s, navbar: true })) }} className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm">{navbarEnabled ? <Eye size={16} /> : <EyeOff size={16} />}{navbarEnabled ? "مفعّلة" : "معطّلة"}</button><button type="button" onClick={() => void save("navbar")} disabled={saving !== null || !dirty.navbar} className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 font-semibold text-primary-foreground disabled:opacity-50"><Save size={16} />{saving === "navbar" ? "جارٍ الحفظ…" : "حفظ القائمة"}</button></div>
+    </section>
+  </div>
 }

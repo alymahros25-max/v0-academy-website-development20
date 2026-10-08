@@ -30,9 +30,9 @@ test("every listed country route has metadata and a valid central dispatch targe
     }
 
     const source = readFileSync(routePath, "utf8")
-    if (!/export\s+const\s+metadata\s*:\s*Metadata\b/.test(source)) {
-      failures.push(`${slug}: missing exported Metadata`)
-    }
+    const hasStaticMetadata = /export\s+const\s+metadata\s*:\s*Metadata\b/.test(source)
+    const hasDynamicMetadata = /export\s+async\s+function\s+generateMetadata\s*\(/.test(source)
+    if (!hasStaticMetadata && !hasDynamicMetadata) failures.push(`${slug}: missing exported Metadata or generateMetadata`)
 
     const engineMatch = source.match(/<CountryLandingEngine\b([\s\S]*?)\/>/)
     if (engineMatch) {
@@ -74,7 +74,7 @@ test("every listed country route has metadata and a valid central dispatch targe
   assert.deepEqual(failures, [], failures.join("\n"))
 })
 
-test("each production country route emits a canonical HTML page", (t) => {
+test("each production country route emits static HTML or a dynamic server bundle", (t) => {
   const outputRoot = path.join(root, ".next/server/app")
   if (!existsSync(outputRoot)) {
     t.skip("run pnpm build before the production HTML smoke test")
@@ -86,7 +86,12 @@ test("each production country route emits a canonical HTML page", (t) => {
     const candidates = [path.join(outputRoot, `${slug}.html`), path.join(outputRoot, slug, "index.html")]
     const htmlPath = candidates.find(existsSync)
     if (!htmlPath) {
-      failures.push(`${slug}: production HTML artifact missing`)
+      const routeBundle = path.join(outputRoot, slug, "page.js")
+      const sourcePath = routeFile(slug)
+      const hasDynamicMetadata = existsSync(sourcePath)
+        && /export\s+async\s+function\s+generateMetadata\s*\(/.test(readFileSync(sourcePath, "utf8"))
+      if (existsSync(routeBundle) && hasDynamicMetadata) continue
+      failures.push(`${slug}: static HTML or dynamic server bundle with generateMetadata missing`)
       continue
     }
 

@@ -17,6 +17,25 @@ const defaults: Theme = {
   foreground_color: "#171717",
 }
 
+function normalizeTheme(value: unknown): Theme {
+  const candidate = value && typeof value === "object"
+    ? value as Partial<Record<keyof Theme, unknown>>
+    : {}
+  const color = (key: keyof Theme) => {
+    const candidateColor = candidate[key]
+    return typeof candidateColor === "string" && /^#[0-9a-fA-F]{6}$/.test(candidateColor)
+      ? candidateColor
+      : defaults[key]
+  }
+
+  return {
+    primary_color: color("primary_color"),
+    accent_color: color("accent_color"),
+    background_color: color("background_color"),
+    foreground_color: color("foreground_color"),
+  }
+}
+
 const fields: Array<{ key: keyof Theme; label: string }> = [
   { key: "primary_color", label: "اللون الأساسي" },
   { key: "accent_color", label: "اللون المميز" },
@@ -37,7 +56,7 @@ export function ThemeCustomizer() {
       .then(async (response) => {
         const body = await response.json().catch(() => ({}))
         if (!active) return
-        if (body.data) setTheme({ ...defaults, ...body.data })
+        if (body.data) setTheme(normalizeTheme(body.data))
         setConnected(Boolean(body.storageConfigured && response.ok))
         if (!response.ok) setMessage("قاعدة البيانات غير متصلة بعد؛ القيم المعروضة افتراضية ولن تُحفظ قبل إعداد الاتصال.")
       })
@@ -57,7 +76,7 @@ export function ThemeCustomizer() {
       })
       const body = await response.json().catch(() => ({}))
       if (!response.ok) throw new Error(body.error || "تعذر حفظ المظهر")
-      setTheme({ ...defaults, ...body.data })
+      setTheme(normalizeTheme(body.data))
       setConnected(true)
       setMessage("حُفظت الألوان وأعيد التحقق من مخرجات الموقع.")
       window.dispatchEvent(new CustomEvent("theme:updated", { detail: body.data }))

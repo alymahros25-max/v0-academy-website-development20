@@ -76,7 +76,7 @@ export function Footer() {
                 </svg>
               </a>
               <a
-                href="https://t.me/acabemy_quraan"
+                href="https://t.me/quran_direct"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 flex items-center justify-center rounded-lg bg-primary-foreground/10 hover:bg-secondary hover:text-secondary-foreground transition-colors"

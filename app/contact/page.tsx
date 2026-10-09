@@ -194,7 +194,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="font-bold text-foreground">{locale === "ar" ? "تليجرام" : "Telegram"}</p>
-                    <a href="https://t.me/acabemy_quraan" target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline">@acabemy_quraan</a>
+                    <a href="https://t.me/quran_direct" target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline">@quran_direct</a>
                   </div>
                 </div>
               </div>

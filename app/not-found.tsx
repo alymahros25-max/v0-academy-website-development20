@@ -53,7 +53,7 @@ export default function NotFound() {
               واتساب
             </a>
             أو
-            <a href="https://t.me/acabemy_quraan" className="text-primary hover:underline mx-1">
+            <a href="https://t.me/quran_direct" className="text-primary hover:underline mx-1">
               تليجرام
             </a>
           </p>

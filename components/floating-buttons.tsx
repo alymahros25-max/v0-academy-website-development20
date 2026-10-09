@@ -40,7 +40,7 @@ export function FloatingButtons() {
 
         {/* Telegram */}
         <a
-          href="https://t.me/acabemy_quraan"
+          href="https://t.me/quran_direct"
           target="_blank"
           rel="noopener noreferrer"
           className="group flex items-center gap-2"

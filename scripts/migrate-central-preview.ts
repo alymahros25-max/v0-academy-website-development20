@@ -98,8 +98,8 @@ function firstObject(mod: AnyRecord): AnyRecord | null {
 async function loadCountrySource(slug: string): Promise<AnyRecord> {
   if (directConfigs[slug]) return directConfigs[slug]
   if (centralConfigs.has(slug)) return centralConfigs.get(slug)!
-  const module = await import(`../lib/${slug}-landing-config.ts`)
-  const config = firstObject(module)
+  const countryModule = await import(`../lib/${slug}-landing-config.ts`)
+  const config = firstObject(countryModule)
   if (!config) throw new Error(`لا يوجد مصدر إعداد قابل للقراءة للدولة ${slug}`)
   return config
 }

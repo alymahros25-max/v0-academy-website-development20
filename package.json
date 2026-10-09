@@ -15,7 +15,9 @@
     "test:country-routes": "node --test tests/country-routes.test.mjs",
     "test:country-data": "node --test tests/country-data-resolution.test.mjs",
     "test:isolated-triangle": "node --test tests/isolated-country-admin-preview.test.mjs",
-    "test:no-payments": "node --test tests/no-payment-surface.test.mjs"
+    "test:no-payments": "node --test tests/no-payment-surface.test.mjs",
+    "migration:preview": "tsx scripts/migrate-central-preview.ts",
+    "migration:seed-cms": "tsx scripts/seed-preview-content.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -91,6 +93,7 @@
     "postcss": "^8.5",
     "sharp": "0.35.4",
     "tailwindcss": "^3.4.17",
+    "tsx": "^4.23.15",
     "typescript": "5.7.3"
   }
 }

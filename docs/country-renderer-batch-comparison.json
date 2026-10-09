@@ -1,0 +1,1635 @@
+{
+  "schemaVersion": 1,
+  "baselineSource": "docs/country-pages-batch-baseline.json",
+  "scope": "NewCountryLanding batch",
+  "currentRenderer": "NewCountryLanding",
+  "centralRenderer": "CountryPageRenderer",
+  "visualParity": "not-measured",
+  "comparedPages": 10,
+  "comparedFields": 18,
+  "totalMatches": 180,
+  "totalMismatches": 0,
+  "pages": [
+    {
+      "slug": "qatar",
+      "summary": {
+        "comparedFields": 18,
+        "matches": 18,
+        "mismatches": 0
+      },
+      "checks": [
+        {
+          "key": "slug",
+          "status": "match",
+          "baseline": "qatar",
+          "central": "qatar"
+        },
+        {
+          "key": "url",
+          "status": "match",
+          "baseline": "/qatar",
+          "central": "/qatar"
+        },
+        {
+          "key": "nameAr",
+          "status": "match",
+          "baseline": "قطر",
+          "central": "قطر"
+        },
+        {
+          "key": "countryCode",
+          "status": "match",
+          "baseline": "QA",
+          "central": "QA"
+        },
+        {
+          "key": "currencyCode",
+          "status": "match",
+          "baseline": "ر.ق",
+          "central": "ر.ق"
+        },
+        {
+          "key": "currencySymbol",
+          "status": "match",
+          "baseline": "ر.ق",
+          "central": "ر.ق"
+        },
+        {
+          "key": "canonical",
+          "status": "match",
+          "baseline": "https://quran-elhafez.com/qatar",
+          "central": "https://quran-elhafez.com/qatar"
+        },
+        {
+          "key": "seoTitle",
+          "status": "match",
+          "baseline": "تحفيظ القرآن أونلاين في قطر | أول حصة تجريبية مجانية",
+          "central": "تحفيظ القرآن أونلاين في قطر | أول حصة تجريبية مجانية"
+        },
+        {
+          "key": "seoDescription",
+          "status": "match",
+          "baseline": "حصص فردية بالعربية لتحفيظ القرآن وحفظه ومراجعته وتلاوته وتجويده أونلاين في قطر عبر Zoom أو Google Meet. الحصة التجريبية الأولى مجانية.",
+          "central": "حصص فردية بالعربية لتحفيظ القرآن وحفظه ومراجعته وتلاوته وتجويده أونلاين في قطر عبر Zoom أو Google Meet. الحصة التجريبية الأولى مجانية."
+        },
+        {
+          "key": "robots",
+          "status": "match",
+          "baseline": {
+            "index": true,
+            "follow": true
+          },
+          "central": {
+            "index": true,
+            "follow": true
+          }
+        },
+        {
+          "key": "sectionKeys",
+          "status": "match",
+          "baseline": [
+            "hero:qatar",
+            "steps:qatar",
+            "pricing:qatar",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ],
+          "central": [
+            "hero:qatar",
+            "steps:qatar",
+            "pricing:qatar",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ]
+        },
+        {
+          "key": "packageCount",
+          "status": "match",
+          "baseline": 8,
+          "central": 8
+        },
+        {
+          "key": "packagePrograms",
+          "status": "match",
+          "baseline": [
+            "quran",
+            "arabic"
+          ],
+          "central": [
+            "quran",
+            "arabic"
+          ]
+        },
+        {
+          "key": "faqCount",
+          "status": "match",
+          "baseline": 3,
+          "central": 3
+        },
+        {
+          "key": "cities",
+          "status": "match",
+          "baseline": [
+            "الدوحة",
+            "الريان",
+            "الوكرة",
+            "الخور",
+            "أم صلال"
+          ],
+          "central": [
+            "الدوحة",
+            "الريان",
+            "الوكرة",
+            "الخور",
+            "أم صلال"
+          ]
+        },
+        {
+          "key": "timezone",
+          "status": "match",
+          "baseline": "توقيت قطر",
+          "central": "توقيت قطر"
+        },
+        {
+          "key": "linkKeys",
+          "status": "match",
+          "baseline": [
+            "whatsapp",
+            "country-page"
+          ],
+          "central": [
+            "whatsapp",
+            "country-page"
+          ]
+        },
+        {
+          "key": "schemaVersion",
+          "status": "match",
+          "baseline": 1,
+          "central": 1
+        }
+      ]
+    },
+    {
+      "slug": "oman",
+      "summary": {
+        "comparedFields": 18,
+        "matches": 18,
+        "mismatches": 0
+      },
+      "checks": [
+        {
+          "key": "slug",
+          "status": "match",
+          "baseline": "oman",
+          "central": "oman"
+        },
+        {
+          "key": "url",
+          "status": "match",
+          "baseline": "/oman",
+          "central": "/oman"
+        },
+        {
+          "key": "nameAr",
+          "status": "match",
+          "baseline": "عُمان",
+          "central": "عُمان"
+        },
+        {
+          "key": "countryCode",
+          "status": "match",
+          "baseline": "OM",
+          "central": "OM"
+        },
+        {
+          "key": "currencyCode",
+          "status": "match",
+          "baseline": "ر.ع",
+          "central": "ر.ع"
+        },
+        {
+          "key": "currencySymbol",
+          "status": "match",
+          "baseline": "ر.ع",
+          "central": "ر.ع"
+        },
+        {
+          "key": "canonical",
+          "status": "match",
+          "baseline": "https://quran-elhafez.com/oman",
+          "central": "https://quran-elhafez.com/oman"
+        },
+        {
+          "key": "seoTitle",
+          "status": "match",
+          "baseline": "تحفيظ القرآن أونلاين في عُمان | أول حصة تجريبية مجانية",
+          "central": "تحفيظ القرآن أونلاين في عُمان | أول حصة تجريبية مجانية"
+        },
+        {
+          "key": "seoDescription",
+          "status": "match",
+          "baseline": "تحفيظ ومراجعة وتلاوة القرآن بالتجويد أونلاين في عُمان، مع تأسيس العربية قراءة وكتابة. حصص فردية بالعربية والحصة التجريبية الأولى مجانية.",
+          "central": "تحفيظ ومراجعة وتلاوة القرآن بالتجويد أونلاين في عُمان، مع تأسيس العربية قراءة وكتابة. حصص فردية بالعربية والحصة التجريبية الأولى مجانية."
+        },
+        {
+          "key": "robots",
+          "status": "match",
+          "baseline": {
+            "index": true,
+            "follow": true
+          },
+          "central": {
+            "index": true,
+            "follow": true
+          }
+        },
+        {
+          "key": "sectionKeys",
+          "status": "match",
+          "baseline": [
+            "hero:oman",
+            "steps:oman",
+            "pricing:oman",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ],
+          "central": [
+            "hero:oman",
+            "steps:oman",
+            "pricing:oman",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ]
+        },
+        {
+          "key": "packageCount",
+          "status": "match",
+          "baseline": 8,
+          "central": 8
+        },
+        {
+          "key": "packagePrograms",
+          "status": "match",
+          "baseline": [
+            "quran",
+            "arabic"
+          ],
+          "central": [
+            "quran",
+            "arabic"
+          ]
+        },
+        {
+          "key": "faqCount",
+          "status": "match",
+          "baseline": 3,
+          "central": 3
+        },
+        {
+          "key": "cities",
+          "status": "match",
+          "baseline": [
+            "مسقط",
+            "صلالة",
+            "صحار",
+            "نزوى",
+            "صور"
+          ],
+          "central": [
+            "مسقط",
+            "صلالة",
+            "صحار",
+            "نزوى",
+            "صور"
+          ]
+        },
+        {
+          "key": "timezone",
+          "status": "match",
+          "baseline": "توقيت عُمان",
+          "central": "توقيت عُمان"
+        },
+        {
+          "key": "linkKeys",
+          "status": "match",
+          "baseline": [
+            "whatsapp",
+            "country-page"
+          ],
+          "central": [
+            "whatsapp",
+            "country-page"
+          ]
+        },
+        {
+          "key": "schemaVersion",
+          "status": "match",
+          "baseline": 1,
+          "central": 1
+        }
+      ]
+    },
+    {
+      "slug": "jordan",
+      "summary": {
+        "comparedFields": 18,
+        "matches": 18,
+        "mismatches": 0
+      },
+      "checks": [
+        {
+          "key": "slug",
+          "status": "match",
+          "baseline": "jordan",
+          "central": "jordan"
+        },
+        {
+          "key": "url",
+          "status": "match",
+          "baseline": "/jordan",
+          "central": "/jordan"
+        },
+        {
+          "key": "nameAr",
+          "status": "match",
+          "baseline": "الأردن",
+          "central": "الأردن"
+        },
+        {
+          "key": "countryCode",
+          "status": "match",
+          "baseline": "JO",
+          "central": "JO"
+        },
+        {
+          "key": "currencyCode",
+          "status": "match",
+          "baseline": "د.أ",
+          "central": "د.أ"
+        },
+        {
+          "key": "currencySymbol",
+          "status": "match",
+          "baseline": "د.أ",
+          "central": "د.أ"
+        },
+        {
+          "key": "canonical",
+          "status": "match",
+          "baseline": "https://quran-elhafez.com/jordan",
+          "central": "https://quran-elhafez.com/jordan"
+        },
+        {
+          "key": "seoTitle",
+          "status": "match",
+          "baseline": "تحفيظ القرآن أونلاين في الأردن | أول حصة تجريبية مجانية",
+          "central": "تحفيظ القرآن أونلاين في الأردن | أول حصة تجريبية مجانية"
+        },
+        {
+          "key": "seoDescription",
+          "status": "match",
+          "baseline": "حصص فردية مباشرة بالعربية لحفظ ومراجعة وتلاوة وتجويد القرآن أونلاين في الأردن عبر Zoom أو Google Meet. الحصة التجريبية الأولى مجانية.",
+          "central": "حصص فردية مباشرة بالعربية لحفظ ومراجعة وتلاوة وتجويد القرآن أونلاين في الأردن عبر Zoom أو Google Meet. الحصة التجريبية الأولى مجانية."
+        },
+        {
+          "key": "robots",
+          "status": "match",
+          "baseline": {
+            "index": true,
+            "follow": true
+          },
+          "central": {
+            "index": true,
+            "follow": true
+          }
+        },
+        {
+          "key": "sectionKeys",
+          "status": "match",
+          "baseline": [
+            "hero:jordan",
+            "steps:jordan",
+            "pricing:jordan",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ],
+          "central": [
+            "hero:jordan",
+            "steps:jordan",
+            "pricing:jordan",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ]
+        },
+        {
+          "key": "packageCount",
+          "status": "match",
+          "baseline": 8,
+          "central": 8
+        },
+        {
+          "key": "packagePrograms",
+          "status": "match",
+          "baseline": [
+            "quran",
+            "arabic"
+          ],
+          "central": [
+            "quran",
+            "arabic"
+          ]
+        },
+        {
+          "key": "faqCount",
+          "status": "match",
+          "baseline": 3,
+          "central": 3
+        },
+        {
+          "key": "cities",
+          "status": "match",
+          "baseline": [
+            "عمّان",
+            "إربد",
+            "الزرقاء",
+            "العقبة",
+            "السلط"
+          ],
+          "central": [
+            "عمّان",
+            "إربد",
+            "الزرقاء",
+            "العقبة",
+            "السلط"
+          ]
+        },
+        {
+          "key": "timezone",
+          "status": "match",
+          "baseline": "توقيت الأردن",
+          "central": "توقيت الأردن"
+        },
+        {
+          "key": "linkKeys",
+          "status": "match",
+          "baseline": [
+            "whatsapp",
+            "country-page"
+          ],
+          "central": [
+            "whatsapp",
+            "country-page"
+          ]
+        },
+        {
+          "key": "schemaVersion",
+          "status": "match",
+          "baseline": 1,
+          "central": 1
+        }
+      ]
+    },
+    {
+      "slug": "bahrain",
+      "summary": {
+        "comparedFields": 18,
+        "matches": 18,
+        "mismatches": 0
+      },
+      "checks": [
+        {
+          "key": "slug",
+          "status": "match",
+          "baseline": "bahrain",
+          "central": "bahrain"
+        },
+        {
+          "key": "url",
+          "status": "match",
+          "baseline": "/bahrain",
+          "central": "/bahrain"
+        },
+        {
+          "key": "nameAr",
+          "status": "match",
+          "baseline": "البحرين",
+          "central": "البحرين"
+        },
+        {
+          "key": "countryCode",
+          "status": "match",
+          "baseline": "BH",
+          "central": "BH"
+        },
+        {
+          "key": "currencyCode",
+          "status": "match",
+          "baseline": "د.ب",
+          "central": "د.ب"
+        },
+        {
+          "key": "currencySymbol",
+          "status": "match",
+          "baseline": "د.ب",
+          "central": "د.ب"
+        },
+        {
+          "key": "canonical",
+          "status": "match",
+          "baseline": "https://quran-elhafez.com/bahrain",
+          "central": "https://quran-elhafez.com/bahrain"
+        },
+        {
+          "key": "seoTitle",
+          "status": "match",
+          "baseline": "تحفيظ القرآن أونلاين في البحرين | الحافظ المتميز",
+          "central": "تحفيظ القرآن أونلاين في البحرين | الحافظ المتميز"
+        },
+        {
+          "key": "seoDescription",
+          "status": "match",
+          "baseline": "تحفيظ ومراجعة وتلاوة وتجويد القرآن بحصص فردية بالعربية في البحرين، مع تأسيس القراءة والكتابة أونلاين. الحصة التجريبية الأولى مجانية.",
+          "central": "تحفيظ ومراجعة وتلاوة وتجويد القرآن بحصص فردية بالعربية في البحرين، مع تأسيس القراءة والكتابة أونلاين. الحصة التجريبية الأولى مجانية."
+        },
+        {
+          "key": "robots",
+          "status": "match",
+          "baseline": {
+            "index": true,
+            "follow": true
+          },
+          "central": {
+            "index": true,
+            "follow": true
+          }
+        },
+        {
+          "key": "sectionKeys",
+          "status": "match",
+          "baseline": [
+            "hero:bahrain",
+            "steps:bahrain",
+            "pricing:bahrain",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ],
+          "central": [
+            "hero:bahrain",
+            "steps:bahrain",
+            "pricing:bahrain",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ]
+        },
+        {
+          "key": "packageCount",
+          "status": "match",
+          "baseline": 8,
+          "central": 8
+        },
+        {
+          "key": "packagePrograms",
+          "status": "match",
+          "baseline": [
+            "quran",
+            "arabic"
+          ],
+          "central": [
+            "quran",
+            "arabic"
+          ]
+        },
+        {
+          "key": "faqCount",
+          "status": "match",
+          "baseline": 3,
+          "central": 3
+        },
+        {
+          "key": "cities",
+          "status": "match",
+          "baseline": [
+            "المنامة",
+            "المحرق",
+            "الرفاع",
+            "مدينة حمد",
+            "الحد"
+          ],
+          "central": [
+            "المنامة",
+            "المحرق",
+            "الرفاع",
+            "مدينة حمد",
+            "الحد"
+          ]
+        },
+        {
+          "key": "timezone",
+          "status": "match",
+          "baseline": "توقيت البحرين",
+          "central": "توقيت البحرين"
+        },
+        {
+          "key": "linkKeys",
+          "status": "match",
+          "baseline": [
+            "whatsapp",
+            "country-page"
+          ],
+          "central": [
+            "whatsapp",
+            "country-page"
+          ]
+        },
+        {
+          "key": "schemaVersion",
+          "status": "match",
+          "baseline": 1,
+          "central": 1
+        }
+      ]
+    },
+    {
+      "slug": "france",
+      "summary": {
+        "comparedFields": 18,
+        "matches": 18,
+        "mismatches": 0
+      },
+      "checks": [
+        {
+          "key": "slug",
+          "status": "match",
+          "baseline": "france",
+          "central": "france"
+        },
+        {
+          "key": "url",
+          "status": "match",
+          "baseline": "/france",
+          "central": "/france"
+        },
+        {
+          "key": "nameAr",
+          "status": "match",
+          "baseline": "فرنسا",
+          "central": "فرنسا"
+        },
+        {
+          "key": "countryCode",
+          "status": "match",
+          "baseline": "FR",
+          "central": "FR"
+        },
+        {
+          "key": "currencyCode",
+          "status": "match",
+          "baseline": "€",
+          "central": "€"
+        },
+        {
+          "key": "currencySymbol",
+          "status": "match",
+          "baseline": "€",
+          "central": "€"
+        },
+        {
+          "key": "canonical",
+          "status": "match",
+          "baseline": "https://quran-elhafez.com/france",
+          "central": "https://quran-elhafez.com/france"
+        },
+        {
+          "key": "seoTitle",
+          "status": "match",
+          "baseline": "تحفيظ القرآن أونلاين للعرب في فرنسا | الحافظ المتميز",
+          "central": "تحفيظ القرآن أونلاين للعرب في فرنسا | الحافظ المتميز"
+        },
+        {
+          "key": "seoDescription",
+          "status": "match",
+          "baseline": "حصص فردية بالعربية للعرب في فرنسا لتحفيظ القرآن ومراجعته وتلاوته وتجويده، مع تأسيس القراءة والكتابة أونلاين. الحصة التجريبية الأولى مجانية.",
+          "central": "حصص فردية بالعربية للعرب في فرنسا لتحفيظ القرآن ومراجعته وتلاوته وتجويده، مع تأسيس القراءة والكتابة أونلاين. الحصة التجريبية الأولى مجانية."
+        },
+        {
+          "key": "robots",
+          "status": "match",
+          "baseline": {
+            "index": true,
+            "follow": true
+          },
+          "central": {
+            "index": true,
+            "follow": true
+          }
+        },
+        {
+          "key": "sectionKeys",
+          "status": "match",
+          "baseline": [
+            "hero:france",
+            "steps:france",
+            "pricing:france",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ],
+          "central": [
+            "hero:france",
+            "steps:france",
+            "pricing:france",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ]
+        },
+        {
+          "key": "packageCount",
+          "status": "match",
+          "baseline": 8,
+          "central": 8
+        },
+        {
+          "key": "packagePrograms",
+          "status": "match",
+          "baseline": [
+            "quran",
+            "arabic"
+          ],
+          "central": [
+            "quran",
+            "arabic"
+          ]
+        },
+        {
+          "key": "faqCount",
+          "status": "match",
+          "baseline": 3,
+          "central": 3
+        },
+        {
+          "key": "cities",
+          "status": "match",
+          "baseline": [
+            "باريس",
+            "ليون",
+            "مرسيليا",
+            "تولوز",
+            "ليل"
+          ],
+          "central": [
+            "باريس",
+            "ليون",
+            "مرسيليا",
+            "تولوز",
+            "ليل"
+          ]
+        },
+        {
+          "key": "timezone",
+          "status": "match",
+          "baseline": "توقيت فرنسا",
+          "central": "توقيت فرنسا"
+        },
+        {
+          "key": "linkKeys",
+          "status": "match",
+          "baseline": [
+            "whatsapp",
+            "country-page"
+          ],
+          "central": [
+            "whatsapp",
+            "country-page"
+          ]
+        },
+        {
+          "key": "schemaVersion",
+          "status": "match",
+          "baseline": 1,
+          "central": 1
+        }
+      ]
+    },
+    {
+      "slug": "spain",
+      "summary": {
+        "comparedFields": 18,
+        "matches": 18,
+        "mismatches": 0
+      },
+      "checks": [
+        {
+          "key": "slug",
+          "status": "match",
+          "baseline": "spain",
+          "central": "spain"
+        },
+        {
+          "key": "url",
+          "status": "match",
+          "baseline": "/spain",
+          "central": "/spain"
+        },
+        {
+          "key": "nameAr",
+          "status": "match",
+          "baseline": "إسبانيا",
+          "central": "إسبانيا"
+        },
+        {
+          "key": "countryCode",
+          "status": "match",
+          "baseline": "ES",
+          "central": "ES"
+        },
+        {
+          "key": "currencyCode",
+          "status": "match",
+          "baseline": "€",
+          "central": "€"
+        },
+        {
+          "key": "currencySymbol",
+          "status": "match",
+          "baseline": "€",
+          "central": "€"
+        },
+        {
+          "key": "canonical",
+          "status": "match",
+          "baseline": "https://quran-elhafez.com/spain",
+          "central": "https://quran-elhafez.com/spain"
+        },
+        {
+          "key": "seoTitle",
+          "status": "match",
+          "baseline": "تحفيظ القرآن أونلاين للعرب في إسبانيا | أول حصة تجريبية مجانية",
+          "central": "تحفيظ القرآن أونلاين للعرب في إسبانيا | أول حصة تجريبية مجانية"
+        },
+        {
+          "key": "seoDescription",
+          "status": "match",
+          "baseline": "حصص فردية بالعربية للعرب في إسبانيا لتحفيظ القرآن ومراجعته وتعلم التجويد، مع تأسيس القراءة والكتابة. أونلاين والحصة التجريبية الأولى مجانية.",
+          "central": "حصص فردية بالعربية للعرب في إسبانيا لتحفيظ القرآن ومراجعته وتعلم التجويد، مع تأسيس القراءة والكتابة. أونلاين والحصة التجريبية الأولى مجانية."
+        },
+        {
+          "key": "robots",
+          "status": "match",
+          "baseline": {
+            "index": true,
+            "follow": true
+          },
+          "central": {
+            "index": true,
+            "follow": true
+          }
+        },
+        {
+          "key": "sectionKeys",
+          "status": "match",
+          "baseline": [
+            "hero:spain",
+            "steps:spain",
+            "pricing:spain",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ],
+          "central": [
+            "hero:spain",
+            "steps:spain",
+            "pricing:spain",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ]
+        },
+        {
+          "key": "packageCount",
+          "status": "match",
+          "baseline": 8,
+          "central": 8
+        },
+        {
+          "key": "packagePrograms",
+          "status": "match",
+          "baseline": [
+            "quran",
+            "arabic"
+          ],
+          "central": [
+            "quran",
+            "arabic"
+          ]
+        },
+        {
+          "key": "faqCount",
+          "status": "match",
+          "baseline": 3,
+          "central": 3
+        },
+        {
+          "key": "cities",
+          "status": "match",
+          "baseline": [
+            "مدريد",
+            "برشلونة",
+            "فالنسيا",
+            "إشبيلية",
+            "ملقة"
+          ],
+          "central": [
+            "مدريد",
+            "برشلونة",
+            "فالنسيا",
+            "إشبيلية",
+            "ملقة"
+          ]
+        },
+        {
+          "key": "timezone",
+          "status": "match",
+          "baseline": "توقيت إسبانيا",
+          "central": "توقيت إسبانيا"
+        },
+        {
+          "key": "linkKeys",
+          "status": "match",
+          "baseline": [
+            "whatsapp",
+            "country-page"
+          ],
+          "central": [
+            "whatsapp",
+            "country-page"
+          ]
+        },
+        {
+          "key": "schemaVersion",
+          "status": "match",
+          "baseline": 1,
+          "central": 1
+        }
+      ]
+    },
+    {
+      "slug": "netherlands",
+      "summary": {
+        "comparedFields": 18,
+        "matches": 18,
+        "mismatches": 0
+      },
+      "checks": [
+        {
+          "key": "slug",
+          "status": "match",
+          "baseline": "netherlands",
+          "central": "netherlands"
+        },
+        {
+          "key": "url",
+          "status": "match",
+          "baseline": "/netherlands",
+          "central": "/netherlands"
+        },
+        {
+          "key": "nameAr",
+          "status": "match",
+          "baseline": "هولندا",
+          "central": "هولندا"
+        },
+        {
+          "key": "countryCode",
+          "status": "match",
+          "baseline": "NL",
+          "central": "NL"
+        },
+        {
+          "key": "currencyCode",
+          "status": "match",
+          "baseline": "€",
+          "central": "€"
+        },
+        {
+          "key": "currencySymbol",
+          "status": "match",
+          "baseline": "€",
+          "central": "€"
+        },
+        {
+          "key": "canonical",
+          "status": "match",
+          "baseline": "https://quran-elhafez.com/netherlands",
+          "central": "https://quran-elhafez.com/netherlands"
+        },
+        {
+          "key": "seoTitle",
+          "status": "match",
+          "baseline": "تحفيظ القرآن أونلاين للعرب في هولندا | أول حصة تجريبية مجانية",
+          "central": "تحفيظ القرآن أونلاين للعرب في هولندا | أول حصة تجريبية مجانية"
+        },
+        {
+          "key": "seoDescription",
+          "status": "match",
+          "baseline": "حصص فردية مباشرة بالعربية للعرب في هولندا لتحفيظ القرآن ومراجعته وتلاوته وتجويده، وتأسيس العربية قراءة وكتابة. الحصة التجريبية الأولى مجانية.",
+          "central": "حصص فردية مباشرة بالعربية للعرب في هولندا لتحفيظ القرآن ومراجعته وتلاوته وتجويده، وتأسيس العربية قراءة وكتابة. الحصة التجريبية الأولى مجانية."
+        },
+        {
+          "key": "robots",
+          "status": "match",
+          "baseline": {
+            "index": true,
+            "follow": true
+          },
+          "central": {
+            "index": true,
+            "follow": true
+          }
+        },
+        {
+          "key": "sectionKeys",
+          "status": "match",
+          "baseline": [
+            "hero:netherlands",
+            "steps:netherlands",
+            "pricing:netherlands",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ],
+          "central": [
+            "hero:netherlands",
+            "steps:netherlands",
+            "pricing:netherlands",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ]
+        },
+        {
+          "key": "packageCount",
+          "status": "match",
+          "baseline": 8,
+          "central": 8
+        },
+        {
+          "key": "packagePrograms",
+          "status": "match",
+          "baseline": [
+            "quran",
+            "arabic"
+          ],
+          "central": [
+            "quran",
+            "arabic"
+          ]
+        },
+        {
+          "key": "faqCount",
+          "status": "match",
+          "baseline": 3,
+          "central": 3
+        },
+        {
+          "key": "cities",
+          "status": "match",
+          "baseline": [
+            "أمستردام",
+            "روتردام",
+            "أوتريخت",
+            "لاهاي",
+            "أيندهوفن"
+          ],
+          "central": [
+            "أمستردام",
+            "روتردام",
+            "أوتريخت",
+            "لاهاي",
+            "أيندهوفن"
+          ]
+        },
+        {
+          "key": "timezone",
+          "status": "match",
+          "baseline": "توقيت هولندا",
+          "central": "توقيت هولندا"
+        },
+        {
+          "key": "linkKeys",
+          "status": "match",
+          "baseline": [
+            "whatsapp",
+            "country-page"
+          ],
+          "central": [
+            "whatsapp",
+            "country-page"
+          ]
+        },
+        {
+          "key": "schemaVersion",
+          "status": "match",
+          "baseline": 1,
+          "central": 1
+        }
+      ]
+    },
+    {
+      "slug": "belgium",
+      "summary": {
+        "comparedFields": 18,
+        "matches": 18,
+        "mismatches": 0
+      },
+      "checks": [
+        {
+          "key": "slug",
+          "status": "match",
+          "baseline": "belgium",
+          "central": "belgium"
+        },
+        {
+          "key": "url",
+          "status": "match",
+          "baseline": "/belgium",
+          "central": "/belgium"
+        },
+        {
+          "key": "nameAr",
+          "status": "match",
+          "baseline": "بلجيكا",
+          "central": "بلجيكا"
+        },
+        {
+          "key": "countryCode",
+          "status": "match",
+          "baseline": "BE",
+          "central": "BE"
+        },
+        {
+          "key": "currencyCode",
+          "status": "match",
+          "baseline": "€",
+          "central": "€"
+        },
+        {
+          "key": "currencySymbol",
+          "status": "match",
+          "baseline": "€",
+          "central": "€"
+        },
+        {
+          "key": "canonical",
+          "status": "match",
+          "baseline": "https://quran-elhafez.com/belgium",
+          "central": "https://quran-elhafez.com/belgium"
+        },
+        {
+          "key": "seoTitle",
+          "status": "match",
+          "baseline": "تحفيظ القرآن أونلاين للعرب في بلجيكا | أول حصة تجريبية مجانية",
+          "central": "تحفيظ القرآن أونلاين للعرب في بلجيكا | أول حصة تجريبية مجانية"
+        },
+        {
+          "key": "seoDescription",
+          "status": "match",
+          "baseline": "حصص فردية بالعربية للعرب في بلجيكا لحفظ القرآن ومراجعته وتلاوته وتجويده، وتأسيس العربية قراءة وكتابة أونلاين. الحصة التجريبية الأولى مجانية.",
+          "central": "حصص فردية بالعربية للعرب في بلجيكا لحفظ القرآن ومراجعته وتلاوته وتجويده، وتأسيس العربية قراءة وكتابة أونلاين. الحصة التجريبية الأولى مجانية."
+        },
+        {
+          "key": "robots",
+          "status": "match",
+          "baseline": {
+            "index": true,
+            "follow": true
+          },
+          "central": {
+            "index": true,
+            "follow": true
+          }
+        },
+        {
+          "key": "sectionKeys",
+          "status": "match",
+          "baseline": [
+            "hero:belgium",
+            "steps:belgium",
+            "pricing:belgium",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ],
+          "central": [
+            "hero:belgium",
+            "steps:belgium",
+            "pricing:belgium",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ]
+        },
+        {
+          "key": "packageCount",
+          "status": "match",
+          "baseline": 8,
+          "central": 8
+        },
+        {
+          "key": "packagePrograms",
+          "status": "match",
+          "baseline": [
+            "quran",
+            "arabic"
+          ],
+          "central": [
+            "quran",
+            "arabic"
+          ]
+        },
+        {
+          "key": "faqCount",
+          "status": "match",
+          "baseline": 3,
+          "central": 3
+        },
+        {
+          "key": "cities",
+          "status": "match",
+          "baseline": [
+            "بروكسل",
+            "أنتويرب",
+            "غنت",
+            "لييج",
+            "بروج"
+          ],
+          "central": [
+            "بروكسل",
+            "أنتويرب",
+            "غنت",
+            "لييج",
+            "بروج"
+          ]
+        },
+        {
+          "key": "timezone",
+          "status": "match",
+          "baseline": "توقيت بلجيكا",
+          "central": "توقيت بلجيكا"
+        },
+        {
+          "key": "linkKeys",
+          "status": "match",
+          "baseline": [
+            "whatsapp",
+            "country-page"
+          ],
+          "central": [
+            "whatsapp",
+            "country-page"
+          ]
+        },
+        {
+          "key": "schemaVersion",
+          "status": "match",
+          "baseline": 1,
+          "central": 1
+        }
+      ]
+    },
+    {
+      "slug": "sweden",
+      "summary": {
+        "comparedFields": 18,
+        "matches": 18,
+        "mismatches": 0
+      },
+      "checks": [
+        {
+          "key": "slug",
+          "status": "match",
+          "baseline": "sweden",
+          "central": "sweden"
+        },
+        {
+          "key": "url",
+          "status": "match",
+          "baseline": "/sweden",
+          "central": "/sweden"
+        },
+        {
+          "key": "nameAr",
+          "status": "match",
+          "baseline": "السويد",
+          "central": "السويد"
+        },
+        {
+          "key": "countryCode",
+          "status": "match",
+          "baseline": "SE",
+          "central": "SE"
+        },
+        {
+          "key": "currencyCode",
+          "status": "match",
+          "baseline": "كرونة",
+          "central": "كرونة"
+        },
+        {
+          "key": "currencySymbol",
+          "status": "match",
+          "baseline": "كرونة",
+          "central": "كرونة"
+        },
+        {
+          "key": "canonical",
+          "status": "match",
+          "baseline": "https://quran-elhafez.com/sweden",
+          "central": "https://quran-elhafez.com/sweden"
+        },
+        {
+          "key": "seoTitle",
+          "status": "match",
+          "baseline": "تحفيظ القرآن أونلاين للعرب في السويد | الحافظ المتميز",
+          "central": "تحفيظ القرآن أونلاين للعرب في السويد | الحافظ المتميز"
+        },
+        {
+          "key": "seoDescription",
+          "status": "match",
+          "baseline": "حصص فردية بالعربية للعرب في السويد لحفظ القرآن ومراجعته وتلاوته وتجويده، مع تأسيس العربية قراءة وكتابة. الحصة التجريبية الأولى مجانية.",
+          "central": "حصص فردية بالعربية للعرب في السويد لحفظ القرآن ومراجعته وتلاوته وتجويده، مع تأسيس العربية قراءة وكتابة. الحصة التجريبية الأولى مجانية."
+        },
+        {
+          "key": "robots",
+          "status": "match",
+          "baseline": {
+            "index": true,
+            "follow": true
+          },
+          "central": {
+            "index": true,
+            "follow": true
+          }
+        },
+        {
+          "key": "sectionKeys",
+          "status": "match",
+          "baseline": [
+            "hero:sweden",
+            "steps:sweden",
+            "pricing:sweden",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ],
+          "central": [
+            "hero:sweden",
+            "steps:sweden",
+            "pricing:sweden",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ]
+        },
+        {
+          "key": "packageCount",
+          "status": "match",
+          "baseline": 8,
+          "central": 8
+        },
+        {
+          "key": "packagePrograms",
+          "status": "match",
+          "baseline": [
+            "quran",
+            "arabic"
+          ],
+          "central": [
+            "quran",
+            "arabic"
+          ]
+        },
+        {
+          "key": "faqCount",
+          "status": "match",
+          "baseline": 3,
+          "central": 3
+        },
+        {
+          "key": "cities",
+          "status": "match",
+          "baseline": [
+            "ستوكهولم",
+            "غوتنبرغ",
+            "مالمو",
+            "أوبسالا",
+            "أوربرو"
+          ],
+          "central": [
+            "ستوكهولم",
+            "غوتنبرغ",
+            "مالمو",
+            "أوبسالا",
+            "أوربرو"
+          ]
+        },
+        {
+          "key": "timezone",
+          "status": "match",
+          "baseline": "توقيت السويد",
+          "central": "توقيت السويد"
+        },
+        {
+          "key": "linkKeys",
+          "status": "match",
+          "baseline": [
+            "whatsapp",
+            "country-page"
+          ],
+          "central": [
+            "whatsapp",
+            "country-page"
+          ]
+        },
+        {
+          "key": "schemaVersion",
+          "status": "match",
+          "baseline": 1,
+          "central": 1
+        }
+      ]
+    },
+    {
+      "slug": "kuwait",
+      "summary": {
+        "comparedFields": 18,
+        "matches": 18,
+        "mismatches": 0
+      },
+      "checks": [
+        {
+          "key": "slug",
+          "status": "match",
+          "baseline": "kuwait",
+          "central": "kuwait"
+        },
+        {
+          "key": "url",
+          "status": "match",
+          "baseline": "/kuwait",
+          "central": "/kuwait"
+        },
+        {
+          "key": "nameAr",
+          "status": "match",
+          "baseline": "الكويت",
+          "central": "الكويت"
+        },
+        {
+          "key": "countryCode",
+          "status": "match",
+          "baseline": "KW",
+          "central": "KW"
+        },
+        {
+          "key": "currencyCode",
+          "status": "match",
+          "baseline": "د.ك",
+          "central": "د.ك"
+        },
+        {
+          "key": "currencySymbol",
+          "status": "match",
+          "baseline": "د.ك",
+          "central": "د.ك"
+        },
+        {
+          "key": "canonical",
+          "status": "match",
+          "baseline": "https://quran-elhafez.com/kuwait",
+          "central": "https://quran-elhafez.com/kuwait"
+        },
+        {
+          "key": "seoTitle",
+          "status": "match",
+          "baseline": "تحفيظ القرآن أونلاين في الكويت | أول حصة تجريبية مجانية",
+          "central": "تحفيظ القرآن أونلاين في الكويت | أول حصة تجريبية مجانية"
+        },
+        {
+          "key": "seoDescription",
+          "status": "match",
+          "baseline": "تعلم القرآن أونلاين في الكويت بحصص فردية بالعربية للحفظ والمراجعة والتلاوة والتجويد، أو لتأسيس القراءة والكتابة. الحصة التجريبية الأولى مجانية.",
+          "central": "تعلم القرآن أونلاين في الكويت بحصص فردية بالعربية للحفظ والمراجعة والتلاوة والتجويد، أو لتأسيس القراءة والكتابة. الحصة التجريبية الأولى مجانية."
+        },
+        {
+          "key": "robots",
+          "status": "match",
+          "baseline": {
+            "index": true,
+            "follow": true
+          },
+          "central": {
+            "index": true,
+            "follow": true
+          }
+        },
+        {
+          "key": "sectionKeys",
+          "status": "match",
+          "baseline": [
+            "hero:kuwait",
+            "steps:kuwait",
+            "pricing:kuwait",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ],
+          "central": [
+            "hero:kuwait",
+            "steps:kuwait",
+            "pricing:kuwait",
+            "local:default",
+            "faq:default",
+            "closing:default"
+          ]
+        },
+        {
+          "key": "packageCount",
+          "status": "match",
+          "baseline": 8,
+          "central": 8
+        },
+        {
+          "key": "packagePrograms",
+          "status": "match",
+          "baseline": [
+            "quran",
+            "arabic"
+          ],
+          "central": [
+            "quran",
+            "arabic"
+          ]
+        },
+        {
+          "key": "faqCount",
+          "status": "match",
+          "baseline": 3,
+          "central": 3
+        },
+        {
+          "key": "cities",
+          "status": "match",
+          "baseline": [
+            "مدينة الكويت",
+            "حولي",
+            "الفروانية",
+            "مبارك الكبير",
+            "الأحمدي"
+          ],
+          "central": [
+            "مدينة الكويت",
+            "حولي",
+            "الفروانية",
+            "مبارك الكبير",
+            "الأحمدي"
+          ]
+        },
+        {
+          "key": "timezone",
+          "status": "match",
+          "baseline": "توقيت الكويت",
+          "central": "توقيت الكويت"
+        },
+        {
+          "key": "linkKeys",
+          "status": "match",
+          "baseline": [
+            "whatsapp",
+            "country-page"
+          ],
+          "central": [
+            "whatsapp",
+            "country-page"
+          ]
+        },
+        {
+          "key": "schemaVersion",
+          "status": "match",
+          "baseline": 1,
+          "central": 1
+        }
+      ]
+    }
+  ],
+  "limitation": "This proves contract/data/SEO parity only. DOM and screenshot parity requires a browser comparison against the protected preview route."
+}

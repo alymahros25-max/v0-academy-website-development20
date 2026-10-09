@@ -17,6 +17,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'images.unsplash.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'drive.google.com',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
     qualities: [40, 75, 80, 85],

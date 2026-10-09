@@ -18,7 +18,7 @@ export const generateOrganizationSchema = () => ({
     'contactType': 'Customer Service',
     'email': process.env.NEXT_PUBLIC_CONTACT_EMAIL || '',
     'areaServed': 'Worldwide',
-    'url': 'https://bit.ly/4aJfOl6',
+    'url': 'https://wa.me/message/62LK42KU3LCCM1',
   },
 })
 
@@ -140,7 +140,7 @@ export const generateLocalBusinessSchema = () => ({
   ],
   'contactPoint': {
     '@type': 'ContactPoint',
-    'url': 'https://bit.ly/4aJfOl6',
+    'url': 'https://wa.me/message/62LK42KU3LCCM1',
   },
 })
 

@@ -19,7 +19,7 @@ import { AustriaVideoWindow } from "@/app/austria/austria-video-window"
 type Props = { config: NewCountryConfig; videos?: LandingVideo[]; teachers?: Teacher[]; contactUrl?: string }
 
 function WhatsApp({ config, label = "احجز الحصة التجريبية", contactUrl }: { config: NewCountryConfig; label?: string; contactUrl?: string }) {
-  const href = contactUrl || `https://bit.ly/4aJfOl6?text=${encodeURIComponent(config.whatsappMessage)}`
+  const href = contactUrl || `https://wa.me/message/62LK42KU3LCCM1?text=${encodeURIComponent(config.whatsappMessage)}`
   return <a href={href} target="_blank" rel="noreferrer" className="new-country-cta"><MessageCircle size={18} />{label}</a>
 }
 
@@ -246,7 +246,7 @@ export async function NewCountryLanding({ config }: Props) {
   }
   const germanyWhatsAppFallback = `https://wa.me/${germanyLandingConfig.whatsappNumber}`
   const australiaWhatsAppFallback = getAustraliaWhatsAppUrl("حصة تجريبية مجانية")
-  const fallbackWhatsApp = dynamicConfig.variant === "germany" ? germanyWhatsAppFallback : dynamicConfig.variant === "australia" ? australiaWhatsAppFallback : "https://bit.ly/4aJfOl6"
+  const fallbackWhatsApp = dynamicConfig.variant === "germany" ? germanyWhatsAppFallback : dynamicConfig.variant === "australia" ? australiaWhatsAppFallback : "https://wa.me/message/62LK42KU3LCCM1"
   const configuredWhatsApp = getAreaLinkHref(areaData.links, "whatsapp", fallbackWhatsApp)
   const trialMessage = dynamicConfig.variant === "germany" || dynamicConfig.variant === "australia" ? dynamicConfig.whatsappMessage : dynamicConfig.variant === "austria" ? "السلام عليكم، أرغب في حجز باقة حصة تجريبية مجانية في النمسا." : undefined
   const contactUrl = getAreaWhatsAppUrl(areaData.links, "حصة تجريبية مجانية", configuredWhatsApp, trialMessage)

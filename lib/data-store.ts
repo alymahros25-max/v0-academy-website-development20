@@ -162,7 +162,7 @@ const defaultSettings: SiteSettings = {
   siteName: { ar: "أكاديمية الحافظ المتميز", en: "Al-Hafiz Al-Mutamayez Academy", fr: "Academie Al-Hafiz Al-Mutamayez" },
   siteDescription: { ar: "أكاديمية عالمية لتحفيظ القرآن الكريم وتأسيس اللغة العربية اون لاين", en: "A global online academy for Quran memorization and Arabic language foundation", fr: "Academie mondiale en ligne pour la memorisation du Coran" },
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
-  whatsapp: "https://bit.ly/4aJfOl6",
+  whatsapp: "https://wa.me/message/62LK42KU3LCCM1",
   telegram: "https://t.me/acabemy_quraan",
   heroTitle: { ar: "أكاديمية الحافظ المتميز", en: "Al-Hafiz Al-Mutamayez Academy", fr: "Academie Al-Hafiz Al-Mutamayez" },
   heroSubtitle: { ar: "أكاديمية عالمية لتحفيظ القرآن الكريم وتأسيس اللغة العربية اون لاين", en: "A Global Online Academy for Quran Memorization & Arabic Language Foundation", fr: "Academie mondiale en ligne pour la memorisation du Coran et l'enseignement de la langue arabe" },

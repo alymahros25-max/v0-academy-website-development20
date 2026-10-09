@@ -39,7 +39,7 @@ function Plans({ program, quranPrices, arabicPrices, contactUrl }: ProgramSelect
 
               <li className="flex items-center gap-2"><Check className="size-4 text-kw-gold" />الفوترة: شهرية</li>
             </ul>
-            <a href={contactUrl || "https://bit.ly/4aJfOl6"} target="_blank" rel="noreferrer" className="mt-7 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-kw-green px-4 py-3 text-sm font-bold text-white transition hover:bg-kw-green-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kw-gold focus-visible:ring-offset-2">
+            <a href={contactUrl || "https://wa.me/message/62LK42KU3LCCM1"} target="_blank" rel="noreferrer" className="mt-7 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-kw-green px-4 py-3 text-sm font-bold text-white transition hover:bg-kw-green-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kw-gold focus-visible:ring-offset-2">
               <MessageCircle className="size-4" />{program === "quran" ? "احجز هذه الباقة" : "ابدأ مسار العربية"}
             </a>
           </article>

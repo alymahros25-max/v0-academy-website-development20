@@ -7,4 +7,4 @@ export const senegalLandingConfig = {
   localCard: { title: "SÉNÉGAL · AL-HAFIZ ACADEMY", heading: "Mémorisation du Coran et bases de l’arabe en ligne au Sénégal", body: "Al-Hafiz Academy propose un apprentissage individuel en ligne pour la mémorisation du Coran et les bases de la langue arabe destinés aux apprenants arabophones au Sénégal. Dakar, Thiès, Saint-Louis et Ziguinchor sont des références géographiques de cette page. L’apprentissage est en ligne et la communication avec l’académie se fait en arabe. L’académie n’a pas de bureau, de succursale ni de lieu d’enseignement local au Sénégal." },
   faq: [["كيف تبدأ الدراسة من السنغال؟", "تبدأ الدراسة أونلاين بذكر الهدف والمستوى والوقت المناسب، ثم تُرتب الحصة التجريبية المجانية."], ["هل الأسعار بفرنك CFA؟", "نعم، الأسعار الظاهرة في صفحة السنغال بفرنك CFA لغرب أفريقيا."], ["ما مدة الحصة الأساسية؟", "مدة الحصة الأساسية المعروضة 30 دقيقة."], ["بأي لغة يتم التواصل؟", "يتم التواصل مع الأكاديمية باللغة العربية."], ["هل توجد باقات مخصصة؟", "يوجد باقات مخصصة."]] as const,
 } as const
-export const senegalWhatsApp = "https://bit.ly/4aJfOl6"
+export const senegalWhatsApp = "https://wa.me/message/62LK42KU3LCCM1"

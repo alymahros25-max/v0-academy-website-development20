@@ -7,4 +7,4 @@ export const turkeyLandingConfig = {
   localCard: { title: "TÜRKİYE · AL-HAFIZ ACADEMY", heading: "Türkiye'de çevrim içi Kur’an ezberi ve Arapça temelleri", body: "Al-Hafiz Academy, Türkiye'de Arapça konuşan öğrenciler için çevrim içi bireysel Kur’an ezberi ve Arapça temelleri dersleri sunar. İstanbul, Ankara, İzmir ve Bursa bu sayfanın coğrafi arama bağlamıdır. Eğitim çevrim içidir; akademiyle iletişim Arapça yürütülür. Türkiye'de yerel ofis, şube veya eğitim yeri bulunmaz." },
   faq: [["Türkiye'den eğitim nasıl başlar?", "Eğitim çevrim içi başlar; hedefinizi ve uygun zamanınızı WhatsApp üzerinden Arapça olarak gönderirsiniz, ardından ücretsiz deneme dersi planlanır."], ["هل الأسعار بالليرة التركية؟", "نعم، الأسعار الظاهرة في صفحة تركيا بالليرة التركية."], ["ما مدة الحصة الأساسية؟", "مدة الحصة الأساسية المعروضة 30 دقيقة."], ["بأي لغة يتم التواصل؟", "يتم التواصل مع الأكاديمية باللغة العربية."], ["هل توجد باقات مخصصة؟", "يوجد باقات مخصصة."]] as const,
 } as const
-export const turkeyWhatsApp = "https://bit.ly/4aJfOl6"
+export const turkeyWhatsApp = "https://wa.me/message/62LK42KU3LCCM1"

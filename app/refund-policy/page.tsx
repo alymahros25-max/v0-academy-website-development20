@@ -139,7 +139,7 @@ export default async function RefundPolicyPage() {
             <p className="text-sm text-muted-foreground mt-1">كيف نحافظ على بيانات</p>
           </Link>
           <a
-            href="https://bit.ly/4aJfOl6"
+            href="https://wa.me/message/62LK42KU3LCCM1"
             target="_blank"
             rel="noopener noreferrer"
             className="p-4 rounded-lg border hover:border-primary transition-all hover:bg-primary/5"

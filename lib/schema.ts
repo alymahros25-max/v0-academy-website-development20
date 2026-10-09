@@ -38,7 +38,7 @@ export function generateOrganizationSchema(): SchemaContext {
       '@type': 'ContactPoint',
       contactType: 'Customer Service',
       email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || '',
-      url: 'https://bit.ly/4aJfOl6',
+      url: 'https://wa.me/message/62LK42KU3LCCM1',
     },
   }
 }

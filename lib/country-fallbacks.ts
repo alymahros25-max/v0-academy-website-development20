@@ -158,7 +158,7 @@ function fallbackLinks(config: NewCountryConfig, areaId: number): AreaLink[] {
       label_ar: "واتساب",
       label_en: "WhatsApp",
       label_fr: null,
-      href: "https://bit.ly/4aJfOl6",
+      href: "https://wa.me/message/62LK42KU3LCCM1",
       link_type: "external",
       is_external: true,
       sort_order: 0,

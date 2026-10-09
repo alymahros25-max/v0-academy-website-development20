@@ -7,4 +7,4 @@ export const denmarkLandingConfig = {
   localCard: { title: "DANMARK · AL-HAFIZ ACADEMY", heading: "Online koranundervisning og arabisk for arabisktalende i Danmark", body: "Al-Hafiz Academy tilbyder individuelle onlinelektioner i koranmemorisering og grundlæggende arabisk for arabisktalende elever i Danmark. København, Aarhus, Odense og Aalborg er geografiske referencer på denne side. Undervisningen foregår online, og kommunikationen med akademiet foregår på arabisk. Akademiet har ingen lokal afdeling, filial eller undervisningssted i Danmark." },
   faq: [["هل الدراسة أونلاين من الدنمارك؟", "نعم، الدراسة أونلاين، والمدن المذكورة سياق جغرافي للصفحة فقط دون مقرات أو فروع أو أماكن تدريس محلية."], ["هل الأسعار بالكرونة الدنماركية؟", "نعم، الأسعار الظاهرة في صفحة الدنمارك بالكرونة الدنماركية."], ["ما مدة الحصة الأساسية؟", "مدة الحصة الأساسية المعروضة 30 دقيقة."], ["بأي لغة يتم التواصل؟", "يتم التواصل مع الأكاديمية باللغة العربية."], ["هل توجد باقات مخصصة؟", "يوجد باقات مخصصة."]] as const,
 } as const
-export const denmarkWhatsApp = "https://bit.ly/4aJfOl6"
+export const denmarkWhatsApp = "https://wa.me/message/62LK42KU3LCCM1"

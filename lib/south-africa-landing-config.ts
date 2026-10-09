@@ -33,5 +33,5 @@ export const southAfricaLandingConfig = {
 } as const
 
 export function getSouthAfricaWhatsAppUrl(message = southAfricaLandingConfig.whatsappMessage) {
-  return `https://bit.ly/4aJfOl6?text=${encodeURIComponent(message)}`
+  return `https://wa.me/message/62LK42KU3LCCM1?text=${encodeURIComponent(message)}`
 }

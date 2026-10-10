@@ -8,56 +8,44 @@ on:
 permissions:
   contents: read
 
+# Vercel is the only runtime configuration source for the application.
+env:
+  LHCI_RUNS: ${{ github.event_name == 'pull_request' && '1' || '3' }}
+  LIGHTHOUSE_URL: https://quran-elhafez.com
+
 jobs:
   lighthouse:
     name: Lighthouse (${{ github.event_name == 'pull_request' && 'fast PR' || 'full main' }})
     runs-on: ubuntu-latest
     timeout-minutes: 12
-    env:
-      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-      LHCI_RUNS: ${{ github.event_name == 'pull_request' && '1' || '3' }}
     steps:
       - uses: actions/checkout@v5
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 10
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 24
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
 
       - uses: browser-actions/setup-chrome@v2
         id: chrome
 
-      - name: Build application
-        env:
-          NODE_ENV: production
-          NODE_OPTIONS: --max-old-space-size=4096
-        run: pnpm build
-
-      - name: Start Next.js server
+      - name: Wait for Vercel deployment
         run: |
-          pnpm start > /tmp/next-server.log 2>&1 &
-          echo $! > /tmp/next-server.pid
-          for attempt in $(seq 1 30); do
-            if curl --fail --silent --show-error http://localhost:3000/ > /dev/null; then
+          for attempt in $(seq 1 36); do
+            if curl --fail --silent --show-error --location "$LIGHTHOUSE_URL/" > /dev/null; then
+              echo "Vercel deployment is reachable: $LIGHTHOUSE_URL"
               exit 0
             fi
-            sleep 1
+            echo "Waiting for Vercel deployment (attempt $attempt/36)..."
+            sleep 5
           done
-          cat /tmp/next-server.log
+          echo "Vercel deployment did not become reachable: $LIGHTHOUSE_URL"
           exit 1
 
-      - name: Run Lighthouse CI
+      - name: Run Lighthouse CI against Vercel
         env:
           CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
-        run: pnpm dlx @lhci/cli@0.15.x autorun --collect.numberOfRuns=${LHCI_RUNS}
+        run: |
+          pnpm dlx @lhci/cli@0.15.x autorun \
+            --collect.url="$LIGHTHOUSE_URL/" \
+            --collect.numberOfRuns="$LHCI_RUNS"

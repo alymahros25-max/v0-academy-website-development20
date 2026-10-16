@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 import { createClient } from '@supabase/supabase-js'
 import { getCanonicalBlogSlug } from '@/lib/blog-slugs'
 import { countryEducationalContent } from '@/lib/country-educational-content'
+import { countrySeoPages } from '@/lib/country-seo'
 
 const BASE_URL = 'https://quran-elhafez.com'
 
@@ -59,61 +60,9 @@ function mergeBlogArticles(dynamicArticles: BlogArticle[]): BlogArticle[] {
 }
 
 const staticRoutes = [
-  '/',
-  '/quran',
-  '/arabic',
-  '/about',
-  '/saudi-arabia',
-  '/united-arab-emirates',
-  '/united-states',
-  '/canada',
-  '/united-kingdom',
-  '/australia',
-  '/germany',
-  '/kuwait',
-  '/qatar',
-  '/oman',
-  '/jordan',
-  '/bahrain',
-  '/france',
-  '/spain',
-  '/netherlands',
-  '/belgium',
-  '/sweden',
-  '/south-africa',
-  '/china',
-  '/italy',
-  '/russia',
-  '/norway',
-  '/austria',
-  '/switzerland',
-  '/brazil',
-  '/mexico',
-  '/colombia',
-  '/venezuela',
-  '/denmark',
-  '/greece',
-  '/new-zealand',
-  '/finland',
-  '/turkey',
-  '/indonesia',
-  '/malaysia',
-  '/portugal',
-  '/poland',
-  '/argentina',
-  '/senegal',
-  '/nigeria',
-  '/teachers',
-  '/reviews',
-  '/games',
-  '/faq',
-  '/blog',
-  '/contact',
-  '/library',
-  '/classroom-moments',
-  '/refund-policy',
-  '/privacy',
-  '/terms',
+  '/', '/quran', '/arabic', '/about', '/teachers', '/reviews', '/games', '/faq',
+  '/blog', '/contact', '/library', '/classroom-moments', '/refund-policy', '/privacy', '/terms',
+  ...countrySeoPages.map(({ slug }) => `/${slug}`),
 ] as const
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next"
 import Script from "next/script"
-import { GoogleAnalytics } from "@next/third-parties/google"
 import { Noto_Sans_Arabic, Inter } from "next/font/google"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { generateEducationalOrganizationSchema, generateWebSiteSchema, generateCombinedSchema } from "@/lib/schema"
@@ -122,7 +121,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <ClientProviders><CountryPagesChrome>{children}</CountryPagesChrome></ClientProviders>
         </ErrorBoundary>
         <AnalyticsConsent />
-        <GoogleAnalytics gaId="G-XPT3R8M0EC" />
       </body>
     </html>
   )

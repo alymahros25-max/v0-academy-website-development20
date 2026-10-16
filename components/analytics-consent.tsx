@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { GoogleAnalytics } from "@next/third-parties/google"
 
 const CONSENT_COOKIE = "analytics_consent"
 const CONSENT_STORAGE_KEY = "analytics_consent"
@@ -40,6 +41,52 @@ function updateGoogleConsent(value: ConsentValue) {
 
 export function AnalyticsConsent() {
   const [consent, setConsent] = useState<boolean | null>(null)
+  const [googleAnalyticsReady, setGoogleAnalyticsReady] = useState(false)
+
+  useEffect(() => {
+    type IdleWindow = Window & {
+      requestIdleCallback?: (callback: () => void, options?: { timeout?: number }) => number
+      cancelIdleCallback?: (handle: number) => void
+    }
+
+    const idleWindow = window as IdleWindow
+    let idleHandle: number | undefined
+    let fallbackHandle: number | undefined
+    let loadFallbackHandle: number | undefined
+    let disposed = false
+    let scheduled = false
+
+    const scheduleAnalytics = () => {
+      if (disposed || scheduled) return
+      scheduled = true
+      if (loadFallbackHandle !== undefined) window.clearTimeout(loadFallbackHandle)
+
+      const markReady = () => {
+        if (!disposed) setGoogleAnalyticsReady(true)
+      }
+
+      if (idleWindow.requestIdleCallback) {
+        idleHandle = idleWindow.requestIdleCallback(markReady, { timeout: 2000 })
+      } else {
+        fallbackHandle = window.setTimeout(markReady, 750)
+      }
+    }
+
+    if (document.readyState === "complete") {
+      scheduleAnalytics()
+    } else {
+      window.addEventListener("load", scheduleAnalytics, { once: true })
+      loadFallbackHandle = window.setTimeout(scheduleAnalytics, 2500)
+    }
+
+    return () => {
+      disposed = true
+      window.removeEventListener("load", scheduleAnalytics)
+      if (idleHandle !== undefined) idleWindow.cancelIdleCallback?.(idleHandle)
+      if (fallbackHandle !== undefined) window.clearTimeout(fallbackHandle)
+      if (loadFallbackHandle !== undefined) window.clearTimeout(loadFallbackHandle)
+    }
+  }, [])
 
   useEffect(() => {
     const savedConsent = readConsent()
@@ -60,6 +107,7 @@ export function AnalyticsConsent() {
 
   return (
     <>
+      {googleAnalyticsReady && <GoogleAnalytics gaId="G-XPT3R8M0EC" />}
       {consent === true && <><Analytics /><SpeedInsights /></>}
       {consent === null && (
         <aside className="fixed bottom-3 right-3 left-3 z-50 mx-auto flex max-w-lg flex-col gap-3 rounded-2xl border border-border/80 bg-background/95 p-3 text-sm text-foreground shadow-md backdrop-blur sm:bottom-5 sm:right-5 sm:left-auto sm:p-4">

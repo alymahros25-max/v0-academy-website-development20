@@ -1,7 +1,10 @@
 import type { Metadata } from "next"
+import { getCountrySeoMetadata } from "@/lib/country-seo"
 import { NewCountryLanding } from "@/components/new-country-landing"
 import { getNewCountryConfig } from "@/lib/new-country-pages"
 import { getCountrySeoAlternates } from "@/lib/seo-metadata"
 const config = getNewCountryConfig("sweden")!
-export const metadata: Metadata = { title: config.seoTitle, description: config.seoDescription, keywords: config.keywords, alternates: getCountrySeoAlternates("sweden"), openGraph: { title: config.seoTitle, description: config.seoDescription, type:"website", images: [{ url: "https://quran-elhafez.com/images/og-default.webp", width: 1200, height: 630, alt: "أكاديمية الحافظ المتميز" }], locale:"ar_SE" } }
+export async function generateMetadata(): Promise<Metadata> {
+  return getCountrySeoMetadata("sweden")
+}
 export default function SwedenPage() { return <NewCountryLanding config={config} /> }

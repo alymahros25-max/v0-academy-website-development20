@@ -1,8 +1,18 @@
 import type { Metadata } from "next"
+import countrySeoPlan from "./country-seo-plan.json"
 
 export const COUNTRY_SEO_BASE_URL = "https://quran-elhafez.com"
 
 export type CountrySeoPage = { slug: string; country: string; keyword: string; title: string; description: string; h1: string }
+export type CountrySeoPlanDetails = {
+  supportingKeywords: readonly string[]
+  contentAngle: string
+  contextualCities: string
+  recommendedInternalLinks: readonly string[]
+  localArticleTopic: string
+  schemaTypes: readonly string[]
+}
+export type CompleteCountrySeoPage = CountrySeoPage & CountrySeoPlanDetails
 
 export const countrySeoPages: readonly CountrySeoPage[] = [
   {"slug": "saudi-arabia", "country": "السعودية", "keyword": "تحفيظ قرآن أون لاين للأطفال في السعودية", "title": "تحفيظ قرآن أون لاين للأطفال في السعودية | أكاديمية الحافظ", "description": "صفحة السعودية لبرنامج مسار الأطفال والأسرة، مع حصص فردية أونلاين بالعربية للحفظ والمراجعة والتلاوة أو تأسيس العربية. الرياض وجدة مذكورة كسياق جغرافي، وتظهر الباقات بالعملة المحلية.", "h1": "تحفيظ قرآن أون لاين للأطفال في السعودية"},
@@ -47,20 +57,85 @@ export const countrySeoPages: readonly CountrySeoPage[] = [
   {"slug": "nigeria", "country": "نيجيريا", "keyword": "حلقة قرآن فردية بالعربية للعرب في نيجيريا", "title": "حلقة قرآن فردية بالعربية للعرب في نيجيريا | أكاديمية الحافظ", "description": "صفحة نيجيريا لبرنامج الأطفال والكبار، مع حصص فردية أونلاين بالعربية للحفظ والمراجعة والتلاوة أو تأسيس العربية. لاغوس وأبوجا مذكورة كسياق جغرافي، وتظهر الباقات بالعملة المحلية.", "h1": "حلقة قرآن فردية بالعربية للعرب في نيجيريا"},
 ] as const
 
-export const countrySeoBySlug: Readonly<Record<string, CountrySeoPage>> = Object.fromEntries(countrySeoPages.map((page) => [page.slug, page]))
+export const countrySeoBySlug: Readonly<Record<string, CompleteCountrySeoPage>> = Object.fromEntries(
+  countrySeoPages.map((page) => [page.slug, { ...page, ...countrySeoPlan[page.slug as keyof typeof countrySeoPlan] }]),
+)
 
-export function getCountrySeoPlan(slug: string): CountrySeoPage | undefined {
+export function getCountrySeoPlan(slug: string): CompleteCountrySeoPage | undefined {
   return countrySeoBySlug[slug]
 }
 
-export function getCountrySeoMetadata(slug: string): Metadata {
+export function getCountryWebPageSchema(slug: string) {
   const page = getCountrySeoPlan(slug)
   if (!page) throw new Error(`Missing SEO plan for country: ${slug}`)
   const canonical = `${COUNTRY_SEO_BASE_URL}/${page.slug}`
   return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${canonical}#webpage`,
+    url: canonical,
+    name: page.title,
+    description: page.description,
+    inLanguage: "ar",
+    keywords: [page.keyword, ...page.supportingKeywords],
+  }
+}
+
+const countryRoutesMissingOrganizationAndCourses = new Set([
+  "australia", "bahrain", "belgium", "canada", "france", "germany", "jordan", "kuwait",
+  "netherlands", "oman", "qatar", "saudi-arabia", "spain", "sweden", "united-arab-emirates",
+  "united-kingdom", "united-states",
+])
+
+export function getCountrySchemaGraph(slug: string) {
+  const page = getCountrySeoPlan(slug)
+  if (!page) throw new Error(`Missing SEO plan for country: ${slug}`)
+
+  const canonical = `${COUNTRY_SEO_BASE_URL}/${page.slug}`
+  const organizationId = `${canonical}#organization`
+  const graph: Record<string, unknown>[] = [getCountryWebPageSchema(slug)]
+
+  if (countryRoutesMissingOrganizationAndCourses.has(slug)) {
+    graph.push({
+      "@type": "EducationalOrganization",
+      "@id": organizationId,
+      name: "أكاديمية الحافظ المتميز",
+      url: COUNTRY_SEO_BASE_URL,
+      areaServed: { "@type": "Country", name: page.country },
+    })
+    graph.push(
+      {
+        "@type": "Course",
+        name: page.h1,
+        provider: { "@id": organizationId },
+      },
+      {
+        "@type": "Course",
+        name: `تأسيس العربية أونلاين في ${page.country}`,
+        provider: { "@id": organizationId },
+      },
+    )
+  }
+
+  if (slug === "colombia") {
+    graph.push({
+      "@type": "Course",
+      name: `تأسيس العربية أونلاين في ${page.country}`,
+      provider: { "@type": "EducationalOrganization", name: "أكاديمية الحافظ المتميز" },
+    })
+  }
+
+  return { "@context": "https://schema.org", "@graph": graph }
+}
+
+export function getCountrySeoMetadata(slug: string, canonicalOverride?: string): Metadata {
+  const page = getCountrySeoPlan(slug)
+  if (!page) throw new Error(`Missing SEO plan for country: ${slug}`)
+  const canonical = canonicalOverride ?? `${COUNTRY_SEO_BASE_URL}/${page.slug}`
+  return {
     title: page.title,
     description: page.description,
-    keywords: [page.keyword],
+    keywords: [page.keyword, ...page.supportingKeywords],
     alternates: { canonical, languages: { ar: canonical, "x-default": canonical } },
     openGraph: {
       title: page.title,

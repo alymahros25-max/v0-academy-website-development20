@@ -1,0 +1,922 @@
+{
+  "saudi-arabia": {
+    "supportingKeywords": [
+      "مراجعة القرآن بالعربية في السعودية",
+      "تحفيظ القرآن للأطفال في السعودية",
+      "تصحيح تالوة القرآن أونالين في الرياض",
+      "تأسيس القراءة العربية للناطقين بها في السعودية"
+    ],
+    "contentAngle": "مسار الأطفال والأسرة",
+    "contextualCities": "الرياض وجدة",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "united-arab-emirates": {
+    "supportingKeywords": [
+      "حفظ القرآن للكبار أونالين في الإمارات العربية المتحدة",
+      "حلقات قرآن فردية للأطفال في الإمارات العربية المتحدة",
+      "تعليم التجويد بالعربية في دبي",
+      "دروس عربية فردية للعرب في الإمارات العربية المتحدة"
+    ],
+    "contentAngle": "العائلات العربية والتعلم الفردي",
+    "contextualCities": "دبي وأبوظبي",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "united-states": {
+    "supportingKeywords": [
+      "تسميع القرآن عن بعد في الواليات المتحدة",
+      "تحفيظ جزء عم للأطفال في الواليات المتحدة",
+      "تحسين تالوة القرآن في نيويورك",
+      "تعليم الحروف والقراءة العربية في الواليات المتحدة"
+    ],
+    "contentAngle": "العرب المقيمون والتوقيت المرن",
+    "contextualCities": "نيويورك وشيكاغو",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "canada": {
+    "supportingKeywords": [
+      "برنامج ورد القرآن اليومي في كندا",
+      "دروس قرآن بعد المدرسة في كندا",
+      "مراجعة المحفوظ في تورنتو",
+      "تأسيس الكتابة العربية للطفل في كندا"
+    ],
+    "contentAngle": "الأسرة العربية والدرس الفردي",
+    "contextualCities": "تورنتو ومونتريال",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "united-kingdom": {
+    "supportingKeywords": [
+      "دروس قرآن للمبتدئين العرب في المملكة المتحدة",
+      "متابعة حفظ القرآن للعائالت في المملكة المتحدة",
+      "أحكام التجويد أونالين في لندن",
+      "تحسين القراءة العربية للعرب في المملكة المتحدة"
+    ],
+    "contentAngle": "الحفظ الفردي للعرب في بريطانيا",
+    "contextualCities": "لندن ومانشستر",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "australia": {
+    "supportingKeywords": [
+      "مراجعة القرآن بالعربية في أستراليا",
+      "تحفيظ القرآن للأطفال في أستراليا",
+      "تصحيح تالوة القرآن أونالين في سيدني",
+      "تأسيس القراءة العربية للناطقين بها في أستراليا"
+    ],
+    "contentAngle": "التوقيت العائلي والتعليم الفردي",
+    "contextualCities": "سيدني وملبورن",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "germany": {
+    "supportingKeywords": [
+      "حفظ القرآن للكبار أونالين في ألمانيا",
+      "حلقات قرآن فردية للأطفال في ألمانيا",
+      "تعليم التجويد بالعربية في برلين",
+      "دروس عربية فردية للعرب في ألمانيا"
+    ],
+    "contentAngle": "العرب في المدن الألمانية",
+    "contextualCities": "برلين وهامبورغ",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "kuwait": {
+    "supportingKeywords": [
+      "تسميع القرآن عن بعد في الكويت",
+      "تحفيظ جزء عم للأطفال في الكويت",
+      "تحسين تالوة القرآن في مدينة الكويت",
+      "تعليم الحروف والقراءة العربية في الكويت"
+    ],
+    "contentAngle": "الأطفال والمتابعة المنزلية",
+    "contextualCities": "مدينة الكويت وحولي",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "qatar": {
+    "supportingKeywords": [
+      "برنامج ورد القرآن اليومي في قطر",
+      "دروس قرآن بعد المدرسة في قطر",
+      "مراجعة المحفوظ في الدوحة",
+      "تأسيس الكتابة العربية للطفل في قطر"
+    ],
+    "contentAngle": "العائلة والمرونة الأسبوعية",
+    "contextualCities": "الدوحة والريان",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "oman": {
+    "supportingKeywords": [
+      "دروس قرآن للمبتدئين العرب في عُمان",
+      "متابعة حفظ القرآن للعائالت في عُمان",
+      "أحكام التجويد أونالين في مسقط",
+      "تحسين القراءة العربية للعرب في عُمان"
+    ],
+    "contentAngle": "المراجعة والورد المنتظم",
+    "contextualCities": "مسقط وصلالة",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "jordan": {
+    "supportingKeywords": [
+      "مراجعة القرآن بالعربية في الأردن",
+      "تحفيظ القرآن للأطفال في الأردن",
+      "تصحيح تالوة القرآن أونالين في عمّان",
+      "تأسيس القراءة العربية للناطقين بها في الأردن"
+    ],
+    "contentAngle": "التلاوة والتجويد",
+    "contextualCities": "عمّان وإربد",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "bahrain": {
+    "supportingKeywords": [
+      "حفظ القرآن للكبار أونالين في البحرين",
+      "حلقات قرآن فردية للأطفال في البحرين",
+      "تعليم التجويد بالعربية في المنامة",
+      "دروس عربية فردية للعرب في البحرين"
+    ],
+    "contentAngle": "الدرس الفردي القصير",
+    "contextualCities": "المنامة والمحرق",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "france": {
+    "supportingKeywords": [
+      "تسميع القرآن عن بعد في فرنسا",
+      "تحفيظ جزء عم للأطفال في فرنسا",
+      "تحسين تالوة القرآن في باريس",
+      "تعليم الحروف والقراءة العربية في فرنسا"
+    ],
+    "contentAngle": "العرب في فرنسا والتواصل العربي",
+    "contextualCities": "باريس وليون",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "spain": {
+    "supportingKeywords": [
+      "برنامج ورد القرآن اليومي في إسبانيا",
+      "دروس قرآن بعد المدرسة في إسبانيا",
+      "مراجعة المحفوظ في مدريد",
+      "تأسيس الكتابة العربية للطفل في إسبانيا"
+    ],
+    "contentAngle": "الحفظ والمراجعة للعائلات العربية",
+    "contextualCities": "مدريد وبرشلونة",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "netherlands": {
+    "supportingKeywords": [
+      "دروس قرآن للمبتدئين العرب في هولندا",
+      "متابعة حفظ القرآن للعائالت في هولندا",
+      "أحكام التجويد أونالين في أمستردام",
+      "تحسين القراءة العربية للعرب في هولندا"
+    ],
+    "contentAngle": "التعلم الفردي من المنزل",
+    "contextualCities": "أمستردام وروتردام",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "belgium": {
+    "supportingKeywords": [
+      "مراجعة القرآن بالعربية في بلجيكا",
+      "تحفيظ القرآن للأطفال في بلجيكا",
+      "تصحيح تالوة القرآن أونالين في بروكسل",
+      "تأسيس القراءة العربية للناطقين بها في بلجيكا"
+    ],
+    "contentAngle": "الأطفال بعد المدرسة",
+    "contextualCities": "بروكسل وأنتويرب",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "sweden": {
+    "supportingKeywords": [
+      "حفظ القرآن للكبار أونالين في السويد",
+      "حلقات قرآن فردية للأطفال في السويد",
+      "تعليم التجويد بالعربية في ستوكهولم",
+      "دروس عربية فردية للعرب في السويد"
+    ],
+    "contentAngle": "الدرس الفردي والورد الأسبوعي",
+    "contextualCities": "ستوكهولم وغوتنبرغ",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "south-africa": {
+    "supportingKeywords": [
+      "تسميع القرآن عن بعد في جنوب أفريقيا",
+      "تحفيظ جزء عم للأطفال في جنوب أفريقيا",
+      "تحسين تالوة القرآن في جوهانسبرغ",
+      "تعليم الحروف والقراءة العربية في جنوب أفريقيا"
+    ],
+    "contentAngle": "العائلة العربية والمدن المتباعدة",
+    "contextualCities": "جوهانسبرغ وكيب تاون",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "china": {
+    "supportingKeywords": [
+      "برنامج ورد القرآن اليومي في الصين",
+      "دروس قرآن بعد المدرسة في الصين",
+      "مراجعة المحفوظ في بكين",
+      "تأسيس الكتابة العربية للطفل في الصين"
+    ],
+    "contentAngle": "التعلم بالعربية من داخل الصين",
+    "contextualCities": "بكين وشنغهاي",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "italy": {
+    "supportingKeywords": [
+      "دروس قرآن للمبتدئين العرب في إيطاليا",
+      "متابعة حفظ القرآن للعائالت في إيطاليا",
+      "أحكام التجويد أونالين في روما",
+      "تحسين القراءة العربية للعرب في إيطاليا"
+    ],
+    "contentAngle": "الحفظ الفردي للعائلات العربية",
+    "contextualCities": "روما وميلانو",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "russia": {
+    "supportingKeywords": [
+      "مراجعة القرآن بالعربية في روسيا",
+      "تحفيظ القرآن للأطفال في روسيا",
+      "تصحيح تالوة القرآن أونالين في موسكو",
+      "تأسيس القراءة العربية للناطقين بها في روسيا"
+    ],
+    "contentAngle": "التسميع والمراجعة بالعربية",
+    "contextualCities": "موسكو وسانت بطرسبرغ",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "norway": {
+    "supportingKeywords": [
+      "حفظ القرآن للكبار أونالين في النرويج",
+      "حلقات قرآن فردية للأطفال في النرويج",
+      "تعليم التجويد بالعربية في أوسلو",
+      "دروس عربية فردية للعرب في النرويج"
+    ],
+    "contentAngle": "المرونة للعائلات في الشمال",
+    "contextualCities": "أوسلو وبيرغن",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "austria": {
+    "supportingKeywords": [
+      "تسميع القرآن عن بعد في النمسا",
+      "تحفيظ جزء عم للأطفال في النمسا",
+      "تحسين تالوة القرآن في فيينا",
+      "تعليم الحروف والقراءة العربية في النمسا"
+    ],
+    "contentAngle": "الحفظ والتجويد بالعربية",
+    "contextualCities": "فيينا وغراتس",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "switzerland": {
+    "supportingKeywords": [
+      "برنامج ورد القرآن اليومي في سويسرا",
+      "دروس قرآن بعد المدرسة في سويسرا",
+      "مراجعة المحفوظ في زيورخ",
+      "تأسيس الكتابة العربية للطفل في سويسرا"
+    ],
+    "contentAngle": "الدرس الفردي والأسرة",
+    "contextualCities": "زيورخ وجنيف",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "brazil": {
+    "supportingKeywords": [
+      "دروس قرآن للمبتدئين العرب في البرازيل",
+      "متابعة حفظ القرآن للعائالت في البرازيل",
+      "أحكام التجويد أونالين في ساو باولو",
+      "تحسين القراءة العربية للعرب في البرازيل"
+    ],
+    "contentAngle": "العرب في أمريكا الجنوبية",
+    "contextualCities": "ساو باولو وريو دي جانيرو",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "mexico": {
+    "supportingKeywords": [
+      "مراجعة القرآن بالعربية في المكسيك",
+      "تحفيظ القرآن للأطفال في المكسيك",
+      "تصحيح تالوة القرآن أونالين في مدينة مكسيكو",
+      "تأسيس القراءة العربية للناطقين بها في المكسيك"
+    ],
+    "contentAngle": "المبتدئ والتلاوة",
+    "contextualCities": "مدينة مكسيكو وغوادالاخارا",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "colombia": {
+    "supportingKeywords": [
+      "حفظ القرآن للكبار أونالين في كولومبيا",
+      "حلقات قرآن فردية للأطفال في كولومبيا",
+      "تعليم التجويد بالعربية في بوغوتا",
+      "دروس عربية فردية للعرب في كولومبيا"
+    ],
+    "contentAngle": "الحفظ الفردي للعرب",
+    "contextualCities": "بوغوتا وميديلين",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "venezuela": {
+    "supportingKeywords": [
+      "تسميع القرآن عن بعد في فنزويال",
+      "تحفيظ جزء عم للأطفال في فنزويال",
+      "تحسين تالوة القرآن في كاراكاس",
+      "تعليم الحروف والقراءة العربية في فنزويال"
+    ],
+    "contentAngle": "المراجعة والورد",
+    "contextualCities": "كاراكاس وفالنسيا",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "denmark": {
+    "supportingKeywords": [
+      "برنامج ورد القرآن اليومي في الدنمارك",
+      "دروس قرآن بعد المدرسة في الدنمارك",
+      "مراجعة المحفوظ في كوبنهاغن",
+      "تأسيس الكتابة العربية للطفل في الدنمارك"
+    ],
+    "contentAngle": "الأطفال والدرس بعد المدرسة",
+    "contextualCities": "كوبنهاغن وآرهوس",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "greece": {
+    "supportingKeywords": [
+      "دروس قرآن للمبتدئين العرب في اليونان",
+      "متابعة حفظ القرآن للعائالت في اليونان",
+      "أحكام التجويد أونالين في أثينا",
+      "تحسين القراءة العربية للعرب في اليونان"
+    ],
+    "contentAngle": "الحفظ للمبتدئ",
+    "contextualCities": "أثينا وسالونيك",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "new-zealand": {
+    "supportingKeywords": [
+      "مراجعة القرآن بالعربية في نيوزيلندا",
+      "تحفيظ القرآن للأطفال في نيوزيلندا",
+      "تصحيح تالوة القرآن أونالين في أوكالند",
+      "تأسيس القراءة العربية للناطقين بها في نيوزيلندا"
+    ],
+    "contentAngle": "التعلم عن بعد للعائلات المتباعدة",
+    "contextualCities": "أوكلاند وويلينغتون",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "finland": {
+    "supportingKeywords": [
+      "حفظ القرآن للكبار أونالين في فنلندا",
+      "حلقات قرآن فردية للأطفال في فنلندا",
+      "تعليم التجويد بالعربية في هلسنكي",
+      "دروس عربية فردية للعرب في فنلندا"
+    ],
+    "contentAngle": "التدرج والورد المنتظم",
+    "contextualCities": "هلسنكي وتامبيري",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "turkey": {
+    "supportingKeywords": [
+      "تسميع القرآن عن بعد في تركيا",
+      "تحفيظ جزء عم للأطفال في تركيا",
+      "تحسين تالوة القرآن في إسطنبول",
+      "تعليم الحروف والقراءة العربية في تركيا"
+    ],
+    "contentAngle": "الأطفال والكبار في مسار واحد",
+    "contextualCities": "إسطنبول وأنقرة",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "indonesia": {
+    "supportingKeywords": [
+      "برنامج ورد القرآن اليومي في إندونيسيا",
+      "دروس قرآن بعد المدرسة في إندونيسيا",
+      "مراجعة المحفوظ في جاكرتا",
+      "تأسيس الكتابة العربية للطفل في إندونيسيا"
+    ],
+    "contentAngle": "التسميع والتجويد",
+    "contextualCities": "جاكرتا وسورابايا",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "malaysia": {
+    "supportingKeywords": [
+      "دروس قرآن للمبتدئين العرب في ماليزيا",
+      "متابعة حفظ القرآن للعائالت في ماليزيا",
+      "أحكام التجويد أونالين في كوااللمبور",
+      "تحسين القراءة العربية للعرب في ماليزيا"
+    ],
+    "contentAngle": "الأطفال والعائلة",
+    "contextualCities": "كوالالمبور وجورج تاون",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "portugal": {
+    "supportingKeywords": [
+      "مراجعة القرآن بالعربية في البرتغال",
+      "تحفيظ القرآن للأطفال في البرتغال",
+      "تصحيح تالوة القرآن أونالين في لشبونة",
+      "تأسيس القراءة العربية للناطقين بها في البرتغال"
+    ],
+    "contentAngle": "الدرس الفردي للمبتدئ",
+    "contextualCities": "لشبونة وبورتو",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "poland": {
+    "supportingKeywords": [
+      "حفظ القرآن للكبار أونالين في بولندا",
+      "حلقات قرآن فردية للأطفال في بولندا",
+      "تعليم التجويد بالعربية في وارسو",
+      "دروس عربية فردية للعرب في بولندا"
+    ],
+    "contentAngle": "الحفظ والمراجعة بالعربية",
+    "contextualCities": "وارسو وكراكوف",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "argentina": {
+    "supportingKeywords": [
+      "تسميع القرآن عن بعد في الأرجنتين",
+      "تحفيظ جزء عم للأطفال في الأرجنتين",
+      "تحسين تالوة القرآن في بوينس آيرس",
+      "تعليم الحروف والقراءة العربية في الأرجنتين"
+    ],
+    "contentAngle": "التعلم الفردي عن بعد",
+    "contextualCities": "بوينس آيرس وقرطبة",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "senegal": {
+    "supportingKeywords": [
+      "برنامج ورد القرآن اليومي في السنغال",
+      "دروس قرآن بعد المدرسة في السنغال",
+      "مراجعة المحفوظ في داكار",
+      "تأسيس الكتابة العربية للطفل في السنغال"
+    ],
+    "contentAngle": "التلاوة والتأسيس",
+    "contextualCities": "داكار وسانت لويس",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "حفظ القرآن ومراجعته",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  },
+  "nigeria": {
+    "supportingKeywords": [
+      "دروس قرآن للمبتدئين العرب في نيجيريا",
+      "متابعة حفظ القرآن للعائالت في نيجيريا",
+      "أحكام التجويد أونالين في الغوس",
+      "تحسين القراءة العربية للعرب في نيجيريا"
+    ],
+    "contentAngle": "الأطفال والكبار",
+    "contextualCities": "لاغوس وأبوجا",
+    "recommendedInternalLinks": [
+      "/contact",
+      "/library",
+      "/games"
+    ],
+    "localArticleTopic": "التلاوة وتأسيس العربية",
+    "schemaTypes": [
+      "WebPage",
+      "EducationalOrganization",
+      "Course: Quran",
+      "Course: Arabic",
+      "FAQPage (visible questions only)"
+    ]
+  }
+}

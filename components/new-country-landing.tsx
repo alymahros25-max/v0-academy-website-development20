@@ -10,6 +10,7 @@ import { CountryServiceLinks } from "@/components/country-service-links"
 import { LandingPageVideoStrip } from "@/components/LandingPageVideoStrip"
 import { getCountryThemeStyle } from "@/components/country-enrichment-section"
 import { countryPages, CountryPagesSection } from "@/components/layout/country-pages-section"
+import { CountrySeoStructuredData } from "@/components/country-seo-structured-data"
 import { germanyLandingConfig } from "@/lib/germany-landing-config"
 import { austriaLandingConfig } from "@/lib/austria-landing-config"
 import { australiaLandingConfig, getAustraliaWhatsAppUrl, type AustraliaPlan } from "@/lib/australia-landing-config"
@@ -37,7 +38,9 @@ function Steps({ config, numbered = true }: { config: NewCountryConfig; numbered
 }
 
 function FAQ({ config }: Props) {
-  return <section className="new-country-section new-country-faq" aria-labelledby="faq-title"><div className="new-country-narrow"><p className="new-country-kicker">إجابات قبل البداية</p><h2 id="faq-title">أسئلة تختصر عليك القرار</h2><div className="new-country-faq-grid">{config.faq.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</div></div></section>
+  const jsonLd = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: config.faq.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
+  const existingFaqSchema = ["austria", "germany"].includes(config.variant)
+  return <><section className="new-country-section new-country-faq" aria-labelledby="faq-title"><div className="new-country-narrow"><p className="new-country-kicker">إجابات قبل البداية</p><h2 id="faq-title">أسئلة تختصر عليك القرار</h2><div className="new-country-faq-grid">{config.faq.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</div></div></section>{!existingFaqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />}</>
 }
 
 function LocalSection({ config }: Props) {
@@ -49,7 +52,7 @@ function PackageIncludes() {
 }
 
 function SharedClosing({ config, videos = [], contactUrl }: Props) {
-  return <><PackageIncludes /><NewCountryVideos videos={videos} /><CountryLearningHub slug={config.variant} variant="minimal" /><section className="new-country-section new-country-closing"><div className="new-country-narrow"><p className="new-country-kicker">خطوة عملية</p><h2>ابدأ بما يناسب أسبوعك الآن</h2><p>أرسل عمر الطالب ومستواه والبرنامج المطلوب، وسنوضح لك الخطوة التالية قبل التسجيل.</p><WhatsApp config={config} contactUrl={contactUrl} /><p className="new-country-independent-note">صفحة مستقلة لـ{config.name} · تعليم أونلاين فقط</p></div></section><CountryFooter config={config} /></>
+  return <><PackageIncludes /><NewCountryVideos videos={videos} /><CountryLearningHub slug={config.variant} variant="minimal" /><section className="new-country-section new-country-closing"><div className="new-country-narrow"><p className="new-country-kicker">خطوة عملية</p><h2>ابدأ بما يناسب أسبوعك الآن</h2><p>أرسل عمر الطالب ومستواه والبرنامج المطلوب، وسنوضح لك الخطوة التالية قبل التسجيل.</p><WhatsApp config={config} contactUrl={contactUrl} /><p className="new-country-independent-note">صفحة مستقلة لـ{config.name} · تعليم أونلاين فقط</p></div></section><CountryFooter config={config} /><CountrySeoStructuredData slug={config.slug} /></>
 }
 
 const countryLinks = [
@@ -257,12 +260,12 @@ export async function NewCountryLanding({ config }: Props) {
       const fromDatabase = databasePlans.filter((plan) => plan.program === program)
       return fromDatabase.length ? fromDatabase : fallbackPlans.filter((plan) => plan.program === program)
     }
-    return <main dir="rtl" className="min-h-screen overflow-hidden bg-background" style={getCountryThemeStyle(areaData.theme)}><AustraliaLayout {...props} faqItems={dynamicConfig.faq} quranPlans={plansFor("quran")} arabicPlans={plansFor("arabic")} areaLinks={areaData.links} configuredWhatsApp={configuredWhatsApp} /></main>
+    return <><main dir="rtl" className="min-h-screen overflow-hidden bg-background" style={getCountryThemeStyle(areaData.theme)}><AustraliaLayout {...props} faqItems={dynamicConfig.faq} quranPlans={plansFor("quran")} arabicPlans={plansFor("arabic")} areaLinks={areaData.links} configuredWhatsApp={configuredWhatsApp} /></main><CountrySeoStructuredData slug={dynamicConfig.slug} /></>
   }
   if (dynamicConfig.variant === "austria") {
     const programContactUrl = getAreaWhatsAppUrl(areaData.links, "باقات القرآن أو العربية في النمسا", configuredWhatsApp)
     const timezoneLabel = areaData.timezones.find((timezone) => timezone.is_primary)?.label_ar || dynamicConfig.timezone
-    return <main dir="rtl" className="min-h-screen overflow-hidden bg-[#FFF9F2] text-[#2C2438]" style={{ "--country-primary": dynamicConfig.theme.primary, "--country-accent": dynamicConfig.theme.accent, "--country-background": dynamicConfig.theme.background, "--country-surface": dynamicConfig.theme.surface, "--country-ink": dynamicConfig.theme.ink } as React.CSSProperties}><AustriaLayout {...props} programContactUrl={programContactUrl} timezoneLabel={timezoneLabel} /></main>
+    return <><main dir="rtl" className="min-h-screen overflow-hidden bg-[#FFF9F2] text-[#2C2438]" style={{ "--country-primary": dynamicConfig.theme.primary, "--country-accent": dynamicConfig.theme.accent, "--country-background": dynamicConfig.theme.background, "--country-surface": dynamicConfig.theme.surface, "--country-ink": dynamicConfig.theme.ink } as React.CSSProperties}><AustriaLayout {...props} programContactUrl={programContactUrl} timezoneLabel={timezoneLabel} /></main><CountrySeoStructuredData slug={dynamicConfig.slug} /></>
   }
   if (dynamicConfig.variant === "germany") {
     const fallbackGermanyPlans = germanyLandingConfig.plans.map((plan) => ({ ...plan, popular: Boolean(plan.popular) }))

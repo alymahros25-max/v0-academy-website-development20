@@ -18,6 +18,7 @@ type WhatsAppWidget = {
 
 export function PublicWidgetLayer() {
   const pathname = usePathname()
+  const isAdmin = pathname.startsWith("/admin")
   const { locale } = useI18n()
   const [widget, setWidget] = useState<WhatsAppWidget | null>(null)
   const [enabled, setEnabled] = useState(false)
@@ -40,13 +41,38 @@ export function PublicWidgetLayer() {
   }, [])
 
   useEffect(() => {
-    if (pathname.startsWith("/admin")) return
-    void load()
-    window.addEventListener("widgets:updated", load)
-    return () => window.removeEventListener("widgets:updated", load)
-  }, [pathname, load])
+    if (isAdmin) return
 
-  if (pathname.startsWith("/admin") || !enabled || !widget) return null
+    type IdleWindow = Window & {
+      requestIdleCallback?: (callback: () => void, options?: { timeout?: number }) => number
+      cancelIdleCallback?: (handle: number) => void
+    }
+
+    const idleWindow = window as IdleWindow
+    let idleHandle: number | undefined
+    let timeoutHandle: number | undefined
+    let cancelled = false
+    const runLoad = () => {
+      if (!cancelled) void load()
+    }
+
+    if (idleWindow.requestIdleCallback) {
+      idleHandle = idleWindow.requestIdleCallback(runLoad, { timeout: 2000 })
+    } else {
+      timeoutHandle = window.setTimeout(runLoad, 600)
+    }
+
+    const handleWidgetUpdate = () => { void load() }
+    window.addEventListener("widgets:updated", handleWidgetUpdate)
+    return () => {
+      cancelled = true
+      if (idleHandle !== undefined) idleWindow.cancelIdleCallback?.(idleHandle)
+      if (timeoutHandle !== undefined) window.clearTimeout(timeoutHandle)
+      window.removeEventListener("widgets:updated", handleWidgetUpdate)
+    }
+  }, [isAdmin, load])
+
+  if (isAdmin || !enabled || !widget) return null
   const phone = widget.phone.replace(/\D/g, "")
   const label = locale === "fr" ? widget.labelFr : locale === "en" ? widget.labelEn : widget.labelAr
   const size = widget.size === "small" ? "h-11 w-11" : widget.size === "medium" ? "h-14 w-14" : "h-16 min-w-16 px-4"

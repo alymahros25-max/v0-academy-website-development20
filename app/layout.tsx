@@ -1,11 +1,9 @@
 import type { Metadata, Viewport } from "next"
-import Script from "next/script"
-import { Noto_Sans_Arabic, Inter } from "next/font/google"
+import { Noto_Sans_Arabic } from "next/font/google"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { generateEducationalOrganizationSchema, generateWebSiteSchema, generateCombinedSchema } from "@/lib/schema"
 import "./globals.css"
 import { ClientProviders } from "@/components/client-providers"
-import { AnalyticsConsent } from "@/components/analytics-consent"
 import { CountryPagesChrome } from "@/components/country-pages-chrome"
 import { ThemeApplicator } from "@/components/theme-applicator"
 
@@ -18,14 +16,8 @@ const notoArabic = Noto_Sans_Arabic({
   subsets: ["arabic"],
   variable: "--font-arabic",
   display: "swap",
-  weight: ["400", "700"],
+  weight: "variable",
   preload: true,
-})
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  preload: false,
 })
 
 export const metadata: Metadata = {
@@ -90,37 +82,20 @@ export const viewport: Viewport = {
   maximumScale: 5,
 }
 
-const consentModeScript = `
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){window.dataLayer.push(arguments);}
-  window.gtag = window.gtag || gtag;
-  gtag('consent', 'default', {
-    ad_storage: 'denied',
-    analytics_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    wait_for_update: 500
-  });
-`
-
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
       <head>
-        <Script id="google-consent-mode" strategy="beforeInteractive">
-          {consentModeScript}
-        </Script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(rootStructuredData) }}
         />
       </head>
-      <body className={`${notoArabic.variable} ${inter.variable} font-sans antialiased`}>
+      <body className={`${notoArabic.variable} font-sans antialiased`}>
         <ThemeApplicator />
         <ErrorBoundary context="RootLayout">
           <ClientProviders><CountryPagesChrome>{children}</CountryPagesChrome></ClientProviders>
         </ErrorBoundary>
-        <AnalyticsConsent />
       </body>
     </html>
   )

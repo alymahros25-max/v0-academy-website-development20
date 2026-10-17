@@ -1,8 +1,13 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import dynamic from "next/dynamic"
 import type { LandingVideo } from "@/lib/classroom-videos"
-import { LandingVideoCarousel } from "@/components/LandingVideoCarousel"
+
+const LandingVideoCarousel = dynamic(
+  () => import("@/components/LandingVideoCarousel").then((module) => module.LandingVideoCarousel),
+  { loading: () => <div className="mt-8 min-h-64 rounded-2xl bg-muted" aria-hidden="true" /> },
+)
 
 export function DeferredLandingVideoStrip() {
   const sectionRef = useRef<HTMLDivElement>(null)

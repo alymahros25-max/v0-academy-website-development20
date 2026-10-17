@@ -3,7 +3,6 @@
 import dynamic from "next/dynamic"
 import { useEffect, useState } from "react"
 
-const ClarityTracker = dynamic(() => import("@/components/clarity-tracker").then((module) => module.ClarityTracker), { ssr: false })
 const FloatingButtons = dynamic(() => import("@/components/floating-buttons").then((module) => module.FloatingButtons), { ssr: false })
 
 export function DeferredClientIntegrations() {
@@ -37,7 +36,6 @@ export function DeferredClientIntegrations() {
 
   return (
     <>
-      <ClarityTracker />
       {ready && <FloatingButtons />}
     </>
   )

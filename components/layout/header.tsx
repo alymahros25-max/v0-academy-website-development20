@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useI18n, type Locale } from "@/lib/i18n"
+import { getPublicWidgets } from "@/lib/public-widgets-client"
 import { Menu, X, ChevronDown, Globe } from "lucide-react"
 
 const localeLabels: Record<Locale, string> = {
@@ -45,12 +46,18 @@ export function Header() {
 
   useEffect(() => {
     let active = true
-    const loadNavbar = async () => {
+    type IdleWindow = Window & {
+      requestIdleCallback?: (callback: () => void, options?: { timeout?: number }) => number
+      cancelIdleCallback?: (handle: number) => void
+    }
+
+    const idleWindow = window as IdleWindow
+    let idleHandle: number | undefined
+    let timeoutHandle: number | undefined
+    const loadNavbar = async (refresh = false) => {
       try {
-        const response = await fetch("/api/public/widgets", { cache: "no-store" })
-        if (!response.ok) return
-        const body = await response.json() as { data?: Array<{ widget_type: string; config_json: unknown; is_enabled: boolean }> }
-        const row = body.data?.find((item) => item.widget_type === "navbar")
+        const widgets = await getPublicWidgets(refresh)
+        const row = widgets.find((item) => item.widget_type === "navbar")
         if (!active || !row) return
         const candidate = row.config_json as Partial<NavbarConfig>
         const allowed = new Set(defaultNavbar.items)
@@ -60,9 +67,21 @@ export function Header() {
         setNavbarLoaded(true)
       } catch { /* keep compiled navigation as a safe fallback */ }
     }
-    void loadNavbar()
-    window.addEventListener("widgets:updated", loadNavbar)
-    return () => { active = false; window.removeEventListener("widgets:updated", loadNavbar) }
+
+    const handleWidgetsUpdated = () => { void loadNavbar(true) }
+    window.addEventListener("widgets:updated", handleWidgetsUpdated)
+    if (idleWindow.requestIdleCallback) {
+      idleHandle = idleWindow.requestIdleCallback(() => { void loadNavbar() }, { timeout: 2000 })
+    } else {
+      timeoutHandle = window.setTimeout(() => { void loadNavbar() }, 600)
+    }
+
+    return () => {
+      active = false
+      if (idleHandle !== undefined) idleWindow.cancelIdleCallback?.(idleHandle)
+      if (timeoutHandle !== undefined) window.clearTimeout(timeoutHandle)
+      window.removeEventListener("widgets:updated", handleWidgetsUpdated)
+    }
   }, [])
 
   const navLinks = [

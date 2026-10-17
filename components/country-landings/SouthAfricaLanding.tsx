@@ -74,15 +74,6 @@ export async function SouthAfricaLanding() {
         </div>
       </section>
 
-      <section lang="af" className="bg-[#fff8ef] px-5 py-12 sm:px-8" aria-labelledby="south-africa-afrikaans-card-title">
-        <div className="mx-auto max-w-5xl rounded-[1.75rem] border-l-4 border-[#f09a67] bg-[#f2e5ec] p-6 text-left text-[#251b2b] sm:p-9">
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8a4f39]">Suid-Afrika · Al-Hafiz Akademie</p>
-          <h2 id="south-africa-afrikaans-card-title" className="mt-3 text-2xl font-black sm:text-3xl">Aanlyn Koran- en Arabiese klasse in Suid-Afrika</h2>
-          <p className="mt-4 max-w-4xl leading-8 text-[#594a59]">Al-Hafiz Akademie bied individuele aanlynklasse vir Koranmemorisering, Koranlees en die grondslag van Arabies aan. Leerders in Johannesburg, Kaapstad, Durban en Pretoria kan navraag doen oor ’n 30-minuut-proefklas en maandelikse pakkette in Suid-Afrikaanse rand. Koranmemorisering en Arabiese onderrig vir Arabies-sprekende studente.</p>
-          <p className="mt-4 max-w-4xl leading-8 text-[#594a59]">Stuur jou stad, huidige vlak en voorkeurprogram. Al-Hafiz Akademie verduidelik die volgende stap.</p>
-        </div>
-      </section>
-
       <SouthAfricaVideoMap videos={videos} />
 
       <section className="bg-white px-5 py-16 sm:px-8"><div className="mx-auto max-w-6xl"><div className="grid gap-5 md:grid-cols-2"><article className="rounded-[2rem] bg-[#12372a] p-7 text-white"><p className="text-sm font-bold text-[#f0b06f]">تحفيظ القرآن الكريم</p><h2 className="mt-3 text-3xl font-black">حفظ ومراجعة حسب نقطة البداية</h2><p className="mt-4 leading-8 text-white/80">برنامج فردي يساعد الطالب على بناء روتين للحفظ والمراجعة والقراءة بحسب مستواه ووقته. تُحدد التفاصيل التعليمية بعد التعارف والحصة التجريبية.</p><a href={packageUrl} target="_blank" rel="noreferrer" className="mt-6 inline-block font-black text-[#f0b06f]">اسأل عن برنامج القرآن ←</a></article><article className="rounded-[2rem] bg-[#eadcc5] p-7 text-[#17251e]"><p className="text-sm font-bold text-[#a75d28]">تأسيس اللغة العربية</p><h2 className="mt-3 text-3xl font-black">ابنِ أساس القراءة والفهم</h2><p className="mt-4 leading-8 text-[#526057]">دروس عربية أونلاين للطالب الذي يريد بناء أساس أو تحسين القراءة والفهم تدريجيًا. يبدأ الاختيار من مستوى الطالب وهدفه.</p><a href={packageUrl} target="_blank" rel="noreferrer" className="mt-6 inline-block font-black text-[#a75d28]">اسأل عن برنامج العربية ←</a></article></div></div></section>

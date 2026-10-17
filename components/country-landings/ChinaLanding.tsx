@@ -57,15 +57,6 @@ export async function ChinaLanding() {
         </div>
       </section>
 
-      <section lang="zh-Hans" className="bg-[#f7f0e3] px-5 py-12 sm:px-8" aria-labelledby="china-local-card-title">
-        <div className="mx-auto max-w-5xl rounded-[1.75rem] border-r-4 border-[#c9953d] bg-[#e8d7bc] p-6 text-left text-[#211a18] sm:p-9">
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#7e1f27]">{chinaLandingConfig.localCard.title}</p>
-          <h2 id="china-local-card-title" className="mt-3 text-2xl font-black sm:text-3xl">{chinaLandingConfig.localCard.heading}</h2>
-          <p className="mt-4 max-w-4xl text-lg leading-8">{chinaLandingConfig.localCard.body}</p>
-          <p lang="ar" className="mt-4 border-t border-[#211a18]/15 pt-4 text-sm font-bold leading-7 text-[#6c5140]">{chinaLandingConfig.localCard.note}</p>
-        </div>
-      </section>
-
       <ChinaGoalStepper videos={videos} />
 
       <section className="bg-[#fffaf1] px-5 py-16 sm:px-8"><div className="mx-auto max-w-6xl"><div className="grid gap-5 md:grid-cols-2"><article className="rounded-[2rem] bg-[#2f5d50] p-7 text-white"><p className="text-sm font-bold text-[#f3d79d]">تحفيظ القرآن الكريم</p><h2 className="mt-3 text-3xl font-black">روتين ثابت للحفظ والمراجعة</h2><p className="mt-4 leading-8 text-white/80">برنامج فردي للحفظ والمراجعة والقراءة، يبدأ من مستوى الطالب وهدفه التعليمي، مع تنظيم الحصص ضمن الباقة المختارة.</p></article><article className="rounded-[2rem] bg-[#211a18] p-7 text-white"><p className="text-sm font-bold text-[#e4bd6e]">تأسيس اللغة العربية</p><h2 className="mt-3 text-3xl font-black">أساس تدريجي للقراءة والفهم</h2><p className="mt-4 leading-8 text-white/75">برنامج تدريجي للطالب الذي يبدأ من الأساس أو يريد تحسين القراءة والفهم، مع متابعة تعليمية تناسب مستواه الحالي.</p></article></div></div></section>

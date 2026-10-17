@@ -81,12 +81,6 @@ export function getCountryWebPageSchema(slug: string) {
   }
 }
 
-const countryRoutesMissingOrganizationAndCourses = new Set([
-  "australia", "bahrain", "belgium", "canada", "france", "germany", "jordan", "kuwait",
-  "netherlands", "oman", "qatar", "saudi-arabia", "spain", "sweden", "united-arab-emirates",
-  "united-kingdom", "united-states",
-])
-
 export function getCountrySchemaGraph(slug: string) {
   const page = getCountrySeoPlan(slug)
   if (!page) throw new Error(`Missing SEO plan for country: ${slug}`)
@@ -95,35 +89,27 @@ export function getCountrySchemaGraph(slug: string) {
   const organizationId = `${canonical}#organization`
   const graph: Record<string, unknown>[] = [getCountryWebPageSchema(slug)]
 
-  if (countryRoutesMissingOrganizationAndCourses.has(slug)) {
-    graph.push({
-      "@type": "EducationalOrganization",
-      "@id": organizationId,
-      name: "أكاديمية الحافظ المتميز",
-      url: COUNTRY_SEO_BASE_URL,
-      areaServed: { "@type": "Country", name: page.country },
-    })
-    graph.push(
-      {
-        "@type": "Course",
-        name: page.h1,
-        provider: { "@id": organizationId },
-      },
-      {
-        "@type": "Course",
-        name: `تأسيس العربية أونلاين في ${page.country}`,
-        provider: { "@id": organizationId },
-      },
-    )
-  }
-
-  if (slug === "colombia") {
-    graph.push({
+  graph.push({
+    "@type": "EducationalOrganization",
+    "@id": organizationId,
+    name: "أكاديمية الحافظ المتميز",
+    url: COUNTRY_SEO_BASE_URL,
+    areaServed: { "@type": "Country", name: page.country },
+  })
+  graph.push(
+    {
+      "@type": "Course",
+      name: page.h1,
+      provider: { "@id": organizationId },
+      inLanguage: "ar",
+    },
+    {
       "@type": "Course",
       name: `تأسيس العربية أونلاين في ${page.country}`,
-      provider: { "@type": "EducationalOrganization", name: "أكاديمية الحافظ المتميز" },
-    })
-  }
+      provider: { "@id": organizationId },
+      inLanguage: "ar",
+    },
+  )
 
   return { "@context": "https://schema.org", "@graph": graph }
 }

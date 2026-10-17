@@ -1,11 +1,9 @@
 import type { Metadata, Viewport } from "next"
-import Script from "next/script"
 import { Noto_Sans_Arabic } from "next/font/google"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { generateEducationalOrganizationSchema, generateWebSiteSchema, generateCombinedSchema } from "@/lib/schema"
 import "./globals.css"
 import { ClientProviders } from "@/components/client-providers"
-import { AnalyticsConsent } from "@/components/analytics-consent"
 import { CountryPagesChrome } from "@/components/country-pages-chrome"
 import { ThemeApplicator } from "@/components/theme-applicator"
 
@@ -84,26 +82,10 @@ export const viewport: Viewport = {
   maximumScale: 5,
 }
 
-const consentModeScript = `
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){window.dataLayer.push(arguments);}
-  window.gtag = window.gtag || gtag;
-  gtag('consent', 'default', {
-    ad_storage: 'denied',
-    analytics_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    wait_for_update: 500
-  });
-`
-
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
       <head>
-        <Script id="google-consent-mode" strategy="beforeInteractive">
-          {consentModeScript}
-        </Script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(rootStructuredData) }}
@@ -114,7 +96,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <ErrorBoundary context="RootLayout">
           <ClientProviders><CountryPagesChrome>{children}</CountryPagesChrome></ClientProviders>
         </ErrorBoundary>
-        <AnalyticsConsent />
       </body>
     </html>
   )

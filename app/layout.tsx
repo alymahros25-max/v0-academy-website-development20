@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next"
 import Script from "next/script"
-import { Noto_Sans_Arabic, Inter } from "next/font/google"
+import { Noto_Sans_Arabic } from "next/font/google"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { generateEducationalOrganizationSchema, generateWebSiteSchema, generateCombinedSchema } from "@/lib/schema"
 import "./globals.css"
@@ -18,14 +18,8 @@ const notoArabic = Noto_Sans_Arabic({
   subsets: ["arabic"],
   variable: "--font-arabic",
   display: "swap",
-  weight: ["400", "700"],
+  weight: "variable",
   preload: true,
-})
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  preload: false,
 })
 
 export const metadata: Metadata = {
@@ -115,7 +109,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           dangerouslySetInnerHTML={{ __html: JSON.stringify(rootStructuredData) }}
         />
       </head>
-      <body className={`${notoArabic.variable} ${inter.variable} font-sans antialiased`}>
+      <body className={`${notoArabic.variable} font-sans antialiased`}>
         <ThemeApplicator />
         <ErrorBoundary context="RootLayout">
           <ClientProviders><CountryPagesChrome>{children}</CountryPagesChrome></ClientProviders>

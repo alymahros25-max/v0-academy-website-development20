@@ -7,16 +7,27 @@
         "http://localhost:3000/united-arab-emirates",
         "http://localhost:3000/united-states"
       ],
-      "numberOfRuns": 1,
+      "numberOfRuns": 3,
       "settings": {
-        "chromeFlags": "--no-sandbox"
+        "chromeFlags": "--no-sandbox",
+        "formFactor": "mobile",
+        "screenEmulation": {
+          "mobile": true,
+          "width": 390,
+          "height": 844,
+          "deviceScaleFactor": 2,
+          "disabled": false
+        },
+        "throttlingMethod": "simulate"
       }
     },
     "assert": {
       "assertions": {
         "categories:performance": "warn",
+        "metrics:first-contentful-paint": ["warn", { "maxNumericValue": 1800 }],
+        "metrics:largest-contentful-paint": ["warn", { "maxNumericValue": 2500 }],
         "metrics:cumulative-layout-shift": ["warn", { "maxNumericValue": 0.1 }],
-        "metrics:total-blocking-time": ["warn", { "maxNumericValue": 300 }]
+        "metrics:total-blocking-time": ["warn", { "maxNumericValue": 200 }]
       }
     }
   }

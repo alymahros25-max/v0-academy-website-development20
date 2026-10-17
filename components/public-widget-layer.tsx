@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react"
 import { MessageCircle } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { useI18n } from "@/lib/i18n"
+import { getPublicWidgets } from "@/lib/public-widgets-client"
 
 type WhatsAppWidget = {
   position: "left" | "right"
@@ -23,12 +24,10 @@ export function PublicWidgetLayer() {
   const [widget, setWidget] = useState<WhatsAppWidget | null>(null)
   const [enabled, setEnabled] = useState(false)
 
-  const load = useCallback(async () => {
+  const load = useCallback(async (refresh = false) => {
     try {
-      const response = await fetch("/api/public/widgets", { cache: "no-store" })
-      if (!response.ok) return
-      const body = await response.json() as { data?: Array<{ widget_type: string; config_json: unknown; is_enabled: boolean }> }
-      const row = body.data?.find((item) => item.widget_type === "whatsapp_button")
+      const widgets = await getPublicWidgets(refresh)
+      const row = widgets.find((item) => item.widget_type === "whatsapp_button")
       const config = row?.config_json as WhatsAppWidget | undefined
       if (!row || !row.is_enabled || !config || !/^\+?[0-9]{8,15}$/.test(config.phone) || !/^#[\da-f]{6}$/i.test(config.color)) {
         setWidget(null)
@@ -62,7 +61,7 @@ export function PublicWidgetLayer() {
       timeoutHandle = window.setTimeout(runLoad, 600)
     }
 
-    const handleWidgetUpdate = () => { void load() }
+    const handleWidgetUpdate = () => { void load(true) }
     window.addEventListener("widgets:updated", handleWidgetUpdate)
     return () => {
       cancelled = true

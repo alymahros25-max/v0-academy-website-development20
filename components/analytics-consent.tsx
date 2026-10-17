@@ -107,7 +107,7 @@ export function AnalyticsConsent() {
 
   return (
     <>
-      {googleAnalyticsReady && <GoogleAnalytics gaId="G-XPT3R8M0EC" />}
+      {consent === true && googleAnalyticsReady && <GoogleAnalytics gaId="G-XPT3R8M0EC" />}
       {consent === true && <><Analytics /><SpeedInsights /></>}
       {consent === null && (
         <aside className="fixed bottom-3 right-3 left-3 z-50 mx-auto flex max-w-lg flex-col gap-3 rounded-2xl border border-border/80 bg-background/95 p-3 text-sm text-foreground shadow-md backdrop-blur sm:bottom-5 sm:right-5 sm:left-auto sm:p-4">

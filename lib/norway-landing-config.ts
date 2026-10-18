@@ -40,5 +40,5 @@ export const norwayLandingConfig = {
 } as const
 
 export function getNorwayWhatsAppUrl(message = norwayLandingConfig.whatsappMessage) {
-  return `https://wa.me/message/62LK42KU3LCCM1?text=${encodeURIComponent(message)}`
+  return `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent(message)}`
 }

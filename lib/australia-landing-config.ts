@@ -1,4 +1,4 @@
-export const AUSTRALIA_WHATSAPP_NUMBER = "201130127894"
+export const AUSTRALIA_WHATSAPP_NUMBER = "RCJSLAJQHAWHA1"
 export type AustraliaProgram = "quran" | "arabic"
 export type AustraliaDuration = 30
 export type AustraliaPlan = { id: string; program: AustraliaProgram; duration: AustraliaDuration; monthlySessions: 4 | 8 | 12 | 16; weeklySessions: 1 | 2 | 3 | 4; price: number; name: string; description: string; features: string[]; popular?: boolean }
@@ -34,6 +34,6 @@ export function getAustraliaWhatsAppUrl(plan: AustraliaPlan | string) {
   const message = isPlan
     ? `السلام عليكم،\nأرغب في معرفة تفاصيل باقة ${program} — ${plan.duration} دقيقة — ${plan.monthlySessions} حصص شهرياً — بقيمة AU$${plan.price} بالدولار الأسترالي في أستراليا، وبعدها أود حجز الحصة التجريبية المجانية.\n\nبيانات الطالب:\nالاسم:\nالعمر:\nولد أم بنت:\nالمستوى الحالي أو كمية الحفظ:\nمعلم أم معلمة:\nالمدينة داخل أستراليا:\nالوقت المناسب للحصة التجريبية:\nهل يوجد إخوة آخرون للاستفادة من خصم الأخوة؟`
     : `السلام عليكم،\nأرغب في حجز أول حصة تجريبية مجانية في تحفيظ القرآن أو تأسيس اللغة العربية للناطقين بالعربية في أستراليا.\n\nبيانات الطالب:\nالاسم:\nالعمر:\nولد أم بنت:\nقرآن أم تأسيس عربي:\nالمستوى الحالي أو كمية الحفظ:\nمعلم أم معلمة:\nالمدينة داخل أستراليا:\nالوقت المناسب للحصة التجريبية:`
-  return `https://wa.me/${AUSTRALIA_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
+  return `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent(message)}`
 }
 export const australiaPlans = australiaLandingConfig.plans

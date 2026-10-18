@@ -111,6 +111,8 @@ export function packageWeeklySessions(sessionsPerMonth: number | null | undefine
 }
 
 export function getAreaLinkHref(links: Array<Partial<AreaLink>> | undefined, linkKey: string, fallback: string): string {
+  // WhatsApp is intentionally centralized in code; ignore legacy per-country DB links.
+  if (linkKey === "whatsapp") return fallback
   const match = links?.find((link) => link.link_key === linkKey && typeof link.href === "string" && link.href.trim())
   return match?.href?.trim() || fallback
 }

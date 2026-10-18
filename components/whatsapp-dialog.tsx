@@ -81,7 +81,7 @@ export function WhatsAppDialog({ open, onOpenChange }: WhatsAppDialogProps) {
     trackGA4Event("whatsapp_chat_start", { program: option.id, location: "whatsapp_dialog" })
     const encodedMessage = encodeURIComponent(option.message)
     // Using wa.me with phone number to open the correct chat
-    const whatsappUrl = `https://wa.me/201130127894?text=${encodedMessage}`
+    const whatsappUrl = `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodedMessage}`
     window.open(whatsappUrl, "_blank")
     onOpenChange(false)
     setSelectedOption(null)

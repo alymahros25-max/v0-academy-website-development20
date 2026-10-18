@@ -75,7 +75,7 @@ export function PublicWidgetLayer() {
   const phone = widget.phone.replace(/\D/g, "")
   const label = locale === "fr" ? widget.labelFr : locale === "en" ? widget.labelEn : widget.labelAr
   const size = widget.size === "small" ? "h-11 w-11" : widget.size === "medium" ? "h-14 w-14" : "h-16 min-w-16 px-4"
-  return <a href={`https://wa.me/${phone}`} target="_blank" rel="noopener noreferrer" aria-label={label || "WhatsApp"} className={`fixed bottom-5 z-[60] inline-flex items-center justify-center gap-2 rounded-full text-white shadow-lg transition-transform hover:scale-105 ${size} ${widget.position === "left" ? "left-5" : "right-5"}`} style={{ backgroundColor: widget.color }}>
+  return <a href={`https://wa.me/message/RCJSLAJQHAWHA1`} target="_blank" rel="noopener noreferrer" aria-label={label || "WhatsApp"} className={`fixed bottom-5 z-[60] inline-flex items-center justify-center gap-2 rounded-full text-white shadow-lg transition-transform hover:scale-105 ${size} ${widget.position === "left" ? "left-5" : "right-5"}`} style={{ backgroundColor: widget.color }}>
     <MessageCircle aria-hidden="true" size={24} />
     {widget.showLabel && <span className="text-sm font-bold">{label}</span>}
   </a>

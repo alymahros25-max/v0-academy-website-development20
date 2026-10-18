@@ -1,4 +1,4 @@
-export const UAE_WHATSAPP_NUMBER = "201130127894"
+export const UAE_WHATSAPP_NUMBER = "RCJSLAJQHAWHA1"
 
 export type UaeProgram = "quran" | "arabic"
 export type UaeDuration = 30
@@ -73,5 +73,5 @@ export const uaeLandingConfig = {
 
 export function getUaeWhatsAppUrl(plan: string) {
   const message = uaeLandingConfig.whatsappTemplate.replace("{plan}", plan)
-  return `https://wa.me/${uaeLandingConfig.whatsappNumber}?text=${encodeURIComponent(message)}`
+  return `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent(message)}`
 }

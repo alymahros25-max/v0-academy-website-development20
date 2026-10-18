@@ -25,18 +25,7 @@ export async function ChinaLanding() {
   const baseContact = getAreaLinkHref(areaData.links, "whatsapp", getChinaWhatsAppUrl())
   const trialUrl = getAreaWhatsAppUrl(areaData.links, "حصة تجريبية مجانية في الصين", baseContact)
   const packageUrl = getAreaWhatsAppUrl(areaData.links, "برنامج القرآن أو العربية في الصين", baseContact)
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
-      { "@type": "WebPage", "@id": `${canonical}#webpage`, url: canonical, name: chinaLandingConfig.seo.title, description: chinaLandingConfig.seo.description, inLanguage: "ar" },
-      { "@type": "EducationalOrganization", "@id": `${canonical}#organization`, name: "أكاديمية الحافظ المتميز", url: "https://quran-elhafez.com/", areaServed: { "@type": "Country", name: "China" } },
-      { "@type": "Course", name: "تحفيظ القرآن أونلاين في الصين", description: "حصص فردية للحفظ والمراجعة والقراءة عبر الإنترنت.", provider: { "@id": `${canonical}#organization` }, offers: quranPrices.map((price, index) => ({ "@type": "Offer", price, priceCurrency: "CNY", category: `${[4, 8, 12, 16][index]} حصص شهريًا`, url: canonical })) },
-      { "@type": "Course", name: "تأسيس العربية أونلاين في الصين", description: "حصص فردية لبناء أساس القراءة والفهم بالعربية عبر الإنترنت.", provider: { "@id": `${canonical}#organization` }, offers: arabicPrices.map((price, index) => ({ "@type": "Offer", price, priceCurrency: "CNY", category: `${[4, 8, 12, 16][index]} حصص شهريًا`, url: canonical })) },
-      { "@type": "FAQPage", mainEntity: faq.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) },
-    ],
-  }
-
-  return (
+return (
     <main dir="rtl" className="min-h-screen overflow-hidden" style={{ "--china-primary": theme.primary, "--china-accent": theme.accent, "--china-background": theme.background, "--china-surface": theme.surface, "--china-ink": theme.ink } as CSSProperties}>
       <header className="bg-[#211a18] px-5 py-4 text-[#fffaf1] sm:px-8">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
@@ -49,8 +38,8 @@ export async function ChinaLanding() {
         <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
           <div>
             <p className="text-sm font-black uppercase tracking-[0.25em] text-[#f3d79d]">دفتر الهدف · الصين</p>
-            <h1 id="china-opening-title" className="mt-6 max-w-4xl text-balance text-5xl font-black leading-[1.08] sm:text-7xl">تعلم القرآن أونلاين بالعربية من الصين في حلقة فردية</h1>
-            <p className="mt-7 max-w-2xl text-lg leading-9 text-[#f9e8d2] sm:text-xl">من بكين إلى شنغهاي وغوانغجو وشِنْجِن، يمكنك التعرف إلى برامج القرآن والعربية أونلاين بطريقة واضحة. اختر ما تريد تعلمه، اذكر الوقت المناسب لك، وأرسل سؤالك قبل اتخاذ القرار.</p>
+            <h1 id="china-opening-title" className="mt-6 max-w-4xl text-balance text-5xl font-black leading-[1.08] sm:text-7xl">تحفيظ القرآن ومراجعته أونلاين بالعربية في الصين</h1>
+            <p className="mt-7 max-w-2xl text-lg leading-9 text-[#f9e8d2] sm:text-xl">إذا كنت في الصين وتفضل التعلم بالعربية، فتعرّف إلى خيارات أونلاين لتحفيظ القرآن ومراجعته أو تأسيس القراءة بالعربية. اذكر هدفك ومدينتك والوقت المناسب عند التواصل للاستفسار عن التفاصيل؛ وذكر المدن لا يعني وجود فرع محلي.</p>
             <div className="mt-8 flex flex-wrap gap-3"><a href="#china-steps" className="inline-flex items-center gap-2 rounded-full bg-[#c9953d] px-6 py-3 font-black text-[#211a18]">اختر هدفك</a><a href={trialUrl} target="_blank" rel="noreferrer" className="rounded-full border border-[#f9e8d2] px-6 py-3 font-black text-[#fffaf1]">تواصل واسأل عن الموعد</a></div>
           </div>
           <div className="rounded-[2rem] border border-[#f3d79d]/40 bg-[#211a18]/25 p-7"><span className="text-6xl">{chinaLandingConfig.flag}</span><p className="mt-6 text-sm font-black text-[#f3d79d]">تعلم فردي أونلاين</p><p className="mt-2 text-2xl font-black">القرآن أو العربية، وفق هدفك.</p><div className="mt-6 flex flex-wrap gap-2 text-sm font-bold text-[#f9e8d2]">{cities.map((city) => <span key={city} className="rounded-full border border-[#f3d79d]/50 px-3 py-2">{city}</span>)}</div></div>
@@ -71,7 +60,7 @@ export async function ChinaLanding() {
 
             <CountryLearningHub slug="china" variant="timeline" showLocalCard={false} />
 <footer className="border-t-4 border-[#c9953d] bg-[#211a18] px-5 py-7 text-[#fffaf1] sm:px-8"><div className="mx-auto max-w-6xl"><div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between"><span className="text-sm font-black tracking-wide">مسار الصين · {new Date().getFullYear()}</span><nav aria-label="روابط صفحة الصين" className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-bold text-[#f9e8d2]"><Link href="/">الرئيسية</Link><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/contact">التواصل</Link><Link href="/privacy">الخصوصية</Link><Link href="/terms">الشروط</Link></nav></div><details className="mt-6 border-t border-[#ffffff24] pt-5"><summary className="cursor-pointer text-sm font-black text-[#e4bd6e]">صفحاتنا حسب الدولة</summary><nav aria-label="كل صفحات الدول" className="mt-4 grid gap-2 sm:grid-cols-3 lg:grid-cols-4">{countryPages.map((country) => <Link key={country.href} href={country.href} className="rounded-md border border-[#ffffff24] px-3 py-2 text-sm text-[#f9e8d2] transition hover:border-[#c9953d] hover:text-white"><span className="me-2" aria-hidden="true">{country.flag}</span>{country.label}</Link>)}</nav></details></div></footer>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+
     </main>
   )
 }

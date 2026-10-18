@@ -38,7 +38,7 @@ export function generateOrganizationSchema(): SchemaContext {
       '@type': 'ContactPoint',
       contactType: 'Customer Service',
       email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || '',
-      url: 'https://wa.me/message/62LK42KU3LCCM1',
+      url: 'https://wa.me/message/RCJSLAJQHAWHA1',
     },
   }
 }
@@ -178,7 +178,7 @@ export function generateEducationalOrganizationSchema(): SchemaContext {
       '@type': 'ContactPoint',
       contactType: 'Customer Service',
       email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || '',
-      url: 'https://wa.me/?text=مرحبا+..اريد+معرفة+تفاصيل+عن+التحفيظ+للقران',
+      url: 'https://wa.me/message/RCJSLAJQHAWHA1?text=مرحبا+..اريد+معرفة+تفاصيل+عن+التحفيظ+للقران',
       availableLanguage: ['ar', 'en', 'fr'],
     },
     sameAs: [

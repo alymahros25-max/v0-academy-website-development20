@@ -39,5 +39,5 @@ export const italyLandingConfig = {
 } as const
 
 export function getItalyWhatsAppUrl(message = "السلام عليكم، أرغب في الاستفسار عن باقات القرآن أو العربية في إيطاليا.") {
-  return `https://wa.me/message/62LK42KU3LCCM1?text=${encodeURIComponent(message)}`
+  return `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent(message)}`
 }

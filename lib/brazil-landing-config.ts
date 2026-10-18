@@ -24,4 +24,4 @@ export const brazilLandingConfig = {
   ] as const,
 } as const
 
-export function getBrazilWhatsAppUrl(message = brazilLandingConfig.whatsappMessage) { return `https://wa.me/message/62LK42KU3LCCM1?text=${encodeURIComponent(message)}` }
+export function getBrazilWhatsAppUrl(message = brazilLandingConfig.whatsappMessage) { return `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent(message)}` }

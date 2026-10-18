@@ -7,7 +7,7 @@ type WhatsAppConfig = { position: "left" | "right"; phone: string; size: "small"
 type NavbarConfig = { items: string[] }
 type WidgetRow = { widget_type: "whatsapp_button" | "navbar"; config_json: WhatsAppConfig | NavbarConfig; is_enabled: boolean; display_order: number }
 
-const defaultWhatsApp: WhatsAppConfig = { position: "right", phone: "201130127894", size: "large", color: "#1a4d2e", showLabel: true, labelAr: "اتصل بنا", labelEn: "Contact Us", labelFr: "Nous contacter" }
+const defaultWhatsApp: WhatsAppConfig = { position: "right", phone: "RCJSLAJQHAWHA1", size: "large", color: "#1a4d2e", showLabel: true, labelAr: "اتصل بنا", labelEn: "Contact Us", labelFr: "Nous contacter" }
 const navChoices = [
   ["home", "الرئيسية"], ["about", "من نحن"], ["quran", "أسعار القرآن"], ["arabic", "أسعار العربية"], ["teachers", "المعلمون"], ["reviews", "الآراء"], ["library", "المكتبة"], ["classroom", "فيديوهات الحصص"], ["games", "الألعاب"], ["faq", "الأسئلة الشائعة"], ["blog", "المدونة"], ["contact", "التواصل"], ["account", "الحساب"],
 ] as const
@@ -88,7 +88,7 @@ export function WidgetsManager() {
     <section className="space-y-5 rounded-2xl border border-border bg-card p-5">
       <h3 className="flex items-center gap-2 text-lg font-bold"><MessageCircle size={20} />زر WhatsApp</h3>
       <div className="grid gap-4 md:grid-cols-2">
-        <label className="grid gap-2 text-sm">رقم الهاتف الدولي<input value={whatsapp.phone} onChange={(e) => updateWhatsApp("phone", e.target.value)} placeholder="201130127894" dir="ltr" className="rounded-lg border border-input bg-background px-3 py-2" /></label>
+        <label className="grid gap-2 text-sm">رقم الهاتف الدولي<input value={whatsapp.phone} onChange={(e) => updateWhatsApp("phone", e.target.value)} placeholder="RCJSLAJQHAWHA1" dir="ltr" className="rounded-lg border border-input bg-background px-3 py-2" /></label>
         <label className="grid gap-2 text-sm">الموضع<select value={whatsapp.position} onChange={(e) => updateWhatsApp("position", e.target.value as WhatsAppConfig["position"])} className="rounded-lg border border-input bg-background px-3 py-2"><option value="right">يمين</option><option value="left">يسار</option></select></label>
         <label className="grid gap-2 text-sm">الحجم<select value={whatsapp.size} onChange={(e) => updateWhatsApp("size", e.target.value as WhatsAppConfig["size"])} className="rounded-lg border border-input bg-background px-3 py-2"><option value="small">صغير</option><option value="medium">متوسط</option><option value="large">كبير</option></select></label>
         <label className="flex items-center gap-3 text-sm">اللون<input type="color" value={whatsapp.color} onChange={(e) => updateWhatsApp("color", e.target.value)} className="h-9 w-16" /></label>

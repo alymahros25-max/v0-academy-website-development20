@@ -1,6 +1,8 @@
 import { getAreaLandingData, toAreaDisplayPlan, type AreaDisplayPlan, type AreaLandingSnapshot } from "@/lib/country-content"
 import { resolveCountrySeoPlan, type CompleteCountrySeoPage } from "@/lib/country-seo"
 import { getCountryStaticFallback } from "@/lib/country-static-fallback"
+import { countryEducationalContent, type CountryEducationalContent } from "@/lib/country-educational-content"
+import { resolveCountryEducation } from "@/lib/country-education-resolution.mjs"
 
 export type CountryPageModel = {
   slug: string
@@ -9,6 +11,7 @@ export type CountryPageModel = {
   quranPlans: AreaDisplayPlan[]
   arabicPlans: AreaDisplayPlan[]
   faq: Array<[string, string]>
+  learning: CountryEducationalContent | undefined
   cities: string[]
   timezoneLabel: string
   currencyCode: string
@@ -50,6 +53,7 @@ function normalizeFaq(slug: string, faq: Array<[string, string]>): Array<[string
 export async function getCountryPageModel(slug: string): Promise<CountryPageModel> {
   const areaData = await getAreaLandingData(slug)
   const fallback = getCountryStaticFallback(slug)
+  const learning = resolveCountryEducation(slug, areaData.area?.slug, areaData.content, countryEducationalContent[slug])
   const databasePlans = areaData.packages.map(toAreaDisplayPlan)
   const quranPlans = databasePlans.filter((plan) => plan.program === "quran")
   const arabicPlans = databasePlans.filter((plan) => plan.program === "arabic")
@@ -65,6 +69,7 @@ export async function getCountryPageModel(slug: string): Promise<CountryPageMode
     slug,
     seo: resolveCountrySeoPlan(slug, areaData.content),
     areaData,
+    learning,
     quranPlans: quranPlans.length ? quranPlans : fallback.quranPlans,
     arabicPlans: arabicPlans.length ? arabicPlans : fallback.arabicPlans,
     faq,

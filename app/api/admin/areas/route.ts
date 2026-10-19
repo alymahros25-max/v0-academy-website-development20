@@ -68,9 +68,24 @@ const enrichmentChangeSchemas = {
   }).partial().strict(),
 } as const
 
+const contentChangeSchema = z.object({
+  content_ar: z.string().trim().max(4000).nullable(),
+  content_en: z.string().trim().max(4000).nullable(),
+  content_fr: z.string().trim().max(4000).nullable(),
+  content_type: z.string().trim().min(1).max(40),
+  section: z.string().trim().min(1).max(80),
+  href: z.string().trim().max(2048).refine((value) => !/^\s*(?:javascript|data):/iu.test(value), "Unsafe URL"),
+  is_active: z.boolean(),
+  sort_order: z.number().int().min(0).max(10000),
+}).partial().strict()
+
 function safeChanges(resource: AreaResource, changes: Record<string, unknown>) {
   const allowed = fieldAllowList[resource]
   const filtered = Object.fromEntries(Object.entries(changes).filter(([key]) => allowed.has(key)))
+  if (resource === "content") {
+    const parsed = contentChangeSchema.safeParse(filtered)
+    return parsed.success ? parsed.data : {}
+  }
   if (resource !== "themes" && resource !== "cities" && resource !== "timezones") return filtered
   const parsed = enrichmentChangeSchemas[resource].safeParse(filtered)
   return parsed.success ? parsed.data : {}

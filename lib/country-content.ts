@@ -93,6 +93,9 @@ export function revalidateAreaLandingData(slug: string) {
   if (!isCountrySlug(slug)) return
   revalidateTag(countryLandingCacheTag(slug), { expire: 0 })
   revalidatePath(`/${slug}`)
+  revalidatePath(`/blog/country/${slug}/quran`)
+  revalidatePath(`/blog/country/${slug}/arabic`)
+  revalidatePath(`/blog/country/${slug}/teachers`)
 }
 
 export function areaLocalized(value: { content_ar?: string | null; content_en?: string | null; content_fr?: string | null } | undefined, locale = "ar") {

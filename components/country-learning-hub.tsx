@@ -1,18 +1,19 @@
 import { BookOpenText, Lightbulb, UsersRound } from "lucide-react"
 import { countryEducationalContent } from "@/lib/country-educational-content"
+import type { CountryEducationalContent } from "@/lib/country-educational-content"
 import { getTeachers } from "@/lib/data-store"
 import { CountryArticleDrawer } from "@/components/country-article-drawer"
 import { CountryTeacherMarquee } from "@/components/country-teacher-marquee"
 
-type Props = { slug: string; variant?: "cards" | "timeline" | "notebook" | "minimal"; showLocalCard?: boolean }
+type Props = { slug: string; content?: CountryEducationalContent; variant?: "cards" | "timeline" | "notebook" | "minimal"; showLocalCard?: boolean }
 
 const articleModes: Record<string, "button" | "answer" | "side-tab" | "glow"> = {
   "south-africa": "glow", china: "answer", italy: "side-tab", russia: "button", norway: "glow", austria: "answer", switzerland: "side-tab", brazil: "button", mexico: "glow", colombia: "answer", venezuela: "side-tab", denmark: "button", greece: "glow", "new-zealand": "answer", finland: "side-tab", turkey: "button", indonesia: "glow", malaysia: "answer", portugal: "side-tab", poland: "button", argentina: "glow", senegal: "answer", nigeria: "side-tab",
   australia: "answer", canada: "side-tab", germany: "glow", "saudi-arabia": "button", "united-arab-emirates": "answer", "united-kingdom": "glow", "united-states": "side-tab", kuwait: "button", qatar: "glow", oman: "answer", jordan: "side-tab", bahrain: "button", france: "glow", spain: "answer", netherlands: "side-tab", belgium: "button", sweden: "glow",
 }
 
-export async function CountryLearningHub({ slug, variant = "cards", showLocalCard = true }: Props) {
-  const content = countryEducationalContent[slug]
+export async function CountryLearningHub({ slug, content: suppliedContent, variant = "cards", showLocalCard = true }: Props) {
+  const content = suppliedContent ?? countryEducationalContent[slug]
   if (!content) return null
   const teachers = await getTeachers()
   const articleMode = articleModes[slug] ?? "button"

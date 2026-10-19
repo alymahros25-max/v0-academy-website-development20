@@ -182,7 +182,7 @@ export async function CountryUnifiedLanding({ page }: { page: CountryPageModel }
     quranPlans: <PlanGroup page={page} program="quran" title={`باقات تحفيظ القرآن في ${country}`} layout={design.plans} />,
     arabicPlans: <PlanGroup page={page} program="arabic" title={`باقات تأسيس العربية في ${country}`} layout={design.plans} />,
     videos: videos.length > 0 ? <div className="mx-auto max-w-6xl px-5 sm:px-8"><NewCountryVideos videos={videos} /></div> : null,
-    learning: <CountryLearningHub slug={page.slug} variant={design.learning} showLocalCard={false} />,
+    learning: <CountryLearningHub slug={page.slug} content={page.learning} variant={design.learning} showLocalCard={false} />,
     faq: <CountryFaqSection page={page} variant={design.faq} />,
   }
 

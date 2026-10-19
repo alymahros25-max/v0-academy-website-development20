@@ -27,6 +27,7 @@ export async function ItalyLanding(page: CountryPageModel) {
   const baseContact = getAreaLinkHref(areaData.links, "whatsapp", getItalyWhatsAppUrl())
   const trialUrl = getAreaWhatsAppUrl(areaData.links, "حصة تجريبية مجانية في إيطاليا", baseContact)
   const packageUrl = getAreaWhatsAppUrl(areaData.links, "باقات القرآن أو العربية في إيطاليا", baseContact)
+  const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       { "@type": "WebPage", "@id": `${canonical}#webpage`, url: canonical, name: italyLandingConfig.seo.title, description: italyLandingConfig.seo.description, inLanguage: "ar" },

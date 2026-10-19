@@ -25,6 +25,7 @@ export async function NorwayLanding(page: CountryPageModel) {
   const baseContact = getAreaLinkHref(areaData.links, "whatsapp", getNorwayWhatsAppUrl())
   const trialUrl = getAreaWhatsAppUrl(areaData.links, "حصة تجريبية مجانية في النرويج", baseContact)
   const packageUrl = getAreaWhatsAppUrl(areaData.links, "باقات القرآن أو العربية في النرويج", baseContact)
+  const jsonLd = { "@context": "https://schema.org", "@graph": [
     { "@type": "WebPage", "@id": `${canonical}#webpage`, url: canonical, name: norwayLandingConfig.seo.title, description: norwayLandingConfig.seo.description, inLanguage: "ar" },
     { "@type": "EducationalOrganization", "@id": `${canonical}#organization`, name: "أكاديمية الحافظ المتميز", url: "https://quran-elhafez.com/", areaServed: { "@type": "Country", name: "Norway" } },
     { "@type": "Course", name: "تحفيظ القرآن أونلاين في النرويج", description: "حصص فردية للحفظ والمراجعة والقراءة عبر الإنترنت.", provider: { "@id": `${canonical}#organization` }, offers: quranPrices.map((price, index) => ({ "@type": "Offer", price, priceCurrency: "NOK", category: `${[4, 8, 12, 16][index]} حصص شهريًا`, url: canonical })) },

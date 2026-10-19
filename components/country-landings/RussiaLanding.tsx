@@ -27,6 +27,7 @@ export async function RussiaLanding(page: CountryPageModel) {
   const baseContact = getAreaLinkHref(areaData.links, "whatsapp", getRussiaWhatsAppUrl())
   const trialUrl = getAreaWhatsAppUrl(areaData.links, "حصة تجريبية مجانية في روسيا", baseContact)
   const packageUrl = getAreaWhatsAppUrl(areaData.links, "باقات القرآن أو العربية في روسيا", baseContact)
+  const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       { "@type": "WebPage", "@id": `${canonical}#webpage`, url: canonical, name: russiaLandingConfig.seo.title, description: russiaLandingConfig.seo.description, inLanguage: "ar" },

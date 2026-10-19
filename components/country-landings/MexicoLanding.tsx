@@ -24,6 +24,7 @@ export async function MexicoLanding(page: CountryPageModel) {
   const baseContact = getAreaLinkHref(areaData.links, "whatsapp", getMexicoWhatsAppUrl())
   const trialUrl = getAreaWhatsAppUrl(areaData.links, "حصة تجريبية مجانية في المكسيك", baseContact)
   const packageUrl = getAreaWhatsAppUrl(areaData.links, "باقات القرآن أو العربية في المكسيك", baseContact)
+  const jsonLd = { "@context": "https://schema.org", "@graph": [
     { "@type": "WebPage", "@id": `${canonical}#webpage`, url: canonical, name: mexicoLandingConfig.seo.title, description: mexicoLandingConfig.seo.description, inLanguage: "ar" },
     { "@type": "EducationalOrganization", "@id": `${canonical}#organization`, name: "أكاديمية الحافظ المتميز", url: "https://quran-elhafez.com/", areaServed: { "@type": "Country", name: "Mexico" } },
     { "@type": "Course", name: "تحفيظ القرآن أونلاين في المكسيك", description: "حصص فردية للحفظ والمراجعة والقراءة عبر الإنترنت.", provider: { "@id": `${canonical}#organization` }, offers: quranPrices.map((price, index) => ({ "@type": "Offer", price, priceCurrency: "MXN", category: `${[4, 8, 12, 16][index]} حصص شهريًا`, url: canonical })) },

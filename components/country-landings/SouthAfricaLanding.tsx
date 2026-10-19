@@ -42,6 +42,7 @@ export async function SouthAfricaLanding(page: CountryPageModel) {
   const baseContact = getAreaLinkHref(areaData.links, "whatsapp", getSouthAfricaWhatsAppUrl())
   const trialUrl = getAreaWhatsAppUrl(areaData.links, "حصة تجريبية مجانية", baseContact)
   const packageUrl = getAreaWhatsAppUrl(areaData.links, "الباقة المناسبة في جنوب أفريقيا", baseContact)
+  const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       { "@type": "WebPage", "@id": `${canonical}#webpage`, url: canonical, name: southAfricaLandingConfig.seo.title, description: southAfricaLandingConfig.seo.description, inLanguage: "ar" },

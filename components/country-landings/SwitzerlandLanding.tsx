@@ -25,6 +25,7 @@ export async function SwitzerlandLanding(page: CountryPageModel) {
   const baseContact = getAreaLinkHref(areaData.links, "whatsapp", getSwitzerlandWhatsAppUrl())
   const trialUrl = getAreaWhatsAppUrl(areaData.links, "حصة تجريبية مجانية في سويسرا", baseContact)
   const packageUrl = getAreaWhatsAppUrl(areaData.links, "باقات القرآن أو العربية في سويسرا", baseContact)
+  const jsonLd = { "@context": "https://schema.org", "@graph": [
     { "@type": "WebPage", "@id": `${canonical}#webpage`, url: canonical, name: switzerlandLandingConfig.seo.title, description: switzerlandLandingConfig.seo.description, inLanguage: "ar" },
     { "@type": "EducationalOrganization", "@id": `${canonical}#organization`, name: "أكاديمية الحافظ المتميز", url: "https://quran-elhafez.com/", areaServed: { "@type": "Country", name: "Switzerland" } },
     { "@type": "Course", name: "تحفيظ القرآن أونلاين في سويسرا", description: "حصص فردية للحفظ والمراجعة والقراءة عبر الإنترنت.", provider: { "@id": `${canonical}#organization` }, offers: quranPrices.map((price, index) => ({ "@type": "Offer", price, priceCurrency: "CHF", category: `${[4, 8, 12, 16][index]} حصص شهريًا`, url: canonical })) },

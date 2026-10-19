@@ -1,8 +1,9 @@
+import type { CountryPageModel } from "@/lib/country-page-model"
 import { CountryLearningHub } from "@/components/country-learning-hub"
 import type { CSSProperties } from "react"
 import Link from "next/link"
 import { Clock3, MapPin, MessageCircle } from "lucide-react"
-import { getAreaLandingData, getAreaLinkHref, getAreaWhatsAppUrl, toAreaDisplayPlan } from "@/lib/country-content"
+import { getAreaLinkHref, getAreaWhatsAppUrl, toAreaDisplayPlan } from "@/lib/country-content"
 import { getPublishedClassroomVideos } from "@/lib/classroom-videos"
 import { countryPages } from "@/components/layout/country-pages-section"
 import { italyLandingConfig, getItalyWhatsAppUrl } from "@/lib/italy-landing-config"
@@ -13,8 +14,9 @@ const canonical = italyLandingConfig.seo.canonical
 
 
 
-export async function ItalyLanding() {
-  const [areaData, videos] = await Promise.all([getAreaLandingData("italy"), getPublishedClassroomVideos()])
+export async function ItalyLanding(page: CountryPageModel) {
+  const { areaData } = page
+  const videos = await getPublishedClassroomVideos()
   const quranPlans = areaData.packages.map(toAreaDisplayPlan).filter((plan) => plan.program === "quran")
   const arabicPlans = areaData.packages.map(toAreaDisplayPlan).filter((plan) => plan.program === "arabic")
   const quranPrices = quranPlans.length >= 4 ? quranPlans.slice(0, 4).map((plan) => plan.price) : italyLandingConfig.quranPrices

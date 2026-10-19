@@ -2,10 +2,10 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowRight, BookOpenText, Lightbulb, MessageCircle, UsersRound } from 'lucide-react'
-import { countryEducationalContent } from '@/lib/country-educational-content'
-import { countryArticleLocalisation } from '@/lib/country-article-localization'
+import { countryEducationalContent, type CountryEducationalContent } from '@/lib/country-educational-content'
+import { countryArticleLocalisation, type CountryArticleLocalisation } from '@/lib/country-article-localization'
 import { getSeoAlternates } from '@/lib/seo-metadata'
-import { getAreaLandingData } from '@/lib/country-content'
+import { getCountryPageModel } from '@/lib/country-page-model'
 import { getCountryThemeStyle } from '@/components/country-enrichment-section'
 
 const flags: Record<string, string> = {
@@ -19,7 +19,7 @@ export function generateStaticParams() {
   return Object.keys(countryEducationalContent).flatMap((slug) => (['quran', 'arabic', 'teachers'] as Topic[]).map((topic) => ({ slug, topic })))
 }
 
-function getArticle(content: (typeof countryEducationalContent)[string], local: (typeof countryArticleLocalisation)[string], topic: Topic) {
+function getArticle(content: CountryEducationalContent, local: CountryArticleLocalisation, topic: Topic) {
   if (topic === 'quran') return { label: 'مقالة عن حفظ القرآن', title: content.quranArticleTitle, intro: content.quranArticleBody, paragraph: `في ${local.cities}، تحتاج الأسرة أحيانًا إلى خطة مراجعة تناسب الدراسة والعمل واختلاف أوقات اليوم. لذلك تبدأ الحصة من مستوى الطالب: يقرأ المقطع، ثم يسمّع ما حفظه، ويتلقى تصحيحًا هادئًا للتلاوة والتجويد. بعد ذلك يتفق المعلم معه على مقدار واقعي يعود إليه قبل اللقاء التالي. ${local.quranChallenge}، ولهذا لا تكون الخطة واحدة للجميع؛ بل تتغير بحسب عمر الطالب وما أتقنه فعلًا.` }
   if (topic === 'arabic') return { label: 'مقالة عن تأسيس العربية', title: content.arabicArticleTitle, intro: content.arabicArticleBody, paragraph: `تختلف حاجة الأسر في ${local.cities}: قد يبحث أحد الوالدين عن بداية للقراءة، بينما يحتاج طالب آخر إلى تحسين النطق أو الكتابة والفهم. في الحصة يقرأ الطالب مادة مناسبة لمستواه، ويتحدث مع المعلم عن الكلمات والجمل، ثم يتدرب على المهارة التي تعوق تقدمه. ${local.arabicChallenge}، لذلك يكون التأسيس متدرجًا ومتصلاً بحياة الطالب، لا مجرد حفظ كلمات منفصلة.` }
   return { label: 'مقالة عن المعلمين والمعلمات', title: `كيف تجري الحصة مع معلمينا في ${content.name}؟`, intro: 'التعليم الفردي لا يعني قراءة المحتوى فقط؛ بل يعني أن يلاحظ المعلم مستوى الطالب أثناء الحصة ويعدل الشرح والتمرين في اللحظة المناسبة.', paragraph: `يبدأ المعلم بالتعرف إلى هدف الطالب وما يواجهه في ${local.cities} أو داخل الأسرة. في حصة القرآن يستمع إلى القراءة والتسميع، يصحح مخارج الحروف والتجويد، ويسأل الطالب عن المواضع التي تحتاج إلى مراجعة. وفي حصة العربية يقرأ الطالب كلمات وجملًا، ويتدرب على النطق والفهم والكتابة مع تصحيح مباشر دون إحراج. ثم تنتهي الحصة بملاحظة واضحة تساعد الأسرة على معرفة ما يمكن مراجعته قبل اللقاء التالي. ${content.teacherAngle}` }
@@ -27,19 +27,23 @@ function getArticle(content: (typeof countryEducationalContent)[string], local: 
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug, topic } = await params
-  const content = countryEducationalContent[slug]
   const local = countryArticleLocalisation[slug]
-  if (!content || !local || !['quran', 'arabic', 'teachers'].includes(topic)) return {}
+  if (!local || !['quran', 'arabic', 'teachers'].includes(topic)) return {}
+  const page = await getCountryPageModel(slug)
+  const content = page.learning
+  if (!content) return {}
   const article = getArticle(content, local, topic as Topic)
   return { title: `${article.title} | ${content.name}`, description: article.intro, alternates: getSeoAlternates(`https://quran-elhafez.com/blog/country/${slug}/${topic}`) }
 }
 
 export default async function CountryArticlePage({ params }: Props) {
   const { slug, topic } = await params
-  const content = countryEducationalContent[slug]
   const local = countryArticleLocalisation[slug]
-  if (!content || !local || !['quran', 'arabic', 'teachers'].includes(topic)) notFound()
-  const areaData = await getAreaLandingData(slug)
+  if (!local || !['quran', 'arabic', 'teachers'].includes(topic)) notFound()
+  const page = await getCountryPageModel(slug)
+  const content = page.learning
+  if (!content) notFound()
+  const areaData = page.areaData
   const article = getArticle(content, local, topic as Topic)
   const Icon = topic === 'quran' ? BookOpenText : topic === 'arabic' ? Lightbulb : UsersRound
   const flag = flags[slug] ?? '🌍'

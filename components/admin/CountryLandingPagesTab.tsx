@@ -61,13 +61,31 @@ const labels: Record<Resource, string> = {
   links: "الروابط",
 }
 
+const learningContentLabels: Record<string, string> = {
+  learning_name: "اسم الدولة في مسارات التعلم",
+  learning_local_title: "عنوان التعريف المحلي",
+  learning_local_description: "وصف التعريف المحلي",
+  learning_quran_title: "عنوان مسار القرآن",
+  learning_quran_body: "نص مسار القرآن",
+  learning_arabic_title: "عنوان مسار العربية",
+  learning_arabic_body: "نص مسار العربية",
+  learning_quran_article_title: "عنوان مقالة القرآن",
+  learning_quran_article_body: "مقدمة مقالة القرآن",
+  learning_arabic_article_title: "عنوان مقالة العربية",
+  learning_arabic_article_body: "مقدمة مقالة العربية",
+  learning_teacher_angle: "نص مقالة المعلمين",
+}
+
 function recordTitle(resource: Resource, record: AreaRecord) {
   if (resource === "themes") return String(record.theme_name_ar ?? "هوية بدون عنوان")
   if (resource === "cities") return String(record.name_ar ?? record.city_key ?? "مدينة")
   if (resource === "timezones") return String(record.label_ar ?? record.timezone_name ?? "منطقة زمنية")
   if (resource === "faq") return String(record.question_ar ?? "سؤال بدون عنوان")
   if (resource === "packages") return String(record.name_ar ?? record.package_key ?? "باقة بدون عنوان")
-  if (resource === "content") return String(record.content_key ?? "محتوى")
+  if (resource === "content") {
+    const key = String(record.content_key ?? "")
+    return learningContentLabels[key] ?? (key || "محتوى")
+  }
   return String(record.label_ar ?? record.link_key ?? "رابط")
 }
 

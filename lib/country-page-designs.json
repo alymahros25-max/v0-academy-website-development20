@@ -1,0 +1,642 @@
+{
+  "saudi-arabia": {
+    "profileId": "country-layout-01",
+    "hero": "split",
+    "local": "bento",
+    "plans": "cards",
+    "faq": "cards",
+    "learning": "cards",
+    "order": [
+      "local",
+      "quranPlans",
+      "arabicPlans",
+      "videos",
+      "learning",
+      "faq"
+    ]
+  },
+  "united-arab-emirates": {
+    "profileId": "country-layout-02",
+    "hero": "centered",
+    "local": "split",
+    "plans": "cards",
+    "faq": "numbered",
+    "learning": "minimal",
+    "order": [
+      "local",
+      "quranPlans",
+      "arabicPlans",
+      "faq",
+      "learning",
+      "videos"
+    ]
+  },
+  "united-states": {
+    "profileId": "country-layout-03",
+    "hero": "editorial",
+    "local": "rail",
+    "plans": "cards",
+    "faq": "accordion",
+    "learning": "notebook",
+    "order": [
+      "local",
+      "quranPlans",
+      "learning",
+      "arabicPlans",
+      "videos",
+      "faq"
+    ]
+  },
+  "canada": {
+    "profileId": "country-layout-04",
+    "hero": "offset",
+    "local": "clock",
+    "plans": "cards",
+    "faq": "columns",
+    "learning": "timeline",
+    "order": [
+      "local",
+      "arabicPlans",
+      "quranPlans",
+      "learning",
+      "videos",
+      "faq"
+    ]
+  },
+  "united-kingdom": {
+    "profileId": "country-layout-05",
+    "hero": "framed",
+    "local": "band",
+    "plans": "cards",
+    "faq": "strip",
+    "learning": "cards",
+    "order": [
+      "local",
+      "arabicPlans",
+      "videos",
+      "quranPlans",
+      "learning",
+      "faq"
+    ]
+  },
+  "australia": {
+    "profileId": "country-layout-06",
+    "hero": "banner",
+    "local": "bento",
+    "plans": "cards",
+    "faq": "cards",
+    "learning": "minimal",
+    "order": [
+      "local",
+      "arabicPlans",
+      "learning",
+      "videos",
+      "quranPlans",
+      "faq"
+    ]
+  },
+  "germany": {
+    "profileId": "country-layout-07",
+    "hero": "stacked",
+    "local": "split",
+    "plans": "cards",
+    "faq": "numbered",
+    "learning": "notebook",
+    "order": [
+      "local",
+      "videos",
+      "arabicPlans",
+      "quranPlans",
+      "faq",
+      "learning"
+    ]
+  },
+  "kuwait": {
+    "profileId": "country-layout-08",
+    "hero": "mirror",
+    "local": "rail",
+    "plans": "cards",
+    "faq": "accordion",
+    "learning": "timeline",
+    "order": [
+      "local",
+      "learning",
+      "quranPlans",
+      "arabicPlans",
+      "videos",
+      "faq"
+    ]
+  },
+  "qatar": {
+    "profileId": "country-layout-09",
+    "hero": "split",
+    "local": "clock",
+    "plans": "table",
+    "faq": "columns",
+    "learning": "cards",
+    "order": [
+      "local",
+      "learning",
+      "arabicPlans",
+      "videos",
+      "quranPlans",
+      "faq"
+    ]
+  },
+  "oman": {
+    "profileId": "country-layout-10",
+    "hero": "centered",
+    "local": "band",
+    "plans": "table",
+    "faq": "strip",
+    "learning": "minimal",
+    "order": [
+      "quranPlans",
+      "local",
+      "arabicPlans",
+      "videos",
+      "faq",
+      "learning"
+    ]
+  },
+  "jordan": {
+    "profileId": "country-layout-11",
+    "hero": "editorial",
+    "local": "bento",
+    "plans": "table",
+    "faq": "cards",
+    "learning": "notebook",
+    "order": [
+      "quranPlans",
+      "local",
+      "videos",
+      "arabicPlans",
+      "learning",
+      "faq"
+    ]
+  },
+  "bahrain": {
+    "profileId": "country-layout-12",
+    "hero": "offset",
+    "local": "split",
+    "plans": "table",
+    "faq": "numbered",
+    "learning": "timeline",
+    "order": [
+      "quranPlans",
+      "local",
+      "learning",
+      "arabicPlans",
+      "faq",
+      "videos"
+    ]
+  },
+  "france": {
+    "profileId": "country-layout-13",
+    "hero": "framed",
+    "local": "rail",
+    "plans": "table",
+    "faq": "accordion",
+    "learning": "cards",
+    "order": [
+      "quranPlans",
+      "arabicPlans",
+      "local",
+      "learning",
+      "faq",
+      "videos"
+    ]
+  },
+  "spain": {
+    "profileId": "country-layout-14",
+    "hero": "banner",
+    "local": "clock",
+    "plans": "table",
+    "faq": "columns",
+    "learning": "minimal",
+    "order": [
+      "quranPlans",
+      "arabicPlans",
+      "videos",
+      "learning",
+      "local",
+      "faq"
+    ]
+  },
+  "netherlands": {
+    "profileId": "country-layout-15",
+    "hero": "stacked",
+    "local": "band",
+    "plans": "table",
+    "faq": "strip",
+    "learning": "notebook",
+    "order": [
+      "quranPlans",
+      "videos",
+      "local",
+      "arabicPlans",
+      "learning",
+      "faq"
+    ]
+  },
+  "belgium": {
+    "profileId": "country-layout-16",
+    "hero": "mirror",
+    "local": "bento",
+    "plans": "table",
+    "faq": "cards",
+    "learning": "timeline",
+    "order": [
+      "quranPlans",
+      "videos",
+      "arabicPlans",
+      "learning",
+      "local",
+      "faq"
+    ]
+  },
+  "sweden": {
+    "profileId": "country-layout-17",
+    "hero": "split",
+    "local": "split",
+    "plans": "rows",
+    "faq": "numbered",
+    "learning": "cards",
+    "order": [
+      "quranPlans",
+      "learning",
+      "local",
+      "arabicPlans",
+      "faq",
+      "videos"
+    ]
+  },
+  "south-africa": {
+    "profileId": "country-layout-18",
+    "hero": "centered",
+    "local": "rail",
+    "plans": "rows",
+    "faq": "accordion",
+    "learning": "minimal",
+    "order": [
+      "quranPlans",
+      "learning",
+      "videos",
+      "local",
+      "arabicPlans",
+      "faq"
+    ]
+  },
+  "china": {
+    "profileId": "country-layout-19",
+    "hero": "editorial",
+    "local": "clock",
+    "plans": "rows",
+    "faq": "columns",
+    "learning": "notebook",
+    "order": [
+      "arabicPlans",
+      "local",
+      "quranPlans",
+      "learning",
+      "faq",
+      "videos"
+    ]
+  },
+  "italy": {
+    "profileId": "country-layout-20",
+    "hero": "offset",
+    "local": "band",
+    "plans": "rows",
+    "faq": "strip",
+    "learning": "timeline",
+    "order": [
+      "arabicPlans",
+      "local",
+      "videos",
+      "quranPlans",
+      "faq",
+      "learning"
+    ]
+  },
+  "russia": {
+    "profileId": "country-layout-21",
+    "hero": "framed",
+    "local": "bento",
+    "plans": "rows",
+    "faq": "cards",
+    "learning": "cards",
+    "order": [
+      "arabicPlans",
+      "quranPlans",
+      "local",
+      "videos",
+      "learning",
+      "faq"
+    ]
+  },
+  "norway": {
+    "profileId": "country-layout-22",
+    "hero": "banner",
+    "local": "split",
+    "plans": "rows",
+    "faq": "numbered",
+    "learning": "minimal",
+    "order": [
+      "arabicPlans",
+      "quranPlans",
+      "local",
+      "faq",
+      "videos",
+      "learning"
+    ]
+  },
+  "austria": {
+    "profileId": "country-layout-23",
+    "hero": "stacked",
+    "local": "rail",
+    "plans": "rows",
+    "faq": "accordion",
+    "learning": "notebook",
+    "order": [
+      "arabicPlans",
+      "quranPlans",
+      "learning",
+      "local",
+      "videos",
+      "faq"
+    ]
+  },
+  "switzerland": {
+    "profileId": "country-layout-24",
+    "hero": "mirror",
+    "local": "clock",
+    "plans": "rows",
+    "faq": "columns",
+    "learning": "timeline",
+    "order": [
+      "arabicPlans",
+      "videos",
+      "local",
+      "learning",
+      "quranPlans",
+      "faq"
+    ]
+  },
+  "brazil": {
+    "profileId": "country-layout-25",
+    "hero": "split",
+    "local": "band",
+    "plans": "ladder",
+    "faq": "strip",
+    "learning": "cards",
+    "order": [
+      "arabicPlans",
+      "videos",
+      "learning",
+      "local",
+      "quranPlans",
+      "faq"
+    ]
+  },
+  "mexico": {
+    "profileId": "country-layout-26",
+    "hero": "centered",
+    "local": "bento",
+    "plans": "ladder",
+    "faq": "cards",
+    "learning": "minimal",
+    "order": [
+      "arabicPlans",
+      "learning",
+      "quranPlans",
+      "local",
+      "videos",
+      "faq"
+    ]
+  },
+  "colombia": {
+    "profileId": "country-layout-27",
+    "hero": "editorial",
+    "local": "split",
+    "plans": "ladder",
+    "faq": "numbered",
+    "learning": "notebook",
+    "order": [
+      "arabicPlans",
+      "learning",
+      "videos",
+      "quranPlans",
+      "local",
+      "faq"
+    ]
+  },
+  "venezuela": {
+    "profileId": "country-layout-28",
+    "hero": "offset",
+    "local": "rail",
+    "plans": "ladder",
+    "faq": "accordion",
+    "learning": "timeline",
+    "order": [
+      "videos",
+      "local",
+      "arabicPlans",
+      "quranPlans",
+      "faq",
+      "learning"
+    ]
+  },
+  "denmark": {
+    "profileId": "country-layout-29",
+    "hero": "framed",
+    "local": "clock",
+    "plans": "ladder",
+    "faq": "columns",
+    "learning": "cards",
+    "order": [
+      "videos",
+      "quranPlans",
+      "local",
+      "arabicPlans",
+      "faq",
+      "learning"
+    ]
+  },
+  "greece": {
+    "profileId": "country-layout-30",
+    "hero": "banner",
+    "local": "band",
+    "plans": "ladder",
+    "faq": "strip",
+    "learning": "minimal",
+    "order": [
+      "videos",
+      "quranPlans",
+      "arabicPlans",
+      "learning",
+      "local",
+      "faq"
+    ]
+  },
+  "new-zealand": {
+    "profileId": "country-layout-31",
+    "hero": "stacked",
+    "local": "bento",
+    "plans": "ladder",
+    "faq": "cards",
+    "learning": "notebook",
+    "order": [
+      "videos",
+      "arabicPlans",
+      "local",
+      "learning",
+      "quranPlans",
+      "faq"
+    ]
+  },
+  "finland": {
+    "profileId": "country-layout-32",
+    "hero": "mirror",
+    "local": "split",
+    "plans": "ladder",
+    "faq": "numbered",
+    "learning": "timeline",
+    "order": [
+      "videos",
+      "arabicPlans",
+      "learning",
+      "local",
+      "quranPlans",
+      "faq"
+    ]
+  },
+  "turkey": {
+    "profileId": "country-layout-33",
+    "hero": "split",
+    "local": "rail",
+    "plans": "spotlight",
+    "faq": "accordion",
+    "learning": "cards",
+    "order": [
+      "videos",
+      "learning",
+      "quranPlans",
+      "arabicPlans",
+      "local",
+      "faq"
+    ]
+  },
+  "indonesia": {
+    "profileId": "country-layout-34",
+    "hero": "centered",
+    "local": "clock",
+    "plans": "spotlight",
+    "faq": "columns",
+    "learning": "minimal",
+    "order": [
+      "learning",
+      "local",
+      "quranPlans",
+      "arabicPlans",
+      "faq",
+      "videos"
+    ]
+  },
+  "malaysia": {
+    "profileId": "country-layout-35",
+    "hero": "editorial",
+    "local": "band",
+    "plans": "spotlight",
+    "faq": "strip",
+    "learning": "notebook",
+    "order": [
+      "learning",
+      "local",
+      "videos",
+      "quranPlans",
+      "arabicPlans",
+      "faq"
+    ]
+  },
+  "portugal": {
+    "profileId": "country-layout-36",
+    "hero": "offset",
+    "local": "bento",
+    "plans": "spotlight",
+    "faq": "cards",
+    "learning": "timeline",
+    "order": [
+      "learning",
+      "quranPlans",
+      "arabicPlans",
+      "local",
+      "videos",
+      "faq"
+    ]
+  },
+  "poland": {
+    "profileId": "country-layout-37",
+    "hero": "framed",
+    "local": "split",
+    "plans": "spotlight",
+    "faq": "numbered",
+    "learning": "cards",
+    "order": [
+      "learning",
+      "quranPlans",
+      "videos",
+      "arabicPlans",
+      "local",
+      "faq"
+    ]
+  },
+  "argentina": {
+    "profileId": "country-layout-38",
+    "hero": "banner",
+    "local": "rail",
+    "plans": "spotlight",
+    "faq": "accordion",
+    "learning": "minimal",
+    "order": [
+      "learning",
+      "arabicPlans",
+      "quranPlans",
+      "local",
+      "faq",
+      "videos"
+    ]
+  },
+  "senegal": {
+    "profileId": "country-layout-39",
+    "hero": "stacked",
+    "local": "clock",
+    "plans": "spotlight",
+    "faq": "columns",
+    "learning": "notebook",
+    "order": [
+      "learning",
+      "videos",
+      "local",
+      "quranPlans",
+      "arabicPlans",
+      "faq"
+    ]
+  },
+  "nigeria": {
+    "profileId": "country-layout-40",
+    "hero": "mirror",
+    "local": "band",
+    "plans": "spotlight",
+    "faq": "strip",
+    "learning": "timeline",
+    "order": [
+      "learning",
+      "videos",
+      "arabicPlans",
+      "quranPlans",
+      "local",
+      "faq"
+    ]
+  }
+}

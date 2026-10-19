@@ -23,5 +23,5 @@ export async function CountryLandingEngine({ slug }: CountryLandingEngineProps) 
   const config = getNewCountryConfig(slug)
   if (!config) throw new Error(`Missing centralized country landing configuration for ${slug}`)
   const page = await getCountryPageModel(slug)
-  return <><CountryLocalLanguageBanner slug={slug} /><NewCountryLanding config={config} page={page} /></>
+  return <><CountryLocalLanguageBanner slug={slug} /><NewCountryLanding config={config} page={page} /><CountrySharedFooter page={page} /><CountrySharedStructuredData page={page} /></>
 }

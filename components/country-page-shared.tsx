@@ -9,13 +9,19 @@ export function CountrySharedFooter({ page }: { page: CountryPageModel }) {
 
 export function CountrySharedStructuredData({ page }: { page: CountryPageModel }) {
   const canonical = page.seo ? `https://quran-elhafez.com/${page.slug}` : `https://quran-elhafez.com/${page.slug}`
-  const plans = [...page.quranPlans, ...page.arabicPlans]
+  const planOffers = (plans: CountryPageModel["quranPlans"]) => plans.map((plan) => ({
+    "@type": "Offer",
+    price: plan.price,
+    priceCurrency: page.currencyCode || page.areaData.area?.currency_code || "",
+    category: `${plan.monthlySessions} حصص شهريًا`,
+    url: canonical,
+  }))
   const graph = {
     "@context": "https://schema.org",
     "@graph": [
       { "@type": "WebPage", "@id": `${canonical}#webpage`, url: canonical, name: page.seo?.title || page.slug, description: page.seo?.description || "", inLanguage: "ar" },
-      { "@type": "EducationalOrganization", "@id": `${canonical}#organization`, name: "أكاديمية الحافظ المتميز", url: "https://quran-elhafez.com/", areaServed: page.areaData.area?.name_en || page.seo?.country || page.slug },
-      { "@type": "Course", name: `تحفيظ القرآن أونلاين في ${page.areaData.area?.name_ar || page.seo?.country || page.slug}`, provider: { "@id": `${canonical}#organization` }, offers: plans.map((plan) => ({ "@type": "Offer", price: plan.price, priceCurrency: page.currencyCode || page.areaData.area?.currency_code || "", category: `${plan.monthlySessions} حصص شهريًا`, url: canonical })) },
+      { "@type": "Course", name: `تحفيظ القرآن أونلاين في ${page.areaData.area?.name_ar || page.seo?.country || page.slug}`, provider: { "@id": "https://quran-elhafez.com#organization" }, offers: planOffers(page.quranPlans) },
+      { "@type": "Course", name: `تأسيس العربية أونلاين في ${page.areaData.area?.name_ar || page.seo?.country || page.slug}`, provider: { "@id": "https://quran-elhafez.com#organization" }, offers: planOffers(page.arabicPlans) },
       ...(page.faq.length ? [{ "@type": "FAQPage", mainEntity: page.faq.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }] : []),
     ],
   }

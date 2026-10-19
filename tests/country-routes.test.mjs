@@ -105,6 +105,33 @@ test("each production country route emits static HTML or a dynamic server bundle
       failures.push(`${slug}: canonical URL does not end in /${slug}`)
     }
     if (!/<h1(?:\s|>)/.test(html)) failures.push(`${slug}: rendered page has no h1`)
+
+    const footerCount = (html.match(/<footer\b/g) || []).length
+    if (footerCount !== 1) failures.push(`${slug}: expected exactly one footer, found ${footerCount}`)
+
+    const jsonLdScripts = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+    if (jsonLdScripts.length !== 2) failures.push(`${slug}: expected global + centralized JSON-LD scripts, found ${jsonLdScripts.length}`)
+    const schemaTypes = []
+    for (const [, source] of jsonLdScripts) {
+      try {
+        const parsed = JSON.parse(source)
+        const nodes = Array.isArray(parsed["@graph"]) ? parsed["@graph"] : [parsed]
+        for (const node of nodes) {
+          const types = Array.isArray(node["@type"]) ? node["@type"] : [node["@type"]]
+          schemaTypes.push(...types.filter(Boolean))
+        }
+      } catch {
+        failures.push(`${slug}: invalid JSON-LD script`)
+      }
+    }
+    for (const type of ["WebPage", "EducationalOrganization"]) {
+      const count = schemaTypes.filter((value) => value === type).length
+      if (count !== 1) failures.push(`${slug}: expected one ${type} node, found ${count}`)
+    }
+    for (const type of ["Course", "FAQPage"]) {
+      const count = schemaTypes.filter((value) => value === type).length
+      if (count > (type === "Course" ? 2 : 1)) failures.push(`${slug}: duplicate ${type} nodes found (${count})`)
+    }
   }
 
   assert.deepEqual(failures, [], failures.join("\n"))

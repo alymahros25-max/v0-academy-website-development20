@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { ArrowLeft, Check, Clock3, MessageCircle, MapPin, Sparkles, CalendarDays, BookOpen, Gamepad2, Scale, Home, Newspaper, Globe2, ChevronDown, ChevronLeft } from "lucide-react"
 import type { NewCountryConfig } from "@/lib/new-country-pages"
+import type { CountryPageModel } from "@/lib/country-page-model"
 import { areaLocalized, getAreaLandingData, getAreaLinkHref, getAreaWhatsAppUrl, toAreaDisplayPlan, type AreaDisplayPlan, type AreaLink } from "@/lib/country-content"
 import { getPublishedClassroomVideos, type LandingVideo } from "@/lib/classroom-videos"
 import { getTeachers, type Teacher } from "@/lib/data-store"
@@ -17,7 +18,7 @@ import { australiaLandingConfig, getAustraliaWhatsAppUrl, type AustraliaPlan } f
 import { AustriaPricingPanel } from "@/app/austria/austria-pricing-panel"
 import { AustriaVideoWindow } from "@/app/austria/austria-video-window"
 
-type Props = { config: NewCountryConfig; videos?: LandingVideo[]; teachers?: Teacher[]; contactUrl?: string }
+type Props = { config: NewCountryConfig; page?: CountryPageModel; videos?: LandingVideo[]; teachers?: Teacher[]; contactUrl?: string }
 
 function WhatsApp({ config, label = "احجز الحصة التجريبية", contactUrl }: { config: NewCountryConfig; label?: string; contactUrl?: string }) {
   const href = contactUrl || `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent(config.whatsappMessage)}`
@@ -40,7 +41,7 @@ function Steps({ config, numbered = true }: { config: NewCountryConfig; numbered
 function FAQ({ config }: Props) {
   const jsonLd = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: config.faq.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
   const existingFaqSchema = ["austria", "germany"].includes(config.variant)
-  return <><section className="new-country-section new-country-faq" aria-labelledby="faq-title"><div className="new-country-narrow"><p className="new-country-kicker">إجابات قبل البداية</p><h2 id="faq-title">أسئلة تختصر عليك القرار</h2><div className="new-country-faq-grid">{config.faq.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</div></div></section>{!existingFaqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />}</>
+  return <><section className="new-country-section new-country-faq" aria-labelledby="faq-title"><div className="new-country-narrow"><p className="new-country-kicker">إجابات قبل البداية</p><h2 id="faq-title">أسئلة تختصر عليك القرار</h2><div className="new-country-faq-grid">{config.faq.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</div></div></section>{!config.centralized && !existingFaqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />}</>
 }
 
 function LocalSection({ config }: Props) {
@@ -52,7 +53,7 @@ function PackageIncludes() {
 }
 
 function SharedClosing({ config, videos = [], contactUrl }: Props) {
-  return <><PackageIncludes /><NewCountryVideos videos={videos} /><CountryLearningHub slug={config.variant} variant="minimal" /><section className="new-country-section new-country-closing"><div className="new-country-narrow"><p className="new-country-kicker">خطوة عملية</p><h2>ابدأ بما يناسب أسبوعك الآن</h2><p>أرسل عمر الطالب ومستواه والبرنامج المطلوب، وسنوضح لك الخطوة التالية قبل التسجيل.</p><WhatsApp config={config} contactUrl={contactUrl} /><p className="new-country-independent-note">صفحة مستقلة لـ{config.name} · تعليم أونلاين فقط</p></div></section><CountryFooter config={config} /><CountrySeoStructuredData slug={config.slug} /></>
+  return <><PackageIncludes /><NewCountryVideos videos={videos} /><CountryLearningHub slug={config.variant} variant="minimal" /><section className="new-country-section new-country-closing"><div className="new-country-narrow"><p className="new-country-kicker">خطوة عملية</p><h2>ابدأ بما يناسب أسبوعك الآن</h2><p>أرسل عمر الطالب ومستواه والبرنامج المطلوب، وسنوضح لك الخطوة التالية قبل التسجيل.</p><WhatsApp config={config} contactUrl={contactUrl} /><p className="new-country-independent-note">صفحة مستقلة لـ{config.name} · تعليم أونلاين فقط</p></div></section>{!config.centralized && <CountryFooter config={config} />}{!config.centralized && <CountrySeoStructuredData slug={config.slug} />}</>
 }
 
 const countryLinks = [
@@ -128,7 +129,7 @@ function AustraliaPlanGroup({ program, title, description, plans, areaLinks, con
   </section>
 }
 
-function AustraliaLayout({ contactUrl, faqItems, quranPlans, arabicPlans, areaLinks, configuredWhatsApp }: Props & { faqItems: Array<[string, string]>; quranPlans: AreaDisplayPlan[]; arabicPlans: AreaDisplayPlan[]; areaLinks: AreaLink[]; configuredWhatsApp: string }) {
+function AustraliaLayout({ config, contactUrl, faqItems, quranPlans, arabicPlans, areaLinks, configuredWhatsApp }: Props & { faqItems: Array<[string, string]>; quranPlans: AreaDisplayPlan[]; arabicPlans: AreaDisplayPlan[]; areaLinks: AreaLink[]; configuredWhatsApp: string }) {
   const jsonLd = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqItems.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
   return <>
     <header className="bg-primary text-primary-foreground"><div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3 sm:px-8"><Link href="/" className="font-bold">أكاديمية الحافظ المتميز</Link><div className="flex items-center gap-3"><span className="text-2xl" role="img" aria-label="أستراليا">🇦🇺</span><a className="saudi-secondary-cta bg-primary-foreground px-3 py-2 text-sm text-primary" href={contactUrl} target="_blank" rel="noreferrer">احجز الحصة التجريبية الأولى المجانية</a></div></div></header>
@@ -138,8 +139,8 @@ function AustraliaLayout({ contactUrl, faqItems, quranPlans, arabicPlans, areaLi
     <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-24"><AustraliaPlanGroup program="quran" title="حفظ ومراجعة وتلاوة وتجويد القرآن أونلاين" description="باقات شهرية بالدولار الأسترالي لحصص فردية في الحفظ والتسميع وتصحيح التلاوة والمراجعة." plans={quranPlans} areaLinks={areaLinks} configuredWhatsApp={configuredWhatsApp} /><AustraliaPlanGroup program="arabic" title="تأسيس العربية قراءة وكتابة أونلاين في أستراليا" description="تأسيس القراءة والكتابة والنطق والفهم بالعربية للأطفال والشباب والبالغين، مع خطة فردية مباشرة أونلاين." plans={arabicPlans} areaLinks={areaLinks} configuredWhatsApp={configuredWhatsApp} /></section>
     <section className="mx-auto max-w-5xl px-5 py-16 sm:px-8"><h2 className="text-center text-3xl font-bold text-foreground">الأسئلة الشائعة</h2><div className="mt-8 grid gap-3 sm:grid-cols-2">{faqItems.map(([question, answer]) => <details key={question} className="rounded-xl border border-border bg-card p-5"><summary className="cursor-pointer font-bold">{question}</summary><p className="mt-3 leading-7 text-muted-foreground">{answer}</p></details>)}</div></section>
     <CountryLearningHub slug="australia" variant="timeline" showLocalCard={false} /><CountryServiceLinks />
-    <footer className="bg-primary px-5 py-10 text-primary-foreground"><div className="mx-auto max-w-6xl"><CountryPagesSection /><nav className="mt-8 flex flex-wrap gap-4 text-sm"><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/teachers">المعلمون والمعلمات</Link><Link href="/blog">المدونة</Link><Link href="/privacy">سياسة الخصوصية</Link><Link href="/terms">شروط الاستخدام</Link><Link href="/refund-policy">سياسة الاسترداد</Link></nav><p className="mt-8 text-sm text-primary-foreground/80">تحفيظ القرآن وتأسيس اللغة العربية أونلاين في أستراليا © {new Date().getFullYear()} أكاديمية الحافظ المتميز</p></div></footer>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+    {!config.centralized && <footer className="bg-primary px-5 py-10 text-primary-foreground"><div className="mx-auto max-w-6xl"><CountryPagesSection /><nav className="mt-8 flex flex-wrap gap-4 text-sm"><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/teachers">المعلمون والمعلمات</Link><Link href="/blog">المدونة</Link><Link href="/privacy">سياسة الخصوصية</Link><Link href="/terms">شروط الاستخدام</Link><Link href="/refund-policy">سياسة الاسترداد</Link></nav><p className="mt-8 text-sm text-primary-foreground/80">تحفيظ القرآن وتأسيس اللغة العربية أونلاين في أستراليا © {new Date().getFullYear()} أكاديمية الحافظ المتميز</p></div></footer>}
+    {!config.centralized && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />}
   </>
 }
 
@@ -161,8 +162,8 @@ function AustriaLayout({ config, videos, contactUrl, programContactUrl, timezone
     <FAQ config={config} />
     <section className="bg-[#C49A45] px-5 py-16 text-center text-[#2C2438] sm:px-8"><div className="mx-auto max-w-3xl"><h2 className="text-4xl font-black">ابدأ خطتك التعليمية</h2><p className="mt-4 leading-8">اذكر مدينتك والبرنامج الذي تريده والوقت المناسب لك، وابدأ التواصل باللغة العربية.</p><a href={contactUrl} target="_blank" rel="noreferrer" className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#4B3B67] px-6 py-3 font-black text-white"><MessageCircle size={18} /> أريد الحصة التجريبية</a></div></section>
     <CountryLearningHub slug="austria" variant="timeline" showLocalCard={false} /><CountryServiceLinks />
-    <footer className="border-t-4 border-[#F4DDE5] bg-[#4B3B67] px-5 py-8 text-[#FFF9F2] sm:px-8"><div className="mx-auto max-w-6xl"><div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between"><span className="text-sm font-black tracking-wide">النمسا · {new Date().getFullYear()}</span><nav aria-label="روابط صفحة النمسا" className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-bold text-[#FFF9F2]/85"><Link href="/">الرئيسية</Link><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/contact">التواصل</Link><Link href="/privacy">الخصوصية</Link><Link href="/terms">الشروط</Link></nav></div><details className="mt-6 border-t border-white/15 pt-5"><summary className="cursor-pointer text-sm font-black text-[#F4DDE5]">صفحاتنا حسب الدولة</summary><nav aria-label="كل صفحات الدول" className="mt-4 grid gap-2 sm:grid-cols-3 lg:grid-cols-4">{countryPages.map((country) => <Link key={country.href} href={country.href} className="rounded-md border border-white/15 px-3 py-2 text-sm text-[#FFF9F2]/85 transition hover:border-[#C49A45] hover:text-white"><span className="me-2" aria-hidden="true">{country.flag}</span>{country.label}</Link>)}</nav></details></div></footer>
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+    {!config.centralized && <footer className="border-t-4 border-[#F4DDE5] bg-[#4B3B67] px-5 py-8 text-[#FFF9F2] sm:px-8"><div className="mx-auto max-w-6xl"><div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between"><span className="text-sm font-black tracking-wide">النمسا · {new Date().getFullYear()}</span><nav aria-label="روابط صفحة النمسا" className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-bold text-[#FFF9F2]/85"><Link href="/">الرئيسية</Link><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/contact">التواصل</Link><Link href="/privacy">الخصوصية</Link><Link href="/terms">الشروط</Link></nav></div><details className="mt-6 border-t border-white/15 pt-5"><summary className="cursor-pointer text-sm font-black text-[#F4DDE5]">صفحاتنا حسب الدولة</summary><nav aria-label="كل صفحات الدول" className="mt-4 grid gap-2 sm:grid-cols-3 lg:grid-cols-4">{countryPages.map((country) => <Link key={country.href} href={country.href} className="rounded-md border border-white/15 px-3 py-2 text-sm text-[#FFF9F2]/85 transition hover:border-[#C49A45] hover:text-white"><span className="me-2" aria-hidden="true">{country.flag}</span>{country.label}</Link>)}</nav></details></div></footer>}
+    {!config.centralized && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />}
   </>
 }
 
@@ -201,8 +202,8 @@ function GermanyLayout({ config, videos, contactUrl, plans, links }: Props & { p
     <CountryServiceLinks />
     <PackageIncludes />
     <section className="new-country-section new-country-closing"><div className="new-country-narrow"><p className="new-country-kicker">الخطوة التالية</p><h2>ابدأ بحصة تجريبية مجانية</h2><p>أرسل بيانات الطالب والبرنامج والوقت المناسب، وسننسق معك موعد الحصة التجريبية الأولى.</p><WhatsApp config={config} contactUrl={contactUrl} label="اطلب الحصة التجريبية الأولى المجانية" /></div></section>
-    <CountryFooter config={config} />
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+    {!config.centralized && <CountryFooter config={config} />}
+    {!config.centralized && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />}
   </>
 }
 
@@ -223,9 +224,9 @@ function SwedenLayout({ config, videos, teachers, contactUrl }: Props) {
   return <><section className="new-country-intro new-country-intro-sweden"><div className="new-country-sweden-sun" /><div className="new-country-intro-copy"><p className="new-country-kicker">{config.flag} {config.eyebrow}</p><h1>{config.title}</h1><p className="new-country-lead">{config.description}</p><WhatsApp config={config} contactUrl={contactUrl} label="ابدأ باقتك" /></div><div className="new-country-progress-ring"><span>01</span><small>الخطوة التالية</small></div></section><section className="new-country-section"><div className="new-country-narrow"><p className="new-country-kicker">خريطة الاستمرارية</p><h2>اختر عدد حصص يمكن المحافظة عليه</h2><Steps config={config} /></div></section><section className="new-country-section new-country-swedish-surface"><div className="new-country-narrow"><h2>مقياس الباقات</h2><PriceTable config={config} /></div></section><LocalSection config={config} /><FAQ config={config} /><section className="new-country-note"><b>يوجد باقات مخصصة</b><span>خصم 10٪ للأخوات والإحالة</span></section><SharedClosing config={config} videos={videos} teachers={teachers} contactUrl={contactUrl}/></>
 }
 
-export async function NewCountryLanding({ config }: Props) {
+export async function NewCountryLanding({ config, page }: Props) {
   const [areaData, videos, teachers] = await Promise.all([
-    getAreaLandingData(config.slug),
+    page ? Promise.resolve(page.areaData) : getAreaLandingData(config.slug),
     config.slug === "australia" ? Promise.resolve([] as LandingVideo[]) : getPublishedClassroomVideos(),
     config.slug === "australia" ? Promise.resolve([] as Teacher[]) : getTeachers(),
   ])
@@ -235,6 +236,7 @@ export async function NewCountryLanding({ config }: Props) {
   const contentValue = (key: string) => areaLocalized(areaData.content.find((item) => item.content_key === key), "ar")
   const dynamicConfig: NewCountryConfig = {
     ...config,
+    centralized: Boolean(page),
     eyebrow: config.slug === "austria" || config.slug === "australia" ? config.eyebrow : contentValue("eyebrow") || config.eyebrow,
     title: config.slug === "austria" || config.slug === "australia" ? config.title : contentValue("page_title") || config.title,
     description: config.slug === "austria" || config.slug === "australia" ? config.description : contentValue("page_description") || config.description,
@@ -259,12 +261,12 @@ export async function NewCountryLanding({ config }: Props) {
       const fromDatabase = databasePlans.filter((plan) => plan.program === program)
       return fromDatabase.length ? fromDatabase : fallbackPlans.filter((plan) => plan.program === program)
     }
-    return <><main dir="rtl" className="min-h-screen overflow-hidden bg-background" style={getCountryThemeStyle(areaData.theme)}><AustraliaLayout {...props} faqItems={dynamicConfig.faq} quranPlans={plansFor("quran")} arabicPlans={plansFor("arabic")} areaLinks={areaData.links} configuredWhatsApp={configuredWhatsApp} /></main><CountrySeoStructuredData slug={dynamicConfig.slug} /></>
+    return <><main dir="rtl" className="min-h-screen overflow-hidden bg-background" style={getCountryThemeStyle(areaData.theme)}><AustraliaLayout {...props} faqItems={dynamicConfig.faq} quranPlans={plansFor("quran")} arabicPlans={plansFor("arabic")} areaLinks={areaData.links} configuredWhatsApp={configuredWhatsApp} /></main>{!dynamicConfig.centralized && <CountrySeoStructuredData slug={dynamicConfig.slug} /> }</>
   }
   if (dynamicConfig.variant === "austria") {
     const programContactUrl = getAreaWhatsAppUrl(areaData.links, "باقات القرآن أو العربية في النمسا", configuredWhatsApp)
     const timezoneLabel = areaData.timezones.find((timezone) => timezone.is_primary)?.label_ar || dynamicConfig.timezone
-    return <><main dir="rtl" className="min-h-screen overflow-hidden bg-[#FFF9F2] text-[#2C2438]" style={{ "--country-primary": dynamicConfig.theme.primary, "--country-accent": dynamicConfig.theme.accent, "--country-background": dynamicConfig.theme.background, "--country-surface": dynamicConfig.theme.surface, "--country-ink": dynamicConfig.theme.ink } as React.CSSProperties}><AustriaLayout {...props} programContactUrl={programContactUrl} timezoneLabel={timezoneLabel} /></main><CountrySeoStructuredData slug={dynamicConfig.slug} /></>
+    return <><main dir="rtl" className="min-h-screen overflow-hidden bg-[#FFF9F2] text-[#2C2438]" style={{ "--country-primary": dynamicConfig.theme.primary, "--country-accent": dynamicConfig.theme.accent, "--country-background": dynamicConfig.theme.background, "--country-surface": dynamicConfig.theme.surface, "--country-ink": dynamicConfig.theme.ink } as React.CSSProperties}><AustriaLayout {...props} programContactUrl={programContactUrl} timezoneLabel={timezoneLabel} /></main>{!dynamicConfig.centralized && <CountrySeoStructuredData slug={dynamicConfig.slug} /> }</>
   }
   if (dynamicConfig.variant === "germany") {
     const fallbackGermanyPlans = germanyLandingConfig.plans.map((plan) => ({ ...plan, popular: Boolean(plan.popular) }))

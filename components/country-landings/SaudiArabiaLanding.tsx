@@ -1,3 +1,5 @@
+import type { CountryPageModel } from "@/lib/country-page-model"
+import type { AreaLandingSnapshot } from "@/lib/country-content"
 import { CountryLearningHub } from "@/components/country-learning-hub"
 import { getCountrySeoAlternates } from "@/lib/seo-metadata"
 import Link from "next/link"
@@ -6,7 +8,7 @@ import { Check, ChevronLeft, Clock3, MapPin, MessageCircle, ShieldCheck, Sparkle
 import SaudiLandingClient from "@/app/saudi-arabia/saudi-landing-client"
 import { LandingPageVideoStrip } from "@/components/LandingPageVideoStrip"
 import { getSaudiWhatsAppUrl, saudiLandingConfig, type SaudiProgram } from "@/lib/saudi-landing-config"
-import { getAreaLandingData, getAreaWhatsAppUrl, toAreaDisplayPlan, type AreaDisplayPlan } from "@/lib/country-content"
+import { getAreaWhatsAppUrl, toAreaDisplayPlan, type AreaDisplayPlan } from "@/lib/country-content"
 import { CountryPagesSection } from "@/components/layout/country-pages-section"
 import { CountryServiceLinks } from "@/components/country-service-links"
 import { getCountryThemeStyle } from "@/components/country-enrichment-section"
@@ -45,7 +47,7 @@ function FAQGroup({ items }: { items: readonly (readonly [string, string])[] }) 
   return <div className="saudi-reveal mt-8 grid gap-3 text-right sm:grid-cols-2">{items.map(([question, answer]) => <details key={question} className="rounded-xl border border-border bg-card p-5 shadow-sm"><summary className="cursor-pointer font-bold">{question}</summary><p className="mt-3 leading-7 text-muted-foreground">{answer}</p></details>)}</div>
 }
 
-async function PlansSection({ program, title, areaData }: { program: SaudiProgram; title: string; areaData: Awaited<ReturnType<typeof getAreaLandingData>> }) {
+async function PlansSection({ program, title, areaData }: { program: SaudiProgram; title: string; areaData: AreaLandingSnapshot }) {
   const databasePlans = areaData.packages.map(toAreaDisplayPlan).filter((plan) => plan.program === program)
   const plans = databasePlans.length ? databasePlans : (saudiLandingConfig.plans.filter((plan) => plan.program === program && plan.visible) as unknown as AreaDisplayPlan[])
   const info = planInfoByProgram[program]
@@ -54,10 +56,10 @@ async function PlansSection({ program, title, areaData }: { program: SaudiProgra
   return <section className="mt-16" aria-labelledby={`${program}-plans`}><h3 id={`${program}-plans`} className="text-center text-2xl font-bold text-foreground">{title}</h3>{Array.from({ length: Math.ceil(plans.length / 4) }, (_, groupIndex) => <div key={`${program}-group-${groupIndex}`}><div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">{plans.slice(groupIndex * 4, groupIndex * 4 + 4).map((plan) => <PlanCard key={plan.id} plan={plan} contactUrl={getAreaWhatsAppUrl(areaData.links, plan.name, getSaudiWhatsAppUrl(plan.name))} />)}</div><PlanInfoCard title={info[groupIndex][0]} text={info[groupIndex][1]} /><FAQGroup items={faqs[groupIndex]} /></div>)}</section>
 }
 
-export async function SaudiArabiaLanding() {
+export async function SaudiArabiaLanding(page: CountryPageModel) {
   const config = await getLandingPageConfig("saudi-arabia")
   const trialUrl = getSaudiWhatsAppUrl("طلب حصة تجريبية مجانية")
-  const areaData = await getAreaLandingData("saudi-arabia")
+  const { areaData } = page
   const databaseFaq = areaData.faq.map((item) => [item.question_ar, item.answer_ar] as const)
   const faqItems = databaseFaq.length ? databaseFaq : [...faqGroupsByProgram.quran.flat(1), ...faqGroupsByProgram.arabic.flat(1)]
   const areaTrialUrl = getAreaWhatsAppUrl(areaData.links, "طلب حصة تجريبية مجانية", getSaudiWhatsAppUrl("طلب حصة تجريبية مجانية"))
@@ -74,7 +76,7 @@ export async function SaudiArabiaLanding() {
 
       <CountryLearningHub slug="saudi-arabia" variant="cards" showLocalCard={false} />
     <CountryServiceLinks />
-    <footer className="bg-primary text-primary-foreground"><div className="mx-auto grid max-w-6xl gap-8 px-5 py-10 sm:px-8 md:grid-cols-[1.2fr_1fr]"><div><div className="flex items-center gap-3"><Image src="/logo.png" alt="شعار أكاديمية الحافظ المتميز" width={48} height={48} className="size-12 rounded-lg bg-secondary object-contain" /><div><p className="font-bold">أكاديمية الحافظ المتميز</p><p className="mt-1 text-sm text-primary-foreground/70">تحفيظ القرآن وتأسيس اللغة العربية أونلاين في السعودية</p></div></div><p className="mt-4 max-w-md text-sm leading-7 text-primary-foreground/75">حصص فردية مباشرة باللغة العربية أونلاين لحفظ القرآن وتأسيس القراءة والكتابة.</p></div><nav aria-label="روابط صفحة السعودية" className="grid content-start gap-x-6 gap-y-3 text-sm text-primary-foreground/90 sm:grid-cols-2"><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/teachers">المعلمين والمعلمات</Link><Link href="/blog">المدونة</Link><Link href="/privacy">سياسة الخصوصية</Link><Link href="/terms">شروط الاستخدام</Link><Link href="/refund-policy">سياسة الاسترداد</Link></nav><CountryPagesSection /></div><div className="border-t border-primary-foreground/10 px-5 py-5 text-center text-xs text-primary-foreground/65 sm:px-8">© {new Date().getFullYear()} أكاديمية الحافظ المتميز. جميع الحقوق محفوظة.</div></footer>
+
 
 
 </main>

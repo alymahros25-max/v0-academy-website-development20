@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import Image from "next/image"
 import { BookOpen, Feather } from "lucide-react"
 import { usePathname } from "next/navigation"
@@ -48,9 +47,5 @@ export function CountryPagesChrome({ children }: { children: React.ReactNode }) 
       </div>
     </header>
     {children}
-    <footer className="country-pages-footer">
-      <div className="country-pages-footer-inner"><div><strong>أكاديمية الحافظ المتميز</strong><span>تعليم فردي أونلاين للقرآن والعربية</span></div><nav aria-label="روابط صفحة الدولة"><Link href="/">الرئيسية</Link><Link href="/contact">تواصل معنا</Link><Link href="/privacy">الخصوصية</Link><Link href="/terms">الشروط</Link></nav><p>صفحة {country.ar} المستقلة · © {new Date().getFullYear()}</p></div>
-      <div className="country-pages-countries"><details><summary>صفحاتنا حسب الدولة</summary><nav>{Object.entries(countries).map(([href, item]) => <Link key={href} href={href} className={href === pathname ? "is-current" : ""}><CountryFlag code={item.code} size={40} /> {item.ar}</Link>)}</nav></details></div>
-    </footer>
   </div>
 }

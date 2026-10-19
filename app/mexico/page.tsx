@@ -8,5 +8,5 @@ export async function generateMetadata(): Promise<Metadata> {
   return getCountrySeoMetadata("mexico")
 }
 export default function CountryRoute() {
-  return <CountryLandingEngine slug="mexico" specializedPage={MexicoLanding} />
+  return <CountryLandingEngine slug="mexico" />
 }

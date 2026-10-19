@@ -6,6 +6,8 @@ export type NewCountryVariant = "qatar" | "oman" | "jordan" | "bahrain" | "franc
 
 export type NewCountryConfig = {
   slug: NewCountryVariant
+  /** True when rendered by CountryLandingEngine, which owns page Schema. */
+  centralized?: boolean
   name: string
   flag: string
   currency: string

@@ -170,6 +170,7 @@ export function generateEducationalOrganizationSchema(): SchemaContext {
   return {
     '@context': 'https://schema.org',
     '@type': 'EducationalOrganization',
+    '@id': `${BASE_URL}#organization`,
     name: SITE_NAME,
     url: BASE_URL,
     description:

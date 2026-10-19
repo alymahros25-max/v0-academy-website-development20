@@ -2,7 +2,8 @@ import { CountryLearningHub } from "@/components/country-learning-hub"
 import type { CSSProperties } from "react"
 import Link from "next/link"
 import { Clock3, MapPin, MessageCircle } from "lucide-react"
-import { getAreaLandingData, getAreaLinkHref, getAreaWhatsAppUrl, toAreaDisplayPlan } from "@/lib/country-content"
+import { getAreaLinkHref, getAreaWhatsAppUrl } from "@/lib/country-content"
+import type { CountryPageModel } from "@/lib/country-page-model"
 import { getPublishedClassroomVideos } from "@/lib/classroom-videos"
 import { southAfricaLandingConfig, getSouthAfricaWhatsAppUrl } from "@/lib/south-africa-landing-config"
 import { countryPages } from "@/components/layout/country-pages-section"
@@ -30,14 +31,13 @@ function PriceGroup({ title, plans, symbol, whatsapp }: { title: string; plans: 
   )
 }
 
-export async function SouthAfricaLanding() {
-  const [areaData, videos] = await Promise.all([getAreaLandingData("south-africa"), getPublishedClassroomVideos()])
-  const quranPlans = areaData.packages.map(toAreaDisplayPlan).filter((plan) => plan.program === "quran")
-  const arabicPlans = areaData.packages.map(toAreaDisplayPlan).filter((plan) => plan.program === "arabic")
+export async function SouthAfricaLanding(page: CountryPageModel) {
+  const videos = await getPublishedClassroomVideos()
+  const { areaData, quranPlans, arabicPlans } = page
   const quranPrices = quranPlans.length >= 4 ? quranPlans.slice(0, 4).map((plan) => plan.price) : southAfricaLandingConfig.quranPrices
   const arabicPrices = arabicPlans.length >= 4 ? arabicPlans.slice(0, 4).map((plan) => plan.price) : southAfricaLandingConfig.arabicPrices
-  const cities = areaData.cities.length ? areaData.cities.map((city) => city.name_ar) : southAfricaLandingConfig.cities
-  const faq = areaData.faq.length ? areaData.faq.map((item) => [item.question_ar, item.answer_ar] as const) : southAfricaLandingConfig.faq
+  const cities = page.cities.length ? page.cities : southAfricaLandingConfig.cities
+  const faq = page.faq.length ? page.faq : southAfricaLandingConfig.faq
   const theme = areaData.theme ? { primary: areaData.theme.primary_color, accent: areaData.theme.accent_color, background: areaData.theme.background_color, surface: areaData.theme.secondary_color, ink: areaData.theme.text_color } : southAfricaLandingConfig.theme
   const baseContact = getAreaLinkHref(areaData.links, "whatsapp", getSouthAfricaWhatsAppUrl())
   const trialUrl = getAreaWhatsAppUrl(areaData.links, "حصة تجريبية مجانية", baseContact)
@@ -78,7 +78,7 @@ export async function SouthAfricaLanding() {
 
       <section className="bg-white px-5 py-16 sm:px-8"><div className="mx-auto max-w-6xl"><div className="grid gap-5 md:grid-cols-2"><article className="rounded-[2rem] bg-[#12372a] p-7 text-white"><p className="text-sm font-bold text-[#f0b06f]">تحفيظ القرآن الكريم</p><h2 className="mt-3 text-3xl font-black">حفظ ومراجعة حسب نقطة البداية</h2><p className="mt-4 leading-8 text-white/80">برنامج فردي يساعد الطالب على بناء روتين للحفظ والمراجعة والقراءة بحسب مستواه ووقته. تُحدد التفاصيل التعليمية بعد التعارف والحصة التجريبية.</p><a href={packageUrl} target="_blank" rel="noreferrer" className="mt-6 inline-block font-black text-[#f0b06f]">اسأل عن برنامج القرآن ←</a></article><article className="rounded-[2rem] bg-[#eadcc5] p-7 text-[#17251e]"><p className="text-sm font-bold text-[#a75d28]">تأسيس اللغة العربية</p><h2 className="mt-3 text-3xl font-black">ابنِ أساس القراءة والفهم</h2><p className="mt-4 leading-8 text-[#526057]">دروس عربية أونلاين للطالب الذي يريد بناء أساس أو تحسين القراءة والفهم تدريجيًا. يبدأ الاختيار من مستوى الطالب وهدفه.</p><a href={packageUrl} target="_blank" rel="noreferrer" className="mt-6 inline-block font-black text-[#a75d28]">اسأل عن برنامج العربية ←</a></article></div></div></section>
 
-      <section className="bg-[#f7f1e5] px-5 py-16 sm:px-8"><div className="mx-auto max-w-6xl"><div className="flex items-start gap-3"><MapPin className="mt-1 text-[#a75d28]" /><div><p className="text-sm font-black text-[#a75d28]">الخدمة من أي مكان</p><h2 className="mt-2 text-3xl font-black text-[#17251e]">من جوهانسبرغ إلى كيب تاون</h2><p className="mt-4 max-w-3xl leading-8 text-[#526057]">إذا كنت في جوهانسبرغ أو كيب تاون أو ديربان أو بريتوريا، فالدراسة الأونلاين تمنحك فرصة اختيار موعد يناسب جدول الأسرة دون الحاجة إلى الانتقال إلى مركز تعليمي.</p><div className="mt-6 flex flex-wrap gap-2">{cities.map((city) => <span key={city} className="rounded-full border border-[#cdbb9d] bg-white px-4 py-2 text-sm font-bold text-[#17251e]">{city}</span>)}</div><p className="mt-5 flex items-center gap-2 text-sm font-bold text-[#657269]"><Clock3 size={16} /> المواعيد تُنسق حسب {areaData.timezones.find((timezone) => timezone.is_primary)?.label_ar || southAfricaLandingConfig.timezone}</p></div></div></div></section>
+      <section className="bg-[#f7f1e5] px-5 py-16 sm:px-8"><div className="mx-auto max-w-6xl"><div className="flex items-start gap-3"><MapPin className="mt-1 text-[#a75d28]" /><div><p className="text-sm font-black text-[#a75d28]">الخدمة من أي مكان</p><h2 className="mt-2 text-3xl font-black text-[#17251e]">من جوهانسبرغ إلى كيب تاون</h2><p className="mt-4 max-w-3xl leading-8 text-[#526057]">إذا كنت في جوهانسبرغ أو كيب تاون أو ديربان أو بريتوريا، فالدراسة الأونلاين تمنحك فرصة اختيار موعد يناسب جدول الأسرة دون الحاجة إلى الانتقال إلى مركز تعليمي.</p><div className="mt-6 flex flex-wrap gap-2">{cities.map((city) => <span key={city} className="rounded-full border border-[#cdbb9d] bg-white px-4 py-2 text-sm font-bold text-[#17251e]">{city}</span>)}</div><p className="mt-5 flex items-center gap-2 text-sm font-bold text-[#657269]"><Clock3 size={16} /> المواعيد تُنسق حسب {page.timezoneLabel || southAfricaLandingConfig.timezone}</p></div></div></div></section>
 
       <section id="plans" className="bg-white px-5 py-16 sm:px-8"><div className="mx-auto max-w-6xl"><div className="mx-auto max-w-3xl text-center"><p className="text-sm font-black text-[#a75d28]">الباقات والأسعار</p><h2 className="mt-3 text-4xl font-black text-[#17251e]">باقات شهرية واضحة بالراند الجنوب أفريقي</h2><p className="mt-4 leading-8 text-[#657269]">الأسعار مبنية على حصة أساسية مدتها 30 دقيقة. اختر العدد الذي يناسب روتينك، ثم تواصل معنا لتأكيد الموعد والتفاصيل.</p></div><div className="mt-10 grid gap-6 lg:grid-cols-2"><PriceGroup title="تحفيظ القرآن" symbol="راند" plans={quranPrices.map((price, index) => ({ price, sessions: [4, 8, 12, 16][index] }))} whatsapp={packageUrl} /><PriceGroup title="تأسيس العربية" symbol="راند" plans={arabicPrices.map((price, index) => ({ price, sessions: [4, 8, 12, 16][index] }))} whatsapp={packageUrl} /></div><div className="mx-auto mt-8 max-w-3xl rounded-2xl bg-[#eadcc5] p-5 text-center font-bold text-[#17251e]">يوجد باقات مخصصة. اسأل عن التفاصيل بعد الحصة التجريبية.</div></div></section>
 
@@ -87,8 +87,8 @@ export async function SouthAfricaLanding() {
       <section className="bg-[#d8873d] px-5 py-16 text-center text-[#17251e] sm:px-8"><div className="mx-auto max-w-3xl"><h2 className="text-4xl font-black">ابدأ بخطوة تناسب أسبوعك</h2><p className="mt-4 leading-8">اكتب لنا مدينتك والبرنامج الذي تفكر فيه، وسنساعدك على معرفة الخطوة التالية قبل اختيار الباقة.</p><a href={trialUrl} target="_blank" rel="noreferrer" className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#12372a] px-6 py-3 font-black text-white"><MessageCircle size={18} /> تواصل عبر واتساب</a></div></section>
 
             <CountryLearningHub slug="south-africa" variant="cards" showLocalCard={false} />
-<footer className="border-t-4 border-[#f09a67] bg-[#251b2b] px-5 py-7 text-[#fff8ef] sm:px-8"><div className="mx-auto max-w-6xl"><div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between"><span className="text-sm font-black tracking-wide">مسار جنوب أفريقيا · {new Date().getFullYear()}</span><nav aria-label="روابط صفحة جنوب أفريقيا" className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-bold text-[#eadbe5]"><Link href="/">الرئيسية</Link><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/contact">التواصل</Link><Link href="/privacy">الخصوصية</Link><Link href="/terms">الشروط</Link></nav></div><details className="mt-6 border-t border-[#ffffff24] pt-5"><summary className="cursor-pointer text-sm font-black text-[#f09a67]">صفحاتنا حسب الدولة</summary><nav aria-label="كل صفحات الدول" className="mt-4 grid gap-2 sm:grid-cols-3 lg:grid-cols-4">{countryPages.map((country) => <Link key={country.href} href={country.href} className="rounded-md border border-[#ffffff24] px-3 py-2 text-sm text-[#eadbe5] transition hover:border-[#f09a67] hover:text-[#ffd7bd]"><span className="me-2" aria-hidden="true">{country.flag}</span>{country.label}</Link>)}</nav></details></div></footer>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+
+
     </main>
   )
 }

@@ -1,4 +1,6 @@
 import { CountryLearningHub } from "@/components/country-learning-hub"
+import type { CountryPageModel } from "@/lib/country-page-model"
+import type { AreaLandingSnapshot } from "@/lib/country-content"
 import Link from "next/link"
 import { Check, ChevronLeft, Clock3, MapPin, MessageCircle, ShieldCheck, Sparkles } from "lucide-react"
 import { LandingPageVideoStrip } from "@/components/LandingPageVideoStrip"
@@ -6,7 +8,7 @@ import { CountryPagesSection } from "@/components/layout/country-pages-section"
 import { CountryServiceLinks } from "@/components/country-service-links"
 import { getCountryThemeStyle } from "@/components/country-enrichment-section"
 import { canadaLandingConfig, getCanadaWhatsAppUrl, type CanadaPlan, type CanadaProgram } from "@/lib/canada-landing-config"
-import { getAreaLandingData, getAreaWhatsAppUrl, toAreaDisplayPlan, type AreaDisplayPlan } from "@/lib/country-content"
+import { getAreaWhatsAppUrl, toAreaDisplayPlan, type AreaDisplayPlan } from "@/lib/country-content"
 
 
 
@@ -29,15 +31,14 @@ function PlanCard({ plan, contactUrl }: { plan: AreaDisplayPlan; contactUrl?: st
   </article>
 }
 
-async function Plans({ program, title, description }: { program: CanadaProgram; title: string; description: string }) {
-  const areaData = await getAreaLandingData("canada")
+async function Plans({ areaData, program, title, description }: { areaData: AreaLandingSnapshot; program: CanadaProgram; title: string; description: string }) {
   const databasePlans = areaData.packages.map(toAreaDisplayPlan).filter((plan) => plan.program === program)
   const plans = databasePlans.length ? databasePlans : (canadaLandingConfig.plans.filter((plan) => plan.program === program) as unknown as AreaDisplayPlan[])
   return <section className="mt-16" aria-labelledby={`${program}-plans`}><h2 id={`${program}-plans`} className="text-center text-3xl font-bold text-foreground">{title}</h2><p className="mx-auto mt-4 max-w-3xl text-center leading-8 text-muted-foreground">{description}</p>{([30] as const).map((duration, index) => <div key={duration}><h3 className="mt-12 text-center text-xl font-bold text-primary">{duration} دقيقة للحصة</h3><div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">{plans.filter((plan) => plan.duration === duration).map((plan) => <PlanCard key={plan.id} plan={plan} contactUrl={getAreaWhatsAppUrl(areaData.links, plan.name, getCanadaWhatsAppUrl(plan.name))} />)}</div>{program === "quran" && <p className="saudi-reveal my-8 rounded-2xl border border-border bg-secondary/50 p-5 text-center font-semibold text-muted-foreground">{["بداية مرنة تناسب الأسرة والطالب.", "وقت إضافي للتسميع والتصحيح والتدريب.", "خيار عملي لمن يريد الجمع بين التعلم والمراجعة."][index]}</p>}</div>)}</section>
 }
 
-export async function CanadaLanding() {
-  const areaData = await getAreaLandingData("canada")
+export async function CanadaLanding(_page: CountryPageModel) {
+  const { areaData } = _page
   const databaseFaq = areaData.faq.map((item) => [item.question_ar, item.answer_ar] as const)
   const faqItems = databaseFaq.length ? databaseFaq : faq
   const trialUrl = getAreaWhatsAppUrl(areaData.links, "حصة تجريبية مجانية", getCanadaWhatsAppUrl("حصة تجريبية مجانية"))
@@ -46,13 +47,13 @@ return <main dir="rtl" style={getCountryThemeStyle(areaData.theme)} className="m
     <section className="saudi-hero relative islamic-pattern text-center"><div className="saudi-flag-badge" aria-label="خدمة للعائلات العربية في كندا"><span aria-hidden="true">🇨🇦</span></div><div className="mx-auto max-w-4xl px-5 py-20 sm:px-8 lg:py-28"><p className="saudi-eyebrow justify-center"><Sparkles size={16} /> أكاديمية الحافظ المتميز</p><h1 className="mt-6 text-balance text-4xl font-bold leading-tight text-foreground sm:text-6xl">تحفيظ القرآن أونلاين للعرب في كندا</h1><p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-8 text-muted-foreground sm:text-xl">للطلبة والأسر الناطقة بالعربية في كندا، تقدم الأكاديمية دروسًا فردية مباشرة عبر الإنترنت. في مسار القرآن يقرأ الطالب ويسمّع ثم يتلقى تصحيحًا مناسبًا للمراجعة، وفي مسار العربية يبدأ التدريب من مستوى القراءة والكتابة الذي يحتاج إليه.</p><div className="mx-auto mt-5 flex max-w-3xl flex-wrap justify-center gap-2 text-sm font-bold"><span className="rounded-full bg-secondary px-4 py-2 text-secondary-foreground">أول حصة تجريبية مجانية</span><span className="rounded-full bg-secondary px-4 py-2 text-secondary-foreground">أسعار بالدولار الكندي</span></div><div className="mt-8 flex flex-wrap justify-center gap-3"><a className="saudi-primary-cta" href={trialUrl} target="_blank" rel="noreferrer"><MessageCircle size={19} /> احجز الحصة التجريبية الأولى المجانية</a><a className="saudi-secondary-cta" href="#plans">استعرض الباقات <ChevronLeft size={18} /></a></div></div></section><LandingPageVideoStrip />
 
     <section className="mx-auto max-w-6xl px-5 py-14 text-center sm:px-8"><h2 className="text-3xl font-bold text-foreground">حصص فردية لتحفيظ القرآن وتأسيس العربية للعرب في كندا</h2><p className="mx-auto mt-5 max-w-3xl leading-8 text-muted-foreground">تتضمن حصص القرآن الحفظ والمراجعة والتلاوة والتجويد، وتشمل حصص العربية تأسيس القراءة والكتابة. تُقدَّم الحصص مباشرة باللغة العربية أونلاين.</p></section>
-    <section id="plans" className="mx-auto max-w-6xl px-5 py-12 sm:px-8 lg:py-20"><Plans program="quran" title="تحفيظ القرآن وحفظه ومراجعته في حصص فردية" description="باقات شهرية بالدولار الكندي لحصص فردية في الحفظ والتسميع والتجويد والمراجعة." /><Plans program="arabic" title="تأسيس العربية قراءة وكتابة أونلاين في كندا" description="حصص فردية للقراءة والكتابة والنطق والفهم، مع تصحيح التلاوة عند توفره ضمن البرنامج." /></section>
+    <section id="plans" className="mx-auto max-w-6xl px-5 py-12 sm:px-8 lg:py-20"><Plans areaData={areaData} program="quran" title="تحفيظ القرآن وحفظه ومراجعته في حصص فردية" description="باقات شهرية بالدولار الكندي لحصص فردية في الحفظ والتسميع والتجويد والمراجعة." /><Plans areaData={areaData} program="arabic" title="تأسيس العربية قراءة وكتابة أونلاين في كندا" description="حصص فردية للقراءة والكتابة والنطق والفهم، مع تصحيح التلاوة عند توفره ضمن البرنامج." /></section>
 
     <section className="mx-auto max-w-5xl px-5 py-16 sm:px-8"><h2 className="text-center text-3xl font-bold">الأسئلة الشائعة</h2><div className="mt-8 grid gap-3 sm:grid-cols-2">{faqItems.map(([question, answer]) => <details key={question} className="rounded-xl border border-border bg-card p-5"><summary className="cursor-pointer font-bold">{question}</summary><p className="mt-3 leading-7 text-muted-foreground">{answer}</p></details>)}</div></section>
 
       <CountryLearningHub slug="canada" variant="notebook" showLocalCard={false} />
     <CountryServiceLinks />
-    <footer className="bg-primary px-5 py-10 text-primary-foreground"><div className="mx-auto max-w-6xl"><CountryPagesSection /><div className="mt-8 flex flex-wrap gap-4 text-sm"><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/teachers">المعلمين والمعلمات</Link><Link href="/blog">المدونة</Link><Link href="/privacy">سياسة الخصوصية</Link><Link href="/terms">شروط الاستخدام</Link><Link href="/refund-policy">سياسة الاسترداد</Link></div><p className="mt-8 border-t border-primary-foreground/10 pt-6 text-sm text-primary-foreground/80">© {new Date().getFullYear()} أكاديمية الحافظ المتميز. تحفيظ القرآن وتأسيس اللغة العربية أونلاين في كندا.</p></div></footer>
+
 
 
 </main>

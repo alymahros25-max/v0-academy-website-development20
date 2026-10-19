@@ -1,8 +1,9 @@
+import type { CountryPageModel } from "@/lib/country-page-model"
 import { CountryLearningHub } from "@/components/country-learning-hub"
 import type { CSSProperties } from "react"
 import Link from "next/link"
 import { Clock3, MapPin, MessageCircle } from "lucide-react"
-import { getAreaLandingData, getAreaLinkHref, getAreaWhatsAppUrl, toAreaDisplayPlan } from "@/lib/country-content"
+import { getAreaLinkHref, getAreaWhatsAppUrl, toAreaDisplayPlan } from "@/lib/country-content"
 import { getPublishedClassroomVideos } from "@/lib/classroom-videos"
 import { chinaLandingConfig, getChinaWhatsAppUrl } from "@/lib/china-landing-config"
 import { countryPages } from "@/components/layout/country-pages-section"
@@ -13,8 +14,9 @@ const canonical = chinaLandingConfig.seo.canonical
 
 
 
-export async function ChinaLanding() {
-  const [areaData, videos] = await Promise.all([getAreaLandingData("china"), getPublishedClassroomVideos()])
+export async function ChinaLanding(page: CountryPageModel) {
+  const { areaData } = page
+  const videos = await getPublishedClassroomVideos()
   const quranPlans = areaData.packages.map(toAreaDisplayPlan).filter((plan) => plan.program === "quran")
   const arabicPlans = areaData.packages.map(toAreaDisplayPlan).filter((plan) => plan.program === "arabic")
   const quranPrices = quranPlans.length >= 4 ? quranPlans.slice(0, 4).map((plan) => plan.price) : chinaLandingConfig.quranPrices
@@ -59,7 +61,7 @@ return (
       <section className="bg-[#c9953d] px-5 py-16 text-center text-[#211a18] sm:px-8"><div className="mx-auto max-w-3xl"><h2 className="text-4xl font-black">اختر برنامجك وتواصل معنا</h2><p className="mt-4 leading-8">اكتب مدينتك، والبرنامج الذي تريده، والوقت المناسب لك. سنستخدم هذه المعلومات لتنسيق الخطوة التالية باللغة العربية.</p><a href={trialUrl} target="_blank" rel="noreferrer" className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#7e1f27] px-6 py-3 font-black text-white"><MessageCircle size={18} /> أريد حصة تجريبية</a></div></section>
 
             <CountryLearningHub slug="china" variant="timeline" showLocalCard={false} />
-<footer className="border-t-4 border-[#c9953d] bg-[#211a18] px-5 py-7 text-[#fffaf1] sm:px-8"><div className="mx-auto max-w-6xl"><div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between"><span className="text-sm font-black tracking-wide">مسار الصين · {new Date().getFullYear()}</span><nav aria-label="روابط صفحة الصين" className="flex flex-wrap gap-x-5 gap-y-2 text-sm font-bold text-[#f9e8d2]"><Link href="/">الرئيسية</Link><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/contact">التواصل</Link><Link href="/privacy">الخصوصية</Link><Link href="/terms">الشروط</Link></nav></div><details className="mt-6 border-t border-[#ffffff24] pt-5"><summary className="cursor-pointer text-sm font-black text-[#e4bd6e]">صفحاتنا حسب الدولة</summary><nav aria-label="كل صفحات الدول" className="mt-4 grid gap-2 sm:grid-cols-3 lg:grid-cols-4">{countryPages.map((country) => <Link key={country.href} href={country.href} className="rounded-md border border-[#ffffff24] px-3 py-2 text-sm text-[#f9e8d2] transition hover:border-[#c9953d] hover:text-white"><span className="me-2" aria-hidden="true">{country.flag}</span>{country.label}</Link>)}</nav></details></div></footer>
+
 
     </main>
   )

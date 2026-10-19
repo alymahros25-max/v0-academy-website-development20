@@ -1,10 +1,12 @@
+import type { CountryPageModel } from "@/lib/country-page-model"
+import type { AreaLandingSnapshot } from "@/lib/country-content"
 import { CountryLearningHub } from "@/components/country-learning-hub"
 import { getCountrySeoAlternates } from "@/lib/seo-metadata"
 import Link from "next/link"
 import { Check, ChevronLeft, Clock3, MapPin, MessageCircle, ShieldCheck, Sparkles } from "lucide-react"
 import { LandingPageVideoStrip } from "@/components/LandingPageVideoStrip"
 import { getUnitedStatesWhatsAppUrl, unitedStatesLandingConfig, type UnitedStatesPlan, type UnitedStatesProgram } from "@/lib/united-states-landing-config"
-import { getAreaLandingData, getAreaWhatsAppUrl, toAreaDisplayPlan, type AreaDisplayPlan } from "@/lib/country-content"
+import { getAreaWhatsAppUrl, toAreaDisplayPlan, type AreaDisplayPlan } from "@/lib/country-content"
 import { CountryPagesSection } from "@/components/layout/country-pages-section"
 import { CountryServiceLinks } from "@/components/country-service-links"
 import { getCountryThemeStyle } from "@/components/country-enrichment-section"
@@ -30,15 +32,14 @@ function PlanCard({ plan, contactUrl }: { plan: AreaDisplayPlan; contactUrl?: st
   </article>
 }
 
-async function Plans({ program, title, description }: { program: UnitedStatesProgram; title: string; description: string }) {
-  const areaData = await getAreaLandingData("united-states")
+async function Plans({ areaData, program, title, description }: { areaData: AreaLandingSnapshot; program: UnitedStatesProgram; title: string; description: string }) {
   const databasePlans = areaData.packages.map(toAreaDisplayPlan).filter((plan) => plan.program === program)
   const plans = databasePlans.length ? databasePlans : (unitedStatesLandingConfig.plans.filter((plan) => plan.program === program) as unknown as AreaDisplayPlan[])
   return <section className="mt-16" aria-labelledby={`${program}-plans`}><h2 id={`${program}-plans`} className="text-center text-3xl font-bold text-foreground">{title}</h2><p className="mx-auto mt-4 max-w-3xl text-center leading-8 text-muted-foreground">{description}</p>{([30] as const).map((duration, index) => <div key={duration}><h3 className="mt-12 text-center text-xl font-bold text-primary">{duration} دقيقة للحصة</h3><div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">{plans.filter((plan) => plan.duration === duration).map((plan) => <PlanCard key={plan.id} plan={plan} contactUrl={getAreaWhatsAppUrl(areaData.links, plan.name, getUnitedStatesWhatsAppUrl(plan.name))} />)}</div>{program === "quran" && <div className="saudi-reveal my-8 rounded-2xl border border-border bg-secondary/50 p-5 text-center font-semibold text-muted-foreground">{["إيقاع مرن لبداية رحلة الحفظ.", "وقت أطول للتسميع والتصحيح والمراجعة.", "اختيار مناسب لمن يريد الجمع بين الحفظ والمراجعة."][index]}</div>}</div>)}</section>
 }
 
-export async function UnitedStatesLanding() {
-  const areaData = await getAreaLandingData("united-states")
+export async function UnitedStatesLanding(page: CountryPageModel) {
+  const { areaData } = page
   const databaseFaq = areaData.faq.map((item) => [item.question_ar, item.answer_ar] as const)
   const faqItems = databaseFaq.length ? databaseFaq : faq
   const trialUrl = getAreaWhatsAppUrl(areaData.links, "الحصة التجريبية الأولى المجانية", getUnitedStatesWhatsAppUrl("الحصة التجريبية الأولى المجانية"))
@@ -46,13 +47,13 @@ return <main dir="rtl" style={getCountryThemeStyle(areaData.theme)} className="m
     <header className="bg-primary text-primary-foreground"><div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3 sm:px-8"><Link href="/" className="font-bold">أكاديمية الحافظ المتميز</Link><div className="flex items-center gap-3"><span className="text-2xl" role="img" aria-label="الولايات المتحدة">🇺🇸</span><a className="saudi-secondary-cta bg-primary-foreground px-3 py-2 text-sm text-primary" href={trialUrl} target="_blank" rel="noreferrer">احجز الحصة التجريبية الأولى المجانية</a></div></div></header>
     <section className="saudi-hero relative islamic-pattern text-center"><div className="saudi-flag-badge" aria-label="خدمة للعائلات العربية في أمريكا"><span aria-hidden="true">🇺🇸</span></div><div className="mx-auto max-w-4xl px-5 py-20 sm:px-8 lg:py-28"><p className="saudi-eyebrow justify-center"><Sparkles size={16} /> أكاديمية الحافظ المتميز</p><h1 className="mt-6 text-balance text-4xl font-bold leading-tight text-foreground sm:text-6xl">تحفيظ القرآن ومراجعته أونلاين للعرب في الولايات المتحدة</h1><p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-8 text-muted-foreground sm:text-xl">للطلاب العرب في الولايات المتحدة، تجمع الصفحة بين حصص فردية مباشرة أونلاين لتحفيظ القرآن ومراجعته، ومسار لتأسيس العربية قراءة وكتابة. يوضح المحتوى ما يتناوله كل مسار وكيف تُحدد نقطة البداية بحسب مستوى الطالب وهدفه.</p><div className="mx-auto mt-5 flex max-w-3xl flex-wrap justify-center gap-2 text-sm font-bold"><span className="rounded-full bg-secondary px-4 py-2 text-secondary-foreground">أول حصة تجريبية مجانية</span><span className="rounded-full bg-secondary px-4 py-2 text-secondary-foreground">مواعيد مرنة</span></div><div className="mt-8 flex flex-wrap justify-center gap-3"><a className="saudi-primary-cta" href={trialUrl} target="_blank" rel="noreferrer"><MessageCircle size={19} /> احجز الحصة التجريبية الأولى المجانية</a><a className="saudi-secondary-cta" href="#plans">استعرض الباقات <ChevronLeft size={18} /></a></div></div></section><LandingPageVideoStrip />
 
-    <section id="plans" className="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-24"><Plans program="quran" title="تحفيظ القرآن ومراجعته للعرب في أمريكا" description="باقات شهرية بالدولار الأمريكي لحصص فردية في الحفظ والتسميع والتجويد والمراجعة." /><Plans program="arabic" title="باقات تأسيس اللغة العربية للعرب في الولايات المتحدة" description="مناسبة للأطفال والشباب والطلاب الذين يحتاجون إلى تأسيس القراءة والكتابة والنطق والفهم باللغة العربية، مع حصص فردية مباشرة أونلاين." /></section>
+    <section id="plans" className="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-24"><Plans areaData={areaData} program="quran" title="تحفيظ القرآن ومراجعته للعرب في أمريكا" description="باقات شهرية بالدولار الأمريكي لحصص فردية في الحفظ والتسميع والتجويد والمراجعة." /><Plans areaData={areaData} program="arabic" title="باقات تأسيس اللغة العربية للعرب في الولايات المتحدة" description="مناسبة للأطفال والشباب والطلاب الذين يحتاجون إلى تأسيس القراءة والكتابة والنطق والفهم باللغة العربية، مع حصص فردية مباشرة أونلاين." /></section>
 
     <section className="mx-auto max-w-5xl px-5 py-16 sm:px-8"><h2 className="text-center text-3xl font-bold">الأسئلة الشائعة</h2><div className="mt-8 grid gap-3 sm:grid-cols-2">{faqItems.map(([question, answer]) => <details key={question} className="rounded-xl border border-border bg-card p-5"><summary className="cursor-pointer font-bold">{question}</summary><p className="mt-3 leading-7 text-muted-foreground">{answer}</p></details>)}</div></section>
 
       <CountryLearningHub slug="united-states" variant="minimal" showLocalCard={false} />
     <CountryServiceLinks />
-    <footer className="bg-primary px-5 py-10 text-primary-foreground"><div className="mx-auto max-w-6xl"><CountryPagesSection /><nav className="mt-4 flex flex-wrap gap-4 text-sm"><Link href="/">الرئيسية</Link><Link href="/saudi-arabia">تحفيظ القرآن واللغة العربية في السعودية</Link><Link href="/united-arab-emirates">تحفيظ القرآن واللغة العربية في الإمارات</Link></nav><div className="mt-8 flex flex-wrap gap-4 text-sm"><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/teachers">المعلمون والمعلمات</Link><Link href="/blog">المدونة</Link><Link href="/privacy">سياسة الخصوصية</Link><Link href="/terms">شروط الاستخدام</Link><Link href="/refund-policy">سياسة الاسترداد</Link></div></div></footer>
+
 
 
 </main>

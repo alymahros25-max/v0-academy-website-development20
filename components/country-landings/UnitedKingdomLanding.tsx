@@ -1,3 +1,5 @@
+import type { CountryPageModel } from "@/lib/country-page-model"
+import type { AreaLandingSnapshot } from "@/lib/country-content"
 import { CountryLearningHub } from "@/components/country-learning-hub"
 import Link from "next/link"
 import { Check, ChevronLeft, Clock3, MapPin, MessageCircle, ShieldCheck, Sparkles } from "lucide-react"
@@ -6,7 +8,7 @@ import { CountryPagesSection } from "@/components/layout/country-pages-section"
 import { CountryServiceLinks } from "@/components/country-service-links"
 import { getCountryThemeStyle } from "@/components/country-enrichment-section"
 import { getUnitedKingdomWhatsAppUrl, unitedKingdomLandingConfig, type UnitedKingdomPlan, type UnitedKingdomProgram } from "@/lib/united-kingdom-landing-config"
-import { getAreaLandingData, getAreaWhatsAppUrl, toAreaDisplayPlan, type AreaDisplayPlan } from "@/lib/country-content"
+import { getAreaWhatsAppUrl, toAreaDisplayPlan, type AreaDisplayPlan } from "@/lib/country-content"
 
 
 
@@ -29,15 +31,14 @@ function PlanCard({ plan, contactUrl }: { plan: AreaDisplayPlan; contactUrl?: st
   </article>
 }
 
-async function Plans({ program, title, description }: { program: UnitedKingdomProgram; title: string; description: string }) {
-  const areaData = await getAreaLandingData("united-kingdom")
+async function Plans({ areaData, program, title, description }: { areaData: AreaLandingSnapshot; program: UnitedKingdomProgram; title: string; description: string }) {
   const databasePlans = areaData.packages.map(toAreaDisplayPlan).filter((plan) => plan.program === program)
   const plans = databasePlans.length ? databasePlans : (unitedKingdomLandingConfig.plans.filter((plan) => plan.program === program) as unknown as AreaDisplayPlan[])
   return <section className="mt-16"><h2 className="text-center text-3xl font-bold text-foreground">{title}</h2><p className="mx-auto mt-4 max-w-3xl text-center leading-8 text-muted-foreground">{description}</p>{([30] as const).map((duration, index) => <div key={duration}><h3 className="mt-12 text-center text-xl font-bold text-primary">{duration} دقيقة للحصة</h3><div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">{plans.filter((plan) => plan.duration === duration).map((plan) => <PlanCard key={plan.id} plan={plan} contactUrl={getAreaWhatsAppUrl(areaData.links, plan.name, getUnitedKingdomWhatsAppUrl(plan.name))} />)}</div>{program === "quran" && <p className="saudi-reveal my-8 rounded-2xl border border-border bg-secondary/50 p-5 text-center font-semibold text-muted-foreground">{["إيقاع مرن لبداية رحلة الحفظ.", "وقت أطول للتسميع والتصحيح والمراجعة.", "اختيار مناسب لمن يريد الجمع بين الحفظ والمراجعة."][index]}</p>}</div>)}</section>
 }
 
-export async function UnitedKingdomLanding() {
-  const areaData = await getAreaLandingData("united-kingdom")
+export async function UnitedKingdomLanding(page: CountryPageModel) {
+  const { areaData } = page
   const databaseFaq = areaData.faq.map((item) => [item.question_ar, item.answer_ar] as const)
   const faqItems = databaseFaq.length ? databaseFaq : faq
   const trialUrl = getAreaWhatsAppUrl(areaData.links, "حصة تجريبية مجانية", getUnitedKingdomWhatsAppUrl("حصة تجريبية مجانية"))
@@ -46,13 +47,13 @@ return <main dir="rtl" style={getCountryThemeStyle(areaData.theme)} className="m
     <section className="saudi-hero relative islamic-pattern text-center"><div className="saudi-flag-badge" aria-label="خدمة للعائلات العربية في المملكة المتحدة"><span aria-hidden="true">🇬🇧</span></div><div className="mx-auto max-w-4xl px-5 py-20 sm:px-8 lg:py-28"><p className="saudi-eyebrow justify-center"><Sparkles size={16} /> أكاديمية الحافظ المتميز</p><h1 className="mt-6 text-balance text-4xl font-bold leading-tight text-foreground sm:text-6xl">تحفيظ القرآن ومراجعته أونلاين للعرب في المملكة المتحدة</h1><p className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-8 text-muted-foreground sm:text-xl">إذا كنت تقيم في المملكة المتحدة وتبحث عن متابعة قرآنية بالعربية، تتيح الأكاديمية حصصًا فردية أونلاين لحفظ القرآن ومراجعته، مع تدريب على التلاوة والتجويد. كما تتوفر دروس لتأسيس القراءة والكتابة بالعربية، ويمكن اختيار المسار بحسب حاجة الطالب ومستواه.</p><div className="mx-auto mt-5 flex max-w-3xl flex-wrap justify-center gap-2 text-sm font-bold"><span className="rounded-full bg-secondary px-4 py-2 text-secondary-foreground">أول حصة تجريبية مجانية</span><span className="rounded-full bg-secondary px-4 py-2 text-secondary-foreground">مواعيد مرنة تناسب المملكة المتحدة</span></div><div className="mt-8 flex flex-wrap justify-center gap-3"><a className="saudi-primary-cta" href={trialUrl} target="_blank" rel="noreferrer"><MessageCircle size={19} /> احجز الحصة التجريبية الأولى المجانية</a><a className="saudi-secondary-cta" href="#plans">استعرض الباقات <ChevronLeft size={18} /></a></div></div></section><LandingPageVideoStrip />
     <section className="mx-auto max-w-6xl px-5 py-14 text-center sm:px-8"><h2 className="text-3xl font-bold text-foreground">حصص قرآن فردية مباشرة بالعربية للعرب في المملكة المتحدة</h2><p className="mx-auto mt-5 max-w-3xl leading-8 text-muted-foreground">تشمل الحصص حفظ القرآن ومراجعته وتلاوته وتعلم التجويد، إلى جانب تأسيس العربية في القراءة والكتابة. ابدأ بالتواصل عبر WhatsApp لطلب الحصة التجريبية الأولى المجانية.</p></section>
 
-    <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-24"><Plans program="quran" title="حفظ ومراجعة وتلاوة وتجويد القرآن أونلاين" description="باقات شهرية بالجنيه الإسترليني لحصص فردية في الحفظ والتسميع والتجويد وتصحيح التلاوة والمراجعة." /><Plans program="arabic" title="تأسيس العربية قراءة وكتابة أونلاين في المملكة المتحدة" description="تأسيس القراءة والكتابة والنطق والفهم بالعربية للأطفال والشباب والبالغين، مع خطة فردية مباشرة أونلاين." /></section>
+    <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-24"><Plans areaData={areaData} program="quran" title="حفظ ومراجعة وتلاوة وتجويد القرآن أونلاين" description="باقات شهرية بالجنيه الإسترليني لحصص فردية في الحفظ والتسميع والتجويد وتصحيح التلاوة والمراجعة." /><Plans areaData={areaData} program="arabic" title="تأسيس العربية قراءة وكتابة أونلاين في المملكة المتحدة" description="تأسيس القراءة والكتابة والنطق والفهم بالعربية للأطفال والشباب والبالغين، مع خطة فردية مباشرة أونلاين." /></section>
 
     <section className="mx-auto max-w-5xl px-5 py-16 sm:px-8"><h2 className="text-center text-3xl font-bold text-foreground">الأسئلة الشائعة</h2><div className="mt-8 grid gap-3 sm:grid-cols-2">{faqItems.map(([question, answer]) => <details key={question} className="rounded-xl border border-border bg-card p-5"><summary className="cursor-pointer font-bold">{question}</summary><p className="mt-3 leading-7 text-muted-foreground">{answer}</p></details>)}</div></section>
 
       <CountryLearningHub slug="united-kingdom" variant="notebook" showLocalCard={false} />
     <CountryServiceLinks />
-    <footer className="bg-primary px-5 py-10 text-primary-foreground"><div className="mx-auto max-w-6xl"><CountryPagesSection /><nav className="mt-8 flex flex-wrap gap-4 text-sm"><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/teachers">المعلمون والمعلمات</Link><Link href="/blog">المدونة</Link><Link href="/privacy">سياسة الخصوصية</Link><Link href="/terms">شروط الاستخدام</Link><Link href="/refund-policy">سياسة الاسترداد</Link></nav><p className="mt-8 text-sm text-primary-foreground/80">تحفيظ القرآن وتأسيس اللغة العربية أونلاين في المملكة المتحدة © {new Date().getFullYear()} أكاديمية الحافظ المتميز</p></div></footer>
+
 
 
 </main>

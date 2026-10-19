@@ -11,5 +11,5 @@ export async function generateMetadata(): Promise<Metadata> {
   return getCountrySeoMetadata("saudi-arabia", config.seo.canonical)
 }
 export default function CountryRoute() {
-  return <CountryLandingEngine slug="saudi-arabia" specializedPage={SaudiArabiaLanding} />
+  return <CountryLandingEngine slug="saudi-arabia" />
 }

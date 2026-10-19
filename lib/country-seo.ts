@@ -65,6 +65,31 @@ export function getCountrySeoPlan(slug: string): CompleteCountrySeoPage | undefi
   return countrySeoBySlug[slug]
 }
 
+type SeoContentValue = { content_key: string; content_ar?: string | null }
+
+/** Prefer an explicitly seeded DB SEO snapshot; otherwise preserve the code baseline. */
+export function resolveCountrySeoPlan(slug: string, content: readonly SeoContentValue[] = []): CompleteCountrySeoPage | undefined {
+  const fallback = getCountrySeoPlan(slug)
+  if (!fallback) return undefined
+  const value = (key: string) => content.find((item) => item.content_key === `country_seo_v2_${key}`)?.content_ar?.trim() || ""
+  const title = value("title")
+  const description = value("description")
+  const h1 = value("h1")
+  const keyword = value("keyword")
+  const rawKeywords = value("supporting_keywords")
+  if (!title || !description || !h1 || !keyword) return fallback
+  let supportingKeywords = fallback.supportingKeywords
+  if (rawKeywords) {
+    try {
+      const parsed: unknown = JSON.parse(rawKeywords)
+      if (Array.isArray(parsed) && parsed.every((item) => typeof item === "string")) supportingKeywords = parsed
+    } catch {
+      // An invalid DB keyword payload must never blank otherwise valid metadata.
+    }
+  }
+  return { ...fallback, title, description, h1, keyword, supportingKeywords }
+}
+
 export function getCountryWebPageSchema(slug: string) {
   const page = getCountrySeoPlan(slug)
   if (!page) throw new Error(`Missing SEO plan for country: ${slug}`)
@@ -117,6 +142,10 @@ export function getCountrySchemaGraph(slug: string) {
 export function getCountrySeoMetadata(slug: string, canonicalOverride?: string): Metadata {
   const page = getCountrySeoPlan(slug)
   if (!page) throw new Error(`Missing SEO plan for country: ${slug}`)
+  return countrySeoPageToMetadata(page, canonicalOverride)
+}
+
+export function countrySeoPageToMetadata(page: CompleteCountrySeoPage, canonicalOverride?: string): Metadata {
   const canonical = canonicalOverride ?? `${COUNTRY_SEO_BASE_URL}/${page.slug}`
   return {
     title: page.title,

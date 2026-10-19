@@ -18,7 +18,7 @@ export function CountryTeacherMarquee({ teachers }: Props) {
   const items = [...activeTeachers, ...activeTeachers]
   return <div className="country-teacher-marquee" aria-label="معلمونا ومعلماتنا">
     <div className="country-teacher-marquee-track">
-      {items.map((teacher, index) => <article className="country-teacher-profile" key={`${teacher.id}-${index}`}>
+      {items.map((teacher, index) => <article aria-hidden={index >= activeTeachers.length} className="country-teacher-profile" key={`${teacher.id}-${index}`}>
         <div className="country-teacher-avatar">{teacher.image ? <Image src={normalizeTeacherImage(teacher.image)} alt="" width={52} height={52} /> : null}</div>
         <div><strong>{teacher.name.ar}</strong><span>{teacher.specialty.ar}</span><small>{teacher.experience} سنوات خبرة</small></div>
       </article>)}

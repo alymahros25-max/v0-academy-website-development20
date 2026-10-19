@@ -5,6 +5,7 @@ import { BookOpen, Feather } from "lucide-react"
 import { usePathname } from "next/navigation"
 
 type Country = { ar: string; code: string; currency: string }
+type LocalCountryName = { name: string; lang: string }
 
 const countries: Record<string, Country> = {
   "/argentina": { ar: "الأرجنتين", code: "ar", currency: "البيزو الأرجنتيني" }, "/australia": { ar: "أستراليا", code: "au", currency: "الدولار الأسترالي" }, "/austria": { ar: "النمسا", code: "at", currency: "اليورو" },
@@ -23,6 +24,23 @@ const countries: Record<string, Country> = {
   "/united-states": { ar: "الولايات المتحدة", code: "us", currency: "الدولار الأمريكي" }, "/venezuela": { ar: "فنزويلا", code: "ve", currency: "البوليفار الفنزويلي" },
 }
 
+const localCountryNames: Record<string, LocalCountryName> = {
+  "/argentina": { name: "Argentina", lang: "es" }, "/australia": { name: "Australia", lang: "en" }, "/austria": { name: "Österreich", lang: "de" },
+  "/bahrain": { name: "البحرين", lang: "ar" }, "/belgium": { name: "België", lang: "nl" }, "/brazil": { name: "Brasil", lang: "pt-BR" },
+  "/canada": { name: "Canada", lang: "en-CA" }, "/china": { name: "中国", lang: "zh-CN" }, "/colombia": { name: "Colombia", lang: "es" },
+  "/denmark": { name: "Danmark", lang: "da" }, "/finland": { name: "Suomi", lang: "fi" }, "/france": { name: "France", lang: "fr" },
+  "/germany": { name: "Deutschland", lang: "de" }, "/greece": { name: "Ελλάδα", lang: "el" }, "/indonesia": { name: "Indonesia", lang: "id" },
+  "/italy": { name: "Italia", lang: "it" }, "/jordan": { name: "الأردن", lang: "ar" }, "/kuwait": { name: "الكويت", lang: "ar" },
+  "/malaysia": { name: "Malaysia", lang: "ms" }, "/mexico": { name: "México", lang: "es" }, "/netherlands": { name: "Nederland", lang: "nl" },
+  "/new-zealand": { name: "Aotearoa New Zealand", lang: "mi" }, "/nigeria": { name: "Nigeria", lang: "en" }, "/norway": { name: "Norge", lang: "no" },
+  "/oman": { name: "سلطنة عُمان", lang: "ar" }, "/poland": { name: "Polska", lang: "pl" }, "/portugal": { name: "Portugal", lang: "pt" },
+  "/qatar": { name: "قطر", lang: "ar" }, "/russia": { name: "Россия", lang: "ru" }, "/saudi-arabia": { name: "المملكة العربية السعودية", lang: "ar" },
+  "/senegal": { name: "Sénégal", lang: "fr" }, "/south-africa": { name: "South Africa", lang: "en-ZA" }, "/spain": { name: "España", lang: "es" },
+  "/sweden": { name: "Sverige", lang: "sv" }, "/switzerland": { name: "Schweiz", lang: "de-CH" }, "/turkey": { name: "Türkiye", lang: "tr" },
+  "/united-arab-emirates": { name: "الإمارات العربية المتحدة", lang: "ar" }, "/united-kingdom": { name: "United Kingdom", lang: "en-GB" },
+  "/united-states": { name: "United States", lang: "en-US" }, "/venezuela": { name: "Venezuela", lang: "es" },
+}
+
 const countryVisuals: Record<string, string> = {
   "/saudi-arabia": "🌴", "/united-arab-emirates": "🕌", "/qatar": "☪️", "/oman": "🪔", "/kuwait": "✒️", "/bahrain": "🌊", "/jordan": "🏛️", "/turkey": "🌙",
   "/france": "🗼", "/italy": "🏛️", "/germany": "📖", "/spain": "🌞", "/australia": "🪃", "/new-zealand": "🌿", "/canada": "🍁", "/united-states": "🗽", "/united-kingdom": "🖋️", "/china": "🏮", "/brazil": "🌿",
@@ -36,12 +54,18 @@ export function CountryPagesChrome({ children }: { children: React.ReactNode }) 
   const pathname = usePathname()
   const country = countries[pathname]
   if (!country) return <>{children}</>
+  const localName = localCountryNames[pathname]
 
   return <div className="country-pages-shell">
     <header className="country-pages-header">
       <div className="country-pages-header-inner">
-        <div className="country-pages-logo" aria-label="شعار أكاديمية الحافظ المتميز"><Image src="/logo.png" alt="" width={44} height={44} priority className="country-pages-logo-image" /></div>
-        <div className="country-pages-title"><span>أكاديمية الحافظ المتميز Online</span><i>—</i><b>{country.ar}</b><i>—</i><em dir="ltr">{pathname.slice(1)}</em></div>
+        <div className="country-pages-title">
+          <span>أكاديمية الحافظ المتميز</span>
+          <span className="country-pages-logo" aria-hidden="true"><Image src="/logo.png" alt="" width={44} height={44} priority className="country-pages-logo-image" /></span>
+          <i aria-hidden="true">—</i>
+          <b>{country.ar}</b>
+          {localName && localName.name !== country.ar && <><i aria-hidden="true">—</i><em lang={localName.lang} dir="auto">{localName.name}</em></>}
+        </div>
         <div className="country-pages-ornament" aria-hidden="true"><span className="country-pages-country-visual">{countryVisuals[pathname] ?? "✒️"}</span><BookOpen size={25} strokeWidth={1.7} /><Feather size={17} strokeWidth={1.7} /></div>
         <div className="country-pages-flag" role="img" aria-label={`علم ${country.ar}`}><CountryFlag code={country.code} alt={`علم ${country.ar}`} /></div>
       </div>

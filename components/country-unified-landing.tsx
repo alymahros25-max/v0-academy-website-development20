@@ -12,18 +12,28 @@ function priceLabel(value: number) {
   return new Intl.NumberFormat("en-US", { maximumFractionDigits: 2 }).format(value)
 }
 
+function sessionUnit(sessions: number) {
+  return sessions >= 3 && sessions <= 10 ? "حصص" : "حصة"
+}
+
+function normalizePlanName(name: string, sessions: number) {
+  const unit = sessionUnit(sessions)
+  return name.replace(/([0-9٠-٩]+)\s*(?:حصص|حصة|حصتان)/gu, (count) => `${count.match(/[0-9٠-٩]+/u)?.[0] ?? count} ${unit}`)
+}
+
 function PlanGroup({ page, program, title }: { page: CountryPageModel; program: "quran" | "arabic"; title: string }) {
   const plans = program === "quran" ? page.quranPlans : page.arabicPlans
   return <section id={program === "quran" ? "quran-plans" : "arabic-plans"} className="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8 lg:py-20">
     <div className="mx-auto max-w-3xl text-center"><p className="text-sm font-bold text-primary">{program === "quran" ? "المسار الأول" : "المسار الثاني"}</p><h2 className="mt-3 text-3xl font-black sm:text-4xl">{title}</h2><p className="mt-4 leading-8 text-muted-foreground">باقات شهرية لحصص فردية مباشرة أونلاين باللغة العربية.</p></div>
     {plans.length ? <div className="mt-9 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">{plans.map((plan) => {
-      const href = getAreaWhatsAppUrl(page.areaData.links, plan.name, defaultWhatsApp, `السلام عليكم، أرغب في الاستفسار عن ${plan.name} في ${page.seo?.country || page.slug}.`)
+      const planTitle = normalizePlanName(plan.name, plan.monthlySessions)
+      const href = getAreaWhatsAppUrl(page.areaData.links, planTitle, defaultWhatsApp, `السلام عليكم، أرغب في الاستفسار عن ${planTitle} في ${page.seo?.country || page.slug}.`)
       return <article key={plan.id} className={`flex h-full flex-col rounded-2xl border bg-card p-6 shadow-sm ${plan.popular ? "border-primary ring-2 ring-primary/20" : "border-border"}`}>
         {plan.popular && <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-primary px-3 py-1 text-xs font-bold text-primary-foreground"><Sparkles size={14} /> الأكثر طلبًا</span>}
         <p className="text-sm font-bold text-muted-foreground">{plan.program === "quran" ? "تحفيظ القرآن" : "تأسيس العربية"}</p>
-        <h3 className="mt-2 text-xl font-black">{plan.name}</h3>
+        <h3 className="mt-2 text-xl font-black">{planTitle}</h3>
         <p className="mt-5 text-3xl font-black text-primary">{priceLabel(plan.price)} <span className="text-sm font-bold">{page.currencyLabel}</span></p>
-        <p className="mt-2 text-sm text-muted-foreground">{plan.monthlySessions} حصص شهريًا · {plan.duration} دقيقة للحصة</p>
+        <p className="mt-2 text-sm text-muted-foreground">{plan.monthlySessions} {sessionUnit(plan.monthlySessions)} شهريًا · {plan.duration} دقيقة للحصة</p>
         {plan.description && <p className="mt-4 text-sm leading-7 text-muted-foreground">{plan.description}</p>}
         {plan.features.length > 0 && <ul className="mt-4 grid gap-2 text-sm">{plan.features.map((feature) => <li key={feature} className="flex items-start gap-2"><Check size={16} className="mt-1 shrink-0 text-primary" />{feature}</li>)}</ul>}
         <a className="mt-auto inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 font-bold text-primary-foreground transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" href={href} target="_blank" rel="noreferrer"><MessageCircle size={17} /> اسأل عن هذه الباقة</a>

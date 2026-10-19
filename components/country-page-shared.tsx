@@ -13,7 +13,7 @@ export function CountrySharedStructuredData({ page }: { page: CountryPageModel }
     "@type": "Offer",
     price: plan.price,
     priceCurrency: page.currencyCode || page.areaData.area?.currency_code || "",
-    category: `${plan.monthlySessions} حصص شهريًا`,
+    category: `${plan.monthlySessions} ${plan.monthlySessions >= 3 && plan.monthlySessions <= 10 ? "حصص" : "حصة"} شهريًا`,
     url: canonical,
   }))
   const graph = {

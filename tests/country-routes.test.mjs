@@ -16,7 +16,12 @@ const countryEngineSource = readFileSync(countryEngineFile, "utf8")
 const countrySlugs = [...countryPagesSource.matchAll(/href:\s*"\/([^"]+)"/g)].map((match) => match[1])
 const routeFile = (slug) => path.join(root, "app", slug, "page.tsx")
 const componentFile = (name) => path.join(root, "components/country-landings", `${name}.tsx`)
-const configEntryPattern = (slug) => new RegExp(`(?:^|\n)\s*${slug.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\s*:\s*\{\s*slug\s*:\s*["']${slug}["']`, "m")
+const configEntryPattern = (slug) => [
+  `${slug}: { slug:"${slug}"`,
+  `${slug}: {slug:"${slug}"`,
+  `${slug}: { slug: "${slug}"`,
+  `${slug}: {slug: "${slug}"`,
+].some((entry) => newCountryPagesSource.includes(entry))
 const hasCentralRenderer = (slug) => countryRenderersSource.includes(`"${slug}":`) || countryRenderersSource.includes(`${slug}:`)
 const hasNewCountryConfig = (slug) => newCountryPagesSource.includes(`variant:"${slug}"`) || newCountryPagesSource.includes(`slug:"${slug}"`) || newCountryPagesSource.includes(`slug: "${slug}"`)
 
@@ -64,7 +69,7 @@ test("every listed country route has metadata and a valid central dispatch targe
             failures.push(`${slug}: ${specializedName} is not exported as a component`)
           }
         }
-      } else if (!hasCentralRenderer(slug) && !hasNewCountryConfig(slug) && !hasNewCountryConfig(slug) && !configEntryPattern(slug).test(newCountryPagesSource)) {
+      } else if (!hasCentralRenderer(slug) && !hasNewCountryConfig(slug) && !configEntryPattern(slug)) {
         failures.push(`${slug}: generic engine route has no matching config in lib/new-country-pages.ts`)
       }
       continue
@@ -73,7 +78,7 @@ test("every listed country route has metadata and a valid central dispatch targe
     if (/import\s*\{\s*NewCountryLanding\s*\}\s*from\s*["']@\/components\/new-country-landing["']/.test(source)) {
       const configSlug = source.match(/getNewCountryConfig\s*\(\s*["']([^"']+)["']\s*\)/)?.[1]
       if (configSlug !== slug) failures.push(`${slug}: NewCountryLanding config slug is ${configSlug ?? "missing"}`)
-      if (!hasNewCountryConfig(slug) && !configEntryPattern(slug).test(newCountryPagesSource)) {
+      if (!hasNewCountryConfig(slug) && !configEntryPattern(slug)) {
         failures.push(`${slug}: matching NewCountryLanding config does not exist`)
       }
       continue

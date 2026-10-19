@@ -1,5 +1,6 @@
 import { getAreaLandingData, toAreaDisplayPlan, type AreaDisplayPlan, type AreaLandingSnapshot } from "@/lib/country-content"
 import { getCountrySeoPlan, type CompleteCountrySeoPage } from "@/lib/country-seo"
+import { getCountryStaticFallback } from "@/lib/country-static-fallback"
 
 export type CountryPageModel = {
   slug: string
@@ -11,6 +12,7 @@ export type CountryPageModel = {
   cities: string[]
   timezoneLabel: string
   currencyCode: string
+  currencyLabel: string
 }
 
 /**
@@ -19,21 +21,24 @@ export type CountryPageModel = {
  */
 export async function getCountryPageModel(slug: string): Promise<CountryPageModel> {
   const areaData = await getAreaLandingData(slug)
-  const quranPlans = areaData.packages.map(toAreaDisplayPlan).filter((plan) => plan.program === "quran")
-  const arabicPlans = areaData.packages.map(toAreaDisplayPlan).filter((plan) => plan.program === "arabic")
-  const faq = areaData.faq.map((item) => [item.question_ar, item.answer_ar] as [string, string])
-  const cities = areaData.cities.map((city) => city.name_ar)
-  const timezoneLabel = areaData.timezones.find((timezone) => timezone.is_primary)?.label_ar || areaData.timezones[0]?.label_ar || "التوقيت المحلي"
+  const fallback = getCountryStaticFallback(slug)
+  const databasePlans = areaData.packages.map(toAreaDisplayPlan)
+  const quranPlans = databasePlans.filter((plan) => plan.program === "quran")
+  const arabicPlans = databasePlans.filter((plan) => plan.program === "arabic")
+  const faq = areaData.faq.length ? areaData.faq.map((item) => [item.question_ar, item.answer_ar] as [string, string]) : fallback.faq
+  const cities = areaData.cities.length ? areaData.cities.map((city) => city.name_ar) : fallback.cities
+  const timezoneLabel = areaData.timezones.find((timezone) => timezone.is_primary)?.label_ar || areaData.timezones[0]?.label_ar || fallback.timezoneLabel
 
   return {
     slug,
     seo: getCountrySeoPlan(slug),
     areaData,
-    quranPlans,
-    arabicPlans,
+    quranPlans: quranPlans.length ? quranPlans : fallback.quranPlans,
+    arabicPlans: arabicPlans.length ? arabicPlans : fallback.arabicPlans,
     faq,
     cities,
     timezoneLabel,
-    currencyCode: areaData.area?.currency_code || "",
+    currencyCode: areaData.area?.currency_code || fallback.currencyCode,
+    currencyLabel: areaData.area?.currency_symbol || fallback.currencyLabel,
   }
 }

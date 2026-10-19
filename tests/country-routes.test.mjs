@@ -5,12 +5,14 @@ import test from "node:test"
 import { fileURLToPath } from "node:url"
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
+const countryEngineFile = path.join(root, "components/country-landing-engine.tsx")
 const countryPagesFile = path.join(root, "components/layout/country-pages-section.tsx")
 const newCountryPagesFile = path.join(root, "lib/new-country-pages.ts")
 const countryRenderersFile = path.join(root, "lib/country-renderers.ts")
 const countryPagesSource = readFileSync(countryPagesFile, "utf8")
 const newCountryPagesSource = readFileSync(newCountryPagesFile, "utf8")
 const countryRenderersSource = readFileSync(countryRenderersFile, "utf8")
+const countryEngineSource = readFileSync(countryEngineFile, "utf8")
 const countrySlugs = [...countryPagesSource.matchAll(/href:\s*"\/([^"]+)"/g)].map((match) => match[1])
 const routeFile = (slug) => path.join(root, "app", slug, "page.tsx")
 const componentFile = (name) => path.join(root, "components/country-landings", `${name}.tsx`)
@@ -18,9 +20,14 @@ const configEntryPattern = (slug) => new RegExp(`(?:^|\n)\s*${slug.replace(/[.*+
 const hasCentralRenderer = (slug) => countryRenderersSource.includes(`"${slug}":`) || countryRenderersSource.includes(`${slug}:`)
 const hasNewCountryConfig = (slug) => newCountryPagesSource.includes(`variant:"${slug}"`) || newCountryPagesSource.includes(`slug:"${slug}"`) || newCountryPagesSource.includes(`slug: "${slug}"`)
 
- test("country navigation has 40 unique entries", () => {
+test("country navigation has 40 unique entries", () => {
   assert.equal(countrySlugs.length, 40, "update this assertion when the approved country list changes")
   assert.equal(new Set(countrySlugs).size, countrySlugs.length, "duplicate country links found")
+})
+
+test("all country routes use the same visual renderer", () => {
+  assert.match(countryEngineSource, /<CountryUnifiedLanding\s+page=\{page\}\s*\/>/)
+  assert.doesNotMatch(countryEngineSource, /getCountryRenderer|NewCountryLanding/)
 })
 
 test("every listed country route has metadata and a valid central dispatch target", () => {
@@ -105,6 +112,10 @@ test("each production country route emits static HTML or a dynamic server bundle
       failures.push(`${slug}: canonical URL does not end in /${slug}`)
     }
     if (!/<h1(?:\s|>)/.test(html)) failures.push(`${slug}: rendered page has no h1`)
+    if (!html.includes(`data-country-unified-landing="${slug}"`)) failures.push(`${slug}: route is not using the shared country landing template`)
+    if (!html.includes('id="quran-plans"') || !html.includes('id="arabic-plans"')) failures.push(`${slug}: missing a shared program pricing section`)
+    if (!/wa\.me\//.test(html)) failures.push(`${slug}: missing WhatsApp contact action`)
+    if (!html.includes("الأسئلة الشائعة")) failures.push(`${slug}: missing shared FAQ section`)
 
     const footerCount = (html.match(/<footer\b/g) || []).length
     if (footerCount !== 1) failures.push(`${slug}: expected exactly one footer, found ${footerCount}`)
@@ -128,10 +139,10 @@ test("each production country route emits static HTML or a dynamic server bundle
       const count = schemaTypes.filter((value) => value === type).length
       if (count !== 1) failures.push(`${slug}: expected one ${type} node, found ${count}`)
     }
-    for (const type of ["Course", "FAQPage"]) {
-      const count = schemaTypes.filter((value) => value === type).length
-      if (count > (type === "Course" ? 2 : 1)) failures.push(`${slug}: duplicate ${type} nodes found (${count})`)
-    }
+    const courseCount = schemaTypes.filter((value) => value === "Course").length
+    if (courseCount !== 2) failures.push(`${slug}: expected Quran + Arabic Course nodes, found ${courseCount}`)
+    const faqCount = schemaTypes.filter((value) => value === "FAQPage").length
+    if (faqCount !== 1) failures.push(`${slug}: expected one FAQPage node, found ${faqCount}`)
   }
 
   assert.deepEqual(failures, [], failures.join("\n"))

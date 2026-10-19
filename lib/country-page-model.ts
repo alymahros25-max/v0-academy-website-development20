@@ -1,5 +1,5 @@
 import { getAreaLandingData, toAreaDisplayPlan, type AreaDisplayPlan, type AreaLandingSnapshot } from "@/lib/country-content"
-import { getCountrySeoPlan, type CompleteCountrySeoPage } from "@/lib/country-seo"
+import { resolveCountrySeoPlan, type CompleteCountrySeoPage } from "@/lib/country-seo"
 import { getCountryStaticFallback } from "@/lib/country-static-fallback"
 
 export type CountryPageModel = {
@@ -63,7 +63,7 @@ export async function getCountryPageModel(slug: string): Promise<CountryPageMode
 
   return {
     slug,
-    seo: getCountrySeoPlan(slug),
+    seo: resolveCountrySeoPlan(slug, areaData.content),
     areaData,
     quranPlans: quranPlans.length ? quranPlans : fallback.quranPlans,
     arabicPlans: arabicPlans.length ? arabicPlans : fallback.arabicPlans,

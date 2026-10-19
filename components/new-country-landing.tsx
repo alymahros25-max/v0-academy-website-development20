@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { ArrowLeft, Check, Clock3, MessageCircle, MapPin, Sparkles, CalendarDays, BookOpen, Gamepad2, Scale, Home, Newspaper, Globe2, ChevronDown, ChevronLeft } from "lucide-react"
 import type { NewCountryConfig } from "@/lib/new-country-pages"
+import type { CountryPageModel } from "@/lib/country-page-model"
 import { areaLocalized, getAreaLandingData, getAreaLinkHref, getAreaWhatsAppUrl, toAreaDisplayPlan, type AreaDisplayPlan, type AreaLink } from "@/lib/country-content"
 import { getPublishedClassroomVideos, type LandingVideo } from "@/lib/classroom-videos"
 import { getTeachers, type Teacher } from "@/lib/data-store"
@@ -17,7 +18,7 @@ import { australiaLandingConfig, getAustraliaWhatsAppUrl, type AustraliaPlan } f
 import { AustriaPricingPanel } from "@/app/austria/austria-pricing-panel"
 import { AustriaVideoWindow } from "@/app/austria/austria-video-window"
 
-type Props = { config: NewCountryConfig; videos?: LandingVideo[]; teachers?: Teacher[]; contactUrl?: string }
+type Props = { config: NewCountryConfig; page?: CountryPageModel; videos?: LandingVideo[]; teachers?: Teacher[]; contactUrl?: string }
 
 function WhatsApp({ config, label = "احجز الحصة التجريبية", contactUrl }: { config: NewCountryConfig; label?: string; contactUrl?: string }) {
   const href = contactUrl || `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent(config.whatsappMessage)}`
@@ -223,9 +224,9 @@ function SwedenLayout({ config, videos, teachers, contactUrl }: Props) {
   return <><section className="new-country-intro new-country-intro-sweden"><div className="new-country-sweden-sun" /><div className="new-country-intro-copy"><p className="new-country-kicker">{config.flag} {config.eyebrow}</p><h1>{config.title}</h1><p className="new-country-lead">{config.description}</p><WhatsApp config={config} contactUrl={contactUrl} label="ابدأ باقتك" /></div><div className="new-country-progress-ring"><span>01</span><small>الخطوة التالية</small></div></section><section className="new-country-section"><div className="new-country-narrow"><p className="new-country-kicker">خريطة الاستمرارية</p><h2>اختر عدد حصص يمكن المحافظة عليه</h2><Steps config={config} /></div></section><section className="new-country-section new-country-swedish-surface"><div className="new-country-narrow"><h2>مقياس الباقات</h2><PriceTable config={config} /></div></section><LocalSection config={config} /><FAQ config={config} /><section className="new-country-note"><b>يوجد باقات مخصصة</b><span>خصم 10٪ للأخوات والإحالة</span></section><SharedClosing config={config} videos={videos} teachers={teachers} contactUrl={contactUrl}/></>
 }
 
-export async function NewCountryLanding({ config }: Props) {
+export async function NewCountryLanding({ config, page }: Props) {
   const [areaData, videos, teachers] = await Promise.all([
-    getAreaLandingData(config.slug),
+    page ? Promise.resolve(page.areaData) : getAreaLandingData(config.slug),
     config.slug === "australia" ? Promise.resolve([] as LandingVideo[]) : getPublishedClassroomVideos(),
     config.slug === "australia" ? Promise.resolve([] as Teacher[]) : getTeachers(),
   ])

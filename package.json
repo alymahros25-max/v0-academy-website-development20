@@ -13,6 +13,7 @@
     "start": "next start",
     "lint": "eslint .",
     "test:country-routes": "node --test tests/country-routes.test.mjs",
+    "test:country-designs": "node --test tests/country-page-designs.test.mjs",
     "test:country-prompt": "node --test tests/country-prompt-removal.test.mjs",
     "test:analytics-disabled": "node --test tests/analytics-disabled.test.mjs",
     "test:country-data": "node --test tests/country-data-resolution.test.mjs",

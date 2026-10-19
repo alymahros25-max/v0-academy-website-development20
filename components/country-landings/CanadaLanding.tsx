@@ -53,7 +53,7 @@ return <main dir="rtl" style={getCountryThemeStyle(areaData.theme)} className="m
 
       <CountryLearningHub slug="canada" variant="notebook" showLocalCard={false} />
     <CountryServiceLinks />
-    <footer className="bg-primary px-5 py-10 text-primary-foreground"><div className="mx-auto max-w-6xl"><CountryPagesSection /><div className="mt-8 flex flex-wrap gap-4 text-sm"><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/teachers">المعلمين والمعلمات</Link><Link href="/blog">المدونة</Link><Link href="/privacy">سياسة الخصوصية</Link><Link href="/terms">شروط الاستخدام</Link><Link href="/refund-policy">سياسة الاسترداد</Link></div><p className="mt-8 border-t border-primary-foreground/10 pt-6 text-sm text-primary-foreground/80">© {new Date().getFullYear()} أكاديمية الحافظ المتميز. تحفيظ القرآن وتأسيس اللغة العربية أونلاين في كندا.</p></div></footer>
+
 
 
 </main>

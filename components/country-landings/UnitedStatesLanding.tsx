@@ -53,7 +53,7 @@ return <main dir="rtl" style={getCountryThemeStyle(areaData.theme)} className="m
 
       <CountryLearningHub slug="united-states" variant="minimal" showLocalCard={false} />
     <CountryServiceLinks />
-    <footer className="bg-primary px-5 py-10 text-primary-foreground"><div className="mx-auto max-w-6xl"><CountryPagesSection /><nav className="mt-4 flex flex-wrap gap-4 text-sm"><Link href="/">الرئيسية</Link><Link href="/saudi-arabia">تحفيظ القرآن واللغة العربية في السعودية</Link><Link href="/united-arab-emirates">تحفيظ القرآن واللغة العربية في الإمارات</Link></nav><div className="mt-8 flex flex-wrap gap-4 text-sm"><Link href="/games">الألعاب والمسابقات</Link><Link href="/library">المكتبة</Link><Link href="/teachers">المعلمون والمعلمات</Link><Link href="/blog">المدونة</Link><Link href="/privacy">سياسة الخصوصية</Link><Link href="/terms">شروط الاستخدام</Link><Link href="/refund-policy">سياسة الاسترداد</Link></div></div></footer>
+
 
 
 </main>

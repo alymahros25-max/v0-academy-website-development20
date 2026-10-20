@@ -1,13 +1,15 @@
 "use client"
 
 import { type ReactNode, useEffect } from "react"
+import dynamic from "next/dynamic"
 import { I18nProvider, useI18n } from "@/lib/i18n"
-import { Header } from "@/components/layout/header"
-import { Footer } from "@/components/layout/footer"
 import { usePathname } from "next/navigation"
 import { DeferredClientIntegrations } from "@/components/deferred-client-integrations"
-import { TeachingLanguageNotice } from "@/components/teaching-language-notice"
 import { PublicWidgetLayer } from "@/components/public-widget-layer"
+
+const Header = dynamic(() => import("@/components/layout/header").then((module) => module.Header))
+const Footer = dynamic(() => import("@/components/layout/footer").then((module) => module.Footer))
+const TeachingLanguageNotice = dynamic(() => import("@/components/teaching-language-notice").then((module) => module.TeachingLanguageNotice))
 
 function LayoutWrapper({ children }: { children: ReactNode }) {
   const { dir, locale } = useI18n()

@@ -1,17 +1,6 @@
-import { createClient } from '@supabase/supabase-js'
-
-// Defensive Supabase client with proper error handling
-const getSupabaseClient = () => {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-  if (!url || !key) {
-    console.error('[v0] Missing Supabase credentials')
-    return null
-  }
-
-  return createClient(url, key)
-}
+// Browser reads go through the public server route. This keeps the database
+// boundary in one place and prevents client components from depending on the
+// Supabase schema or access policy details.
 
 export interface ClassroomVideo {
   id: string
@@ -33,32 +22,18 @@ export interface ClassroomVideo {
 }
 
 /**
- * Fetch published classroom videos from Supabase
+ * Fetch published classroom videos from the server API
  * Implements defensive programming with proper error handling and null checks
  */
 export async function fetchClassroomVideos(): Promise<ClassroomVideo[]> {
   try {
-    const supabase = getSupabaseClient()
-    if (!supabase) {
-      console.error('[v0] Supabase client unavailable')
-      return []
-    }
-
-    const { data, error } = await supabase
-      .from('classroom_videos')
-      .select('*')
-      .eq('is_published', true)
-      .order('display_order', { ascending: true })
-      .order('created_at', { ascending: false })
-
-    if (error) {
-      console.error('[v0] Fetch videos error:', error)
-      return []
-    }
+    const response = await fetch('/api/classroom-videos', { cache: 'no-store' })
+    if (!response.ok) return []
+    const data = await response.json()
 
     // Defensive null checks
     if (!Array.isArray(data)) {
-      console.warn('[v0] Invalid data format from Supabase')
+      console.warn('[v0] Invalid data format from classroom videos API')
       return []
     }
 
@@ -79,20 +54,8 @@ export async function fetchClassroomVideoById(id: string): Promise<ClassroomVide
   try {
     if (!id?.trim()) return null
 
-    const supabase = getSupabaseClient()
-    if (!supabase) return null
-
-    const { data, error } = await supabase
-      .from('classroom_videos')
-      .select('*')
-      .eq('id', id)
-      .eq('is_published', true)
-      .single()
-
-    if (error) {
-      console.error('[v0] Fetch video by ID error:', error)
-      return null
-    }
+    const videos = await fetchClassroomVideos()
+    const data = videos.find((video) => video.id === id)
 
     if (!data?.id || !data?.youtube_embed_id) {
       console.warn('[v0] Invalid video data')
@@ -113,23 +76,8 @@ export async function fetchVideosByCategory(category: string): Promise<Classroom
   try {
     if (!category?.trim()) return []
 
-    const supabase = getSupabaseClient()
-    if (!supabase) return []
-
-    const { data, error } = await supabase
-      .from('classroom_videos')
-      .select('*')
-      .eq('is_published', true)
-      .eq('category', category?.trim())
-      .order('display_order', { ascending: true })
-      .order('created_at', { ascending: false })
-
-    if (error) {
-      console.error('[v0] Fetch by category error:', error)
-      return []
-    }
-
-    return Array.isArray(data) ? data : []
+    const data = await fetchClassroomVideos()
+    return data.filter((video) => video.category === category.trim())
   } catch (err) {
     console.error('[v0] Fetch by category exception:', err)
     return []
@@ -141,23 +89,8 @@ export async function fetchVideosByCategory(category: string): Promise<Classroom
  */
 export async function fetchFeaturedClassroomVideos(limit = 6): Promise<ClassroomVideo[]> {
   try {
-    const supabase = getSupabaseClient()
-    if (!supabase) return []
-
-    const { data, error } = await supabase
-      .from('classroom_videos')
-      .select('*')
-      .eq('is_published', true)
-      .eq('is_featured', true)
-      .limit(limit)
-      .order('display_order', { ascending: true })
-
-    if (error) {
-      console.error('[v0] Fetch featured error:', error)
-      return []
-    }
-
-    return Array.isArray(data) ? data : []
+    const data = await fetchClassroomVideos()
+    return data.filter((video) => video.is_featured).slice(0, Math.max(0, limit))
   } catch (err) {
     console.error('[v0] Fetch featured exception:', err)
     return []

@@ -2,8 +2,8 @@ import { Metadata } from 'next'
 import BlogArticleClient from "./client"
 import { getSeoAlternates } from '@/lib/seo-metadata'
 import { notFound, permanentRedirect } from 'next/navigation'
-import { createClient } from '@supabase/supabase-js'
 import { getCanonicalBlogSlug, getStoredBlogSlugs, isLegacyBlogSlug } from '@/lib/blog-slugs'
+import { supabaseAdmin } from '@/lib/supabaseAdmin'
 
 // المقالات الثابتة الافتراضية
 const blogPosts: Record<string, any> = {
@@ -330,13 +330,9 @@ function normalizeCmsPost(post: CmsBlogPost) {
 
 async function getBlogPost(slug: string) {
   const canonicalSlug = getCanonicalBlogSlug(slug)
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-  if (supabaseUrl && supabaseAnonKey) {
+  if (supabaseAdmin) {
     try {
-      const supabase = createClient(supabaseUrl, supabaseAnonKey)
-      const { data } = await supabase
+      const { data } = await supabaseAdmin
         .from('blog_posts')
         .select('slug,title_ar,title_en,title_fr,excerpt_ar,excerpt_en,excerpt_fr,content_ar,content_en,content_fr,category_ar,category_en,category_fr,author_ar,author_en,author_fr,read_time,cover_image,published_at,updated_at')
         .in('slug', getStoredBlogSlugs(slug))

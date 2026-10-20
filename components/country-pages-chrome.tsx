@@ -1,8 +1,5 @@
-"use client"
-
 import Image from "next/image"
 import { BookOpen, Feather } from "lucide-react"
-import { usePathname } from "next/navigation"
 
 type Country = { ar: string; code: string; currency: string }
 type LocalCountryName = { name: string; lang: string }
@@ -47,13 +44,13 @@ const countryVisuals: Record<string, string> = {
 }
 
 function CountryFlag({ code, size = 80, alt = "" }: { code: string; size?: number; alt?: string }) {
-  return <Image loader={({ src }) => src} unoptimized src={`https://flagcdn.com/w${size}/${code}.png`} alt={alt} width={size} height={Math.round(size * 0.65)} />
+  return <Image unoptimized src={`https://flagcdn.com/w${size}/${code}.png`} alt={alt} width={size} height={Math.round(size * 0.65)} />
 }
 
-export function CountryPagesChrome({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname()
+export function CountryPagesChrome({ slug, children }: { slug: string; children: React.ReactNode }) {
+  const pathname = `/${slug}`
   const country = countries[pathname]
-  if (!country) return <>{children}</>
+  if (!country) return children
   const localName = localCountryNames[pathname]
 
   return <div className="country-pages-shell">

@@ -1,10 +1,9 @@
 import type { Metadata, Viewport } from "next"
-import { Noto_Sans_Arabic } from "next/font/google"
+import localFont from "next/font/local"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { generateEducationalOrganizationSchema, generateWebSiteSchema, generateCombinedSchema } from "@/lib/schema"
 import "./globals.css"
 import { ClientProviders } from "@/components/client-providers"
-import { CountryPagesChrome } from "@/components/country-pages-chrome"
 import { ThemeApplicator } from "@/components/theme-applicator"
 
 const rootStructuredData = generateCombinedSchema(
@@ -12,11 +11,11 @@ const rootStructuredData = generateCombinedSchema(
   generateWebSiteSchema(),
 )
 
-const notoArabic = Noto_Sans_Arabic({
-  subsets: ["arabic"],
+const notoArabic = localFont({
+  src: "./fonts/noto-sans-arabic-subset.woff2",
   variable: "--font-arabic",
   display: "swap",
-  weight: "variable",
+  weight: "100 900",
   preload: true,
 })
 
@@ -94,7 +93,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={`${notoArabic.variable} font-sans antialiased`}>
         <ThemeApplicator />
         <ErrorBoundary context="RootLayout">
-          <ClientProviders><CountryPagesChrome>{children}</CountryPagesChrome></ClientProviders>
+          <ClientProviders>{children}</ClientProviders>
         </ErrorBoundary>
       </body>
     </html>

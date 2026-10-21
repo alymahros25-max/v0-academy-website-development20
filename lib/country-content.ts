@@ -58,6 +58,16 @@ function emptyAreaLandingData(): AreaLandingSnapshot {
   return { area: null, packages: [], faq: [], content: [], links: [], theme: null, cities: [], timezones: [] }
 }
 
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error("Country content read timed out")), timeoutMs)
+    promise.then(
+      (value) => { clearTimeout(timer); resolve(value) },
+      (error) => { clearTimeout(timer); reject(error) },
+    )
+  })
+}
+
 async function loadAreaLandingData(slug: string): Promise<AreaLandingSnapshot> {
   if (!areaRepository) return emptyAreaLandingData()
   const data = await areaRepository.getSnapshot(slug)
@@ -80,7 +90,9 @@ export async function getAreaLandingData(slug: string): Promise<AreaLandingSnaps
   if (!isCountrySlug(slug)) return emptyAreaLandingData()
   const fallback = getCountryFallback(slug)
   try {
-    const data = await getCachedAreaLandingData(slug)
+    // Supabase is canonical for editable country content. The timeout keeps
+    // slow CMS reads from replacing indexable HTML with a loading shell.
+    const data = await withTimeout(getCachedAreaLandingData(slug), 700)
     return resolveCountryLandingData<AreaLandingSnapshot>(slug, data, fallback)
   } catch (error) {
     console.warn(`[Country Content] landing fallback used for ${slug}:`, error instanceof Error ? error.message : error)

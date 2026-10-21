@@ -10,6 +10,18 @@ import { getCountryPageDesign, type CountryFaqVariant, type CountryHeroVariant, 
 
 const defaultWhatsApp = "https://wa.me/message/RCJSLAJQHAWHA1"
 
+async function getLandingVideosSafely() {
+  try {
+    return await Promise.race([
+      getPublishedClassroomVideos(),
+      new Promise<never>((_, reject) => setTimeout(() => reject(new Error("Landing videos timed out")), 500)),
+    ])
+  } catch (error) {
+    console.warn("[Country Landing] optional videos skipped:", error instanceof Error ? error.message : error)
+    return []
+  }
+}
+
 type Plan = CountryPageModel["quranPlans"][number]
 
 function priceLabel(value: number) {
@@ -173,7 +185,7 @@ function CountryFaqSection({ page, variant }: { page: CountryPageModel; variant:
 }
 
 export async function CountryUnifiedLanding({ page }: { page: CountryPageModel }) {
-  const [videos] = await Promise.all([getPublishedClassroomVideos()])
+  const videos = await getLandingVideosSafely()
   const design = getCountryPageDesign(page.slug)
   const country = page.areaData.area?.name_ar || page.seo?.country || page.slug
   const themeStyle = getCountryThemeStyle(page.areaData.theme)

@@ -3,7 +3,6 @@ import { getCountrySeoMetadataFromDatabase } from "@/lib/country-seo-data"
 import { CountryLandingEngine } from "@/components/country-landing-engine"
 import { UaeLanding } from "@/components/country-landings/UaeLanding"
 
-export const dynamic = "force-dynamic"
 
 export async function generateMetadata(): Promise<Metadata> {
   return getCountrySeoMetadataFromDatabase("united-arab-emirates")
@@ -11,3 +10,5 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function CountryRoute() {
   return <CountryLandingEngine slug="united-arab-emirates" />
 }
+
+export const revalidate = 3600

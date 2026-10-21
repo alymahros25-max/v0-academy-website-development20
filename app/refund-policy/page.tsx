@@ -12,7 +12,15 @@ export async function generateMetadata(): Promise<Metadata> {
       title: 'سياسة الاسترداد',
       description: 'سياسة الاسترجاع الكاملة والشروط والأحكام',
       type: 'website',
+      url: 'https://quran-elhafez.com/refund-policy',
+      siteName: 'أكاديمية الحافظ المتميز',
       images: [{ url: 'https://quran-elhafez.com/images/og-default.webp', width: 1200, height: 630, alt: 'أكاديمية الحافظ المتميز' }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'سياسة الاسترداد | أكاديمية الحافظ المتميز',
+      description: 'سياسة واضحة وشفافة لاسترجاع الأموال من الدورات المدفوعة والجلسات المباشرة.',
+      images: ['https://quran-elhafez.com/images/og-default.webp'],
     },
   }
 }

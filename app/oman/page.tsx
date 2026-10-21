@@ -9,3 +9,5 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function OmanPage() {
   return <CountryLandingEngine slug="oman" />
 }
+
+export const revalidate = 3600

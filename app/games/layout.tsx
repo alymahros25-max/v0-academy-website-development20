@@ -10,6 +10,8 @@ export const metadata: Metadata = {
     title: "ألعاب تعليمية تفاعلية للقرآن والعربية للأطفال",
     description: "ألعاب وأنشطة تفاعلية في الحروف العربية والقرآن والتجويد والسيرة.",
     type: "website",
+    url: "https://quran-elhafez.com/games",
+    siteName: "أكاديمية الحافظ المتميز",
     images: [{ url: "https://quran-elhafez.com/images/og-default.webp", width: 1200, height: 630, alt: "أكاديمية الحافظ المتميز" }],
   },
 }

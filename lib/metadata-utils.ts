@@ -9,6 +9,7 @@ function pageOpenGraph(title: string, description: string, route: string): NonNu
     title,
     description,
     type: 'website',
+    siteName: 'أكاديمية الحافظ المتميز',
     images: [{ url: socialImage, width: 1200, height: 630, alt: 'أكاديمية الحافظ المتميز' }],
     url: `${baseUrl}${route}`,
   }

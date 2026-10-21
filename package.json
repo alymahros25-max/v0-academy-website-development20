@@ -19,6 +19,7 @@
     "test:country-prompt": "node --test tests/country-prompt-removal.test.mjs",
     "test:analytics-disabled": "node --test tests/analytics-disabled.test.mjs",
     "test:country-data": "node --test tests/country-data-resolution.test.mjs",
+    "test:seo-metadata": "node --test tests/seo-metadata.test.mjs",
     "test:isolated-triangle": "node --test tests/isolated-country-admin-preview.test.mjs",
     "test:no-payments": "node --test tests/no-payment-surface.test.mjs",
     "test:security-boundaries": "node --test tests/security-boundaries.test.mjs",

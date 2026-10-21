@@ -15,6 +15,8 @@ const flags: Record<string, string> = {
 type Topic = 'quran' | 'arabic' | 'teachers'
 type Props = { params: Promise<{ slug: string; topic: string }> }
 
+export const revalidate = 3600
+
 export function generateStaticParams() {
   return Object.keys(countryEducationalContent).flatMap((slug) => (['quran', 'arabic', 'teachers'] as Topic[]).map((topic) => ({ slug, topic })))
 }
@@ -33,7 +35,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const content = page.learning
   if (!content) return {}
   const article = getArticle(content, local, topic as Topic)
-  return { title: `${article.title} | ${content.name}`, description: article.intro, alternates: getSeoAlternates(`https://quran-elhafez.com/blog/country/${slug}/${topic}`) }
+  const canonical = `https://quran-elhafez.com/blog/country/${slug}/${topic}`
+  const title = `${article.title} | ${content.name}`
+  return {
+    title,
+    description: article.intro,
+    alternates: getSeoAlternates(canonical),
+    openGraph: {
+      title,
+      description: article.intro,
+      type: 'article',
+      url: canonical,
+      siteName: 'أكاديمية الحافظ المتميز',
+      locale: 'ar_SA',
+      images: [{ url: 'https://quran-elhafez.com/images/og-default.webp', width: 1200, height: 630, alt: title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: article.intro,
+      images: ['https://quran-elhafez.com/images/og-default.webp'],
+    },
+  }
 }
 
 export default async function CountryArticlePage({ params }: Props) {
@@ -47,7 +70,22 @@ export default async function CountryArticlePage({ params }: Props) {
   const article = getArticle(content, local, topic as Topic)
   const Icon = topic === 'quran' ? BookOpenText : topic === 'arabic' ? Lightbulb : UsersRound
   const flag = flags[slug] ?? '🌍'
+  const canonical = `https://quran-elhafez.com/blog/country/${slug}/${topic}`
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: article.title,
+    description: article.intro,
+    image: ['https://quran-elhafez.com/images/og-default.webp'],
+    author: { '@type': 'Organization', name: 'أكاديمية الحافظ المتميز', url: 'https://quran-elhafez.com' },
+    publisher: { '@type': 'Organization', name: 'أكاديمية الحافظ المتميز', url: 'https://quran-elhafez.com' },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+    articleSection: topic === 'quran' ? 'تحفيظ القرآن' : topic === 'arabic' ? 'تأسيس اللغة العربية' : 'المعلمون والمعلمات',
+    inLanguage: 'ar',
+    isAccessibleForFree: true,
+  }
   return <main dir="rtl" style={getCountryThemeStyle(areaData.theme)} className="min-h-screen overflow-hidden bg-background text-foreground">
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema).replace(/</g, '\\u003c') }} />
     <header className="bg-primary text-primary-foreground"><div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3 sm:px-8"><Link href={`/${slug}`} className="font-bold">أكاديمية الحافظ المتميز · {content.name}</Link><div className="flex items-center gap-3"><span className="text-2xl" role="img" aria-label={content.name}>{flag}</span><Link href={`/${slug}`} className="rounded-lg bg-primary-foreground px-3 py-2 text-sm font-bold text-primary">العودة إلى صفحة الدولة</Link></div></div></header>
     <article className="mx-auto max-w-4xl px-5 py-14 sm:px-8 lg:py-20"><div className="text-sm font-black text-primary">{article.label} · {content.name}</div><h1 className="mt-4 text-4xl font-black leading-tight sm:text-5xl">{article.title}</h1><p className="mt-7 text-xl leading-9 text-muted-foreground">{article.intro}</p><div className="mt-10 space-y-6 text-lg leading-9 text-foreground/80"><p>{article.paragraph}</p><p>الهدف من هذه المقالة أن تعرف الأسرة ماذا يحدث فعلًا داخل الحصة، وأن تجد نقطة بداية مفهومة بدل الاعتماد على وصف عام. يتواصل الطالب والمعلم مباشرة عبر الإنترنت، وتُعدّل الأمثلة والسرعة والمقدار بحسب العمر والمستوى والوقت المتاح.</p></div><div className="mt-12 flex flex-wrap items-center justify-center gap-3 rounded-3xl bg-primary p-6 text-center text-primary-foreground"><p className="w-full text-lg font-black">هل تريد معرفة المسار المناسب للطالب؟</p><a href="/contact" className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 font-bold text-primary"><MessageCircle size={18} /> احجز الحصة التجريبية الأولى المجانية</a><Link href={`/${slug}`} className="rounded-xl border border-white/50 px-5 py-3 font-bold">العودة إلى صفحة الدولة</Link></div></article>
     <footer className="bg-primary px-5 py-10 text-primary-foreground sm:px-8"><div className="mx-auto grid max-w-6xl gap-6 sm:grid-cols-2"><div><p className="font-bold">أكاديمية الحافظ المتميز · {content.name}</p><p className="mt-2 text-sm leading-7 text-primary-foreground/75">حصص فردية مباشرة لتحفيظ القرآن وتأسيس اللغة العربية أونلاين.</p></div><nav className="flex flex-wrap content-start gap-4 text-sm"><Link href={`/${slug}`}>صفحة الدولة</Link><Link href={`/blog/country/${slug}/quran`}>مقالة القرآن</Link><Link href={`/blog/country/${slug}/arabic`}>مقالة العربية</Link><Link href={`/blog/country/${slug}/teachers`}>عن المعلمين</Link></nav></div></footer>

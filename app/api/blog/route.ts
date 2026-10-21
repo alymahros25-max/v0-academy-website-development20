@@ -1,11 +1,7 @@
-import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
 import { verifyAdminSession } from '@/lib/admin-auth'
 import { getCanonicalBlogSlug, getStoredBlogSlugs } from '@/lib/blog-slugs'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+import { supabaseAdmin } from '@/lib/supabaseAdmin'
 
 const staticBlogPosts = [
   {
@@ -77,8 +73,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const key = all ? supabaseServiceKey : supabaseAnonKey
-    if (!supabaseUrl || !key) {
+    if (!supabaseAdmin) {
       if (all) return NextResponse.json({ error: 'Blog backend unavailable' }, { status: 503 })
       if (slug) {
         const post = getStaticBlogPost(slug)
@@ -86,7 +81,7 @@ export async function GET(request: NextRequest) {
       }
       return NextResponse.json(staticBlogPosts)
     }
-    const supabase = createClient(supabaseUrl, key)
+    const supabase = supabaseAdmin
 
     if (slug) {
       const { data, error } = await supabase
@@ -163,6 +158,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     if (!(await verifyAdminSession())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!supabaseAdmin) return NextResponse.json({ error: 'Blog backend unavailable' }, { status: 503 })
     const body = await request.json()
     const {
       title_ar, title_en, title_fr,
@@ -178,7 +174,7 @@ export async function POST(request: NextRequest) {
     }
 
     const slug = customSlug?.trim() || slugify(title_ar) || `post-${Date.now()}`
-    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+    const supabase = supabaseAdmin
 
     const { data, error } = await supabase
       .from('blog_posts')
@@ -228,12 +224,13 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     if (!(await verifyAdminSession())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!supabaseAdmin) return NextResponse.json({ error: 'Blog backend unavailable' }, { status: 503 })
     const body = await request.json()
     const { id, ...fields } = body
 
     if (!id) return NextResponse.json({ error: 'id is required' }, { status: 400 })
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+    const supabase = supabaseAdmin
 
     const updateData: Record<string, unknown> = { ...fields, updated_at: new Date().toISOString() }
 
@@ -265,12 +262,13 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     if (!(await verifyAdminSession())) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!supabaseAdmin) return NextResponse.json({ error: 'Blog backend unavailable' }, { status: 503 })
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
 
     if (!id) return NextResponse.json({ error: 'id is required' }, { status: 400 })
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+    const supabase = supabaseAdmin
 
     const { error } = await supabase
       .from('blog_posts')

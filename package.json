@@ -21,6 +21,8 @@
     "test:country-data": "node --test tests/country-data-resolution.test.mjs",
     "test:isolated-triangle": "node --test tests/isolated-country-admin-preview.test.mjs",
     "test:no-payments": "node --test tests/no-payment-surface.test.mjs",
+    "test:security-boundaries": "node --test tests/security-boundaries.test.mjs",
+    "test:migration-contract": "node --test tests/migration-contract.test.mjs",
     "migration:preview": "tsx scripts/migrate-central-preview.ts",
     "migration:generate-country-learning": "python3 scripts/generate-country-learning-migration.py",
     "migration:seed-cms": "tsx scripts/seed-preview-content.ts",
@@ -81,7 +83,6 @@
     "sonner": "^1.7.1",
     "swr": "^2.4.0",
     "tailwind-merge": "^2.5.5",
-    "tailwindcss-animate": "^1.0.7",
     "vaul": "^1.1.2",
     "zod": "^3.24.1"
   },
@@ -96,6 +97,7 @@
     "postcss": "^8.5",
     "sharp": "0.35.5",
     "tailwindcss": "^3.4.17",
+    "tailwindcss-animate": "^1.0.7",
     "tsx": "^4.23.15",
     "typescript": "5.7.3"
   }

@@ -1,6 +1,6 @@
-import { createClient } from '@supabase/supabase-js'
 import { extractYouTubeId } from '@/lib/youtube-utils'
 import type { VideoData } from '@/components/classroom-moments/VideoGrid'
+import { supabaseAdmin } from '@/lib/supabaseAdmin'
 
 export type LandingVideo = VideoData & {
   published: boolean
@@ -11,11 +11,9 @@ export type LandingVideo = VideoData & {
 }
 
 export async function getPublishedClassroomVideos(): Promise<LandingVideo[]> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  if (!url || !key) return []
+  if (!supabaseAdmin) return []
 
-  const supabase = createClient(url, key)
+  const supabase = supabaseAdmin
   const { data, error } = await supabase
     .from('classroom_videos')
     .select('*')

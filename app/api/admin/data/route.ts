@@ -8,11 +8,21 @@ import {
   getMessages, setMessages,
   getSettings, setSettings,
 } from "@/lib/data-store"
+import { validateAdminData } from "@/lib/admin-data-schemas"
 
 async function authGuard() {
   const isAuth = await verifyAdminSession()
   if (!isAuth) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
+  return null
+}
+
+function validatePayload(type: string, data: unknown, partial = false) {
+  const parsed = validateAdminData(type, data, partial)
+  if (!parsed) return NextResponse.json({ error: "Invalid type" }, { status: 400 })
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Invalid data", details: parsed.error.flatten() }, { status: 400 })
   }
   return null
 }
@@ -70,6 +80,8 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { type, data } = body
+    const validationError = validatePayload(type, data)
+    if (validationError) return validationError
 
     switch (type) {
       case "teachers": {
@@ -112,6 +124,8 @@ export async function PUT(request: NextRequest) {
   try {
     const body = await request.json()
     const { type, id, data } = body
+    const validationError = validatePayload(type, data, type !== "settings")
+    if (validationError) return validationError
 
     switch (type) {
       case "teachers": {

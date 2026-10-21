@@ -173,7 +173,10 @@ const defaultSettings: SiteSettings = {
 async function getPersistent<T>(contentType: string, fallback: T): Promise<T> {
   if (!adminDataRepository) return fallback
   const rows = await adminDataRepository.listContent(contentType)
-  if (!rows.length) return fallback
+  if (!rows.length) {
+    console.warn(`[data-source] contentType=${contentType} source=same-environment-fallback reason=database_empty`)
+    return fallback
+  }
   if (contentType === "settings") return (rows[0]?.data ?? fallback) as T
   return rows.map((row) => row.data) as T
 }
@@ -243,6 +246,7 @@ export const getPackages = async (): Promise<Package[]> => {
   if (adminDataRepository) {
     const data = await adminDataRepository.listPackages()
     if (data.length) return data.filter((row) => row.duration === 30).map(packageRowToPackage)
+    console.warn("[data-source] contentType=packages source=same-environment-fallback reason=database_empty")
   }
   return fallback.filter((pkg) => pkg.duration === 30).map((pkg, index) => ({ ...pkg, sortOrder: pkg.sortOrder ?? index + 1 })).sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
 }

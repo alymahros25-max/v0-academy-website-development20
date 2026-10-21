@@ -21,6 +21,8 @@
     "test:country-data": "node --test tests/country-data-resolution.test.mjs",
     "test:isolated-triangle": "node --test tests/isolated-country-admin-preview.test.mjs",
     "test:no-payments": "node --test tests/no-payment-surface.test.mjs",
+    "test:security-boundaries": "node --test tests/security-boundaries.test.mjs",
+    "test:migration-contract": "node --test tests/migration-contract.test.mjs",
     "migration:preview": "tsx scripts/migrate-central-preview.ts",
     "migration:generate-country-learning": "python3 scripts/generate-country-learning-migration.py",
     "migration:seed-cms": "tsx scripts/seed-preview-content.ts",

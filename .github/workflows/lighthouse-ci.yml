@@ -48,4 +48,6 @@ jobs:
         run: |
           pnpm dlx @lhci/cli@0.15.x autorun \
             --collect.url="$LIGHTHOUSE_URL/" \
+            --collect.url="$LIGHTHOUSE_URL/blog" \
+            --collect.url="$LIGHTHOUSE_URL/blog/quran-memorization-tools" \
             --collect.numberOfRuns="$LHCI_RUNS"

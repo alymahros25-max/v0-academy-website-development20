@@ -9,7 +9,7 @@ export function PublicBlogIndex({ posts }: { posts: PublicBlogPost[] }) {
 
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {posts.map((post) => (
+      {posts.map((post, index) => (
         <Link key={post.slug} href={`/blog/${post.slug}`} className="group block h-full">
           <article className="h-full overflow-hidden rounded-xl border border-border bg-card transition-all hover:border-primary/50 hover:shadow-lg">
             <div className="relative h-48 overflow-hidden bg-muted">
@@ -19,6 +19,7 @@ export function PublicBlogIndex({ posts }: { posts: PublicBlogPost[] }) {
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
                 sizes="(max-width: 768px) 100vw, (max-width: 1280px) 33vw, 400px"
+                priority={index === 0}
               />
             </div>
             <div className="flex h-[calc(100%-12rem)] flex-col gap-3 p-5">

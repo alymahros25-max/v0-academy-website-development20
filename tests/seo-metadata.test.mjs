@@ -45,3 +45,15 @@ test('shared and exceptional pages provide complete Open Graph URLs and site nam
   assert.match(refund, /siteName: 'أكاديمية الحافظ المتميز'/)
   assert.match(refund, /twitter:/)
 })
+
+test('public blog articles use ISR and complete social metadata', async () => {
+  const article = await read('app/blog/[slug]/page.tsx')
+  const layout = await read('app/blog/layout.tsx')
+  assert.match(article, /export const revalidate = 3600/)
+  assert.match(article, /unstable_cache/)
+  assert.match(article, /tags: \['blog-posts'\]/)
+  assert.match(article, /siteName: 'أكاديمية الحافظ المتميز'/)
+  assert.match(article, /twitter:/)
+  assert.match(layout, /siteName: 'أكاديمية الحافظ المتميز'/)
+  assert.match(layout, /twitter:/)
+})

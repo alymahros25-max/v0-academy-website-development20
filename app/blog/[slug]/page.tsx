@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { unstable_cache } from 'next/cache'
 import BlogArticleClient from "./client"
 import { getSeoAlternates } from '@/lib/seo-metadata'
 import { notFound, permanentRedirect } from 'next/navigation'
@@ -313,6 +314,8 @@ type CmsBlogPost = {
   updated_at?: string | null
 }
 
+export const revalidate = 3600
+
 function normalizeCmsPost(post: CmsBlogPost) {
   return {
     title: { ar: post.title_ar, en: post.title_en, fr: post.title_fr },
@@ -328,7 +331,7 @@ function normalizeCmsPost(post: CmsBlogPost) {
   }
 }
 
-async function getBlogPost(slug: string) {
+async function getBlogPostUncached(slug: string) {
   const canonicalSlug = getCanonicalBlogSlug(slug)
   if (supabaseAdmin) {
     try {
@@ -378,6 +381,18 @@ async function getBlogPost(slug: string) {
   return blogPosts[canonicalSlug]
 }
 
+function getBlogPost(slug: string) {
+  return unstable_cache(
+    () => getBlogPostUncached(slug),
+    ['public-blog-post', getCanonicalBlogSlug(slug)],
+    { revalidate: 3600, tags: ['blog-posts'] },
+  )()
+}
+
+export function generateStaticParams() {
+  return Object.keys(blogPosts).map((slug) => ({ slug }))
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const post = await getBlogPost(slug)
@@ -396,11 +411,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: post.description.ar,
       type: 'article',
       url: articleUrl,
+      siteName: 'أكاديمية الحافظ المتميز',
       images: [{ url: post.image }],
       publishedTime: post.date,
       modifiedTime: post.updatedAt || post.date,
       authors: [post.author.ar],
       tags: post.keywords.ar ? post.keywords.ar.split(', ') : [post.category.ar],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title.ar,
+      description: post.description.ar,
+      images: [post.image],
     },
   }
 }

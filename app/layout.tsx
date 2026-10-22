@@ -44,8 +44,8 @@ export const metadata: Metadata = {
       "ar_US", "ar_CA", "ar_GB", "ar_AU", "ar_FR", "ar_DE", "ar_ES", "ar_NL", "ar_BE", "ar_SE",
       "en_US", "en_GB", "fr_FR",
     ],
-    url: "https://quran-elhafez.com",
-    siteName: "أكاديمية الحافظ المتميز اون لاين",
+    url: "https://quran-elhafez.com/",
+    siteName: "أكاديمية الحافظ المتميز",
     title: "أكاديمية الحافظ المتميز أون لاين | تحفيظ قرآن وتأسيس عربي",
     description:
       "تحفيظ القرآن وتأسيس العربية أون لاين للناطقين بها فقط؛ تُقدَّم الحصص بالعربية ضمن دروس فردية مباشرة وخطة تناسب مستوى الطالب.",

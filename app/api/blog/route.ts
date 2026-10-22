@@ -34,8 +34,8 @@ const staticBlogPosts = [
   },
   {
     id: 'static-ahkam-noon-sakinah-tanween', slug: 'ahkam-noon-sakinah-tanween',
-    title_ar: 'أحكام النون الساكنة والتنوين: شرح مبسط مع أمثلة قرآنية', title_en: 'Noon Sakinah and Tanween Rules: A Beginner’s Guide with Quran Examples', title_fr: 'Règles du nûn sākinah et du tanwīn : guide simple et exemples coraniques',
-    excerpt_ar: 'شرح تعليمي موجز لأحكام النون الساكنة والتنوين الأربعة: الإظهار والإدغام والإقلاب والإخفاء، مع الحروف وأمثلة قرآنية ومصدر للمراجعة.', excerpt_en: 'A clear introduction to the four noon sakinah and tanween rules, with their letters, Quran examples, and a reference for further study.', excerpt_fr: 'Une introduction claire aux quatre règles du nûn sākinah et du tanwīn, avec leurs lettres et des exemples coraniques.',
+    title_ar: 'أحكام النون الساكنة والتنوين مع أمثلة من القرآن', title_en: 'Noon Sakinah and Tanween Rules: A Beginner’s Guide with Quran Examples', title_fr: 'Règles du nûn sākinah et du tanwīn : guide simple et exemples coraniques',
+    excerpt_ar: 'شرح مبسط لأحكام النون الساكنة والتنوين: الإظهار والإدغام والإقلاب والإخفاء، مع حروف كل حكم وأمثلة واضحة من القرآن وطريقة سهلة للمراجعة.', excerpt_en: 'A clear introduction to the four noon sakinah and tanween rules, with their letters, Quran examples, and a reference for further study.', excerpt_fr: 'Une introduction claire aux quatre règles du nûn sākinah et du tanwīn, avec leurs lettres et des exemples coraniques.',
     content_ar: '', content_en: '', content_fr: '', cover_image: '/images/og-default.webp',
     category_ar: 'تعليم التجويد', category_en: 'Tajweed Learning', category_fr: 'Apprentissage du tajwid', author_ar: 'فريق الأكاديمية', author_en: 'Academy Team', author_fr: "Équipe de l'académie", read_time: 8, sort_order: 5, is_published: true, published_at: '2026-09-27T00:00:00.000Z', created_at: '2026-09-27T00:00:00.000Z',
   },

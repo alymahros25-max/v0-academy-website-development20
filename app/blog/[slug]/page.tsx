@@ -230,35 +230,35 @@ const blogPosts: Record<string, any> = {
     }
   },
   "ahkam-noon-sakinah-tanween": {
-    title: { ar: "أحكام النون الساكنة والتنوين: شرح مبسط مع أمثلة قرآنية", en: "Noon Sakinah and Tanween Rules: A Beginner’s Guide with Quran Examples", fr: "Règles du nûn sākinah et du tanwīn : guide simple et exemples coraniques" },
+    title: { ar: "أحكام النون الساكنة والتنوين مع أمثلة من القرآن", en: "Noon Sakinah and Tanween Rules: A Beginner’s Guide with Quran Examples", fr: "Règles du nûn sākinah et du tanwīn : guide simple et exemples coraniques" },
     category: { ar: "تعليم التجويد", en: "Tajweed Learning", fr: "Apprentissage du tajwid" },
     author: { ar: "فريق الأكاديمية", en: "Academy Team", fr: "Équipe de l'académie" },
     date: "2026-09-27",
     readTime: 8,
     image: "/images/og-default.webp",
     keywords: { ar: "أحكام النون الساكنة والتنوين، الإظهار الحلقي، الإدغام بغنة، الإدغام بغير غنة، الإقلاب، الإخفاء الحقيقي، أمثلة التجويد من القرآن", en: "noon sakinah rules, tanween rules, izhar, idgham, iqlab, ikhfa, Tajweed examples", fr: "règles du nûn sākinah, tanwin, izhār, idghām, iqlāb, ikhfā, exemples de tajwid" },
-    description: { ar: "شرح تعليمي موجز لأحكام النون الساكنة والتنوين الأربعة—الإظهار والإدغام والإقلاب والإخفاء—مع حروف كل حكم وأمثلة قرآنية ومصدر للمراجعة.", en: "A clear introduction to the four noon sakinah and tanween rules—izhar, idgham, iqlab, and ikhfa—with their letters, Quran examples, and a reference for further study.", fr: "Une introduction claire aux quatre règles du nûn sākinah et du tanwīn — izhār, idghām, iqlāb et ikhfā — avec leurs lettres et des exemples coraniques." },
+    description: { ar: "شرح مبسط لأحكام النون الساكنة والتنوين: الإظهار والإدغام والإقلاب والإخفاء، مع حروف كل حكم وأمثلة واضحة من القرآن وطريقة سهلة للمراجعة.", en: "A clear introduction to the four noon sakinah and tanween rules—izhar, idgham, iqlab, and ikhfa—with their letters, Quran examples, and a reference for further study.", fr: "Une introduction claire aux quatre règles du nûn sākinah et du tanwīn — izhār, idghām, iqlāb et ikhfā — avec leurs lettres et des exemples coraniques." },
     content: {
       ar: `<h2>ما النون الساكنة وما التنوين؟</h2>
 <p>النون الساكنة هي نون لا تحمل حركة، وقد تأتي في وسط الكلمة أو آخرها. أما التنوين فهو نون ساكنة زائدة تُنطق في آخر الاسم ولا تُكتب نونًا مستقلة. عند التلاوة، يتحدد حكمهما بحسب الحرف الذي يأتي بعدهما؛ وأحكامهما الأساسية أربعة: الإظهار، والإدغام، والإقلاب، والإخفاء.</p>
 <p>هذا ملخص تعليمي للتعرّف إلى أسماء الأحكام وحروفها. أما ضبط الأداء ومقدار الغنة ومخارج الحروف فيُتعلّم بالمشافهة والتلقي من معلّم متقن، مع الرجوع إلى المصحف والرواية التي يقرأ بها الطالب.</p>
 
 <h2>1. الإظهار الحلقي</h2>
-<p>يكون الإظهار إذا جاء بعد النون الساكنة أو التنوين واحد من حروف الحلق الستة: <strong>ء، هـ، ع، ح، غ، خ</strong>. ومعناه إبانة النون أو التنوين عند النطق، من غير إدغام في الحرف التالي. ومن أمثلته القرآنية: <a href="https://quran.com/1/7" target="_blank" rel="noreferrer">«أَنْعَمْتَ عَلَيْهِمْ»</a> في سورة الفاتحة؛ جاءت النون الساكنة قبل العين.</p>
+<p>يكون الإظهار إذا جاء بعد النون الساكنة أو التنوين واحد من حروف الحلق الستة: <strong>ء، هـ، ع، ح، غ، خ</strong>. ومعناه إبانة النون أو التنوين عند النطق، من غير إدغام في الحرف التالي.</p>
+<table><caption>أمثلة الإظهار الحلقي</caption><thead><tr><th>الحرف التالي</th><th>المثال القرآني</th><th>الموضع</th></tr></thead><tbody><tr><td>العين</td><td>أَنْعَمْتَ عَلَيْهِمْ</td><td><a href="https://quran.com/1/7" target="_blank" rel="noreferrer">الفاتحة، الآية 7</a></td></tr></tbody></table>
 
 <h2>2. الإدغام</h2>
-<p>حروف الإدغام ستة، مجموعة في كلمة <strong>يرملون</strong>، ويكون الإدغام عند التقاء النون الساكنة أو التنوين بحرف منها في الكلمة التالية. وينقسم إلى نوعين:</p>
-<ul>
-<li><strong>إدغام بغنة:</strong> حروفه <strong>ي، ن، م، و</strong>، وتبقى الغنة عند الأداء. ومن أمثلته «مِنْ مَسَدٍ» في <a href="https://quran.com/111/5" target="_blank" rel="noreferrer">سورة المسد، الآية 5</a>.</li>
-<li><strong>إدغام بغير غنة:</strong> حرفاه <strong>ل، ر</strong>. ومن أمثلته «هُدًى لِلْمُتَّقِينَ» في <a href="https://quran.com/2/2" target="_blank" rel="noreferrer">سورة البقرة، الآية 2</a>.</li>
-</ul>
+<p>حروف الإدغام ستة، مجموعة في كلمة <strong>يرملون</strong>، ويكون الإدغام عند التقاء النون الساكنة أو التنوين بحرف منها في الكلمة التالية. وينقسم إلى إدغام بغنة وإدغام بغير غنة:</p>
+<table><caption>أمثلة الإدغام</caption><thead><tr><th>النوع</th><th>الحروف</th><th>المثال القرآني</th><th>الموضع</th></tr></thead><tbody><tr><td>إدغام بغنة</td><td>ي، ن، م، و</td><td>مِنْ مَسَدٍ</td><td><a href="https://quran.com/111/5" target="_blank" rel="noreferrer">المسد، الآية 5</a></td></tr><tr><td>إدغام بغير غنة</td><td>ل، ر</td><td>هُدًى لِلْمُتَّقِينَ</td><td><a href="https://quran.com/2/2" target="_blank" rel="noreferrer">البقرة، الآية 2</a></td></tr></tbody></table>
 <p>ومن الاستثناءات التعليمية المشهورة أن النون الساكنة إذا جاء بعدها الواو أو الياء داخل كلمة واحدة تُظهر، كما في «الدنيا» و«بنيان»؛ لذلك لا يكفي حفظ الحروف دون ملاحظة موقع النون والحرف التالي.</p>
 
 <h2>3. الإقلاب</h2>
-<p>للإقلاب حرف واحد هو <strong>الباء</strong>. إذا جاءت الباء بعد النون الساكنة أو التنوين، تُقلب النون أو التنوين ميمًا مخفاة مع الغنة في التلاوة. ومن أمثلته «أَنْبِئْهُمْ» في <a href="https://quran.com/2/33" target="_blank" rel="noreferrer">سورة البقرة، الآية 33</a>.</p>
+<p>للإقلاب حرف واحد هو <strong>الباء</strong>. إذا جاءت الباء بعد النون الساكنة أو التنوين، تُقلب النون أو التنوين ميمًا مخفاة مع الغنة في التلاوة.</p>
+<table><caption>مثال الإقلاب</caption><thead><tr><th>الحرف</th><th>المثال القرآني</th><th>الموضع</th></tr></thead><tbody><tr><td>الباء</td><td>أَنْبِئْهُمْ</td><td><a href="https://quran.com/2/33" target="_blank" rel="noreferrer">البقرة، الآية 33</a></td></tr></tbody></table>
 
 <h2>4. الإخفاء الحقيقي</h2>
-<p>حروف الإخفاء خمسة عشر حرفًا، وهي بقية الحروف بعد حروف الإظهار والإدغام والإقلاب: <strong>ص، ذ، ث، ك، ج، ش، ق، س، د، ط، ز، ف، ت، ض، ظ</strong>. يكون النطق بين الإظهار والإدغام مع بقاء الغنة. ومن أمثلته «مِنْ شَرِّ» في <a href="https://quran.com/113/2" target="_blank" rel="noreferrer">سورة الفلق، الآية 2</a>.</p>
+<p>حروف الإخفاء خمسة عشر حرفًا، وهي بقية الحروف بعد حروف الإظهار والإدغام والإقلاب: <strong>ص، ذ، ث، ك، ج، ش، ق، س، د، ط، ز، ف، ت، ض، ظ</strong>. يكون النطق بين الإظهار والإدغام مع بقاء الغنة.</p>
+<table><caption>مثال الإخفاء الحقيقي</caption><thead><tr><th>الحرف التالي</th><th>المثال القرآني</th><th>الموضع</th></tr></thead><tbody><tr><td>الشين</td><td>مِنْ شَرِّ</td><td><a href="https://quran.com/113/2" target="_blank" rel="noreferrer">الفلق، الآية 2</a></td></tr></tbody></table>
 
 <h2>طريقة سهلة للمراجعة</h2>
 <ol>

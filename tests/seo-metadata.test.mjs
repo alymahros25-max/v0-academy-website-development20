@@ -57,3 +57,13 @@ test('public blog articles use ISR and complete social metadata', async () => {
   assert.match(layout, /siteName: 'أكاديمية الحافظ المتميز'/)
   assert.match(layout, /twitter:/)
 })
+
+test('blog index renders published post links from a server component', async () => {
+  const page = await read('app/blog/page.tsx')
+  const index = await read('components/public-blog-index.tsx')
+  assert.doesNotMatch(page, /^['"]use client['"]/m)
+  assert.match(page, /getPublishedBlogPosts/)
+  assert.match(page, /export const revalidate = 3600/)
+  assert.match(index, /href=\{`\/blog\/\$\{post\.slug\}`\}/)
+  assert.doesNotMatch(index, /useSWR|fetch\(/)
+})

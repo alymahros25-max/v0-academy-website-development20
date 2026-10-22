@@ -1,37 +1,38 @@
-"use client"
-
-import { useI18n } from "@/lib/i18n"
-import useSWR from "swr"
-import { BlogSection } from "@/components/BlogSection"
-import type { PublicContent } from "@/lib/public-content"
+import { PublicBlogIndex } from "@/components/public-blog-index"
+import { getPublishedBlogPosts } from "@/lib/public-blog-server"
+import { getPublicContent } from "@/lib/public-content-server"
 import { localizedContent } from "@/lib/public-content"
 
-const fetcher = (url: string) => fetch(url, { cache: "no-store" }).then((res) => res.json())
+export const revalidate = 3600
 
-export default function BlogPage() {
-  const { t, dir, locale } = useI18n()
-  const { data: content } = useSWR<Record<string, PublicContent>>("/api/cms/content?keys=blog_title,blog_description", fetcher)
+export default async function BlogPage() {
+  const [posts, content] = await Promise.all([
+    getPublishedBlogPosts(),
+    getPublicContent(["blog_title", "blog_description"]),
+  ])
+
+  const title = localizedContent(content.blog_title, "ar", "مدونة القرآن واللغة العربية")
+  const description = localizedContent(
+    content.blog_description,
+    "ar",
+    "مقالات وإرشادات حول تحفيظ القرآن وتعليم اللغة العربية.",
+  )
 
   return (
-    <div dir={dir} className="min-h-screen bg-background">
-      {/* Hero */}
-      <section className="pt-28 pb-16 bg-primary/5">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <h1 className="text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            {localizedContent(content?.blog_title, locale, t("blog.title"))}
-          </h1>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            {localizedContent(content?.blog_description, locale, t("blog.desc"))}
-          </p>
+    <main dir="rtl" className="min-h-screen bg-background">
+      <section className="bg-primary/5 pb-16 pt-28">
+        <div className="mx-auto max-w-6xl px-4 text-center">
+          <h1 className="text-4xl font-bold text-foreground lg:text-5xl">{title}</h1>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">{description}</p>
         </div>
       </section>
 
-      {/* Posts */}
-      <section className="py-16">
-        <div className="max-w-6xl mx-auto px-4">
-          <BlogSection />
+      <section className="py-16" aria-labelledby="blog-posts-heading">
+        <div className="mx-auto max-w-6xl px-4">
+          <h2 id="blog-posts-heading" className="sr-only">مقالات المدونة</h2>
+          <PublicBlogIndex posts={posts} />
         </div>
       </section>
-    </div>
+    </main>
   )
 }

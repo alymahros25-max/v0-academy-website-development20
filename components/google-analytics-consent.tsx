@@ -19,7 +19,7 @@ declare global {
 
 const text = {
   title: "نحترم خصوصيتك",
-  message: "نستخدم Google Analytics لقياس الزيارات. يمكنك الرفض وسيظل الموقع يعمل.",
+  message: "نرجو قبول استخدام Google Analytics لقياس الزيارات، وسيظل الموقع يعمل سواء اخترت القبول أو الرفض.",
   privacy: "تفاصيل الخصوصية",
   accept: "قبول",
   reject: "رفض",
@@ -170,25 +170,25 @@ export function GoogleAnalyticsConsent() {
     <aside
       aria-label={text.region}
       aria-live="polite"
-      className="fixed bottom-2 left-auto right-2 z-[80] w-[min(19rem,calc(100vw-1rem))] rounded-2xl border border-[#e0e5de] bg-white/95 p-2.5 text-start shadow-[0_14px_42px_rgba(17,42,31,0.18)] backdrop-blur-sm sm:bottom-3 sm:right-4 sm:w-[min(20rem,calc(100vw-2rem))] sm:p-3"
+      className="fixed bottom-2 left-2 right-2 z-[80] rounded-2xl border border-[#e0e5de] bg-white/95 p-3 text-start shadow-[0_14px_42px_rgba(17,42,31,0.18)] backdrop-blur-sm sm:bottom-3 sm:left-4 sm:right-4 sm:p-4"
     >
-      <p className="text-xs font-extrabold leading-4 text-[#173d30]">{text.title}</p>
-      <p className="mt-0.5 text-[11px] leading-4 text-[#56645c]">
+      <p className="text-center text-base font-extrabold leading-5 text-[#174d3a] sm:text-lg">{text.title}</p>
+      <p className="mx-auto mt-1 max-w-3xl text-center text-xs leading-5 text-[#56645c] sm:text-sm">
         {text.message}{" "}
         <a className="font-semibold text-[#315f4a] underline decoration-[#a9b9ad] underline-offset-2" href="/privacy">
           {text.privacy}
         </a>
       </p>
-      <div className="mt-2 flex items-center gap-2">
+      <div className="mt-3 flex items-center gap-4" dir="rtl">
         <button
-          className="min-h-10 flex-[1.65] rounded-lg bg-[#174d3a] px-3 text-xs font-bold text-white shadow-sm transition hover:bg-[#103a2b] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#174d3a]"
+          className="min-h-10 flex-[2] rounded-lg bg-[#174d3a] px-3 text-xs font-bold text-white shadow-sm transition hover:bg-[#103a2b] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#174d3a] sm:text-sm"
           onClick={() => choose("granted")}
           type="button"
         >
           {text.accept}
         </button>
         <button
-          className="min-h-10 min-w-[4.75rem] flex-1 rounded-lg border border-[#cfd8d1] bg-white px-3 text-xs font-bold text-[#26352d] transition hover:bg-[#f4f7f3] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#174d3a]"
+          className="min-h-10 min-w-[4.75rem] rounded-lg border border-[#cfd8d1] bg-white px-3 text-xs font-bold text-[#26352d] transition hover:bg-[#f4f7f3] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#174d3a] sm:text-sm"
           onClick={() => choose("denied")}
           type="button"
         >

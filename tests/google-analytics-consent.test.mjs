@@ -43,8 +43,11 @@ test("acceptance and rejection are saved, and consent can be reopened", () => {
   assert.match(consentManager, /analytics:open-settings/)
   assert.match(privacyPage, /analytics:open-settings/)
   assert.match(privacyPage, /إدارة موافقة التحليلات/)
-  assert.match(consentManager, /flex-\[1\.65\]/, "accept button should receive more width")
-  assert.match(consentManager, /min-w-\[4\.75rem\] flex-1/, "reject button should remain visible but narrower")
+  assert.match(consentManager, /fixed bottom-2 left-2 right-2/, "banner should span from right to left")
+  assert.match(consentManager, /text-center text-base font-extrabold/, "title should be centered and prominent")
+  assert.match(consentManager, /flex-\[2\]/, "accept button should receive most of the row")
+  assert.match(consentManager, /min-w-\[4\.75rem\] rounded-lg/, "reject button should remain small")
+  assert.match(consentManager, /message: .*نرجو قبول/, "consent message should invite acceptance")
 
   assert.equal(existsSync(path.join(root, "app/api/analytics/pageview/route.ts")), false)
   assert.equal(packageJson.scripts["test:analytics-disabled"], undefined)

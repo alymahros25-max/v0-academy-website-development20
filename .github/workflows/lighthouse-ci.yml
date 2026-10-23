@@ -41,7 +41,7 @@ jobs:
 
       - name: Start production server
         run: |
-          pnpm start -- -p 3000 > /tmp/quran-elhafez-next.log 2>&1 &
+          pnpm exec next start -p 3000 > /tmp/quran-elhafez-next.log 2>&1 &
           echo $! > /tmp/quran-elhafez-next.pid
 
       - uses: browser-actions/setup-chrome@v2

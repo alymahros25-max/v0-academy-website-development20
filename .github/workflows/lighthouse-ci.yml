@@ -8,16 +8,17 @@ on:
 permissions:
   contents: read
 
-# Vercel is the only runtime configuration source for the application.
+# Run Lighthouse against the exact commit under test. Vercel deploys are
+# checked separately; this workflow must not depend on a branch-specific URL.
 env:
   LHCI_RUNS: ${{ github.event_name == 'pull_request' && '1' || '3' }}
-  LIGHTHOUSE_URL: ${{ github.event_name == 'pull_request' && 'https://v0-academy-website-development20-k1qjyvllm.vercel.app' || 'https://quran-elhafez.com' }}
+  LIGHTHOUSE_URL: http://localhost:3000
 
 jobs:
   lighthouse:
     name: Lighthouse (${{ github.event_name == 'pull_request' && 'fast PR' || 'full main' }})
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
 
@@ -26,23 +27,41 @@ jobs:
         with:
           version: 10
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build application
+        run: pnpm build
+
+      - name: Start production server
+        run: |
+          pnpm start -- -p 3000 > /tmp/quran-elhafez-next.log 2>&1 &
+          echo $! > /tmp/quran-elhafez-next.pid
+
       - uses: browser-actions/setup-chrome@v2
         id: chrome
 
-      - name: Wait for Vercel deployment
+      - name: Wait for local production server
         run: |
           for attempt in $(seq 1 36); do
             if curl --fail --silent --show-error --location "$LIGHTHOUSE_URL/" > /dev/null; then
-              echo "Vercel deployment is reachable: $LIGHTHOUSE_URL"
+              echo "Local production server is reachable: $LIGHTHOUSE_URL"
               exit 0
             fi
-            echo "Waiting for Vercel deployment (attempt $attempt/36)..."
+            echo "Waiting for local production server (attempt $attempt/36)..."
             sleep 5
           done
-          echo "Vercel deployment did not become reachable: $LIGHTHOUSE_URL"
+          echo "Local production server did not become reachable: $LIGHTHOUSE_URL"
+          cat /tmp/quran-elhafez-next.log || true
           exit 1
 
-      - name: Run Lighthouse CI against Vercel
+      - name: Run Lighthouse CI against local production build
         env:
           CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
         run: |

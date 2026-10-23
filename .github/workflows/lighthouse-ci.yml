@@ -7,12 +7,13 @@ on:
 
 permissions:
   contents: read
+  deployments: read
 
-# Run Lighthouse against the exact commit under test. Vercel deploys are
-# checked separately; this workflow must not depend on a branch-specific URL.
+# Lighthouse runs against the Vercel deployment for the exact commit under test.
+# For pull requests this resolves the Preview URL automatically; for main it
+# resolves the Production deployment URL. No branch-specific URL is stored here.
 env:
   LHCI_RUNS: ${{ github.event_name == 'pull_request' && '1' || '3' }}
-  LIGHTHOUSE_URL: http://localhost:3000
 
 jobs:
   lighthouse:
@@ -27,43 +28,89 @@ jobs:
         with:
           version: 10
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version: 24
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build application
-        run: pnpm build
-
-      - name: Start production server
-        run: |
-          pnpm exec next start -p 3000 > /tmp/quran-elhafez-next.log 2>&1 &
-          echo $! > /tmp/quran-elhafez-next.pid
-
       - uses: browser-actions/setup-chrome@v2
         id: chrome
 
-      - name: Wait for local production server
-        run: |
-          for attempt in $(seq 1 36); do
-            if curl --fail --silent --show-error --location "$LIGHTHOUSE_URL/" > /dev/null; then
-              echo "Local production server is reachable: $LIGHTHOUSE_URL"
-              exit 0
-            fi
-            echo "Waiting for local production server (attempt $attempt/36)..."
-            sleep 5
-          done
-          echo "Local production server did not become reachable: $LIGHTHOUSE_URL"
-          cat /tmp/quran-elhafez-next.log || true
-          exit 1
+      - name: Resolve Vercel deployment URL for this commit
+        id: vercel-deployment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const isPullRequest = context.eventName === 'pull_request'
+            const commitSha = isPullRequest
+              ? context.payload.pull_request.head.sha
+              : context.sha
+            const expectedEnvironment = isPullRequest ? 'Preview' : 'Production'
+            const maxAttempts = 36
+            const delayMs = 5000
 
-      - name: Run Lighthouse CI against local production build
+            for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+              const deployments = await github.paginate(
+                github.rest.repos.listDeployments,
+                {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ref: commitSha,
+                  per_page: 100,
+                },
+              )
+
+              const matchingDeployments = deployments
+                .filter((deployment) =>
+                  deployment.sha === commitSha &&
+                  deployment.environment?.startsWith(expectedEnvironment),
+                )
+                .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+
+              for (const deployment of matchingDeployments) {
+                const statuses = await github.paginate(
+                  github.rest.repos.listDeploymentStatuses,
+                  {
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    deployment_id: deployment.id,
+                    per_page: 100,
+                  },
+                )
+
+                const successfulStatus = statuses.find(
+                  (status) => status.state === 'success' &&
+                    (status.environment_url || status.target_url),
+                )
+
+                if (successfulStatus) {
+                  const url = successfulStatus.environment_url || successfulStatus.target_url
+                  core.info(`Resolved ${expectedEnvironment} deployment for ${commitSha}: ${url}`)
+                  core.setOutput('url', url)
+                  return
+                }
+
+                const failedStatus = statuses.find((status) =>
+                  ['error', 'failure'].includes(status.state),
+                )
+                if (failedStatus) {
+                  core.setFailed(
+                    `Vercel ${expectedEnvironment} deployment failed: ${failedStatus.description || failedStatus.state}`,
+                  )
+                  return
+                }
+              }
+
+              core.info(
+                `Waiting for Vercel ${expectedEnvironment} deployment for ${commitSha} (attempt ${attempt}/${maxAttempts})...`,
+              )
+              await new Promise((resolve) => setTimeout(resolve, delayMs))
+            }
+
+            core.setFailed(
+              `No successful Vercel ${expectedEnvironment} deployment URL was found for commit ${commitSha}.`,
+            )
+
+      - name: Run Lighthouse CI against Vercel deployment
         env:
           CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
+          LIGHTHOUSE_URL: ${{ steps.vercel-deployment.outputs.url }}
         run: |
           pnpm dlx @lhci/cli@0.15.x autorun \
             --collect.url="$LIGHTHOUSE_URL/" \

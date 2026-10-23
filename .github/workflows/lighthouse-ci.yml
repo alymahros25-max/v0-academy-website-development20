@@ -8,7 +8,9 @@ on:
 permissions:
   contents: read
 
-# Vercel is the only runtime configuration source for the application.
+# Preview deployments are protected by Vercel SSO and return the login page to
+# public GitHub Actions runners. Lighthouse therefore uses the public Vercel
+# production domain, whose runtime configuration and database are authoritative.
 env:
   LHCI_RUNS: ${{ github.event_name == 'pull_request' && '1' || '3' }}
   LIGHTHOUSE_URL: https://quran-elhafez.com
@@ -29,7 +31,7 @@ jobs:
       - uses: browser-actions/setup-chrome@v2
         id: chrome
 
-      - name: Wait for Vercel deployment
+      - name: Wait for public Vercel deployment
         run: |
           for attempt in $(seq 1 36); do
             if curl --fail --silent --show-error --location "$LIGHTHOUSE_URL/" > /dev/null; then
@@ -42,7 +44,7 @@ jobs:
           echo "Vercel deployment did not become reachable: $LIGHTHOUSE_URL"
           exit 1
 
-      - name: Run Lighthouse CI against Vercel
+      - name: Run Lighthouse CI against public Vercel deployment
         env:
           CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
         run: |

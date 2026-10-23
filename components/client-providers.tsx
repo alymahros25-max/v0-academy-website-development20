@@ -5,6 +5,7 @@ import dynamic from "next/dynamic"
 import { I18nProvider, useI18n } from "@/lib/i18n"
 import { usePathname } from "next/navigation"
 import { DeferredClientIntegrations } from "@/components/deferred-client-integrations"
+import { GoogleAnalyticsConsent } from "@/components/google-analytics-consent"
 import { PublicWidgetLayer } from "@/components/public-widget-layer"
 
 const Header = dynamic(() => import("@/components/layout/header").then((module) => module.Header))
@@ -71,7 +72,8 @@ function LayoutWrapper({ children }: { children: ReactNode }) {
   if (isCountryArticle || isSaudiLanding || isUaeLanding || isUnitedStatesLanding || isCanadaLanding || isUnitedKingdomLanding || isAustraliaLanding || isGermanyLanding || isKuwaitLanding || isNewCountryLanding) {
     return (
       <div dir={dir}>
-        {!isAdmin && <DeferredClientIntegrations />}
+        <GoogleAnalyticsConsent />
+        <DeferredClientIntegrations />
         {children}
       </div>
     )
@@ -79,6 +81,7 @@ function LayoutWrapper({ children }: { children: ReactNode }) {
 
   return (
     <div dir={dir} className="flex flex-col min-h-screen">
+      <GoogleAnalyticsConsent />
       <DeferredClientIntegrations />
       <Header />
       <main className="flex-1">{children}</main>

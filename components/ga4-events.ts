@@ -2,6 +2,7 @@
 
 const CONSENT_COOKIE = "analytics_consent"
 const CONSENT_STORAGE_KEY = "analytics_consent"
+const CONSENT_EXPIRY_KEY = "analytics_consent_expires_at"
 
 export type GA4EventName =
   | "form_start"
@@ -25,9 +26,16 @@ declare global {
 function hasAnalyticsConsent() {
   if (typeof window === "undefined") return false
 
-  const stored = window.localStorage.getItem(CONSENT_STORAGE_KEY)
-  if (stored === "granted") return true
-  if (stored === "denied") return false
+  try {
+    const stored = window.localStorage.getItem(CONSENT_STORAGE_KEY)
+    const expiresAt = Number(window.localStorage.getItem(CONSENT_EXPIRY_KEY))
+    if (expiresAt > Date.now()) {
+      if (stored === "granted") return true
+      if (stored === "denied") return false
+    }
+  } catch {
+    // Fall back to the first-party consent cookie.
+  }
 
   return document.cookie
     .split(";")

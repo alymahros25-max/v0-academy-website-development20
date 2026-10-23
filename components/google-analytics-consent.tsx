@@ -19,7 +19,7 @@ declare global {
 
 const text = {
   title: "نحترم خصوصيتك",
-  message: "نرجو قبول استخدام Google Analytics لقياس الزيارات، وسيظل الموقع يعمل سواء اخترت القبول أو الرفض.",
+  message: "نستخدم Google Analytics لقياس الزيارات وتحسين تجربة الموقع.",
   privacy: "تفاصيل الخصوصية",
   accept: "قبول",
   reject: "رفض",
@@ -170,7 +170,7 @@ export function GoogleAnalyticsConsent() {
     <aside
       aria-label={text.region}
       aria-live="polite"
-      className="fixed bottom-2 left-2 right-2 z-[80] rounded-2xl border border-[#e0e5de] bg-white/95 p-3 text-start shadow-[0_14px_42px_rgba(17,42,31,0.18)] backdrop-blur-sm sm:bottom-3 sm:left-4 sm:right-4 sm:p-4"
+      className="fixed bottom-0 left-0 right-0 z-[80] rounded-none border border-[#e0e5de] bg-white/95 p-4 text-start shadow-[0_14px_42px_rgba(17,42,31,0.18)] backdrop-blur-sm sm:bottom-4 sm:left-1/4 sm:right-1/4 sm:rounded-2xl sm:p-4"
     >
       <p className="text-center text-base font-extrabold leading-5 text-[#174d3a] sm:text-lg">{text.title}</p>
       <p className="mx-auto mt-1 max-w-3xl text-center text-xs leading-5 text-[#56645c] sm:text-sm">

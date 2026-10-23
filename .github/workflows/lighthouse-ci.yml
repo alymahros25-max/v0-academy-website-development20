@@ -11,7 +11,7 @@ permissions:
 # Vercel is the only runtime configuration source for the application.
 env:
   LHCI_RUNS: ${{ github.event_name == 'pull_request' && '1' || '3' }}
-  LIGHTHOUSE_URL: https://quran-elhafez.com
+  LIGHTHOUSE_URL: ${{ github.event_name == 'pull_request' && 'https://v0-academy-website-development20-k1qjyvllm.vercel.app' || 'https://quran-elhafez.com' }}
 
 jobs:
   lighthouse:

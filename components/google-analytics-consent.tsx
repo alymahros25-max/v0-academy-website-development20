@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { usePathname } from "next/navigation"
-import { configureGoogleAnalytics, GA_MEASUREMENT_ID, loadGoogleAnalytics, sendGoogleAnalyticsPageView } from "@/components/google-analytics-loader"
+import { configureGoogleAnalytics, GA_MEASUREMENT_ID, grantGoogleAnalyticsConsent, loadGoogleAnalytics, sendGoogleAnalyticsPageView } from "@/components/google-analytics-loader"
 
 const CONSENT_KEY = "analytics_consent"
 const CONSENT_EXPIRY_KEY = `${CONSENT_KEY}_expires_at`
@@ -130,6 +130,7 @@ export function GoogleAnalyticsConsent() {
         return
       }
       if (!configured.current) {
+        grantGoogleAnalyticsConsent()
         configureGoogleAnalytics()
         configured.current = true
       }

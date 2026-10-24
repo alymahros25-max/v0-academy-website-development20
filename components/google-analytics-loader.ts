@@ -60,6 +60,15 @@ export function configureGoogleAnalytics() {
   window.gtag?.("config", GA_MEASUREMENT_ID, { send_page_view: false })
 }
 
+export function grantGoogleAnalyticsConsent() {
+  window.gtag?.("consent", "update", {
+    analytics_storage: "granted",
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+  })
+}
+
 export function sendGoogleAnalyticsPageView(pathname: string) {
   window.gtag?.("event", "page_view", {
     page_path: pathname,

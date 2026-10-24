@@ -70,17 +70,24 @@ test("GA4 loader does not wait forever for an already-loaded script", async () =
 
 test("GA4 sends config once and a consented page_view with a clean URL", async () => {
   const browser = createBrowser()
-  const { configureGoogleAnalytics, sendGoogleAnalyticsPageView } = await loadModuleWithBrowser(browser)
+  const { configureGoogleAnalytics, grantGoogleAnalyticsConsent, sendGoogleAnalyticsPageView } = await loadModuleWithBrowser(browser)
   const calls = []
   window.location = { origin: "https://quran-elhafez.com" }
   window.gtag = (...args) => calls.push(args)
 
+  grantGoogleAnalyticsConsent()
   configureGoogleAnalytics()
   sendGoogleAnalyticsPageView("/qatar")
 
-  assert.equal(calls[0][0], "js")
-  assert.deepEqual(calls[1], ["config", "G-XPT3R8M0EC", { send_page_view: false }])
-  assert.deepEqual(calls[2], ["event", "page_view", {
+  assert.deepEqual(calls[0], ["consent", "update", {
+    analytics_storage: "granted",
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+  }])
+  assert.equal(calls[1][0], "js")
+  assert.deepEqual(calls[2], ["config", "G-XPT3R8M0EC", { send_page_view: false }])
+  assert.deepEqual(calls[3], ["event", "page_view", {
     page_path: "/qatar",
     page_location: "https://quran-elhafez.com/qatar",
     page_referrer: undefined,

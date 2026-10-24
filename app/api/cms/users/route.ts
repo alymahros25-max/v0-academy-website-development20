@@ -12,6 +12,22 @@ const supabase = supabaseUrl && supabaseServiceKey
 
 type RoleType = 'admin' | 'supervisor' | 'teacher' | 'student'
 
+const MAX_EMAIL_LENGTH = 254
+
+function isValidEmail(value: unknown): value is string {
+  if (typeof value !== 'string') return false
+
+  const email = value.trim()
+  if (!email || email.length > MAX_EMAIL_LENGTH || email.includes(' ') || email.includes('\t')) return false
+
+  const atIndex = email.indexOf('@')
+  if (atIndex <= 0 || atIndex !== email.lastIndexOf('@') || atIndex === email.length - 1) return false
+
+  const domain = email.slice(atIndex + 1)
+  const dotIndex = domain.indexOf('.')
+  return dotIndex > 0 && dotIndex < domain.length - 1
+}
+
 interface CMSUser {
   id?: number
   auth_user_id?: string
@@ -74,7 +90,7 @@ export async function POST(request: NextRequest) {
 
     const body: CMSUser = await request.json()
 
-    if (!body.email || !body.role_type || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email.trim())) {
+    if (!isValidEmail(body.email) || !body.role_type) {
       return NextResponse.json({ error: 'Email and role_type are required' }, { status: 400 })
     }
     if (!['admin', 'supervisor', 'teacher', 'student'].includes(body.role_type)) {
@@ -136,7 +152,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body: Partial<CMSUser> = await request.json()
-    if (body.email !== undefined && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email.trim())) return NextResponse.json({ error: 'Invalid email' }, { status: 400 })
+    if (body.email !== undefined && !isValidEmail(body.email)) return NextResponse.json({ error: 'Invalid email' }, { status: 400 })
     if (body.role_type !== undefined && !['admin', 'supervisor', 'teacher', 'student'].includes(body.role_type)) return NextResponse.json({ error: 'Invalid role_type' }, { status: 400 })
 
     const { data, error } = await supabase

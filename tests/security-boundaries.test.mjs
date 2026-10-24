@@ -21,7 +21,7 @@ test("browser content readers use server routes instead of Supabase anon", () =>
   assert.doesNotMatch(videoClient, /createClient|NEXT_PUBLIC_SUPABASE_ANON_KEY/)
   assert.match(videoClient, /fetch\(['"]\/api\/classroom-videos['"]\s*,/)
   assert.doesNotMatch(blogPage, /createClient|NEXT_PUBLIC_SUPABASE_ANON_KEY/)
-  assert.match(blogPage, /supabaseAdmin/)
+  assert.match(blogPage, /getPublishedBlogPost/)
   assert.doesNotMatch(blogRoute, /NEXT_PUBLIC_SUPABASE_ANON_KEY|createClient\(/)
   assert.match(blogRoute, /supabaseAdmin/)
   assert.doesNotMatch(videoServer, /NEXT_PUBLIC_SUPABASE_ANON_KEY|createClient\(/)

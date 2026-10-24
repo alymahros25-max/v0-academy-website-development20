@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react"
 import { usePathname } from "next/navigation"
-import { configureGoogleAnalytics, GA_MEASUREMENT_ID, loadGoogleAnalytics, sendGoogleAnalyticsPageView } from "@/components/google-analytics-loader"
 
+const GA_MEASUREMENT_ID = "G-XPT3R8M0EC"
 const CONSENT_KEY = "analytics_consent"
 const CONSENT_EXPIRY_KEY = `${CONSENT_KEY}_expires_at`
 const CONSENT_COOKIE_MAX_AGE = 60 * 60 * 24 * 180
@@ -79,6 +79,41 @@ function clearGoogleAnalyticsCookies() {
   }
 }
 
+function loadGoogleAnalytics(): Promise<boolean> {
+  window.dataLayer = window.dataLayer ?? []
+  window.gtag = window.gtag ?? ((...args: unknown[]) => window.dataLayer?.push(args))
+  if (window.__ga4ScriptLoaded) return Promise.resolve(true)
+  if (window.__ga4ScriptPromise) return window.__ga4ScriptPromise
+
+  window.__ga4ScriptPromise = new Promise((resolve) => {
+    const existingScript = document.querySelector<HTMLScriptElement>(`script[data-ga-consent="${GA_MEASUREMENT_ID}"]`)
+    const script = existingScript ?? document.createElement("script")
+    let settled = false
+    const finish = (loaded: boolean) => {
+      if (settled) return
+      settled = true
+      if (loaded) window.__ga4ScriptLoaded = true
+      else {
+        window.__ga4ScriptPromise = undefined
+        script.remove()
+      }
+      resolve(loaded)
+    }
+
+    script.addEventListener("load", () => finish(true), { once: true })
+    script.addEventListener("error", () => finish(false), { once: true })
+
+    if (!existingScript) {
+      script.async = true
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`
+      script.dataset.gaConsent = GA_MEASUREMENT_ID
+      document.head.appendChild(script)
+    }
+  })
+
+  return window.__ga4ScriptPromise
+}
+
 function stopGoogleAnalytics() {
   window.gtag?.("consent", "update", {
     analytics_storage: "denied",
@@ -92,6 +127,25 @@ function stopGoogleAnalytics() {
   delete window.dataLayer
   delete window.__ga4ScriptLoaded
   delete window.__ga4ScriptPromise
+}
+
+function sendPageView(pathname: string) {
+  window.gtag?.("event", "page_view", {
+    page_path: pathname,
+    page_location: `${window.location.origin}${pathname}`,
+    page_referrer: safePageReferrer(),
+    page_title: "أكاديمية الحافظ المتميز",
+  })
+}
+
+function safePageReferrer() {
+  if (!document.referrer) return undefined
+  try {
+    const referrer = new URL(document.referrer)
+    return referrer.origin
+  } catch {
+    return undefined
+  }
 }
 
 export function GoogleAnalyticsConsent() {
@@ -130,10 +184,11 @@ export function GoogleAnalyticsConsent() {
         return
       }
       if (!configured.current) {
-        configureGoogleAnalytics()
+        window.gtag?.("js", new Date())
+        window.gtag?.("config", GA_MEASUREMENT_ID, { send_page_view: false })
         configured.current = true
       }
-      sendGoogleAnalyticsPageView(pathname)
+      sendPageView(pathname)
     })
     return () => {
       cancelled = true

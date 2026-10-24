@@ -17,7 +17,7 @@
     "test:country-db-seed": "node --test tests/country-db-seed.test.mjs",
     "test:country-learning": "node --test tests/country-learning-migration.test.mjs",
     "test:country-prompt": "node --test tests/country-prompt-removal.test.mjs",
-    "test:analytics-consent": "node --import tsx --test tests/google-analytics-consent.test.mjs tests/google-analytics-runtime.test.mjs",
+    "test:analytics-consent": "node --test tests/google-analytics-consent.test.mjs",
     "test:country-data": "node --test tests/country-data-resolution.test.mjs",
     "test:seo-metadata": "node --test tests/seo-metadata.test.mjs",
     "test:isolated-triangle": "node --test tests/isolated-country-admin-preview.test.mjs",

@@ -14,6 +14,8 @@ declare global {
   interface Window {
     dataLayer?: unknown[][]
     gtag?: (...args: unknown[]) => void
+    __ga4ScriptLoaded?: boolean
+    __ga4ScriptPromise?: Promise<boolean>
   }
 }
 
@@ -77,18 +79,39 @@ function clearGoogleAnalyticsCookies() {
   }
 }
 
-function startGoogleAnalytics() {
+function loadGoogleAnalytics(): Promise<boolean> {
   window.dataLayer = window.dataLayer ?? []
   window.gtag = window.gtag ?? ((...args: unknown[]) => window.dataLayer?.push(args))
+  if (window.__ga4ScriptLoaded) return Promise.resolve(true)
+  if (window.__ga4ScriptPromise) return window.__ga4ScriptPromise
 
-  const existingScript = document.querySelector(`script[data-ga-consent="${GA_MEASUREMENT_ID}"]`)
-  if (!existingScript) {
-    const script = document.createElement("script")
-    script.async = true
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`
-    script.dataset.gaConsent = GA_MEASUREMENT_ID
-    document.head.appendChild(script)
-  }
+  window.__ga4ScriptPromise = new Promise((resolve) => {
+    const existingScript = document.querySelector<HTMLScriptElement>(`script[data-ga-consent="${GA_MEASUREMENT_ID}"]`)
+    const script = existingScript ?? document.createElement("script")
+    let settled = false
+    const finish = (loaded: boolean) => {
+      if (settled) return
+      settled = true
+      if (loaded) window.__ga4ScriptLoaded = true
+      else {
+        window.__ga4ScriptPromise = undefined
+        script.remove()
+      }
+      resolve(loaded)
+    }
+
+    script.addEventListener("load", () => finish(true), { once: true })
+    script.addEventListener("error", () => finish(false), { once: true })
+
+    if (!existingScript) {
+      script.async = true
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`
+      script.dataset.gaConsent = GA_MEASUREMENT_ID
+      document.head.appendChild(script)
+    }
+  })
+
+  return window.__ga4ScriptPromise
 }
 
 function stopGoogleAnalytics() {
@@ -102,6 +125,17 @@ function stopGoogleAnalytics() {
   document.querySelector(`script[data-ga-consent="${GA_MEASUREMENT_ID}"]`)?.remove()
   delete window.gtag
   delete window.dataLayer
+  delete window.__ga4ScriptLoaded
+  delete window.__ga4ScriptPromise
+}
+
+function sendPageView(pathname: string) {
+  window.gtag?.("event", "page_view", {
+    page_path: pathname,
+    page_location: `${window.location.origin}${pathname}`,
+    page_referrer: safePageReferrer(),
+    page_title: "أكاديمية الحافظ المتميز",
+  })
 }
 
 function safePageReferrer() {
@@ -143,19 +177,22 @@ export function GoogleAnalyticsConsent() {
       return
     }
 
-    startGoogleAnalytics()
-    if (!configured.current) {
-      window.gtag?.("js", new Date())
-      window.gtag?.("config", GA_MEASUREMENT_ID, { send_page_view: false })
-      configured.current = true
-    }
-
-    window.gtag?.("event", "page_view", {
-      page_path: pathname,
-      page_location: `${window.location.origin}${pathname}`,
-      page_referrer: safePageReferrer(),
-      page_title: "أكاديمية الحافظ المتميز",
+    let cancelled = false
+    void loadGoogleAnalytics().then((loaded) => {
+      if (!loaded || cancelled || choice !== "granted") {
+        if (!loaded) console.warn("Google Analytics could not load; no analytics event was sent.")
+        return
+      }
+      if (!configured.current) {
+        window.gtag?.("js", new Date())
+        window.gtag?.("config", GA_MEASUREMENT_ID, { send_page_view: false })
+        configured.current = true
+      }
+      sendPageView(pathname)
     })
+    return () => {
+      cancelled = true
+    }
   }, [choice, pathname, ready])
 
   function choose(choice: Exclude<ConsentChoice, "unknown">) {

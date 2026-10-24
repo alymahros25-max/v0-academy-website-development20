@@ -6,8 +6,10 @@ __v0_jsx-dev-runtime.ts
 # Common ignores
 node_modules/
 .next/
-.env*.local
-.env.local.google
+.env
+.env.*
+!.env.example
+!.env.*.example
 .DS_Store
 .vercel
 tsconfig.tsbuildinfo

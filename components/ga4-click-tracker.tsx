@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import { usePathname } from "next/navigation"
-import { createCountryWhatsAppMessage, getAnalyticsCountry, trackGa4Event } from "@/components/ga4-events"
+import { createWhatsAppMessage, getAnalyticsCountry, trackGa4Event } from "@/components/ga4-events"
 
 function isWhatsAppUrl(href: string) {
   try {
@@ -51,19 +51,9 @@ export function Ga4ClickTracker() {
         }
 
         const currentCountry = getAnalyticsCountry(pagePath)
-        if (currentCountry) {
-          const normalizedContext = `${label} ${message}`.toLowerCase()
-          const mentionsQuran = /تحفيظ القرآن|برنامج القرآن|quran/.test(normalizedContext)
-          const mentionsArabic = /تأسيس اللغة العربية|برنامج العربية|arabic language/.test(normalizedContext)
-          const program = mentionsQuran === mentionsArabic
-            ? undefined
-            : mentionsQuran
-              ? "quran"
-              : "arabic"
-          const url = new URL(link.href)
-          url.searchParams.set("text", createCountryWhatsAppMessage(currentCountry, program))
-          link.href = url.toString()
-        }
+        const url = new URL(link.href)
+        url.searchParams.set("text", createWhatsAppMessage(currentCountry))
+        link.href = url.toString()
 
         trackGa4Event("whatsapp_click", {
           method: "whatsapp",

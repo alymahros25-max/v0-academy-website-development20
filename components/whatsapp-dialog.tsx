@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { createCountryWhatsAppMessage, getAnalyticsCountry, trackGa4Event } from "@/components/ga4-events"
+import { createWhatsAppMessage, getAnalyticsCountry, trackGa4Event } from "@/components/ga4-events"
 
 interface WhatsAppDialogProps {
   open: boolean
@@ -81,9 +81,7 @@ export function WhatsAppDialog({ open, onOpenChange }: WhatsAppDialogProps) {
     const country = getAnalyticsCountry(window.location.pathname)
     trackGa4Event("select_content", { content_type: "program", content_id: option.id, country })
     trackGa4Event("whatsapp_chat_start", { method: "whatsapp", program: option.id, page_path: window.location.pathname, country })
-    const message = country
-      ? createCountryWhatsAppMessage(country, option.id as "quran" | "arabic" | "inquiry")
-      : option.message
+    const message = createWhatsAppMessage(country)
     const encodedMessage = encodeURIComponent(message)
     // Using wa.me with phone number to open the correct chat
     const whatsappUrl = `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodedMessage}`

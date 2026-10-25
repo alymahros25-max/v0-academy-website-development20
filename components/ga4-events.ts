@@ -69,14 +69,9 @@ export function getAnalyticsCountry(pathname: string) {
   return ANALYTICS_COUNTRIES[slug]
 }
 
-export function createCountryWhatsAppMessage(country: string, program?: "quran" | "arabic" | "inquiry") {
-  const interest = program === "quran"
-    ? "أرغب في معرفة تفاصيل برنامج تحفيظ القرآن الكريم"
-    : program === "arabic"
-      ? "أرغب في معرفة تفاصيل برنامج تأسيس اللغة العربية"
-      : "أرغب في معرفة تفاصيل برامج الأكاديمية"
-
-  return `السلام عليكم، ${interest}.\nوصلت إليكم من صفحة ${country}.\n\nاسم الطالب:\nالعمر:`
+export function createWhatsAppMessage(country?: string) {
+  const source = country ? `وصلت إليكم من صفحة ${country}.` : "وصلت إليكم من الموقع."
+  return `السلام عليكم، أريد تحديد موعد لتجربة حصة مجانية.\n\n${source}\n\nاختر البرنامج: تحفيظ القرآن / تأسيس العربية / الاثنين معاً.\n\nاسم الطالب:\n\nالعمر:`
 }
 
 export function trackGa4Event(name: AnalyticsEventName, params: AnalyticsEventParams = {}) {

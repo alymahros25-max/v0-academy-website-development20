@@ -124,17 +124,23 @@ export function GoogleAnalyticsConsent() {
     }
 
     let cancelled = false
-    void loadGoogleAnalytics().then((loaded) => {
-      if (!loaded || cancelled || choice !== "granted") {
-        if (!loaded) console.warn("Google Analytics could not load; no analytics event was sent.")
-        return
+    const loadPromise = loadGoogleAnalytics()
+
+    // Queue the commands immediately. The gtag loader consumes dataLayer after
+    // it executes; waiting for its load event can lose the first page_view in
+    // browsers, privacy extensions, or cached-script race conditions.
+    if (!configured.current) {
+      grantGoogleAnalyticsConsent()
+      configureGoogleAnalytics()
+      configured.current = true
+    }
+    sendGoogleAnalyticsPageView(pathname)
+
+    void loadPromise.then((loaded) => {
+      if (!loaded && !cancelled) {
+        configured.current = false
+        console.warn("Google Analytics script could not execute; queued events will remain local.")
       }
-      if (!configured.current) {
-        grantGoogleAnalyticsConsent()
-        configureGoogleAnalytics()
-        configured.current = true
-      }
-      sendGoogleAnalyticsPageView(pathname)
     })
     return () => {
       cancelled = true

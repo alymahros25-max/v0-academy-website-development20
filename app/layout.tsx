@@ -5,6 +5,7 @@ import { generateEducationalOrganizationSchema, generateWebSiteSchema, generateC
 import "./globals.css"
 import { ClientProviders } from "@/components/client-providers"
 import { ThemeApplicator } from "@/components/theme-applicator"
+import Script from "next/script"
 
 const rootStructuredData = generateCombinedSchema(
   generateEducationalOrganizationSchema(),
@@ -89,6 +90,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(rootStructuredData) }}
         />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-VE5L1XDFT3"
+          strategy="beforeInteractive"
+        />
+        <Script id="google-tag-config" strategy="beforeInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-VE5L1XDFT3');`}
+        </Script>
       </head>
       <body className={`${notoArabic.variable} font-sans antialiased`}>
         <ThemeApplicator />

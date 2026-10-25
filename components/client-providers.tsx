@@ -6,6 +6,7 @@ import { I18nProvider, useI18n } from "@/lib/i18n"
 import { usePathname } from "next/navigation"
 import { DeferredClientIntegrations } from "@/components/deferred-client-integrations"
 import { PublicWidgetLayer } from "@/components/public-widget-layer"
+import { Ga4ClickTracker } from "@/components/ga4-click-tracker"
 
 const Header = dynamic(() => import("@/components/layout/header").then((module) => module.Header))
 const Footer = dynamic(() => import("@/components/layout/footer").then((module) => module.Footer))
@@ -71,6 +72,7 @@ function LayoutWrapper({ children }: { children: ReactNode }) {
   if (isCountryArticle || isSaudiLanding || isUaeLanding || isUnitedStatesLanding || isCanadaLanding || isUnitedKingdomLanding || isAustraliaLanding || isGermanyLanding || isKuwaitLanding || isNewCountryLanding) {
     return (
       <div dir={dir}>
+        <Ga4ClickTracker />
         <DeferredClientIntegrations />
         {children}
       </div>
@@ -79,6 +81,7 @@ function LayoutWrapper({ children }: { children: ReactNode }) {
 
   return (
     <div dir={dir} className="flex flex-col min-h-screen">
+      <Ga4ClickTracker />
       <DeferredClientIntegrations />
       <Header />
       <main className="flex-1">{children}</main>

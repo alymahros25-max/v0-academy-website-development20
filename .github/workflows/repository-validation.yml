@@ -13,5 +13,7 @@ jobs:
     name: Validate repository metadata
     runs-on: ubuntu-latest
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
       - name: Check required repository files
         run: test -f package.json && test -f README.md

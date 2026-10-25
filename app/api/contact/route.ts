@@ -3,7 +3,6 @@ import { addMessage, getMessages } from "@/lib/data-store"
 import { z } from "zod"
 import { verifyAdminSession } from "@/lib/admin-auth"
 import { consumeRateLimit, getClientIp, rateLimitResponse } from "@/lib/request-rate-limit"
-import { recordInternalAnalyticsEvent } from "@/lib/internal-analytics"
 
 const contactSchema = z.object({
   name: z.string().trim().min(1).max(120),
@@ -58,11 +57,6 @@ export async function POST(request: Request) {
     }
 
     await addMessage(newMessage)
-    void recordInternalAnalyticsEvent({
-      eventName: "contact_form_submit",
-      pagePath: "/contact",
-      consentState: "server-confirmed",
-    })
     try {
       await notifyContactByEmail({ name, email, phone, subject, message })
     } catch (emailError) {

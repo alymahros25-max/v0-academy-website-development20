@@ -32,148 +32,25 @@ app/client.tsx → عميل منفصل للصفحة الرئيسية
 
 ---
 
-### 2. لوحة تحكم حالة فهرسة Google Search Console
+### 2. التتبع والتحليلات
 
-تم بناء لوحة تحكم متقدمة لمراقبة حالة الفهرسة من Google مباشرة:
+يعتمد الموقع حاليًا على تتبع الزيارات المباشر عبر Google Analytics 4 من خلال موافقة الزائر. لا توجد تقارير أو مزامنة من Google Analytics أو Search Console أو Clarity داخل لوحة التحكم.
 
-**المميزات:**
-- عرض إجمالي الصفحات المزحوفة
-- عدد الصفحات المفهرسة vs غير المفهرسة
-- متوسط الموضع في نتائج البحث
-- إجمالي النقرات والانطباعات من آخر 7 أيام
-- تحديث دوري تلقائياً كل ساعة
-- زر تحديث يدوي
+- يتم تحميل GA4 بعد موافقة صريحة من الزائر فقط.
+- يتم إرسال `page_view` وأحداث التفاعل مباشرة إلى GA4.
+- لا يحتاج تتبع الموقع إلى حساب خدمة Google أو مفتاح خاص.
+- تُراجع تقارير الزيارات من داخل Google Analytics مباشرة.
 
-**الموقع في لوحة التحكم:**
-```
-Admin Dashboard → حالة الفهرسة (مع أيقونة رسم بياني)
-```
+### 3. تحسين الظهور في محركات البحث
 
-**API Endpoint:**
-```
-GET /api/gsc/status
-```
+تتم إدارة أساسيات SEO داخل الموقع والكود، بينما تُجرى المراجعة الخارجية يدويًا من Google Search Console:
 
-**الاستجابة:**
-```json
-{
-  "success": true,
-  "domain": "quran-elhafez.com",
-  "data": {
-    "totalPages": 50,
-    "indexed": 48,
-    "notIndexed": 2,
-    "clicks": 1250,
-    "impressions": 5000,
-    "avgPosition": "4.25"
-  },
-  "lastUpdated": "2026-07-09T07:05:22Z"
-}
-```
+- تأكد من توفر `/sitemap.xml` و`/robots.txt`.
+- راجع العناوين والوصف والـ canonical والبيانات المنظمة.
+- أضف النطاق يدويًا في [Google Search Console](https://search.google.com/search-console).
+- أرسل `https://quran-elhafez.com/sitemap.xml` من واجهة Search Console عند الحاجة.
 
----
-
-### 3. صفحة طلب الفهرسة (Indexing Request)
-
-تم بناء صفحة كاملة لطلب فهرسة الصفحات المحددة في Google بشكل فوري:
-
-**المميزات:**
-- إضافة أو حذف روابط متعددة
-- التحقق من صحة الروابط
-- إرسال طلبات فهرسة للصفحات المحددة
-- عرض النتائج بوضوح (نجاح/فشل)
-- رسائل خطأ مفصلة
-
-**الموقع في لوحة التحكم:**
-```
-Admin Dashboard → طلب فهرسة (مع أيقونة بحث)
-```
-
-**API Endpoints:**
-
-#### POST - إرسال طلب فهرسة واحد
-```
-POST /api/gsc/request-indexing
-Content-Type: application/json
-
-{
-  "url": "https://quran-elhafez.com/new-page",
-  "type": "URL_UPDATED"
-}
-```
-
-**الاستجابة:**
-```json
-{
-  "success": true,
-  "url": "https://quran-elhafez.com/new-page",
-  "status": "Indexing request submitted",
-  "timestamp": "2026-07-09T07:05:22Z"
-}
-```
-
-#### GET - إرسال طلبات متعددة
-```
-GET /api/gsc/request-indexing?url=https://example.com/page1&url=https://example.com/page2
-```
-
----
-
-## متطلبات المصادقة
-
-تم إعداد مصادقة Google Service Account:
-
-**ملف البيئة (`.env.local`):**
-```env
-GOOGLE_SERVICE_ACCOUNT_EMAIL="quran-elhafez@quran-elhafez.iam.gserviceaccount.com"
-GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n..."
-GOOGLE_SEARCH_CONSOLE_DOMAIN="quran-elhafez.com"
-GOOGLE_PROJECT_ID="quran-elhafez"
-```
-
-**الصلاحيات المطلوبة:**
-- Search Console API (للقراءة)
-- Indexing API (للإرسال)
-
----
-
-## الملفات المنشأة/المعدلة
-
-### ملفات جديدة:
-```
-app/api/gsc/status/route.ts              - API لجلب بيانات الفهرسة
-app/api/gsc/request-indexing/route.ts    - API لطلب الفهرسة
-lib/gsc-client.ts                        - عميل Google Search Console
-.env.local.google                        - متغيرات البيئة (نسخة توثيق)
-.env.local                                - متغيرات البيئة الفعلية
-app/client.tsx                           - عميل صفحة رئيسية جديد
-app/about/client.tsx                     - عميل صفحة من نحن جديد
-```
-
-### ملفات معدلة:
-```
-app/page.tsx                             - تفعيل SSG
-app/about/page.tsx                       - تفعيل SSG
-app/admin/page.tsx                       - إضافة تابتين GSC
-next.config.mjs                          - إضافة headers أمان
-package.json                             - إضافة libraries Google
-```
-
----
-
-## المكتبات المضافة
-
-```json
-{
-  "googleapis": "^173.0.0",
-  "google-auth-library": "^10.9.0"
-}
-```
-
-**التثبيت:**
-```bash
-pnpm add googleapis google-auth-library
-```
+لا توجد واجهة Search Console أو طلب فهرسة داخل لوحة التحكم، ولا توجد مفاتيح خدمة Google مطلوبة لهذا الموقع.
 
 ---
 

@@ -1,6 +1,5 @@
 import type { LucideIcon } from "lucide-react"
 import {
-  BarChart3,
   BookOpen,
   FileText,
   Film,
@@ -14,7 +13,6 @@ import {
   MessageSquare,
   Package,
   Palette,
-  Search,
   Settings,
   Star,
   Users,
@@ -24,7 +22,7 @@ export type AdminTabId =
   | "faq" | "country-pages" | "saudi-landing" | "uae-landing" | "dashboard"
   | "packages" | "teachers" | "reviews" | "messages" | "settings" | "pages"
   | "seo-guide" | "cms" | "theme" | "pages-builder" | "users" | "classroom-videos"
-  | "educational-games" | "gsc-dashboard" | "request-indexing" | "blog" | "library" | "legal" | "widgets"
+  | "educational-games" | "blog" | "library" | "legal" | "widgets"
 
 export type AdminNavigationItem = {
   id: AdminTabId
@@ -56,8 +54,6 @@ export function getAdminNavigation(t: (key: string) => string): AdminNavigationI
     { id: "widgets", label: "الأدوات والقوائم", key: "admin.widgets", icon: Menu, group: "أدوات الموقع" },
     { id: "theme", label: "المظهر والمعاينة الحية", key: "admin.theme", icon: Palette, group: "أدوات الموقع" },
     { id: "seo-guide", label: "دليل تحسين محركات البحث", key: "admin.seoGuide", icon: Languages, group: "أدوات الموقع" },
-    { id: "gsc-dashboard", label: "لوحة Google Search Console", key: "admin.gscDashboard", icon: BarChart3, group: "أدوات الموقع" },
-    { id: "request-indexing", label: "طلب فهرسة صفحة", key: "admin.requestIndexing", icon: Search, group: "أدوات الموقع" },
     { id: "users", label: "المستخدمون والصلاحيات", key: "admin.users", icon: Lock, group: "إدارة النظام" },
     { id: "settings", label: "إعدادات لوحة التحكم", key: "admin.settings", icon: Settings, group: "إدارة النظام" },
   ]

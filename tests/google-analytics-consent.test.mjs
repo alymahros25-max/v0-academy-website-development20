@@ -24,7 +24,7 @@ test("Google Analytics is loaded only after explicit consent", () => {
   assert.ok(trackingEffect, "consent-gated tracking effect should exist")
   assert.ok(trackingEffect.indexOf('if (choice !== "granted")') < trackingEffect.indexOf("loadGoogleAnalytics()"))
   assert.ok(trackingEffect.indexOf('if (!ready) return') < trackingEffect.indexOf("loadGoogleAnalytics()"))
-  assert.match(analyticsLoader, /G-XPT3R8M0EC/)
+  assert.match(analyticsLoader, /G-VE5L1XDFT3/)
   assert.match(analyticsLoader, /googletagmanager\.com\/gtag\/js\?id=/)
   assert.match(analyticsLoader, /send_page_view: false/)
   assert.doesNotMatch(layout, /gtag|googletagmanager/)

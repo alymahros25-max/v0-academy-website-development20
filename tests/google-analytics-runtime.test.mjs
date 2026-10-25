@@ -24,7 +24,7 @@ function createBrowser({ existingScript } = {}) {
     },
     head: {
       appendChild(node) {
-        node.dataset.gaConsent = "G-XPT3R8M0EC"
+        node.dataset.gaConsent = "G-VE5L1XDFT3"
         queueMicrotask(() => {
           node.complete = true
           node.dataset.gaLoaded = "true"
@@ -53,7 +53,7 @@ test("GA4 loader resolves after the first script load and marks it as loaded", a
 
 test("GA4 loader does not wait forever for an already-loaded script", async () => {
   const existingScript = {
-    dataset: { gaConsent: "G-XPT3R8M0EC", gaLoaded: "true" },
+    dataset: { gaConsent: "G-VE5L1XDFT3", gaLoaded: "true" },
     complete: true,
     addEventListener() {
       throw new Error("a loaded script must not require a future load event")
@@ -86,7 +86,7 @@ test("GA4 sends config once and a consented page_view with a clean URL", async (
     ad_personalization: "denied",
   }])
   assert.equal(calls[1][0], "js")
-  assert.deepEqual(calls[2], ["config", "G-XPT3R8M0EC", { send_page_view: false }])
+  assert.deepEqual(calls[2], ["config", "G-VE5L1XDFT3", { send_page_view: false }])
   assert.deepEqual(calls[3], ["event", "page_view", {
     page_path: "/qatar",
     page_location: "https://quran-elhafez.com/qatar",

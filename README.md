@@ -14,7 +14,6 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Node.js-24-339933?logo=node.js&logoColor=white" alt="Node.js 24">
-  <img src="https://img.shields.io/badge/Performance-Lighthouse%20CI-success?logo=lighthouse&logoColor=white" alt="Lighthouse CI">
   <img src="https://img.shields.io/badge/RTL-Arabic-8A2BE2" alt="Arabic RTL">
   <img src="https://img.shields.io/badge/Status-Active-22C55E" alt="Active project">
 </p>
@@ -112,7 +111,7 @@ flowchart LR
 | `lib/` | إعدادات صفحات الدول والباقات وWhatsApp، المصادقة الإدارية، الأمان، الأداء، والبيانات المنظمة. |
 | `public/` | الصور والملفات العامة المستخدمة فعليًا في الموقع. |
 | `supabase/migrations/` | سجل ترحيلات تاريخي لـSupabase؛ لا يُطبّق تلقائيًا على قاعدة المعاينة النظيفة، ويحتوي ملفات دفع قديمة مؤرشفة. |
-| `.github/workflows/` | سير عمل GitHub Actions، بما في ذلك فحص Lighthouse CI. |
+| `.github/workflows/` | سير عمل GitHub Actions للاختبارات المفعلة في المستودع. |
 | `docs/` | المستندات والملاحظات المساندة للمشروع. |
 
 ## المسارات المحلية
@@ -238,21 +237,11 @@ sequenceDiagram
 
 يُنشر المشروع على Vercel من مستودع GitHub. فرع `main` يمثل مصدر النشر الإنتاجي، بينما تُستخدم فروع Pull Request لمعاينات مستقلة عند تفعيل التكاملات المناسبة.
 
-تم تحديث بيئة GitHub Actions لتستخدم **Node.js 24** و**pnpm 10**. كما تم إصلاح Lighthouse CI ليبدأ خادم Next.js محليًا قبل الفحص، ومعالجة تشغيل Chrome في بيئة CI باستخدام `--no-sandbox` عند الحاجة. يجب اعتبار نجاح البناء منفصلًا عن صحة بيانات الدخول أو اتصال الخدمات الخارجية؛ اختبر كل خدمة ضمن نطاقها.
+تم تحديث بيئة GitHub Actions لتستخدم **Node.js 24** و**pnpm 10**. فحص Lighthouse CI الآلي معطل حالياً، ولا يمنع الدمج أو النشر. يجب اعتبار نجاح البناء منفصلًا عن صحة بيانات الدخول أو اتصال الخدمات الخارجية؛ اختبر كل خدمة ضمن نطاقها.
 
 ## الأداء وإمكانية الوصول
 
-أحدث قياس Lighthouse على جهاز Moto G Power مع محاكاة شبكة 4G بطيئة سجّل النتائج الآتية:
-
-| المقياس | النتيجة | الملاحظة |
-| --- | ---: | --- |
-| First Contentful Paint | 1.7 ثانية | ظهور المحتوى الأول بسرعة جيدة. |
-| Largest Contentful Paint | 3.5 ثانية | الأولوية الحالية للتحسين؛ الهدف أقل من 2.5 ثانية. |
-| Total Blocking Time | 60 مللي ثانية | أداء JavaScript ممتاز. |
-| Cumulative Layout Shift | 0.002 | استقرار بصري ممتاز. |
-| Speed Index | 1.8 ثانية | ظهور معظم الصفحة بسرعة جيدة. |
-
-الأولوية التالية هي تحسين **LCP** عبر مراجعة عنصر Hero والصورة الأكبر والخطوط ووقت استجابة الخادم، مع الحفاظ على التحسينات الحالية الخاصة بتأجيل المحتوى، وتقليل عمل التمرير، وتثبيت أبعاد الصور، وعدم إنشاء YouTube iframe قبل تفاعل المستخدم.
+لا توجد حالياً عتبة Lighthouse آلية مطلوبة للدمج. يمكن إجراء قياسات أداء يدوية عند الحاجة، مع الحفاظ على تأجيل المحتوى، وتقليل عمل التمرير، وتثبيت أبعاد الصور، وعدم إنشاء YouTube iframe قبل تفاعل المستخدم.
 
 يجب أن تحافظ التعديلات الجديدة على دعم `prefers-reduced-motion`، وحلقات التركيز ولوحة المفاتيح، وعناصر HTML الدلالية، وروابط `a` الحقيقية، وعدم إضافة مكتبات كبيرة لتفاعل بسيط.
 
@@ -278,8 +267,8 @@ sequenceDiagram
 | إطار التطبيق | [Next.js](https://nextjs.org/docs) |
 | قاعدة البيانات والتفرعات | [Supabase Branching](https://supabase.com/docs/guides/deployment/branching) |
 | النشر | [Vercel](https://vercel.com/docs) |
-| الاختبارات والأداء | [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci) |
+| الاختبارات والأداء | Lighthouse CI الآلي معطل حالياً |
 
 ---
 
-<p align="center"><strong>حالة الوثيقة: محدثة لتعكس بنية المشروع الحالية، إعدادات Node.js 24 وpnpm 10، إصلاحات CI، وتحسينات الأداء.</strong></p>
+<p align="center"><strong>حالة الوثيقة: محدثة لتعكس بنية المشروع الحالية، إعدادات Node.js 24 وpnpm 10، وإيقاف فحص Lighthouse CI الآلي.</strong></p>

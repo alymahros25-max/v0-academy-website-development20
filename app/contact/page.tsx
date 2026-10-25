@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useI18n } from "@/lib/i18n"
 import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react"
 import { WhatsAppDialog } from "@/components/whatsapp-dialog"
+import { trackGa4Event } from "@/components/ga4-events"
 export default function ContactPage() {
   const { t, locale } = useI18n()
   const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || ""
@@ -11,7 +12,13 @@ export default function ContactPage() {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const [whatsappDialogOpen, setWhatsappDialogOpen] = useState(false)
+  const [formStarted, setFormStarted] = useState(false)
 
+  function handleFormStart() {
+    if (formStarted) return
+    setFormStarted(true)
+    trackGa4Event("form_start", { form_name: "contact_form", page_path: "/contact" })
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -38,6 +45,8 @@ export default function ContactPage() {
       }
       setSent(true)
       form.reset()
+      setFormStarted(false)
+      trackGa4Event("generate_lead", { method: "contact_form", page_path: "/contact", language: locale })
     } catch (err) {
       setError(err instanceof Error ? err.message : (locale === "ar" ? "تعذر إرسال الرسالة" : "Unable to send the message"))
     } finally {
@@ -87,7 +96,7 @@ export default function ContactPage() {
                     </button>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                  <form onSubmit={handleSubmit} onFocusCapture={handleFormStart} className="flex flex-col gap-5">
                     <div>
                       <label className="block text-sm font-bold text-foreground mb-2">{t("contact.name")}</label>
                       <input

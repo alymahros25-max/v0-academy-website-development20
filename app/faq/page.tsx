@@ -1,4 +1,5 @@
 "use client"
+import { trackGa4Event } from "@/components/ga4-events"
 
 import { useState, useMemo } from "react"
 import useSWR from "swr"
@@ -165,7 +166,11 @@ export default function FAQPage() {
             <input
               type="text"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value
+                if (!searchQuery.trim() && value.trim()) trackGa4Event("site_search", { search_area: "faq" })
+                setSearchQuery(value)
+              }}
               placeholder={locale === "ar" ? "ابحث في الأسئلة..." : locale === "en" ? "Search questions..." : "Rechercher des questions..."}
               className="w-full ps-12 pe-4 py-3.5 rounded-2xl border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
             />

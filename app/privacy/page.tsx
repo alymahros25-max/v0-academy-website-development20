@@ -85,21 +85,6 @@ export default function PrivacyPage() {
               ))}
             </div>
           </div>
-          <div className="mt-5 rounded-2xl border border-border bg-card p-6 shadow-sm">
-            <h2 className="text-xl font-bold text-foreground mb-3">
-              تحليلات الزيارة
-            </h2>
-            <p className="text-muted-foreground leading-relaxed mb-4">
-              بعد موافقتك، نستخدم Google Analytics لقياس الصفحات التي تمت زيارتها ومصدر الوصول ونوع الجهاز والمتصفح والموقع التقريبي. لا نرسل إليه الاسم أو البريد الإلكتروني، ويمكنك تغيير اختيارك في أي وقت.
-            </p>
-            <button
-              className="rounded-lg border border-border px-4 py-2 text-sm font-semibold text-foreground transition hover:bg-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-              onClick={() => window.dispatchEvent(new Event("analytics:open-settings"))}
-              type="button"
-            >
-              إدارة موافقة التحليلات
-            </button>
-          </div>
         </div>
       </section>
     </>

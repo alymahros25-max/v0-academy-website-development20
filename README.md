@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-16.2.11-000000?logo=next.js&logoColor=white" alt="Next.js 16.2.11"></a>
+  <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-16.4.1-000000?logo=next.js&logoColor=white" alt="Next.js 16.4.1"></a>
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.7.3-3178C6?logo=typescript&logoColor=white" alt="TypeScript 5.7.3"></a>
   <a href="https://pnpm.io/"><img src="https://img.shields.io/badge/pnpm-10-F69220?logo=pnpm&logoColor=white" alt="pnpm 10"></a>
   <a href="https://supabase.com/"><img src="https://img.shields.io/badge/Supabase-Backend-3ECF8E?logo=supabase&logoColor=white" alt="Supabase"></a>
@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Node.js-24-339933?logo=node.js&logoColor=white" alt="Node.js 24">
+  <img src="https://img.shields.io/badge/Node.js-22%2B-339933?logo=node.js&logoColor=white" alt="Node.js 22 or newer">
   <img src="https://img.shields.io/badge/RTL-Arabic-8A2BE2" alt="Arabic RTL">
   <img src="https://img.shields.io/badge/Status-Active-22C55E" alt="Active project">
 </p>
@@ -23,6 +23,17 @@
 **أكاديمية الحافظ المتميز** موقع تعليمي متجاوب يقدّم برامج تحفيظ القرآن الكريم وتأسيس اللغة العربية للطلاب والأسر. يعتمد الموقع على صفحات هبوط محلية موجهة إلى جمهور عدد من الدول، مع محتوى وباقات ورسائل تواصل مناسبة لكل سوق، ويتيح بدء التواصل والحجز عبر أزرار WhatsApp.
 
 يركز المشروع على تقديم تجربة عربية واضحة على الهاتف والكمبيوتر، مع الحفاظ على سرعة التحميل، وإتاحة الوصول، واستقرار التخطيط، وفصل بيانات الإدارة والخدمات الحساسة عن كود المتصفح.
+
+## مرجع الحالة الحالية
+
+لأن المستودع يحتوي على تقارير تنفيذ تاريخية كثيرة، فالمراجع التشغيلية الحالية هي:
+
+- [المرجع المعماري الحالي والكود والتقنيات](docs/CURRENT_ARCHITECTURE.md)
+- [دليل لوحة التحكم وواجهات الإدارة](docs/ADMIN_DASHBOARD.md)
+- [مرجع قاعدة البيانات وSupabase وmigrations](docs/DATABASE_REFERENCE.md)
+- [سياسة تشغيل migrations](supabase/README.md)
+
+تمت مراجعة هذه المراجع مقابل الكود و`package.json` وملفات Supabase بتاريخ 26 أكتوبر 2026. يجب اعتبار ملفات `IMPLEMENTATION_LOG` و`*_SUMMARY` سجلًا تاريخيًا ما لم تنص على خلاف ذلك.
 
 ## المزايا الرئيسية
 
@@ -35,7 +46,7 @@
 | الأسئلة الشائعة | عناصر FAQ قابلة للفتح والإغلاق، بمحتوى مرتبط بالبرنامج والعمر والمواعيد والحجز. |
 | لوحة التحكم | مسارات ومكونات إدارية لإدارة أجزاء الموقع، مع حماية تعتمد على متغيرات بيئة سرية. |
 | SEO | Metadata وCanonical وOpen Graph وTwitter metadata، إلى جانب Sitemap وrobots.txt. |
-| المراقبة والتحليلات | تكاملات اختيارية مع Sentry وVercel Analytics وVercel Speed Insights عند ضبط إعداداتها. |
+| المراقبة والتحليلات | Sentry عند تفعيل DSN، وGA4 للتتبع المباشر بعد التحميل الكسول. |
 
 ## خريطة صفحات الموقع
 
@@ -87,7 +98,7 @@ flowchart LR
     NEXT --> SERVER[Server Components وRoute Handlers]
     SERVER --> DB[(Supabase)]
     SERVER --> OBS[Sentry عند تفعيله]
-    NEXT --> ANALYTICS[Vercel Analytics وSpeed Insights]
+    NEXT --> ANALYTICS[GA4 بعد lazyOnload]
     NEXT --> MEDIA[صور Next.js وSharp وفيديوهات مؤجلة]
     ADMINUI[لوحة الإدارة /admin] --> AUTH[مصادقة الإدارة ومتغيرات سرية]
     AUTH --> SERVER
@@ -128,11 +139,11 @@ flowchart LR
 
 ## متطلبات التشغيل
 
-يحتاج المشروع إلى **Node.js 24** و**pnpm 10** أو إصدارات متوافقة مع إعدادات CI والنشر. يجب ضبط متغيرات البيئة المطلوبة للميزات المفعّلة قبل تشغيل مسارات Supabase أو الإدارة محليًا.
+يحتاج المشروع إلى Node.js حديث متوافق مع Next.js 16، ويُنصح باستخدام Node.js 22 أو أحدث، مع pnpm المتوافق مع `pnpm-lock.yaml`. يجب ضبط متغيرات البيئة المطلوبة للميزات المفعّلة قبل تشغيل مسارات Supabase أو الإدارة محليًا.
 
 ```bash
-git clone https://github.com/alymahros25-max/v0-academy-website-development.git
-cd v0-academy-website-development
+git clone https://github.com/alymahros25-max/v0-academy-website-development20.git
+cd v0-academy-website-development20
 pnpm install
 pnpm dev
 ```
@@ -167,7 +178,7 @@ pnpm run build
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | المفتاح العام للعميل | عام للتطبيق، مع تطبيق سياسات RLS |
 | `SUPABASE_SERVICE_ROLE_KEY` | عمليات الخادم الموثوقة | سري جدًا؛ لا يُستخدم في المتصفح |
 | `ADMIN_EMAIL` | بريد الإدارة | سري |
-| `ADMIN_PASSWORD_HASH` | Hash كلمة مرور الإدارة | سري جدًا |
+| `ADMIN_PASSWORD_SCRYPT_HASH` | Hash كلمة مرور الإدارة بصيغة scrypt | سري جدًا |
 | `ADMIN_SESSION_SECRET` | توقيع جلسات الإدارة | سري جدًا |
 | `NEXT_PUBLIC_SENTRY_DSN` | مراقبة الأخطاء عند التفعيل | إعداد عام نسبيًا |
 في Vercel يجب ضبط القيم المناسبة في بيئتي **Production** و**Preview** كلٌ حسب حاجته. لا تضع مفاتيح الخدمة في متغيرات عامة أو داخل مكونات العميل.
@@ -237,7 +248,7 @@ sequenceDiagram
 
 يُنشر المشروع على Vercel من مستودع GitHub. فرع `main` يمثل مصدر النشر الإنتاجي، بينما تُستخدم فروع Pull Request لمعاينات مستقلة عند تفعيل التكاملات المناسبة.
 
-تم تحديث بيئة GitHub Actions لتستخدم **Node.js 24** و**pnpm 10**. فحص Lighthouse CI الآلي معطل حالياً، ولا يمنع الدمج أو النشر. يجب اعتبار نجاح البناء منفصلًا عن صحة بيانات الدخول أو اتصال الخدمات الخارجية؛ اختبر كل خدمة ضمن نطاقها.
+يحتوي GitHub Actions الحالي على تحقق metadata أساسي عند Pull Request أو push إلى `main`، ولا يشغّل حاليًا build أو Lighthouse تلقائيًا. لذلك يجب تشغيل فحوص TypeScript وESLint والاختبارات والبناء محليًا قبل فتح Pull Request.
 
 ## الأداء وإمكانية الوصول
 
@@ -263,7 +274,7 @@ sequenceDiagram
 
 | المورد | الرابط |
 | --- | --- |
-| المستودع | [GitHub](https://github.com/alymahros25-max/v0-academy-website-development) |
+| المستودع | [GitHub](https://github.com/alymahros25-max/v0-academy-website-development20) |
 | إطار التطبيق | [Next.js](https://nextjs.org/docs) |
 | قاعدة البيانات والتفرعات | [Supabase Branching](https://supabase.com/docs/guides/deployment/branching) |
 | النشر | [Vercel](https://vercel.com/docs) |
@@ -271,4 +282,4 @@ sequenceDiagram
 
 ---
 
-<p align="center"><strong>حالة الوثيقة: محدثة لتعكس بنية المشروع الحالية، إعدادات Node.js 24 وpnpm 10، وإيقاف فحص Lighthouse CI الآلي.</strong></p>
+<p align="center"><strong>حالة الوثيقة: محدثة لتعكس بنية المشروع الحالية حتى 26 أكتوبر 2026؛ راجع مراجع الحالة الحالية أعلاه للتفاصيل التشغيلية.</strong></p>

@@ -1,10 +1,12 @@
 # Supabase migration policy
 
+> المرجع التشغيلي الأحدث للجداول والمسارات والعزل هو [`docs/DATABASE_REFERENCE.md`](../docs/DATABASE_REFERENCE.md). هذا الملف يركز على سياسة تطبيق migrations، بينما يبقى `MIGRATION_EXECUTION_MANIFEST.md` snapshot تاريخيًا لا يُستخدم وحده للتنفيذ.
+
 ## قاعدة الإنتاج الحالية
 
 المشروع المرتبط بالموقع هو `quran123` (`rjkqyvhbmxrmhsafelao`). يعتمد هذا المشروع على قاعدة معزولة بدأت من baseline باسم `isolated_0001_clean_baseline`، وليس على تشغيل سلسلة الملفات التاريخية `001..051` من الصفر.
 
-الهجرات التي تحققت في قاعدة الموقع حتى 21 أكتوبر 2026 هي:
+الهجرات/الخطوات التي كانت موثقة في قاعدة الموقع حتى 21 أكتوبر 2026 هي:
 
 - `isolated_0001_clean_baseline`
 - `isolated_0002_admin_content`
@@ -14,6 +16,8 @@
 - `verify_country_page_seo_faq_seed_20261020`
 - `harden_rls_and_public_reads`
 - `harden_function_search_paths`
+
+توجد في المستودع ملفات أحدث حتى `055`، إضافة إلى `052_harden_rls_and_public_reads.sql` و`053_harden_function_search_paths.sql` وملفات seed canonical. وجود الملف في المستودع لا يثبت أنه طُبق على قاعدة الإنتاج؛ يجب الرجوع إلى سجل البيئة المستهدفة أو أداة Supabase المعتمدة.
 
 ## قاعدة التشغيل
 

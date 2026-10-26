@@ -43,7 +43,7 @@
 | المجال | الوصف |
 | --- | --- |
 | البرامج التعليمية | برامج لتحفيظ القرآن الكريم وتأسيس اللغة العربية، مع خيارات مدة الحصة وعدد الحصص الأسبوعية. |
-| صفحات الهبوط المحلية | صفحات مستقلة للسعودية والإمارات والولايات المتحدة وكندا والمملكة المتحدة وأستراليا وألمانيا، مع محتوى وعملة ومسارات مناسبة لكل دولة. |
+| صفحات الهبوط المحلية | **40 صفحة دولة فعلية** مع محتوى ومسارات وبيانات معزولة حسب الدولة؛ [القائمة الكاملة بالمسارات](docs/PROJECT_DOCUMENTATION.md#5-الدول-الأربعون). |
 | التواصل والحجز | رسائل WhatsApp مُهيّأة ببيانات البرنامج والباقات والمدة والسعر، مع إمكانية إرسال بيانات الطالب والوقت المناسب للحصة التجريبية. |
 | الفيديوهات | شريط فيديوهات قابل للتمرير، مع تأجيل إنشاء YouTube iframe حتى يتفاعل المستخدم لتقليل التحميل الأولي. |
 | الأسئلة الشائعة | عناصر FAQ قابلة للفتح والإغلاق، بمحتوى مرتبط بالبرنامج والعمر والمواعيد والحجز. |
@@ -74,13 +74,7 @@ flowchart TD
     ENGAGE --> GAMES[الألعاب /games]
     ENGAGE --> MOMENTS[لحظات الفصول /moments-classroom]
 
-    COUNTRY --> SA[السعودية /arabia-saudi]
-    COUNTRY --> UAE[الإمارات /emirates-arab-united]
-    COUNTRY --> US[الولايات المتحدة /states-united]
-    COUNTRY --> CA[كندا /canada]
-    COUNTRY --> UK[المملكة المتحدة /kingdom-united]
-    COUNTRY --> AU[أستراليا /australia]
-    COUNTRY --> DE[ألمانيا /germany]
+    COUNTRY --> COUNTRIES[40 صفحة دولة — القائمة الكاملة في التوثيق المركزي]
 
     classDef primary fill:#0f766e,color:#fff,stroke:#115e59,stroke-width:2px;
     classDef content fill:#dbeafe,color:#172554,stroke:#2563eb;
@@ -88,7 +82,7 @@ flowchart TD
     classDef admin fill:#fee2e2,color:#7f1d1d,stroke:#dc2626;
     class HOME primary;
     class PROGRAMS,TRUST,RESOURCES,ENGAGE,CONTACT,ACCOUNT content;
-    class COUNTRY,SA,UAE,US,CA,UK,AU,DE country;
+    class COUNTRY,COUNTRIES country;
     class ADMIN admin;
 ```
 
@@ -128,17 +122,52 @@ flowchart LR
 | `.github/workflows/` | سير عمل GitHub Actions للاختبارات المفعلة في المستودع. |
 | `docs/` | المستندات والملاحظات المساندة للمشروع. |
 
-## المسارات المحلية
+## المسارات المحلية — 40 دولة
+
+المسارات التالية موجودة فعليًا في `app/`، وليست مجرد خطة مستقبلية. القائمة التفصيلية نفسها موجودة أيضًا في [التوثيق المركزي](docs/PROJECT_DOCUMENTATION.md#5-الدول-الأربعون).
 
 | الدولة | المسار |
 | --- | --- |
-| السعودية | `/saudi-arabia` |
-| الإمارات | `/united-arab-emirates` |
-| الولايات المتحدة | `/united-states` |
-| كندا | `/canada` |
-| المملكة المتحدة | `/united-kingdom` |
+| الأرجنتين | `/argentina` |
 | أستراليا | `/australia` |
+| النمسا | `/austria` |
+| البحرين | `/bahrain` |
+| بلجيكا | `/belgium` |
+| البرازيل | `/brazil` |
+| كندا | `/canada` |
+| الصين | `/china` |
+| كولومبيا | `/colombia` |
+| الدنمارك | `/denmark` |
+| فنلندا | `/finland` |
+| فرنسا | `/france` |
 | ألمانيا | `/germany` |
+| اليونان | `/greece` |
+| إندونيسيا | `/indonesia` |
+| إيطاليا | `/italy` |
+| الأردن | `/jordan` |
+| الكويت | `/kuwait` |
+| ماليزيا | `/malaysia` |
+| المكسيك | `/mexico` |
+| هولندا | `/netherlands` |
+| نيوزيلندا | `/new-zealand` |
+| نيجيريا | `/nigeria` |
+| النرويج | `/norway` |
+| عُمان | `/oman` |
+| بولندا | `/poland` |
+| البرتغال | `/portugal` |
+| قطر | `/qatar` |
+| روسيا | `/russia` |
+| السعودية | `/saudi-arabia` |
+| السنغال | `/senegal` |
+| جنوب أفريقيا | `/south-africa` |
+| إسبانيا | `/spain` |
+| السويد | `/sweden` |
+| سويسرا | `/switzerland` |
+| تركيا | `/turkey` |
+| الإمارات | `/united-arab-emirates` |
+| المملكة المتحدة | `/united-kingdom` |
+| الولايات المتحدة | `/united-states` |
+| فنزويلا | `/venezuela` |
 
 ## متطلبات التشغيل
 

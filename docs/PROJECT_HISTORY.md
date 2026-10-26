@@ -37,16 +37,15 @@
 - commits مرتبطة مباشرة بالتحسينات الأخيرة: [`340a157`](https://github.com/alymahros25-max/v0-academy-website-development20/commit/340a157)، [`c70bbf7`](https://github.com/alymahros25-max/v0-academy-website-development20/commit/c70bbf7)، [`415817e`](https://github.com/alymahros25-max/v0-academy-website-development20/commit/415817e).
 - آخر مراجعة للحالة الحالية: 26 أكتوبر 2026.
 
-## أين توجد التفاصيل القديمة؟
+## سياسة السجل
 
-التقارير القديمة تبقى في المستودع ولا تُحذف. أمثلة على مجلدات السجل:
+تم حذف تقارير الخطط والتنفيذ القديمة التي لم تعد تصف الكود الحالي ولا تدخل في التشغيل. يبقى التاريخ القابل لإعادة التحقق في commits وPull Requests على GitHub، بينما تبقى ملفات migrations وseeds وrollback التشغيلية لأنها مطلوبة للمراجعة أو إعادة البناء ولا تُعامل كتوثيق واجهة قديم.
 
-- `docs/*-country-page/` — تقارير مراحل صفحات الدول.
-- `docs/seo/` — خطط وتقارير SEO.
-- `docs/country-40-structure/` — مراحل بناء هيكل الدول الأربعين.
-- `supabase/MIGRATION_EXECUTION_MANIFEST.md` — سجل تنفيذ migrations كما كان موثقًا.
-- `supabase/seeds/` و`supabase/rollback/` — لقطات وملفات استرجاع تاريخية.
-- `scripts/MIGRATION_README.md` — شرح أدوات الترحيل القديمة/الحالية.
+المراجع الحالية للتشغيل هي:
+
+- `supabase/MIGRATION_EXECUTION_MANIFEST.md` — سجل تنفيذ migrations.
+- `supabase/seeds/` و`supabase/rollback/` — لقطات وملفات استرجاع مرتبطة بالقاعدة.
+- `scripts/MIGRATION_README.md` — شرح أدوات الترحيل الحالية وضوابطها.
 
 ## قاعدة إضافة سجل جديد
 

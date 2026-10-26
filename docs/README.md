@@ -8,8 +8,9 @@
 - [دليل لوحة التحكم](ADMIN_DASHBOARD.md)
 - [مرجع قاعدة البيانات وSupabase](DATABASE_REFERENCE.md)
 - [تدقيق سرعة فتح الهاتف والتحسينات](MOBILE_PERFORMANCE.md)
+- [تقرير تنظيف المستودع والتحقق](CLEANUP_REPORT.md)
 - [خريطة مصدر المكتبة المركزية](central-library-source-map.md)
 - [تدقيق تحميل بيانات الدول](country-data-loading-audit.md)
 - [خريطة عقد مصدر البيانات](data-source-contract.md)
 
-التقارير الموجودة في المجلدات الفرعية هي مراجع تنفيذية أو تاريخية. عند التعارض، تُقدَّم الحالة الموثقة في `PROJECT_DOCUMENTATION.md` والكود الحالي على التقارير القديمة.
+هذا المجلد يحتوي على مراجع الحالة الحالية فقط، مع سجل مختصر للتغييرات في `PROJECT_HISTORY.md`. عند التعارض، تُقدَّم الحالة الموثقة في `PROJECT_DOCUMENTATION.md` والكود الحالي.

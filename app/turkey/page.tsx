@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import { getCountrySeoMetadataFromDatabase } from "@/lib/country-seo-data"
 import { CountryLandingEngine } from "@/components/country-landing-engine"
-import { TurkeyLanding } from "@/components/country-landings/TurkeyLanding"
 import { turkeyLandingConfig } from "@/lib/turkey-landing-config"
 const canonical = turkeyLandingConfig.seo.canonical
 export async function generateMetadata(): Promise<Metadata> {

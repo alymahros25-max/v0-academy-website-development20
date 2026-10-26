@@ -28,6 +28,9 @@
 
 لأن المستودع يحتوي على تقارير تنفيذ تاريخية كثيرة، فالمراجع التشغيلية الحالية هي:
 
+- [فهرس التوثيق المركزي داخل `docs/`](docs/README.md)
+- [التوثيق المركزي الشامل للمشروع](docs/PROJECT_DOCUMENTATION.md)
+- [سجل تاريخ التعديلات والـ Commits والـ Pull Requests](docs/PROJECT_HISTORY.md)
 - [المرجع المعماري الحالي والكود والتقنيات](docs/CURRENT_ARCHITECTURE.md)
 - [دليل لوحة التحكم وواجهات الإدارة](docs/ADMIN_DASHBOARD.md)
 - [مرجع قاعدة البيانات وSupabase وmigrations](docs/DATABASE_REFERENCE.md)

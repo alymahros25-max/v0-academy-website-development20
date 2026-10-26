@@ -7,6 +7,7 @@
 - [المعمارية الحالية](CURRENT_ARCHITECTURE.md)
 - [دليل لوحة التحكم](ADMIN_DASHBOARD.md)
 - [مرجع قاعدة البيانات وSupabase](DATABASE_REFERENCE.md)
+- [تدقيق سرعة فتح الهاتف والتحسينات](MOBILE_PERFORMANCE.md)
 - [خريطة مصدر المكتبة المركزية](central-library-source-map.md)
 - [تدقيق تحميل بيانات الدول](country-data-loading-audit.md)
 - [خريطة عقد مصدر البيانات](data-source-contract.md)

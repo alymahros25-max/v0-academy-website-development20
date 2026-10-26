@@ -114,7 +114,7 @@ export function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
           <div className="flex items-center justify-center w-14 h-14 rounded-lg bg-navy-light overflow-hidden">
-            <Image src="/logo.png" alt="شعار أكاديمية الحافظ المتميز" width={56} height={56} sizes="56px" quality={75} style={{ width: "56px", height: "56px" }} className="size-14 object-contain" loading="eager" />
+            <Image src="/logo-128.webp" alt="شعار أكاديمية الحافظ المتميز" width={56} height={56} sizes="56px" quality={75} style={{ width: "56px", height: "56px" }} className="size-14 object-contain" />
           </div>
           <div className="flex flex-col">
             <span className={`font-bold text-sm lg:text-base leading-tight ${scrolled ? "text-white" : "text-white"}`}>

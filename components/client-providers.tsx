@@ -5,12 +5,12 @@ import dynamic from "next/dynamic"
 import { I18nProvider, useI18n } from "@/lib/i18n"
 import { usePathname } from "next/navigation"
 import { DeferredClientIntegrations } from "@/components/deferred-client-integrations"
-import { PublicWidgetLayer } from "@/components/public-widget-layer"
-import { Ga4ClickTracker } from "@/components/ga4-click-tracker"
 
 const Header = dynamic(() => import("@/components/layout/header").then((module) => module.Header))
 const Footer = dynamic(() => import("@/components/layout/footer").then((module) => module.Footer))
 const TeachingLanguageNotice = dynamic(() => import("@/components/teaching-language-notice").then((module) => module.TeachingLanguageNotice))
+const PublicWidgetLayer = dynamic(() => import("@/components/public-widget-layer").then((module) => module.PublicWidgetLayer), { ssr: false })
+const Ga4ClickTracker = dynamic(() => import("@/components/ga4-click-tracker").then((module) => module.Ga4ClickTracker), { ssr: false })
 
 function LayoutWrapper({ children }: { children: ReactNode }) {
   const { dir, locale } = useI18n()

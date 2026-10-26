@@ -7,23 +7,10 @@ import { fileURLToPath } from "node:url"
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const countryEngineFile = path.join(root, "components/country-landing-engine.tsx")
 const countryPagesFile = path.join(root, "components/layout/country-pages-section.tsx")
-const newCountryPagesFile = path.join(root, "lib/new-country-pages.ts")
-const countryRenderersFile = path.join(root, "lib/country-renderers.ts")
 const countryPagesSource = readFileSync(countryPagesFile, "utf8")
-const newCountryPagesSource = readFileSync(newCountryPagesFile, "utf8")
-const countryRenderersSource = readFileSync(countryRenderersFile, "utf8")
 const countryEngineSource = readFileSync(countryEngineFile, "utf8")
 const countrySlugs = [...countryPagesSource.matchAll(/href:\s*"\/([^"]+)"/g)].map((match) => match[1])
 const routeFile = (slug) => path.join(root, "app", slug, "page.tsx")
-const componentFile = (name) => path.join(root, "components/country-landings", `${name}.tsx`)
-const configEntryPattern = (slug) => [
-  `${slug}: { slug:"${slug}"`,
-  `${slug}: {slug:"${slug}"`,
-  `${slug}: { slug: "${slug}"`,
-  `${slug}: {slug: "${slug}"`,
-].some((entry) => newCountryPagesSource.includes(entry))
-const hasCentralRenderer = (slug) => countryRenderersSource.includes(`"${slug}":`) || countryRenderersSource.includes(`${slug}:`)
-const hasNewCountryConfig = (slug) => newCountryPagesSource.includes(`variant:"${slug}"`) || newCountryPagesSource.includes(`slug:"${slug}"`) || newCountryPagesSource.includes(`slug: "${slug}"`)
 
 test("country navigation has 40 unique entries", () => {
   assert.equal(countrySlugs.length, 40, "update this assertion when the approved country list changes")
@@ -56,22 +43,6 @@ test("every listed country route has metadata and a valid central dispatch targe
       const routeSlug = props.match(/\bslug\s*=\s*["']([^"']+)["']/)?.[1]
       if (routeSlug !== slug) failures.push(`${slug}: engine slug is ${routeSlug ?? "missing"}`)
 
-      const specializedName = props.match(/\bspecializedPage\s*=\s*\{([A-Za-z_$][\w$]*)\}/)?.[1]
-      if (specializedName) {
-        const importPattern = new RegExp(`import\\s*\\{\\s*${specializedName}\\s*\\}\\s*from\\s*[\"']@/components/country-landings/${specializedName}[\"']`)
-        if (!importPattern.test(source)) {
-          failures.push(`${slug}: specialized page ${specializedName} is not imported from its country component`)
-        } else if (!existsSync(componentFile(specializedName))) {
-          failures.push(`${slug}: missing components/country-landings/${specializedName}.tsx`)
-        } else {
-          const component = readFileSync(componentFile(specializedName), "utf8")
-          if (!new RegExp(`export\\s+(?:async\\s+)?function\\s+${specializedName}\\b`).test(component)) {
-            failures.push(`${slug}: ${specializedName} is not exported as a component`)
-          }
-        }
-      } else if (!hasCentralRenderer(slug) && !hasNewCountryConfig(slug) && !configEntryPattern(slug)) {
-        failures.push(`${slug}: generic engine route has no matching config in lib/new-country-pages.ts`)
-      }
       continue
     }
 

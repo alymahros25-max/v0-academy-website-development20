@@ -86,7 +86,7 @@ flowchart LR
 - `lib/country-data-resolution.mjs`: حل slug والبيانات والباقات والمدد مع حدود واضحة.
 - `lib/country-education-resolution.mjs`: حل محتوى التعلم الخاص بالدولة.
 - `lib/country-fallbacks.ts` و`lib/country-static-fallback.ts`: fallback عندما لا تتوفر بيانات قاعدة البيانات.
-- `lib/country-renderers.ts`: مكونات/عارضات العرض المشتركة.
+- `components/country-landing-engine.tsx` و`components/country-unified-landing.tsx`: المحرك والعارض المرئي المشترك لجميع الدول.
 - `lib/country-seo.ts` و`lib/country-seo-data.ts`: metadata وSEO لكل دولة.
 - `lib/new-country-pages.ts`: تعريفات صفحات الدول الجديدة والروابط المشتركة.
 

@@ -1,5 +1,7 @@
 # Manifest تنفيذ ملفات Supabase Migrations
 
+> **تنبيه الحالة:** هذا الملف snapshot تاريخي للمراجعة، وليس قائمة تنفيذ حالية. راجع [`docs/DATABASE_REFERENCE.md`](../docs/DATABASE_REFERENCE.md) و[`README.md`](README.md) قبل أي تغيير. لا يزال تحذير الأرقام المكررة والملفات التاريخية قائمًا.
+
 **الفرع المفحوص:** `refactor/three-country-engine-migration`  
 **النقطة المرجعية عند الجرد:** `fdcc220`  
 **النطاق:** كل ملفات `supabase/migrations/*.sql` الموجودة في هذا الفرع وقت إعداد القائمة (46 ملفًا).

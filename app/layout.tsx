@@ -108,7 +108,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           src="https://www.googletagmanager.com/gtag/js?id=G-VE5L1XDFT3"
           strategy="lazyOnload"
         />
-        <Script id="google-tag-config" strategy="lazyOnload">
+        <Script id="google-tag-config" strategy="beforeInteractive">
           {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());

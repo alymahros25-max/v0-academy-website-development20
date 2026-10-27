@@ -86,6 +86,20 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
       <head>
+        <link
+          rel="preload"
+          as="image"
+          href="/images/hero-children-mobile.webp"
+          media="(max-width: 767px)"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/images/hero-children.webp"
+          media="(min-width: 768px)"
+          fetchPriority="high"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(rootStructuredData) }}
@@ -94,7 +108,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           src="https://www.googletagmanager.com/gtag/js?id=G-VE5L1XDFT3"
           strategy="lazyOnload"
         />
-        <Script id="google-tag-config" strategy="lazyOnload">
+        <Script id="google-tag-config" strategy="beforeInteractive">
           {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());

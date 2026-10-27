@@ -11,6 +11,8 @@ type AnalyticsEventName =
   | "email_click"
   | "telegram_click"
   | "site_search"
+  | "language_select"
+  | "site_language_view"
   | "view_program_page"
   | "view_pricing_page"
   | "view_country_page"
@@ -76,5 +78,6 @@ export function createWhatsAppMessage(country?: string) {
 
 export function trackGa4Event(name: AnalyticsEventName, params: AnalyticsEventParams = {}) {
   if (typeof window === "undefined" || typeof window.gtag !== "function") return
-  window.gtag("event", name, params)
+  const languageCode = params.language_code ?? document.documentElement.lang ?? "ar"
+  window.gtag("event", name, { ...params, language_code: languageCode })
 }

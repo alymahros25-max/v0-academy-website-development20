@@ -1,6 +1,7 @@
 "use client"
 
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react"
+import { createContext, useContext, useState, useCallback, useEffect, useRef, type ReactNode } from "react"
+import { trackGa4Event } from "@/components/ga4-events"
 
 export type Locale = "ar" | "en" | "fr"
 
@@ -268,6 +269,27 @@ const I18nContext = createContext<I18nContextType | undefined>(undefined)
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>("ar")
+  const lastTrackedLocale = useRef<Locale | null>(null)
+
+  useEffect(() => {
+    const previousLocale = lastTrackedLocale.current
+    const pagePath = window.location.pathname
+
+    trackGa4Event("site_language_view", {
+      language_code: locale,
+      page_path: pagePath,
+    })
+
+    if (previousLocale && previousLocale !== locale) {
+      trackGa4Event("language_select", {
+        language_code: locale,
+        previous_language_code: previousLocale,
+        page_path: pagePath,
+      })
+    }
+
+    lastTrackedLocale.current = locale
+  }, [locale])
 
   const setLocale = useCallback((newLocale: Locale) => {
     setLocaleState(newLocale)

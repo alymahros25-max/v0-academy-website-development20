@@ -21,7 +21,7 @@ import { AustriaVideoWindow } from "@/app/austria/austria-video-window"
 type Props = { config: NewCountryConfig; page?: CountryPageModel; videos?: LandingVideo[]; teachers?: Teacher[]; contactUrl?: string }
 
 function WhatsApp({ config, label = "احجز الحصة التجريبية", contactUrl }: { config: NewCountryConfig; label?: string; contactUrl?: string }) {
-  const href = contactUrl || `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent(config.whatsappMessage)}`
+  const href = contactUrl || `https://wa.me/201130127894?text=${encodeURIComponent(config.whatsappMessage)}`
   return <a href={href} target="_blank" rel="noreferrer" className="new-country-cta"><MessageCircle size={18} />{label}</a>
 }
 
@@ -181,7 +181,7 @@ function GermanyPlanCard({ plan, contactUrl }: { plan: AreaDisplayPlan; contactU
 }
 
 function GermanyLayout({ config, videos, contactUrl, plans, links }: Props & { plans: AreaDisplayPlan[]; links: Array<Partial<AreaLink>> }) {
-  const whatsappFallback = `https://wa.me/message/RCJSLAJQHAWHA1`
+  const whatsappFallback = `https://wa.me/201130127894`
   const quranPlans = plans.filter((plan) => plan.program === "quran")
   const arabicPlans = plans.filter((plan) => plan.program === "arabic")
   const jsonLd = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: config.faq.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
@@ -248,9 +248,9 @@ export async function NewCountryLanding({ config, page }: Props) {
     faq: areaData.faq.length ? areaData.faq.map((item) => [item.question_ar, item.answer_ar] as [string, string]) : config.faq,
     theme: areaData.theme ? { primary: areaData.theme.primary_color, accent: areaData.theme.accent_color, background: areaData.theme.background_color, surface: areaData.theme.secondary_color, ink: areaData.theme.text_color } : config.theme,
   }
-  const germanyWhatsAppFallback = `https://wa.me/message/RCJSLAJQHAWHA1`
+  const germanyWhatsAppFallback = `https://wa.me/201130127894`
   const australiaWhatsAppFallback = getAustraliaWhatsAppUrl("حصة تجريبية مجانية")
-  const fallbackWhatsApp = dynamicConfig.variant === "germany" ? germanyWhatsAppFallback : dynamicConfig.variant === "australia" ? australiaWhatsAppFallback : "https://wa.me/message/RCJSLAJQHAWHA1"
+  const fallbackWhatsApp = dynamicConfig.variant === "germany" ? germanyWhatsAppFallback : dynamicConfig.variant === "australia" ? australiaWhatsAppFallback : "https://wa.me/201130127894"
   const configuredWhatsApp = getAreaLinkHref(areaData.links, "whatsapp", fallbackWhatsApp)
   const trialMessage = dynamicConfig.variant === "germany" || dynamicConfig.variant === "australia" ? dynamicConfig.whatsappMessage : dynamicConfig.variant === "austria" ? "السلام عليكم، أرغب في حجز باقة حصة تجريبية مجانية في النمسا." : undefined
   const contactUrl = getAreaWhatsAppUrl(areaData.links, "حصة تجريبية مجانية", configuredWhatsApp, trialMessage)

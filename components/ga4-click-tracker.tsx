@@ -1,8 +1,10 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { usePathname } from "next/navigation"
 import { createWhatsAppMessage, getAnalyticsCountry, trackGa4Event } from "@/components/ga4-events"
+import { createWhatsAppUrl, DEFAULT_WHATSAPP_MESSAGE_TEMPLATE_AR, DEFAULT_WHATSAPP_PHONE } from "@/lib/whatsapp"
+import { getPublicWhatsAppSettings } from "@/lib/public-widgets-client"
 
 function isWhatsAppUrl(href: string) {
   try {
@@ -20,6 +22,13 @@ function isTrialBooking(label: string, message: string) {
 export function Ga4ClickTracker() {
   const pathname = usePathname() || "/"
   const country = getAnalyticsCountry(pathname)
+  const [whatsAppSettings, setWhatsAppSettings] = useState({ phone: DEFAULT_WHATSAPP_PHONE, messageTemplateAr: DEFAULT_WHATSAPP_MESSAGE_TEMPLATE_AR })
+
+  useEffect(() => {
+    let active = true
+    void getPublicWhatsAppSettings().then((settings) => { if (active) setWhatsAppSettings(settings) }).catch(() => undefined)
+    return () => { active = false }
+  }, [])
 
   useEffect(() => {
     if (country) {
@@ -51,9 +60,8 @@ export function Ga4ClickTracker() {
         }
 
         const currentCountry = getAnalyticsCountry(pagePath)
-        const url = new URL(link.href)
-        url.searchParams.set("text", createWhatsAppMessage(currentCountry))
-        link.href = url.toString()
+        const messageText = createWhatsAppMessage(currentCountry, whatsAppSettings.messageTemplateAr)
+        link.href = createWhatsAppUrl(whatsAppSettings.phone, messageText)
 
         trackGa4Event("whatsapp_click", {
           method: "whatsapp",
@@ -89,7 +97,7 @@ export function Ga4ClickTracker() {
 
     document.addEventListener("click", onDocumentClick, true)
     return () => document.removeEventListener("click", onDocumentClick, true)
-  }, [pathname])
+  }, [pathname, whatsAppSettings])
 
   return null
 }

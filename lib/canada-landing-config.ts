@@ -1,4 +1,4 @@
-export const CANADA_WHATSAPP_NUMBER = "RCJSLAJQHAWHA1"
+export const CANADA_WHATSAPP_NUMBER = "201130127894"
 
 export type CanadaProgram = "quran" | "arabic"
 export type CanadaDuration = 30
@@ -38,7 +38,7 @@ export function getCanadaWhatsAppUrl(plan: CanadaPlan | string) {
   const message = isPlan
     ? `السلام عليكم،\nأرغب في معرفة تفاصيل باقة ${program} للناطقين بالعربية في كندا، وبعدها أود حجز الحصة التجريبية المجانية.\n\nالباقة المطلوبة: ${plan.name}\nنوع البرنامج: ${program}\nمدة الحصة: ${plan.duration} دقيقة\nعدد الحصص شهرياً: ${plan.monthlySessions}\nعدد المرات أسبوعياً: ${plan.weeklySessions}\nالسعر الشهري: CA$${plan.price}\n\nبيانات الطالب:\nالاسم:\nالعمر:\nولد أم بنت:\nقرآن أم تأسيس عربي:\nالمستوى الحالي أو كمية الحفظ:\nمعلم أم معلمة:\nالمدينة والمقاطعة داخل كندا:\nالوقت المناسب للحصة:`
     : `السلام عليكم،\nأرغب في حجز أول حصة تجريبية مجانية في ${program} للناطقين بالعربية في كندا.\n\nبيانات الطالب:\nالاسم:\nالعمر:\nولد أم بنت:\nقرآن أم تأسيس عربي:\nالمستوى الحالي أو كمية الحفظ:\nمعلم أم معلمة:\nالوقت المناسب للحصة التجريبية:`
-  return `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent(message)}`
+  return `https://wa.me/201130127894?text=${encodeURIComponent(message)}`
 }
 interface CanadaConfigCheck { readonly __brand?: "canada" }
 void (undefined as CanadaConfigCheck | undefined)

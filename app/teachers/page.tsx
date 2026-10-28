@@ -29,10 +29,10 @@ const whatsappUrl = (teacher: Teacher, locale: string) => {
     : isArabicTeacher
       ? `Hello, I would like to book a free trial Arabic foundation class with ${teacher.name.en}.`
       : `Hello, I would like to book a free trial Quran class with ${teacher.name.en}.`
-  return `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent(message)}`
+  return `https://wa.me/201130127894?text=${encodeURIComponent(message)}`
 }
 
-const generalWhatsappUrl = "https://wa.me/message/RCJSLAJQHAWHA1?text=" + encodeURIComponent("السلام عليكم، أحتاج إلى مساعدة في اختيار المعلم أو المعلمة المناسبين.\n\nعمر الطالب:\nالبرنامج المطلوب: قرآن / لغة عربية / غير متأكد\nالمستوى الحالي:\nالوقت المناسب:")
+const generalWhatsappUrl = "https://wa.me/201130127894?text=" + encodeURIComponent("السلام عليكم، أحتاج إلى مساعدة في اختيار المعلم أو المعلمة المناسبين.\n\nعمر الطالب:\nالبرنامج المطلوب: قرآن / لغة عربية / غير متأكد\nالمستوى الحالي:\nالوقت المناسب:")
 
 const teacherPrograms = (teacher: Teacher) => {
   const specialty = `${teacher.role.ar} ${teacher.specialty.ar}`

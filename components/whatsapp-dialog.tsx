@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useI18n } from "@/lib/i18n"
 import {
   Dialog,
@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { createWhatsAppMessage, getAnalyticsCountry, trackGa4Event } from "@/components/ga4-events"
+import { createWhatsAppUrl, DEFAULT_WHATSAPP_MESSAGE_TEMPLATE_AR, DEFAULT_WHATSAPP_PHONE } from "@/lib/whatsapp"
+import { getPublicWhatsAppSettings } from "@/lib/public-widgets-client"
 
 interface WhatsAppDialogProps {
   open: boolean
@@ -20,6 +22,13 @@ interface WhatsAppDialogProps {
 export function WhatsAppDialog({ open, onOpenChange }: WhatsAppDialogProps) {
   const { locale } = useI18n()
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
+  const [whatsAppSettings, setWhatsAppSettings] = useState({ phone: DEFAULT_WHATSAPP_PHONE, messageTemplateAr: DEFAULT_WHATSAPP_MESSAGE_TEMPLATE_AR })
+
+  useEffect(() => {
+    let active = true
+    void getPublicWhatsAppSettings().then((settings) => { if (active) setWhatsAppSettings(settings) }).catch(() => undefined)
+    return () => { active = false }
+  }, [])
 
   const options = {
     ar: [
@@ -81,10 +90,10 @@ export function WhatsAppDialog({ open, onOpenChange }: WhatsAppDialogProps) {
     const country = getAnalyticsCountry(window.location.pathname)
     trackGa4Event("select_content", { content_type: "program", content_id: option.id, country })
     trackGa4Event("whatsapp_chat_start", { method: "whatsapp", program: option.id, page_path: window.location.pathname, country })
-    const message = createWhatsAppMessage(country)
-    const encodedMessage = encodeURIComponent(message)
-    // Using wa.me with phone number to open the correct chat
-    const whatsappUrl = `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodedMessage}`
+    trackGa4Event("whatsapp_click", { method: "whatsapp", page_path: window.location.pathname, country, link_text: option.label })
+    const program = option.id === "quran" ? "تحفيظ القرآن" : option.id === "arabic" ? "تأسيس العربية" : "تحفيظ القرآن / تأسيس العربية / كلاهما"
+    const message = createWhatsAppMessage(country, whatsAppSettings.messageTemplateAr, program)
+    const whatsappUrl = createWhatsAppUrl(whatsAppSettings.phone, message)
     window.open(whatsappUrl, "_blank")
     onOpenChange(false)
     setSelectedOption(null)

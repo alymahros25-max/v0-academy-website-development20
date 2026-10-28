@@ -72,8 +72,8 @@ export default function ArabicPage() {
     locale === "ar" ? "دروس فردية مباشرة باللغة العربية" : locale === "en" ? "Live one-to-one lessons in Arabic" : "Cours individuels en direct en arabe",
     t("pricing.features.supervision"),
   ]
-  const whatsappUrl = `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent("السلام عليكم، أرغب في حجز الحصة التجريبية الأولى المجانية في برنامج تأسيس اللغة العربية. عمر الطالب: ، الدولة: ، المستوى الحالي: ، المهارة المطلوبة: قراءة/كتابة/إملاء/فهم/تعبير، والوقت المناسب: ")}`
-  const packageWhatsappUrl = (sessions: number, price: number) => `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent(`السلام عليكم، أرغب في معرفة تفاصيل باقة تأسيس اللغة العربية: ${sessions} حصص شهريًا بسعر ${price}$، وأرغب في حجز الحصة التجريبية أولاً. عمر الطالب: ، الدولة: ، المستوى الحالي: ، والوقت المناسب: `)}`
+  const whatsappUrl = `https://wa.me/201130127894?text=${encodeURIComponent("السلام عليكم، أرغب في حجز الحصة التجريبية الأولى المجانية في برنامج تأسيس اللغة العربية. عمر الطالب: ، الدولة: ، المستوى الحالي: ، المهارة المطلوبة: قراءة/كتابة/إملاء/فهم/تعبير، والوقت المناسب: ")}`
+  const packageWhatsappUrl = (sessions: number, price: number) => `https://wa.me/201130127894?text=${encodeURIComponent(`السلام عليكم، أرغب في معرفة تفاصيل باقة تأسيس اللغة العربية: ${sessions} حصص شهريًا بسعر ${price}$، وأرغب في حجز الحصة التجريبية أولاً. عمر الطالب: ، الدولة: ، المستوى الحالي: ، والوقت المناسب: `)}`
   const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: arabicFaqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
 
   return (

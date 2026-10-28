@@ -8,7 +8,7 @@ import { CountryLearningHub } from "@/components/country-learning-hub"
 import { getCountryThemeStyle } from "@/components/country-enrichment-section"
 import { getCountryPageDesign, type CountryFaqVariant, type CountryHeroVariant, type CountryLocalVariant, type CountryPageSection, type CountryPlanVariant } from "@/lib/country-page-designs"
 
-const defaultWhatsApp = "https://wa.me/message/RCJSLAJQHAWHA1"
+const defaultWhatsApp = "https://wa.me/201130127894"
 
 async function getLandingVideosSafely() {
   try {

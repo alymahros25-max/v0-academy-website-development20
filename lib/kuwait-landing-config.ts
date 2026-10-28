@@ -8,7 +8,7 @@ export const kuwaitLandingConfig = {
     socialTitle: "أكاديمية الحافظ المتميز — برامج القرآن والعربية في الكويت",
     socialDescription: "اختر برنامج تحفيظ القرآن أو تأسيس اللغة العربية، واستعرض الباقات الشهرية بالدينار الكويتي واحجز حصتك التجريبية المجانية.",
   },
-  whatsappNumber: "RCJSLAJQHAWHA1",
+  whatsappNumber: "201130127894",
   whatsappTemplate: "السلام عليكم، أرغب في حجز الحصة التجريبية المجانية من صفحة الكويت. البرنامج: ",
   quranPlans: [
     { sessions: 4, weekly: "مرة واحدة", name: "بداية منتظمة", description: "خطوة أولى للحفاظ على انتظام التعلم", price: "4.5" },
@@ -25,7 +25,7 @@ export const kuwaitLandingConfig = {
 } as const
 
 export function getKuwaitWhatsAppUrl(program: string) {
-  return `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent(`${kuwaitLandingConfig.whatsappTemplate}${program}`)}`
+  return `https://wa.me/201130127894?text=${encodeURIComponent(`${kuwaitLandingConfig.whatsappTemplate}${program}`)}`
 }
 
 export const kuwaitFaqs = [

@@ -33,5 +33,5 @@ export const switzerlandLandingConfig = {
 } as const
 
 export function getSwitzerlandWhatsAppUrl(message = switzerlandLandingConfig.whatsappMessage) {
-  return `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent(message)}`
+  return `https://wa.me/201130127894?text=${encodeURIComponent(message)}`
 }

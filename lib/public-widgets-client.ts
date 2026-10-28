@@ -1,3 +1,9 @@
+import {
+  DEFAULT_WHATSAPP_MESSAGE_TEMPLATE_AR,
+  DEFAULT_WHATSAPP_PHONE,
+  normalizeWhatsAppPhone,
+} from "@/lib/whatsapp"
+
 export type PublicWidgetRecord = {
   widget_type: string
   config_json: unknown
@@ -27,4 +33,18 @@ export function getPublicWidgets(refresh = false): Promise<PublicWidgetRecord[]>
     })
 
   return pendingRequest
+}
+
+export async function getPublicWhatsAppSettings(refresh = false) {
+  const widgets = await getPublicWidgets(refresh)
+  const row = widgets.find((item) => item.widget_type === "whatsapp_button")
+  const config = row?.config_json && typeof row.config_json === "object"
+    ? row.config_json as Record<string, unknown>
+    : {}
+  return {
+    phone: normalizeWhatsAppPhone(config.phone) ?? DEFAULT_WHATSAPP_PHONE,
+    messageTemplateAr: typeof config.messageTemplateAr === "string" && config.messageTemplateAr.trim()
+      ? config.messageTemplateAr
+      : DEFAULT_WHATSAPP_MESSAGE_TEMPLATE_AR,
+  }
 }

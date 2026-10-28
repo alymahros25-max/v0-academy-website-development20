@@ -71,10 +71,7 @@ export function getAnalyticsCountry(pathname: string) {
   return ANALYTICS_COUNTRIES[slug]
 }
 
-export function createWhatsAppMessage(country?: string) {
-  const source = country ? `وصلت إليكم من صفحة ${country}.` : "وصلت إليكم من الموقع."
-  return `السلام عليكم، أريد تحديد موعد لتجربة حصة مجانية.\n\n${source}\n\nاختر البرنامج: تحفيظ القرآن / تأسيس العربية / الاثنين معاً.\n\nاسم الطالب:\n\nالعمر:`
-}
+export { createWhatsAppMessage } from "@/lib/whatsapp"
 
 export function trackGa4Event(name: AnalyticsEventName, params: AnalyticsEventParams = {}) {
   if (typeof window === "undefined" || typeof window.gtag !== "function") return

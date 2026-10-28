@@ -3,6 +3,7 @@ import { z } from "zod"
 import { requireAdmin } from "@/lib/api-auth"
 import { supabaseAdmin } from "@/lib/supabaseAdmin"
 import { revalidateThemeSettings } from "@/lib/api-revalidate"
+import { DEFAULT_WHATSAPP_MESSAGE_TEMPLATE_AR } from "@/lib/whatsapp"
 
 export const dynamic = "force-dynamic"
 
@@ -15,6 +16,7 @@ const whatsappSchema = z.object({
   labelAr: z.string().trim().max(80),
   labelEn: z.string().trim().max(80),
   labelFr: z.string().trim().max(80),
+  messageTemplateAr: z.string().trim().min(1).max(1000).default(DEFAULT_WHATSAPP_MESSAGE_TEMPLATE_AR),
 }).strict()
 
 const navbarSchema = z.object({

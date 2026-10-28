@@ -74,7 +74,7 @@ const content = {
   },
 } as const
 
-const homeWhatsappUrl = "https://wa.me/message/RCJSLAJQHAWHA1?text=" + encodeURIComponent("السلام عليكم، أرغب في حجز حصة تجريبية مجانية.\n\nالبرنامج المطلوب: قرآن / لغة عربية / غير متأكد\nعمر الطالب:\nالمستوى الحالي:\nالوقت المناسب:")
+const homeWhatsappUrl = "https://wa.me/201130127894?text=" + encodeURIComponent("السلام عليكم، أرغب في حجز حصة تجريبية مجانية.\n\nالبرنامج المطلوب: قرآن / لغة عربية / غير متأكد\nعمر الطالب:\nالمستوى الحالي:\nالوقت المناسب:")
 
 export function HomeContentSections() {
   const { locale, dir } = useI18n()

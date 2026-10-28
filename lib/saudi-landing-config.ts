@@ -1,4 +1,4 @@
-export const SAUDI_WHATSAPP_NUMBER = "RCJSLAJQHAWHA1"
+export const SAUDI_WHATSAPP_NUMBER = "201130127894"
 
 export type SaudiProgram = "quran" | "arabic"
 export type SaudiDuration = 30
@@ -73,5 +73,5 @@ export const saudiLandingConfig = {
 
 export function getSaudiWhatsAppUrl(plan: string) {
   const message = saudiLandingConfig.whatsappTemplate.replace("{plan}", plan)
-  return `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent(message)}`
+  return `https://wa.me/201130127894?text=${encodeURIComponent(message)}`
 }

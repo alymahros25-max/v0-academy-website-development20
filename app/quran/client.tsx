@@ -56,8 +56,8 @@ export default function QuranPageClient() {
     t("pricing.features.supervision"),
     locale === "ar" ? "حفظ ومراجعة وتلاوة وتجويد" : locale === "en" ? "Memorization, review, recitation, and Tajweed" : "Mémorisation, révision, récitation et Tajweed",
   ]
-  const whatsappUrl = `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent("السلام عليكم، أرغب في حجز الحصة التجريبية الأولى المجانية في برنامج القرآن. عمر الطالب: ، الدولة: ، المستوى الحالي: ، الهدف: حفظ/مراجعة/تجويد، والوقت المناسب: ")}`
-  const packageWhatsappUrl = (sessions: number, price: number) => `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent(`السلام عليكم، أرغب في معرفة تفاصيل باقة القرآن: ${sessions} حصص شهريًا بسعر ${price}$، وأرغب في حجز الحصة التجريبية أولاً. عمر الطالب: ، الدولة: ، المستوى الحالي: ، والوقت المناسب: `)}`
+  const whatsappUrl = `https://wa.me/201130127894?text=${encodeURIComponent("السلام عليكم، أرغب في حجز الحصة التجريبية الأولى المجانية في برنامج القرآن. عمر الطالب: ، الدولة: ، المستوى الحالي: ، الهدف: حفظ/مراجعة/تجويد، والوقت المناسب: ")}`
+  const packageWhatsappUrl = (sessions: number, price: number) => `https://wa.me/201130127894?text=${encodeURIComponent(`السلام عليكم، أرغب في معرفة تفاصيل باقة القرآن: ${sessions} حصص شهريًا بسعر ${price}$، وأرغب في حجز الحصة التجريبية أولاً. عمر الطالب: ، الدولة: ، المستوى الحالي: ، والوقت المناسب: `)}`
   const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: quranFaqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }
 
   return (

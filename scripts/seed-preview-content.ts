@@ -56,7 +56,7 @@ const legalPages = [
 ].map(([page_slug, locale, title, content]) => ({ page_slug, locale, title, content }))
 
 const widgets = [
-  { widget_type: "whatsapp_button", config_json: { position: "right", phone: "+RCJSLAJQHAWHA1", size: "medium", color: "#25D366", showLabel: true, labelAr: "تواصل معنا", labelEn: "Contact us", labelFr: "Contactez-nous" }, is_enabled: true, display_order: 0 },
+  { widget_type: "whatsapp_button", config_json: { position: "right", phone: "+201130127894", size: "medium", color: "#25D366", showLabel: true, labelAr: "تواصل معنا", labelEn: "Contact us", labelFr: "Contactez-nous" }, is_enabled: true, display_order: 0 },
   { widget_type: "navbar", config_json: { items: ["home", "about", "quran", "arabic", "teachers", "reviews", "library", "classroom", "games", "faq", "blog", "contact"] }, is_enabled: true, display_order: 1 },
 ]
 

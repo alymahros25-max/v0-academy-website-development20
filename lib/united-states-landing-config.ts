@@ -1,4 +1,4 @@
-export const UNITED_STATES_WHATSAPP_NUMBER = "RCJSLAJQHAWHA1"
+export const UNITED_STATES_WHATSAPP_NUMBER = "201130127894"
 
 export type UnitedStatesProgram = "quran" | "arabic"
 export type UnitedStatesDuration = 30
@@ -50,5 +50,5 @@ export function getUnitedStatesWhatsAppUrl(plan: UnitedStatesPlan | string) {
     ? `الباقة المطلوبة: ${plan.name}\nالبرنامج: ${program}\nمدة الحصة: ${plan.duration} دقيقة\nعدد الحصص شهرياً: ${plan.monthlySessions}\nعدد المرات أسبوعياً: ${plan.weeklySessions}\nالسعر الشهري: $${plan.price}`
     : `نوع التواصل: ${plan}`
   const message = `السلام عليكم،\nأرغب في الحجز في ${program} للناطقين بالعربية في الولايات المتحدة.\n\n${details}\n\nالاسم:\nالعمر:\nولد أم بنت:\nمستوى الطالب الحالي:\nمعلم أم معلمة:\nالوقت المناسب للحصة التجريبية المجانية:\n\nشكراً لكم.`
-  return `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent(message)}`
+  return `https://wa.me/201130127894?text=${encodeURIComponent(message)}`
 }

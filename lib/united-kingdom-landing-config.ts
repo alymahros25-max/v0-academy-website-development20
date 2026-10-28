@@ -1,4 +1,4 @@
-export const UNITED_KINGDOM_WHATSAPP_NUMBER = "RCJSLAJQHAWHA1"
+export const UNITED_KINGDOM_WHATSAPP_NUMBER = "201130127894"
 
 export type UnitedKingdomProgram = "quran" | "arabic"
 export type UnitedKingdomDuration = 30
@@ -38,7 +38,7 @@ export function getUnitedKingdomWhatsAppUrl(plan: UnitedKingdomPlan | string) {
   const message = isPlan
     ? `السلام عليكم،\nأرغب في الاشتراك في باقة ${program} — ${plan.duration} دقيقة — ${plan.monthlySessions} حصص شهرياً — بقيمة £${plan.price} بالجنيه الإسترليني في المملكة المتحدة.\n\nبيانات الطالب:\nالاسم:\nالعمر:\nالمستوى الحالي أو كمية الحفظ:\nمعلم أم معلمة:\nالمدينة داخل المملكة المتحدة:\nالوقت المناسب للحصة التجريبية:\nهل يوجد إخوة آخرون للاستفادة من خصم الأخوة؟`
     : `السلام عليكم،\nأرغب في حجز أول حصة تجريبية مجانية في تحفيظ القرآن أو تأسيس اللغة العربية للناطقين بالعربية في المملكة المتحدة.\n\nبيانات الطالب:\nالاسم:\nالعمر:\nولد أم بنت:\nقرآن أم تأسيس عربي:\nالمستوى الحالي أو كمية الحفظ:\nمعلم أم معلمة:\nالمدينة داخل المملكة المتحدة:\nالوقت المناسب للحصة التجريبية:`
-  return `https://wa.me/message/RCJSLAJQHAWHA1?text=${encodeURIComponent(message)}`
+  return `https://wa.me/201130127894?text=${encodeURIComponent(message)}`
 }
 
 export const unitedKingdomPlans = unitedKingdomLandingConfig.plans

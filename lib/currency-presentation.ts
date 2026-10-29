@@ -71,8 +71,6 @@ export function formatCurrencyPresentation(currencyCode: string | null | undefin
   const code = currencyCode?.trim().toUpperCase() ?? ""
   const symbol = CURRENCY_SYMBOLS[code]
     ?? (fallbackSymbol?.trim() && !/^[A-Z]{3}$/u.test(fallbackSymbol.trim()) ? fallbackSymbol.trim() : code)
-  const name = CURRENCY_NAMES_AR[code]
-    ?? (code && typeof Intl !== "undefined" ? new Intl.DisplayNames(["ar"], { type: "currency" }).of(code) : undefined)
-    ?? "العملة المحلية"
+  const name = CURRENCY_NAMES_AR[code] ?? "العملة المحلية"
   return `${symbol || code} — ${name}`
 }

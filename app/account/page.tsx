@@ -4,7 +4,6 @@ import { useState } from "react"
 import { useI18n } from "@/lib/i18n"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
-import { FloatingButtons } from "@/components/floating-buttons"
 import { Eye, EyeOff, Mail, Lock, User, Phone } from "lucide-react"
 import Link from "next/link"
 import { supabase } from "@/lib/supabaseClient"
@@ -108,7 +107,6 @@ export default function AccountPage() {
   return (
     <div dir={dir} className="min-h-screen bg-background">
       <Header />
-      <FloatingButtons />
 
       <section className="pt-28 pb-16">
         <div className="max-w-md mx-auto px-4">

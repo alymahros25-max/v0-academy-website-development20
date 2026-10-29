@@ -6,7 +6,6 @@ import Link from "next/link"
 import { useI18n } from "@/lib/i18n"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
-import { FloatingButtons } from "@/components/floating-buttons"
 import { CalendarIcon, ClockIcon, UserIcon, ChevronLeft, ChevronRight } from "lucide-react"
 
 export default function BlogArticleClient({ slug, blogPosts }: { slug: string; blogPosts: Record<string, any> }) {
@@ -20,7 +19,6 @@ export default function BlogArticleClient({ slug, blogPosts }: { slug: string; b
   return (
     <div dir={dir} className="min-h-screen bg-background">
       <Header />
-      <FloatingButtons />
 
       <article className="pt-28 pb-16">
         <div className="max-w-4xl mx-auto px-4">

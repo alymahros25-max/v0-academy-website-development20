@@ -9,7 +9,6 @@ type AnalyticsEventName =
   | "select_content"
   | "book_trial_click"
   | "email_click"
-  | "telegram_click"
   | "site_search"
   | "language_select"
   | "site_language_view"

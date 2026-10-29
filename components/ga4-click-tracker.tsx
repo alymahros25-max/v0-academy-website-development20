@@ -85,14 +85,6 @@ export function Ga4ClickTracker() {
         return
       }
 
-      try {
-        const host = new URL(link.href).hostname.toLowerCase()
-        if (host === "t.me" || host === "telegram.me" || host.endsWith(".telegram.org")) {
-          trackGa4Event("telegram_click", { page_path: pagePath })
-        }
-      } catch {
-        // Ignore malformed and non-navigation links.
-      }
     }
 
     document.addEventListener("click", onDocumentClick, true)

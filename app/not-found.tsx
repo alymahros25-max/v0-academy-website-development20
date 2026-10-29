@@ -52,10 +52,7 @@ export default function NotFound() {
             <a href="https://wa.me/201130127894" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline mx-1">
               واتساب
             </a>
-            أو
-            <a href="https://t.me/quran_direct" className="text-primary hover:underline mx-1">
-              تليجرام
-            </a>
+            أو البريد الإلكتروني
           </p>
         </div>
       </div>

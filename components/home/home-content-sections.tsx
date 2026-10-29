@@ -1,8 +1,5 @@
-"use client"
-
 import Link from "next/link"
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Languages, MessageCircle } from "lucide-react"
-import { useI18n } from "@/lib/i18n"
 import { generateFAQSchema } from "@/lib/schema-markup"
 
 const content = {
@@ -76,36 +73,49 @@ const content = {
 
 const homeWhatsappUrl = "https://wa.me/201130127894?text=" + encodeURIComponent("السلام عليكم، أرغب في حجز حصة تجريبية مجانية.\n\nالبرنامج المطلوب: قرآن / لغة عربية / غير متأكد\nعمر الطالب:\nالمستوى الحالي:\nالوقت المناسب:")
 
+function LocalizedText({ ar, en }: { ar: string; en: string }) {
+  return <><span lang="ar" className="home-locale-ar">{ar}</span><span lang="en" className="home-locale-en">{en}</span></>
+}
+
+function DirectionArrow() {
+  return <><ArrowLeft className="size-4 home-locale-ar" aria-hidden="true" /><ArrowRight className="size-4 home-locale-en" aria-hidden="true" /></>
+}
+
+function MessageIcon() {
+  return <MessageCircle className="size-5" aria-hidden="true" />
+}
+
 export function HomeContentSections() {
-  const { locale, dir } = useI18n()
-  const isArabic = locale === "ar"
-  const copy = content[isArabic ? "ar" : "en"]
-  const Arrow = dir === "rtl" ? ArrowLeft : ArrowRight
-  const faqSchema = generateFAQSchema(copy.faqs.map(([question, answer]) => ({ question, answer })))
+  const ar = content.ar
+  const en = content.en
+  const faqSchema = generateFAQSchema(ar.faqs.map(([question, answer]) => ({ question, answer })))
 
   return (
     <>
       <section className="content-auto bg-background px-4 py-16 lg:py-24" aria-labelledby="home-programs-title">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="saudi-eyebrow justify-center">{copy.programsLabel}</p>
-            <h2 id="home-programs-title" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl">{copy.programsTitle}</h2>
-            <p className="mt-4 text-pretty text-lg leading-8 text-muted-foreground">{copy.programsIntro}</p>
+            <p className="saudi-eyebrow justify-center"><LocalizedText ar={ar.programsLabel} en={en.programsLabel} /></p>
+            <h2 id="home-programs-title" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl"><LocalizedText ar={ar.programsTitle} en={en.programsTitle} /></h2>
+            <p className="mt-4 text-pretty text-lg leading-8 text-muted-foreground"><LocalizedText ar={ar.programsIntro} en={en.programsIntro} /></p>
           </div>
           <div className="mt-10 grid gap-6 md:grid-cols-2">
-            {copy.programs.map(([title, description, href, link]) => (
-              <article key={title} className="rounded-3xl border border-border bg-card p-7 shadow-sm transition-shadow hover:shadow-lg lg:p-9">
-                <div className="flex size-14 items-center justify-center rounded-2xl bg-gold-pale text-navy-primary">
-                  {title.includes("عربي") || title.includes("Arabic") ? <Languages className="size-7" aria-hidden="true" /> : <BookOpen className="size-7" aria-hidden="true" />}
-                </div>
-                <h3 className="mt-6 text-2xl font-extrabold text-navy-primary">{title}</h3>
-                <p className="mt-4 leading-8 text-muted-foreground">{description}</p>
-                <Link href={href} className="mt-6 inline-flex items-center gap-2 font-bold text-navy-primary hover:underline" aria-label={link}>
-                  {link}
-                  <Arrow className="size-4" aria-hidden="true" />
-                </Link>
-              </article>
-            ))}
+            {ar.programs.map(([title, description, href, link], index) => {
+              const [titleEn, descriptionEn, , linkEn] = en.programs[index]
+              return (
+                <article key={href} className="rounded-3xl border border-border bg-card p-7 shadow-sm transition-shadow hover:shadow-lg lg:p-9">
+                  <div className="flex size-14 items-center justify-center rounded-2xl bg-gold-pale text-navy-primary" aria-hidden="true">
+                    {href === "/arabic" ? <Languages className="size-7" /> : <BookOpen className="size-7" />}
+                  </div>
+                  <h3 className="mt-6 text-2xl font-extrabold text-navy-primary"><LocalizedText ar={title} en={titleEn} /></h3>
+                  <p className="mt-4 leading-8 text-muted-foreground"><LocalizedText ar={description} en={descriptionEn} /></p>
+                  <Link href={href} className="mt-6 inline-flex items-center gap-2 font-bold text-navy-primary hover:underline">
+                    <LocalizedText ar={link} en={linkEn} />
+                    <DirectionArrow />
+                  </Link>
+                </article>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -113,17 +123,20 @@ export function HomeContentSections() {
       <section className="content-auto bg-navy-pale/25 px-4 py-16 lg:py-24" aria-labelledby="home-benefits-title">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="saudi-eyebrow justify-center">{copy.benefitsLabel}</p>
-            <h2 id="home-benefits-title" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl">{copy.benefitsTitle}</h2>
+            <p className="saudi-eyebrow justify-center"><LocalizedText ar={ar.benefitsLabel} en={en.benefitsLabel} /></p>
+            <h2 id="home-benefits-title" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl"><LocalizedText ar={ar.benefitsTitle} en={en.benefitsTitle} /></h2>
           </div>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {copy.benefits.map(([title, description]) => (
-              <article key={title} className="rounded-3xl border border-navy-light/30 bg-card p-6 shadow-sm">
-                <CheckCircle2 className="size-7 text-primary" aria-hidden="true" />
-                <h3 className="mt-5 text-lg font-extrabold text-navy-primary">{title}</h3>
-                <p className="mt-3 text-sm leading-7 text-muted-foreground">{description}</p>
-              </article>
-            ))}
+            {ar.benefits.map(([title, description], index) => {
+              const [titleEn, descriptionEn] = en.benefits[index]
+              return (
+                <article key={title} className="rounded-3xl border border-navy-light/30 bg-card p-6 shadow-sm">
+                  <CheckCircle2 className="size-7 text-primary" aria-hidden="true" />
+                  <h3 className="mt-5 text-lg font-extrabold text-navy-primary"><LocalizedText ar={title} en={titleEn} /></h3>
+                  <p className="mt-3 text-sm leading-7 text-muted-foreground"><LocalizedText ar={description} en={descriptionEn} /></p>
+                </article>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -131,17 +144,20 @@ export function HomeContentSections() {
       <section className="content-auto bg-background px-4 py-16 lg:py-24" aria-labelledby="home-start-title">
         <div className="mx-auto max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="saudi-eyebrow justify-center">{copy.startLabel}</p>
-            <h2 id="home-start-title" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl">{copy.startTitle}</h2>
+            <p className="saudi-eyebrow justify-center"><LocalizedText ar={ar.startLabel} en={en.startLabel} /></p>
+            <h2 id="home-start-title" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl"><LocalizedText ar={ar.startTitle} en={en.startTitle} /></h2>
           </div>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {copy.steps.map(([title, description], index) => (
-              <article key={title} className="rounded-3xl border border-border bg-card p-7 text-center shadow-sm">
-                <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-primary text-lg font-extrabold text-primary-foreground">{index + 1}</div>
-                <h3 className="mt-5 text-xl font-extrabold text-navy-primary">{title}</h3>
-                <p className="mt-3 leading-7 text-muted-foreground">{description}</p>
-              </article>
-            ))}
+            {ar.steps.map(([title, description], index) => {
+              const [titleEn, descriptionEn] = en.steps[index]
+              return (
+                <article key={title} className="rounded-3xl border border-border bg-card p-7 text-center shadow-sm">
+                  <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-primary text-lg font-extrabold text-primary-foreground">{index + 1}</div>
+                  <h3 className="mt-5 text-xl font-extrabold text-navy-primary"><LocalizedText ar={title} en={titleEn} /></h3>
+                  <p className="mt-3 leading-7 text-muted-foreground"><LocalizedText ar={description} en={descriptionEn} /></p>
+                </article>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -150,24 +166,24 @@ export function HomeContentSections() {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
         <div className="mx-auto max-w-5xl">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="saudi-eyebrow justify-center">{copy.faqLabel}</p>
-            <h2 id="home-faq-title" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl">{copy.faqTitle}</h2>
+            <p className="saudi-eyebrow justify-center"><LocalizedText ar={ar.faqLabel} en={en.faqLabel} /></p>
+            <h2 id="home-faq-title" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl"><LocalizedText ar={ar.faqTitle} en={en.faqTitle} /></h2>
           </div>
           <div className="mt-10 grid gap-4 md:grid-cols-2">
-            {copy.faqs.map(([question, answer]) => (
-              <details key={question} className="group rounded-2xl border border-border bg-card p-5 shadow-sm">
-                <summary className="cursor-pointer list-none pe-6 font-extrabold text-navy-primary marker:hidden [&::-webkit-details-marker]:hidden">{question}</summary>
-                <p className="mt-3 leading-7 text-muted-foreground">{answer}</p>
-              </details>
-            ))}
+            {ar.faqs.map(([question, answer], index) => {
+              const [questionEn, answerEn] = en.faqs[index]
+              return (
+                <details key={question} className="group rounded-2xl border border-border bg-card p-5 shadow-sm">
+                  <summary className="cursor-pointer list-none pe-6 font-extrabold text-navy-primary marker:hidden [&::-webkit-details-marker]:hidden"><LocalizedText ar={question} en={questionEn} /></summary>
+                  <p className="mt-3 leading-7 text-muted-foreground"><LocalizedText ar={answer} en={answerEn} /></p>
+                </details>
+              )
+            })}
           </div>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <a href={homeWhatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-bold text-primary-foreground shadow-sm hover:bg-primary/90"><MessageCircle className="size-5" />احجز حصتك التجريبية المجانية</a>
-            <Link href="/teachers" className="inline-flex items-center gap-2 font-bold text-navy-primary hover:underline">تعرّف على المعلمين والمعلمات<Arrow className="size-4" /></Link>
-            <Link href="/faq" className="inline-flex items-center gap-2 font-bold text-navy-primary hover:underline">
-              {copy.allFaq}
-              <Arrow className="size-4" aria-hidden="true" />
-            </Link>
+            <a href={homeWhatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-bold text-primary-foreground shadow-sm hover:bg-primary/90"><MessageIcon /><LocalizedText ar="احجز حصتك التجريبية المجانية" en="Book your free trial lesson" /></a>
+            <Link href="/teachers" className="inline-flex items-center gap-2 font-bold text-navy-primary hover:underline"><LocalizedText ar="تعرّف على المعلمين والمعلمات" en="Meet our teachers" /><DirectionArrow /></Link>
+            <Link href="/faq" className="inline-flex items-center gap-2 font-bold text-navy-primary hover:underline"><LocalizedText ar={ar.allFaq} en={en.allFaq} /><DirectionArrow /></Link>
           </div>
         </div>
       </section>

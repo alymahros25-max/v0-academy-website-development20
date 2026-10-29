@@ -553,3 +553,8 @@ html {
 .country-more[open] summary::after { transform:rotate(180deg); }
 .country-more-body { padding:.85rem 0 .1rem; color:#64748b; font-size:.92rem; line-height:1.95; }
 .country-more-body p + p { margin-top:.7rem; }
+
+/* Keep static homepage copy server-rendered while following the active UI locale. */
+html[lang="ar"] .home-locale-en { display: none !important; }
+html[lang="en"] .home-locale-ar,
+html[lang="fr"] .home-locale-ar { display: none !important; }

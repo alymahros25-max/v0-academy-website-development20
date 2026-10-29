@@ -3,6 +3,7 @@ import dynamic from "next/dynamic"
 import { AcademyBanner } from "@/components/home/academy-banner"
 import { HeroSection } from "@/components/home/hero-section"
 import { DeferredLandingVideoStrip } from "@/components/home/deferred-landing-video-strip"
+import { HomeContentSections } from "@/components/home/home-content-sections"
 import { localizedContent } from "@/lib/public-content"
 import { getHomepageContent } from "@/lib/homepage-content-server"
 
@@ -45,11 +46,6 @@ export async function generateMetadata(): Promise<Metadata> {
 const CTASection = dynamic(
   () => import("@/components/home/cta-section").then((module) => ({ default: module.CTASection })),
   { ssr: true, loading: () => <div aria-hidden="true" className="min-h-72 bg-muted" /> },
-)
-
-const HomeContentSections = dynamic(
-  () => import("@/components/home/home-content-sections").then((module) => ({ default: module.HomeContentSections })),
-  { ssr: true, loading: () => <div aria-hidden="true" className="min-h-[1000px] bg-background" /> },
 )
 
 export default async function HomePage() {

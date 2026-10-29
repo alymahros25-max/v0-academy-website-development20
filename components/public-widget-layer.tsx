@@ -75,12 +75,11 @@ export function PublicWidgetLayer() {
   }, [isAdmin, load])
 
   if (isAdmin || !enabled || !widget) return null
-  const phone = widget.phone.replace(/\D/g, "")
   const label = locale === "fr" ? widget.labelFr : locale === "en" ? widget.labelEn : widget.labelAr
-  const size = widget.size === "small" ? "h-11 w-11" : widget.size === "medium" ? "h-14 w-14" : "h-16 min-w-16 px-4"
+  const size = widget.size === "small" ? "h-12 w-12" : widget.size === "medium" ? "h-14 w-14" : "h-14 min-w-14 px-4 sm:h-16 sm:min-w-16"
   const message = createWhatsAppMessage(getAnalyticsCountry(pathname), widget.messageTemplateAr)
-  return <a href={createWhatsAppUrl(phone, message)} target="_blank" rel="noopener noreferrer" aria-label={label || "WhatsApp"} className={`fixed bottom-5 z-[60] inline-flex items-center justify-center gap-2 rounded-full text-white shadow-lg transition-transform hover:scale-105 ${size} ${widget.position === "left" ? "left-5" : "right-5"}`} style={{ backgroundColor: widget.color }}>
-    <MessageCircle aria-hidden="true" size={24} />
+  return <a href={createWhatsAppUrl(widget.phone, message)} target="_blank" rel="noopener noreferrer" aria-label={label || "WhatsApp"} className={`fixed bottom-6 z-[60] inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] text-[#073B1A] shadow-[0_10px_28px_rgba(37,211,102,0.35)] ring-2 ring-white/90 transition-[transform,box-shadow] hover:scale-105 hover:bg-[#1ebe5d] hover:shadow-[0_14px_34px_rgba(37,211,102,0.42)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#25D366]/45 sm:bottom-7 ${widget.position === "left" ? "left-5 sm:left-7" : "right-5 sm:right-7"} ${size}`}>
+    <MessageCircle aria-hidden="true" className="size-7 shrink-0" />
     {widget.showLabel && <span className="text-sm font-bold">{label}</span>}
   </a>
 }

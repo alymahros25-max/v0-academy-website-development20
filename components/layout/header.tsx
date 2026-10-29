@@ -188,7 +188,7 @@ export function Header() {
           {/* CTA Button */}
           <Link
             href="/contact"
-            className="hidden sm:inline-flex items-center px-4 py-2 bg-secondary text-secondary-foreground rounded-lg text-sm font-bold transition-all hover:brightness-110 hover:shadow-lg"
+            className="hidden min-h-11 items-center rounded-lg bg-secondary px-4 py-2 text-sm font-extrabold text-secondary-foreground shadow-sm transition-all hover:-translate-y-0.5 hover:brightness-110 hover:shadow-lg focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-secondary/40 sm:inline-flex"
           >
             {t("nav.subscribe")}
           </Link>
@@ -240,7 +240,7 @@ export function Header() {
             <Link
               href="/contact"
               onClick={() => setMobileOpen(false)}
-              className="mt-4 px-4 py-3 bg-secondary text-secondary-foreground rounded-lg text-center font-bold transition-all hover:brightness-110"
+              className="mt-4 min-h-12 rounded-lg bg-secondary px-4 py-3 text-center font-extrabold text-secondary-foreground transition-all hover:brightness-110 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-secondary/40"
             >
               {t("nav.subscribe")}
             </Link>

@@ -196,10 +196,12 @@ export function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-navigation"
             className={`xl:hidden p-2 rounded-lg transition-colors ${
               scrolled ? "text-foreground" : "text-primary-foreground lg:text-foreground"
             }`}
-            aria-label="Toggle menu"
+            aria-label={locale === "ar" ? "فتح قائمة التنقل" : locale === "fr" ? "Ouvrir le menu" : "Open navigation menu"}
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -208,7 +210,9 @@ export function Header() {
 
       {/* Mobile Menu - slides from the right */}
       <div
-        className={`xl:hidden fixed inset-0 top-16 z-40 transition-all duration-300 ${
+        id="mobile-navigation"
+        aria-hidden={!mobileOpen}
+        className={`xl:hidden fixed inset-0 top-[80px] z-40 transition-all duration-300 lg:top-24 ${
           mobileOpen ? "visible" : "invisible"
         }`}
       >
@@ -219,10 +223,10 @@ export function Header() {
           onClick={() => setMobileOpen(false)}
         />
         <div
-          className={`absolute top-0 ${dir === "rtl" ? "right-0" : "right-0"} h-full w-72 bg-card shadow-2xl transition-transform duration-300 overflow-y-auto ${
+          className={`absolute top-0 ${dir === "rtl" ? "right-0" : "left-0"} h-full w-[min(88vw,20rem)] bg-card shadow-2xl transition-transform duration-300 overflow-y-auto ${
             mobileOpen
               ? "translate-x-0"
-              : dir === "rtl" ? "translate-x-full" : "translate-x-full"
+              : dir === "rtl" ? "translate-x-full" : "-translate-x-full"
           }`}
           dir={dir}
         >

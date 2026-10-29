@@ -92,11 +92,11 @@ export function HomeContentSections() {
 
   return (
     <>
-      <section className="content-auto bg-background px-4 py-16 lg:py-24" aria-labelledby="home-programs-title">
+      <section id="home-programs-title" className="content-auto scroll-mt-24 bg-background px-4 py-16 lg:py-24" aria-labelledby="home-programs-heading">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-3xl text-center">
             <p className="saudi-eyebrow justify-center"><LocalizedText ar={ar.programsLabel} en={en.programsLabel} /></p>
-            <h2 id="home-programs-title" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl"><LocalizedText ar={ar.programsTitle} en={en.programsTitle} /></h2>
+            <h2 id="home-programs-heading" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl"><LocalizedText ar={ar.programsTitle} en={en.programsTitle} /></h2>
             <p className="mt-4 text-pretty text-lg leading-8 text-muted-foreground"><LocalizedText ar={ar.programsIntro} en={en.programsIntro} /></p>
           </div>
           <div className="mt-10 grid gap-6 md:grid-cols-2">

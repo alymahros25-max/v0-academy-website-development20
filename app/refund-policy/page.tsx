@@ -85,8 +85,7 @@ export default async function RefundPolicyPage() {
 
 للأسئلة والاستفسارات:
 - التواصل: عبر صفحة التواصل الرسمية بالموقع
-- واتساب: تواصل عبر الزر أسفل الصفحة
-- تليجرام: @academy_quraan`,
+- واتساب: تواصل عبر الزر أسفل الصفحة`,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     }

@@ -4,7 +4,6 @@ import { type ReactNode, useEffect } from "react"
 import dynamic from "next/dynamic"
 import { I18nProvider, useI18n } from "@/lib/i18n"
 import { usePathname } from "next/navigation"
-import { DeferredClientIntegrations } from "@/components/deferred-client-integrations"
 
 const Header = dynamic(() => import("@/components/layout/header").then((module) => module.Header))
 const Footer = dynamic(() => import("@/components/layout/footer").then((module) => module.Footer))
@@ -73,7 +72,6 @@ function LayoutWrapper({ children }: { children: ReactNode }) {
     return (
       <div dir={dir}>
         <Ga4ClickTracker />
-        <DeferredClientIntegrations />
         {children}
       </div>
     )
@@ -82,7 +80,6 @@ function LayoutWrapper({ children }: { children: ReactNode }) {
   return (
     <div dir={dir} className="flex flex-col min-h-screen">
       <Ga4ClickTracker />
-      <DeferredClientIntegrations />
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />

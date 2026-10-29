@@ -71,7 +71,7 @@ const content = {
   },
 } as const
 
-const homeWhatsappUrl = "https://wa.me/201130127894?text=" + encodeURIComponent("السلام عليكم، أرغب في حجز حصة تجريبية مجانية.\n\nالبرنامج المطلوب: قرآن / لغة عربية / غير متأكد\nعمر الطالب:\nالمستوى الحالي:\nالوقت المناسب:")
+const homeWhatsappUrl = "https://wa.me/message/RCJSLAJQHAWHA1?text=" + encodeURIComponent("السلام عليكم، أرغب في حجز حصة تجريبية مجانية.\n\nالبرنامج المطلوب: قرآن / لغة عربية / غير متأكد\nعمر الطالب:\nالمستوى الحالي:\nالوقت المناسب:")
 
 function LocalizedText({ ar, en }: { ar: string; en: string }) {
   return <><span lang="ar" className="home-locale-ar">{ar}</span><span lang="en" className="home-locale-en">{en}</span></>
@@ -92,11 +92,11 @@ export function HomeContentSections() {
 
   return (
     <>
-      <section className="content-auto bg-background px-4 py-16 lg:py-24" aria-labelledby="home-programs-title">
+      <section id="home-programs-title" className="content-auto scroll-mt-24 bg-background px-4 py-16 lg:py-24" aria-labelledby="home-programs-heading">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-3xl text-center">
             <p className="saudi-eyebrow justify-center"><LocalizedText ar={ar.programsLabel} en={en.programsLabel} /></p>
-            <h2 id="home-programs-title" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl"><LocalizedText ar={ar.programsTitle} en={en.programsTitle} /></h2>
+            <h2 id="home-programs-heading" className="mt-3 text-3xl font-extrabold text-navy-primary md:text-4xl"><LocalizedText ar={ar.programsTitle} en={en.programsTitle} /></h2>
             <p className="mt-4 text-pretty text-lg leading-8 text-muted-foreground"><LocalizedText ar={ar.programsIntro} en={en.programsIntro} /></p>
           </div>
           <div className="mt-10 grid gap-6 md:grid-cols-2">
@@ -109,7 +109,7 @@ export function HomeContentSections() {
                   </div>
                   <h3 className="mt-6 text-2xl font-extrabold text-navy-primary"><LocalizedText ar={title} en={titleEn} /></h3>
                   <p className="mt-4 leading-8 text-muted-foreground"><LocalizedText ar={description} en={descriptionEn} /></p>
-                  <Link href={href} className="mt-6 inline-flex items-center gap-2 font-bold text-navy-primary hover:underline">
+                  <Link href={href} className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-lg border border-navy-primary/25 px-4 py-2 font-extrabold text-navy-primary transition-colors hover:bg-navy-primary hover:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/25">
                     <LocalizedText ar={link} en={linkEn} />
                     <DirectionArrow />
                   </Link>
@@ -181,9 +181,9 @@ export function HomeContentSections() {
             })}
           </div>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <a href={homeWhatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 font-bold text-primary-foreground shadow-sm hover:bg-primary/90"><MessageIcon /><LocalizedText ar="احجز حصتك التجريبية المجانية" en="Book your free trial lesson" /></a>
-            <Link href="/teachers" className="inline-flex items-center gap-2 font-bold text-navy-primary hover:underline"><LocalizedText ar="تعرّف على المعلمين والمعلمات" en="Meet our teachers" /><DirectionArrow /></Link>
-            <Link href="/faq" className="inline-flex items-center gap-2 font-bold text-navy-primary hover:underline"><LocalizedText ar={ar.allFaq} en={en.allFaq} /><DirectionArrow /></Link>
+            <a href={homeWhatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#25D366] px-6 py-3 font-extrabold text-[#073B1A] shadow-[0_8px_20px_rgba(37,211,102,0.22)] transition-all hover:-translate-y-0.5 hover:bg-[#1ebe5d] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#25D366]/35"><MessageIcon /><LocalizedText ar="احجز حصتك التجريبية المجانية" en="Book your free trial lesson" /></a>
+            <Link href="/teachers" className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-navy-primary/25 px-4 py-2 font-extrabold text-navy-primary transition-colors hover:bg-navy-primary hover:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/25"><LocalizedText ar="تعرّف على المعلمين والمعلمات" en="Meet our teachers" /><DirectionArrow /></Link>
+            <Link href="/faq" className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-navy-primary/25 px-4 py-2 font-extrabold text-navy-primary transition-colors hover:bg-navy-primary hover:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/25"><LocalizedText ar={ar.allFaq} en={en.allFaq} /><DirectionArrow /></Link>
           </div>
         </div>
       </section>

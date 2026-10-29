@@ -555,6 +555,18 @@ html {
 .country-more-body p + p { margin-top:.7rem; }
 
 /* Keep static homepage copy server-rendered while following the active UI locale. */
-html[lang="ar"] .home-locale-en { display: none !important; }
+html[lang="ar"] .home-locale-en,
+html[lang="ar"] .home-locale-fr { display: none !important; }
 html[lang="en"] .home-locale-ar,
-html[lang="fr"] .home-locale-ar { display: none !important; }
+html[lang="en"] .home-locale-fr,
+html[lang="fr"] .home-locale-ar,
+html[lang="fr"] .home-locale-en { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

@@ -188,7 +188,7 @@ export function Header() {
           {/* CTA Button */}
           <Link
             href="/contact"
-            className="hidden sm:inline-flex items-center px-4 py-2 bg-secondary text-secondary-foreground rounded-lg text-sm font-bold transition-all hover:brightness-110 hover:shadow-lg"
+            className="hidden min-h-11 items-center rounded-lg bg-secondary px-4 py-2 text-sm font-extrabold text-secondary-foreground shadow-sm transition-all hover:-translate-y-0.5 hover:brightness-110 hover:shadow-lg focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-secondary/40 sm:inline-flex"
           >
             {t("nav.subscribe")}
           </Link>
@@ -196,10 +196,12 @@ export function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-navigation"
             className={`xl:hidden p-2 rounded-lg transition-colors ${
               scrolled ? "text-foreground" : "text-primary-foreground lg:text-foreground"
             }`}
-            aria-label="Toggle menu"
+            aria-label={locale === "ar" ? "فتح قائمة التنقل" : locale === "fr" ? "Ouvrir le menu" : "Open navigation menu"}
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -208,7 +210,9 @@ export function Header() {
 
       {/* Mobile Menu - slides from the right */}
       <div
-        className={`xl:hidden fixed inset-0 top-16 z-40 transition-all duration-300 ${
+        id="mobile-navigation"
+        aria-hidden={!mobileOpen}
+        className={`xl:hidden fixed inset-0 top-[80px] z-40 transition-all duration-300 lg:top-24 ${
           mobileOpen ? "visible" : "invisible"
         }`}
       >
@@ -219,10 +223,10 @@ export function Header() {
           onClick={() => setMobileOpen(false)}
         />
         <div
-          className={`absolute top-0 ${dir === "rtl" ? "right-0" : "right-0"} h-full w-72 bg-card shadow-2xl transition-transform duration-300 overflow-y-auto ${
+          className={`absolute top-0 ${dir === "rtl" ? "right-0" : "left-0"} h-full w-[min(88vw,20rem)] bg-card shadow-2xl transition-transform duration-300 overflow-y-auto ${
             mobileOpen
               ? "translate-x-0"
-              : dir === "rtl" ? "translate-x-full" : "translate-x-full"
+              : dir === "rtl" ? "translate-x-full" : "-translate-x-full"
           }`}
           dir={dir}
         >
@@ -240,7 +244,7 @@ export function Header() {
             <Link
               href="/contact"
               onClick={() => setMobileOpen(false)}
-              className="mt-4 px-4 py-3 bg-secondary text-secondary-foreground rounded-lg text-center font-bold transition-all hover:brightness-110"
+              className="mt-4 min-h-12 rounded-lg bg-secondary px-4 py-3 text-center font-extrabold text-secondary-foreground transition-all hover:brightness-110 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-secondary/40"
             >
               {t("nav.subscribe")}
             </Link>

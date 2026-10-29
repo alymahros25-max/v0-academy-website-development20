@@ -1,9 +1,9 @@
 import type { Metadata } from "next"
-import dynamic from "next/dynamic"
 import { AcademyBanner } from "@/components/home/academy-banner"
 import { HeroSection } from "@/components/home/hero-section"
 import { DeferredLandingVideoStrip } from "@/components/home/deferred-landing-video-strip"
 import { HomeContentSections } from "@/components/home/home-content-sections"
+import { CTASection } from "@/components/home/cta-section"
 import { localizedContent } from "@/lib/public-content"
 import { getHomepageContent } from "@/lib/homepage-content-server"
 
@@ -42,11 +42,6 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: { card: "summary_large_image", title, description, images: ["https://quran-elhafez.com/images/og-default.webp"] },
   }
 }
-
-const CTASection = dynamic(
-  () => import("@/components/home/cta-section").then((module) => ({ default: module.CTASection })),
-  { ssr: true, loading: () => <div aria-hidden="true" className="min-h-72 bg-muted" /> },
-)
 
 export default async function HomePage() {
   const content = await getHomepageContent()

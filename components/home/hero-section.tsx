@@ -19,10 +19,9 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
           src="/images/hero-children.webp"
           alt="أطفال يتعلمون القرآن أون لاين في حصة فردية"
           fill
-          className="object-cover object-[center_15%]"
+          className="object-contain object-top md:object-cover md:object-[center_15%]"
           sizes="100vw"
           quality={40}
-          priority
           fetchPriority="high"
           loading="eager"
           decoding="async"

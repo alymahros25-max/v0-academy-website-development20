@@ -27,7 +27,7 @@ const createPackageSchema = z.object({
 
 const fieldAllowList: Record<z.infer<typeof resourceSchema>, Set<string>> = {
   content: new Set(["content_ar", "content_en", "content_fr", "content_type", "section", "href", "is_active", "sort_order"]),
-  packages: new Set(["program", "name_ar", "name_en", "name_fr", "description_ar", "description_en", "description_fr", "price", "billing_period", "sessions_per_month", "features_ar", "features_en", "features_fr", "is_popular", "is_active", "sort_order"]),
+  packages: new Set(["program", "name_ar", "name_en", "name_fr", "description_ar", "description_en", "description_fr", "price", "billing_period", "sessions_per_month", "duration_minutes", "features_ar", "features_en", "features_fr", "is_popular", "is_active", "sort_order"]),
   faq: new Set(["question_ar", "question_en", "question_fr", "answer_ar", "answer_en", "answer_fr", "is_active", "sort_order"]),
   links: new Set(["label_ar", "label_en", "label_fr", "href", "link_type", "is_external", "is_active", "sort_order"]),
   themes: new Set(["theme_name_ar", "theme_name_en", "primary_color", "secondary_color", "accent_color", "background_color", "text_color", "quran_fact_title_ar", "quran_fact_body_ar", "quran_fact_reference_ar", "is_active", "sort_order"]),
@@ -82,6 +82,11 @@ const contentChangeSchema = z.object({
 function safeChanges(resource: AreaResource, changes: Record<string, unknown>) {
   const allowed = fieldAllowList[resource]
   const filtered = Object.fromEntries(Object.entries(changes).filter(([key]) => allowed.has(key)))
+  if (resource === "packages" && "duration_minutes" in filtered) {
+    const parsedDuration = z.coerce.number().int().min(1).max(240).safeParse(filtered.duration_minutes)
+    if (!parsedDuration.success) return {}
+    filtered.duration_minutes = parsedDuration.data
+  }
   if (resource === "content") {
     const parsed = contentChangeSchema.safeParse(filtered)
     return parsed.success ? parsed.data : {}

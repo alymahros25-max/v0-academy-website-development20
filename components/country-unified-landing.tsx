@@ -7,6 +7,7 @@ import { NewCountryVideos } from "@/components/new-country-videos"
 import { CountryLearningHub } from "@/components/country-learning-hub"
 import { getCountryThemeStyle } from "@/components/country-enrichment-section"
 import { getCountryPageDesign, type CountryFaqVariant, type CountryHeroVariant, type CountryLocalVariant, type CountryPageSection, type CountryPlanVariant } from "@/lib/country-page-designs"
+import { formatCurrencyPresentation } from "@/lib/currency-presentation"
 
 const defaultWhatsApp = "https://wa.me/201130127894"
 
@@ -135,6 +136,7 @@ function LocalContextSection({ page, variant }: { page: CountryPageModel; varian
 
 function PlanCard({ page, plan, program, layout, index }: { page: CountryPageModel; plan: Plan; program: "quran" | "arabic"; layout: CountryPlanVariant; index: number }) {
   const planTitle = normalizePlanName(plan.name, plan.monthlySessions)
+  const currencyPresentation = formatCurrencyPresentation(page.currencyCode, page.currencyLabel)
   const contact = getAreaWhatsAppUrl(page.areaData.links, planTitle, defaultWhatsApp, `السلام عليكم، أرغب في الاستفسار عن ${planTitle} في ${page.seo?.country || page.slug}.`)
   const cardClass = layout === "rows"
     ? "grid gap-4 rounded-2xl border border-border bg-card p-5 md:grid-cols-[1fr_auto_auto] md:items-center"
@@ -146,8 +148,8 @@ function PlanCard({ page, plan, program, layout, index }: { page: CountryPageMod
   return <article key={plan.id} data-plan-index={index} className={cardClass}>
     {plan.popular && <span className="mb-3 inline-flex w-fit items-center gap-2 rounded-full bg-primary px-3 py-1 text-xs font-bold text-primary-foreground"><Sparkles size={14} /> الأكثر طلبًا</span>}
     <div><p className="text-sm font-bold text-muted-foreground">{program === "quran" ? "تحفيظ القرآن" : "تأسيس العربية"}</p><h3 className="mt-2 text-xl font-black">{planTitle}</h3></div>
-    <p className="mt-3 text-3xl font-black text-primary">{priceLabel(plan.price)} <span className="text-sm font-bold">{page.currencyLabel}</span></p>
-    <p className="mt-2 text-sm text-muted-foreground">{plan.monthlySessions} {sessionUnit(plan.monthlySessions)} شهريًا · {plan.duration} دقيقة للحصة</p>
+    <p className="mt-3 text-3xl font-black text-primary">{priceLabel(plan.price)} <span className="text-sm font-bold">{currencyPresentation}</span></p>
+    <p className="mt-2 text-sm text-muted-foreground">{plan.monthlySessions} {sessionUnit(plan.monthlySessions)} شهريًا · مدة الحصة {plan.duration} دقيقة</p>
     {plan.description && <p className="mt-3 text-sm leading-7 text-muted-foreground">{plan.description}</p>}
     {plan.features.length > 0 && <ul className="mt-4 grid gap-2 text-sm">{plan.features.map((feature) => <li key={feature} className="flex items-start gap-2"><Check size={16} className="mt-1 shrink-0 text-primary" />{feature}</li>)}</ul>}
     <a className={`mt-5 inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 font-bold text-primary-foreground transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${layout === "cards" || layout === "spotlight" ? "mt-auto" : ""}`} href={contact} target="_blank" rel="noreferrer"><MessageCircle size={17} /> اسأل عن هذه الباقة</a>
@@ -155,10 +157,11 @@ function PlanCard({ page, plan, program, layout, index }: { page: CountryPageMod
 }
 
 function PlanTable({ page, plans }: { page: CountryPageModel; plans: Plan[] }) {
+  const currencyPresentation = formatCurrencyPresentation(page.currencyCode, page.currencyLabel)
   return <div className="mt-8 overflow-x-auto rounded-2xl border border-border bg-card"><table className="w-full min-w-[720px] border-collapse text-right"><thead className="bg-secondary/50"><tr>{["الباقة", "الحصص", "مدة الحصة", "السعر", "التواصل"].map((label) => <th key={label} className="p-4 text-sm font-black">{label}</th>)}</tr></thead><tbody>{plans.map((plan) => {
     const planTitle = normalizePlanName(plan.name, plan.monthlySessions)
     const contact = getAreaWhatsAppUrl(page.areaData.links, planTitle, defaultWhatsApp, `السلام عليكم، أرغب في الاستفسار عن ${planTitle} في ${page.seo?.country || page.slug}.`)
-    return <tr key={plan.id} className="border-t border-border"><td className="p-4"><b className="block">{planTitle}</b>{plan.description && <span className="mt-1 block text-sm text-muted-foreground">{plan.description}</span>}{plan.features.length > 0 && <span className="mt-1 block text-xs text-muted-foreground">{plan.features.join(" · ")}</span>}</td><td className="p-4">{plan.monthlySessions} {sessionUnit(plan.monthlySessions)} شهريًا</td><td className="p-4">{plan.duration} دقيقة</td><td className="p-4 font-black text-primary">{priceLabel(plan.price)} {page.currencyLabel}</td><td className="p-4"><a className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-3 font-bold text-primary-foreground" href={contact} target="_blank" rel="noreferrer"><MessageCircle size={16} /> اسأل عن الباقة</a></td></tr>
+    return <tr key={plan.id} className="border-t border-border"><td className="p-4"><b className="block">{planTitle}</b>{plan.description && <span className="mt-1 block text-sm text-muted-foreground">{plan.description}</span>}{plan.features.length > 0 && <span className="mt-1 block text-xs text-muted-foreground">{plan.features.join(" · ")}</span>}</td><td className="p-4">{plan.monthlySessions} {sessionUnit(plan.monthlySessions)} شهريًا</td><td className="p-4">{plan.duration} دقيقة</td><td className="p-4 font-black text-primary">{priceLabel(plan.price)} {currencyPresentation}</td><td className="p-4"><a className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-3 font-bold text-primary-foreground" href={contact} target="_blank" rel="noreferrer"><MessageCircle size={16} /> اسأل عن الباقة</a></td></tr>
   })}</tbody></table></div>
 }
 

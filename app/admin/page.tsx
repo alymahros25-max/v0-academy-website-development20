@@ -876,7 +876,10 @@ function SettingsTab() {
   const [saved, setSaved] = useState(false)
 
   useEffect(() => {
-    if (settings && !formData) setFormData(settings)
+    if (settings && !formData) {
+      const { telegram: _telegram, ...settingsWithoutTelegram } = settings as Record<string, unknown>
+      setFormData(settingsWithoutTelegram)
+    }
   }, [settings, formData])
 
   const handleSave = async () => {
@@ -928,14 +931,6 @@ function SettingsTab() {
               <input
                 value={s.whatsapp as string}
                 onChange={(e) => setFormData({...formData, whatsapp: e.target.value})}
-                className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm"
-              />
-            </div>
-            <div>
-              <label className="text-xs text-muted-foreground mb-1 block">تيليجرام</label>
-              <input
-                value={s.telegram as string}
-                onChange={(e) => setFormData({...formData, telegram: e.target.value})}
                 className="w-full px-3 py-2 rounded-lg border border-border bg-background text-foreground text-sm"
               />
             </div>

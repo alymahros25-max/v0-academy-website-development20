@@ -51,7 +51,6 @@ export const settingsSchema = z.object({
   siteDescription: localizedText,
   email: z.string().email().or(z.literal("")),
   whatsapp: z.string().max(2000),
-  telegram: z.string().max(2000),
   heroTitle: localizedText,
   heroSubtitle: localizedText,
   aboutText: localizedText,

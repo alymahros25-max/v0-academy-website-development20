@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useI18n, type Locale } from "@/lib/i18n"
@@ -21,6 +21,8 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
+  const [moreOpen, setMoreOpen] = useState(false)
+  const moreButtonRef = useRef<HTMLButtonElement>(null)
   const [navbar, setNavbar] = useState(defaultNavbar)
   const [navbarLoaded, setNavbarLoaded] = useState(false)
   const [navbarEnabled, setNavbarEnabled] = useState(true)
@@ -87,8 +89,8 @@ export function Header() {
   const navLinks = [
     { key: "home", href: "/", label: t("nav.home") },
     { key: "about", href: "/about", label: t("nav.about") },
-    { key: "quran", href: "/quran", label: locale === "ar" ? "أسعار تحفيظ القرآن" : locale === "en" ? "Quran Pricing" : "Tarifs mémorisation du Coran" },
-    { key: "arabic", href: "/arabic", label: locale === "ar" ? "أسعار تأسيس العربي" : locale === "en" ? "Arabic Foundation Pricing" : "Tarifs fondation arabe" },
+    { key: "quran", href: "/quran", label: locale === "ar" ? "أسعار تحفيظ القرآن" : locale === "en" ? "Quran Pricing" : "Tarifs mémorisation du Coran", desktopLabel: locale === "ar" ? "تحفيظ القرآن" : locale === "en" ? "Quran & Tajweed" : "Coran et tajwid" },
+    { key: "arabic", href: "/arabic", label: locale === "ar" ? "أسعار تأسيس العربي" : locale === "en" ? "Arabic Foundation Pricing" : "Tarifs fondation arabe", desktopLabel: locale === "ar" ? "تأسيس العربية" : locale === "en" ? "Arabic Foundation" : "Fondements de l’arabe" },
     { key: "teachers", href: "/teachers", label: t("nav.teachers") },
     { key: "reviews", href: "/reviews", label: t("nav.reviews") },
     { key: "library", href: "/library", label: t("nav.library") },
@@ -100,6 +102,12 @@ export function Header() {
     { key: "account", href: "/account", label: t("nav.account") },
   ]
   const activeNavLinks = navbarLoaded ? (navbarEnabled ? navbar.items.flatMap((key) => { const item = navLinks.find((link) => link.key === key); return item ? [item] : [] }) : []) : navLinks
+  const desktopPrimaryKeys = ["home", "quran", "arabic", "teachers", "classroom", "reviews"]
+  const desktopPrimaryLinks = desktopPrimaryKeys.flatMap((key) => {
+    const item = activeNavLinks.find((link) => link.key === key)
+    return item ? [item] : []
+  })
+  const desktopMoreLinks = activeNavLinks.filter((link) => !desktopPrimaryKeys.includes(link.key))
 
   return (
     <header
@@ -127,20 +135,53 @@ export function Header() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden 2xl:flex items-center gap-0.5">
-          {activeNavLinks.map((link) => (
+        <nav className="hidden xl:flex items-center gap-0.5">
+          {desktopPrimaryLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`whitespace-nowrap rounded-lg px-2 py-2 text-sm font-semibold transition-colors hover:bg-primary/10 ${
-                scrolled
-                  ? "text-foreground hover:text-primary"
-                  : "text-primary-foreground/90 hover:text-primary-foreground lg:text-foreground lg:hover:text-primary"
-              } 2xl:text-white 2xl:hover:bg-white/10 2xl:hover:text-white`}
+              className="whitespace-nowrap rounded-lg px-2 py-2 text-sm font-bold text-white transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#F2C14E]"
             >
-              {link.label}
+              {link.desktopLabel ?? link.label}
             </Link>
           ))}
+          {desktopMoreLinks.length > 0 && (
+            <div
+              className="relative"
+              onKeyDown={(event) => {
+                if (event.key === "Escape") {
+                  setMoreOpen(false)
+                  moreButtonRef.current?.focus()
+                }
+              }}
+            >
+              <button
+                ref={moreButtonRef}
+                type="button"
+                aria-expanded={moreOpen}
+                aria-controls="desktop-more-menu"
+                aria-label={locale === "ar" ? "المزيد من الصفحات" : locale === "fr" ? "Plus de pages" : "More pages"}
+                onClick={() => setMoreOpen((open) => !open)}
+                className="inline-flex whitespace-nowrap items-center gap-1 rounded-lg border border-white/25 bg-white/10 px-2.5 py-2 text-sm font-bold text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#F2C14E]"
+              >
+                {locale === "ar" ? "المزيد" : locale === "fr" ? "Plus" : "More"}
+                <ChevronDown className={`size-4 transition-transform ${moreOpen ? "rotate-180" : ""}`} aria-hidden="true" />
+              </button>
+              {moreOpen && <div aria-hidden="true" className="fixed inset-0 z-10" onClick={() => setMoreOpen(false)} />}
+              <div id="desktop-more-menu" hidden={!moreOpen} className="absolute end-0 top-full z-20 mt-2 w-64 overflow-hidden rounded-xl border border-[#173B54]/15 bg-white py-2 text-[#173B54] shadow-[0_18px_50px_rgba(16,42,67,0.22)]">
+                {desktopMoreLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMoreOpen(false)}
+                    className="block px-4 py-2.5 text-start text-sm font-semibold leading-6 text-[#173B54] transition-colors hover:bg-[#EEF4F7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#173B54]"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </nav>
 
         {/* Actions */}
@@ -198,7 +239,7 @@ export function Header() {
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-expanded={mobileOpen}
             aria-controls="mobile-navigation"
-            className={`p-2 rounded-lg transition-colors xl:inline-flex 2xl:hidden ${
+            className={`p-2 rounded-lg transition-colors xl:hidden ${
               scrolled ? "text-foreground" : "text-primary-foreground lg:text-foreground"
             } xl:text-white xl:hover:bg-white/10`}
             aria-label={locale === "ar" ? "فتح قائمة التنقل" : locale === "fr" ? "Ouvrir le menu" : "Open navigation menu"}
@@ -212,7 +253,7 @@ export function Header() {
       <div
         id="mobile-navigation"
         aria-hidden={!mobileOpen}
-        className={`2xl:hidden fixed inset-0 top-[80px] z-40 transition-all duration-300 lg:top-24 ${
+        className={`xl:hidden fixed inset-0 top-[80px] z-40 transition-all duration-300 lg:top-24 ${
           mobileOpen ? "visible" : "invisible"
         }`}
       >

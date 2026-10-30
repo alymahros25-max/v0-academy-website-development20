@@ -50,7 +50,7 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
 
       <div className="hero-mobile-layout lg:hidden">
         <div className="hero-mobile-title-card">
-          <p className="mb-3 text-sm font-extrabold tracking-wide text-primary"><LocalizedText ar="أكاديمية أونلاين للناطقين بالعربية" en="Online academy for Arabic speakers" fr="Académie en ligne pour arabophones" /></p>
+          <p className="hero-eyebrow-contrast mb-3 text-sm font-extrabold tracking-wide"><LocalizedText ar="أكاديمية أونلاين للناطقين بالعربية" en="Online academy for Arabic speakers" fr="Académie en ligne pour arabophones" /></p>
           <h1 className="text-3xl font-extrabold leading-[1.2] text-foreground text-balance"><LocalizedText ar="تحفيظ القرآن وتأسيس العربية أونلاين" en={titleEn} fr={titleFr} /></h1>
         </div>
         <div className="hero-mobile-children-image">
@@ -60,17 +60,13 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
           <span className="hero-mobile-strip-message"><LocalizedText ar="حصص فردية للأطفال والكبار والمبتدئين" en="One-to-one lessons for children, adults, and beginners" fr="Cours individuels pour enfants, adultes et débutants" /></span>
           <span className="hero-mobile-strip-message"><LocalizedText ar="حفظ ومراجعة وتجويد وتأسيس العربية" en="Memorization, revision, Tajweed, and Arabic foundations" fr="Mémorisation, révision, tajwid et bases de l’arabe" /></span>
         </div>
-        <div className="hero-mobile-actions">
-          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="group inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3 text-base font-extrabold text-[#073B1A] shadow-[0_10px_24px_rgba(37,211,102,0.28)] transition-all hover:bg-[#1ebe5d] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#25D366]/35"><MessageCircle className="size-5" aria-hidden="true" /><LocalizedText ar="احجز حصتك التجريبية المجانية" en="Book your free trial lesson" fr="Réserver votre cours d’essai gratuit" /></a>
-          <Link href="#home-programs-title" className="group inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl border border-navy-primary/35 bg-background/90 px-6 py-3 text-base font-extrabold text-navy-primary shadow-sm transition-all hover:bg-background focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/25"><LocalizedText ar="اختر البرنامج المناسب" en="Explore the programs" fr="Découvrir les programmes" /><DirectionArrow /></Link>
-        </div>
       </div>
 
       <div className="relative z-10 mx-auto hidden min-h-[640px] w-full max-w-7xl items-start px-4 pb-20 pt-28 sm:min-h-[680px] lg:min-h-[720px] lg:flex lg:items-center lg:pb-28 lg:pt-32">
         <div className="grid w-full items-center gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(280px,0.65fr)] lg:gap-12">
           <div className="text-center lg:text-start">
             <div className="mx-auto inline-flex w-fit max-w-2xl flex-col items-center rounded-3xl border border-white/60 bg-background/[0.88] px-4 py-5 shadow-[0_18px_55px_rgba(16,42,67,0.16)] backdrop-blur-md lg:mx-0 lg:items-start lg:px-7 lg:py-6">
-              <p className="mb-3 text-sm font-extrabold tracking-wide text-primary"><LocalizedText ar="أكاديمية أونلاين للناطقين بالعربية" en="Online academy for Arabic speakers" fr="Académie en ligne pour arabophones" /></p>
+              <p className="hero-eyebrow-contrast mb-3 text-sm font-extrabold tracking-wide"><LocalizedText ar="أكاديمية أونلاين للناطقين بالعربية" en="Online academy for Arabic speakers" fr="Académie en ligne pour arabophones" /></p>
               <h1 className="max-w-xl text-3xl font-extrabold leading-[1.2] text-foreground text-balance md:text-4xl lg:text-5xl">
                 <LocalizedText ar="تحفيظ القرآن وتأسيس العربية أونلاين" en={titleEn} fr={titleFr} />
               </h1>
@@ -80,16 +76,6 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
               </p>
             </div>
 
-            <div className="mt-6 flex w-full flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4 lg:justify-start">
-              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="group inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3 text-base font-extrabold text-[#073B1A] shadow-[0_10px_24px_rgba(37,211,102,0.28)] transition-all hover:-translate-y-0.5 hover:bg-[#1ebe5d] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#25D366]/35 sm:w-auto">
-                <MessageCircle className="size-5" aria-hidden="true" />
-                <LocalizedText ar="احجز حصتك التجريبية المجانية" en="Book your free trial lesson" fr="Réserver votre cours d’essai gratuit" />
-              </a>
-              <Link href="#home-programs-title" className="group inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl border border-navy-primary/35 bg-background/90 px-6 py-3 text-base font-extrabold text-navy-primary shadow-sm transition-all hover:-translate-y-0.5 hover:bg-background focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/25 sm:w-auto">
-                <LocalizedText ar="اختر البرنامج المناسب" en="Explore the programs" fr="Découvrir les programmes" />
-                <DirectionArrow />
-              </Link>
-            </div>
           </div>
 
           <div className="hidden justify-center lg:flex">
@@ -106,6 +92,17 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="hero-shared-actions">
+        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="group inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3 text-base font-extrabold text-[#073B1A] shadow-[0_10px_24px_rgba(37,211,102,0.28)] transition-all hover:-translate-y-0.5 hover:bg-[#1ebe5d] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#25D366]/35 sm:w-auto">
+          <MessageCircle className="size-5" aria-hidden="true" />
+          <LocalizedText ar="احجز حصتك التجريبية المجانية" en="Book your free trial lesson" fr="Réserver votre cours d’essai gratuit" />
+        </a>
+        <Link href="#home-programs-title" className="group inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl border border-navy-primary/35 bg-background/90 px-6 py-3 text-base font-extrabold text-navy-primary shadow-sm transition-all hover:-translate-y-0.5 hover:bg-background focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/25 sm:w-auto">
+          <LocalizedText ar="اختر البرنامج المناسب" en="Explore the programs" fr="Découvrir les programmes" />
+          <DirectionArrow />
+        </Link>
       </div>
 
       <div className="absolute bottom-0 left-0 right-0" aria-hidden="true">

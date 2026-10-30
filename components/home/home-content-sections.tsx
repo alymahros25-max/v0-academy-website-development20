@@ -174,7 +174,7 @@ export function HomeContentSections() {
               const [questionEn, answerEn] = en.faqs[index]
               return (
                 <details key={question} className="group rounded-2xl border border-border bg-card p-5 shadow-sm">
-                  <summary className="cursor-pointer list-none pe-6 font-extrabold text-navy-primary marker:hidden [&::-webkit-details-marker]:hidden"><LocalizedText ar={question} en={questionEn} /></summary>
+                  <summary className="home-contrast-summary cursor-pointer list-none pe-6 font-extrabold marker:hidden [&::-webkit-details-marker]:hidden"><LocalizedText ar={question} en={questionEn} /></summary>
                   <p className="mt-3 leading-7 text-muted-foreground"><LocalizedText ar={answer} en={answerEn} /></p>
                 </details>
               )
@@ -182,8 +182,8 @@ export function HomeContentSections() {
           </div>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <a href={homeWhatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-[#25D366] px-6 py-3 font-extrabold text-[#073B1A] shadow-[0_8px_20px_rgba(37,211,102,0.22)] transition-all hover:-translate-y-0.5 hover:bg-[#1ebe5d] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#25D366]/35"><MessageIcon /><LocalizedText ar="احجز حصتك التجريبية المجانية" en="Book your free trial lesson" /></a>
-            <Link href="/teachers" className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-navy-primary/25 px-4 py-2 font-extrabold text-navy-primary transition-colors hover:bg-navy-primary hover:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/25"><LocalizedText ar="تعرّف على المعلمين والمعلمات" en="Meet our teachers" /><DirectionArrow /></Link>
-            <Link href="/faq" className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-navy-primary/25 px-4 py-2 font-extrabold text-navy-primary transition-colors hover:bg-navy-primary hover:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/25"><LocalizedText ar={ar.allFaq} en={en.allFaq} /><DirectionArrow /></Link>
+            <Link href="/teachers" className="home-contrast-link inline-flex min-h-11 items-center gap-2 rounded-lg border px-4 py-2 font-extrabold transition-colors hover:bg-navy-primary hover:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/25"><LocalizedText ar="تعرّف على المعلمين والمعلمات" en="Meet our teachers" /><DirectionArrow /></Link>
+            <Link href="/faq" className="home-contrast-link inline-flex min-h-11 items-center gap-2 rounded-lg border px-4 py-2 font-extrabold transition-colors hover:bg-navy-primary hover:text-white focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/25"><LocalizedText ar={ar.allFaq} en={en.allFaq} /><DirectionArrow /></Link>
           </div>
         </div>
       </section>

@@ -56,9 +56,9 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
         <div className="hero-mobile-children-image">
           <Image src="/images/hero-children-mobile.webp" alt="أطفال يتعلمون القرآن أون لاين في حصة فردية" fill sizes="100vw" quality={40} priority decoding="async" className="object-cover object-center" />
         </div>
-        <div className="hero-mobile-info-strips" aria-label="مميزات الأكاديمية">
-          <div className="hero-mobile-info-strip"><LocalizedText ar="حصص فردية للأطفال والكبار والمبتدئين" en="One-to-one lessons for children, adults, and beginners" fr="Cours individuels pour enfants, adultes et débutants" /></div>
-          <div className="hero-mobile-info-strip"><LocalizedText ar="حفظ ومراجعة وتجويد وتأسيس العربية" en="Memorization, revision, Tajweed, and Arabic foundations" fr="Mémorisation, révision, tajwid et bases de l’arabe" /></div>
+        <div className="hero-mobile-info-strip" aria-label="مميزات الأكاديمية">
+          <span className="hero-mobile-strip-message"><LocalizedText ar="حصص فردية للأطفال والكبار والمبتدئين" en="One-to-one lessons for children, adults, and beginners" fr="Cours individuels pour enfants, adultes et débutants" /></span>
+          <span className="hero-mobile-strip-message"><LocalizedText ar="حفظ ومراجعة وتجويد وتأسيس العربية" en="Memorization, revision, Tajweed, and Arabic foundations" fr="Mémorisation, révision, tajwid et bases de l’arabe" /></span>
         </div>
         <div className="hero-mobile-actions">
           <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="group inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3 text-base font-extrabold text-[#073B1A] shadow-[0_10px_24px_rgba(37,211,102,0.28)] transition-all hover:bg-[#1ebe5d] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#25D366]/35"><MessageCircle className="size-5" aria-hidden="true" /><LocalizedText ar="احجز حصتك التجريبية المجانية" en="Book your free trial lesson" fr="Réserver votre cours d’essai gratuit" /></a>

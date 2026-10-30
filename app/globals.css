@@ -162,12 +162,16 @@ html {
 }
 
 .hero-mobile-layout { display: flex; flex-direction: column; width: 100%; }
-.hero-mobile-title-card,
-.hero-mobile-description-card { position: relative; z-index: 1; width: 100%; background: hsl(var(--background) / .96); padding: 1.25rem 1rem; text-align: center; box-shadow: 0 10px 28px rgb(16 42 67 / .12); }
-.hero-mobile-title-card { border-radius: 0 0 1.5rem 1.5rem; }
+.hero-mobile-title-card { position: relative; z-index: 1; width: 100%; background: rgb(250 248 244 / .72); padding: 1.25rem 1rem; text-align: center; border: 1px solid rgb(255 255 255 / .62); border-top: 0; border-radius: 0 0 1.5rem 1.5rem; box-shadow: 0 10px 28px rgb(16 42 67 / .12); backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px); }
 .hero-mobile-title-card h1 { max-width: 24rem; margin-inline: auto; }
 .hero-mobile-children-image { position: relative; width: 100%; height: 18rem; overflow: hidden; }
-.hero-mobile-description-card { border-radius: 1.5rem 1.5rem 0 0; margin-top: -1.25rem; padding-top: 1.75rem; }
+.hero-mobile-info-strips { display: flex; flex-direction: column; gap: .55rem; width: 100%; padding: 1rem .75rem 0; }
+.hero-mobile-info-strip { overflow: hidden; width: 100%; padding: .7rem .9rem; color: hsl(var(--foreground)); background: rgb(250 248 244 / .86); border-block: 1px solid rgb(221 187 133 / .5); font-size: 1rem; font-weight: 700; line-height: 1.7; text-align: center; white-space: nowrap; box-shadow: 0 4px 14px rgb(16 42 67 / .06); }
+.hero-mobile-info-strip [lang="ar"] { display: inline-block; animation: hero-mobile-strip-in 8s ease-in-out infinite; }
+.hero-mobile-info-strip:nth-child(2) [lang="ar"] { animation-delay: 2.5s; }
+.hero-mobile-actions { display: flex; flex-direction: column; align-items: center; gap: .75rem; width: 100%; padding: 2rem 1rem 3.5rem; }
+@keyframes hero-mobile-strip-in { 0%, 12% { opacity: 0; transform: translateX(1rem); } 20%, 75% { opacity: 1; transform: translateX(0); } 88%, 100% { opacity: 0; transform: translateX(-1rem); } }
+@media (prefers-reduced-motion: reduce) { .hero-mobile-info-strip [lang="ar"] { animation: none; } }
 
 @media (min-width: 1024px) {
   .hero-mobile-layout { display: none; }

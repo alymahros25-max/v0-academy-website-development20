@@ -56,12 +56,13 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
         <div className="hero-mobile-children-image">
           <Image src="/images/hero-children-mobile.webp" alt="أطفال يتعلمون القرآن أون لاين في حصة فردية" fill sizes="100vw" quality={40} priority decoding="async" className="object-cover object-center" />
         </div>
-        <div className="hero-mobile-description-card">
-          <p className="text-lg font-bold leading-relaxed text-foreground"><LocalizedText ar={subtitleAr} en={subtitleEn} fr={subtitleFr} /><span className="mt-1 block text-base font-semibold text-muted-foreground"><LocalizedText ar="للأطفال والكبار والمبتدئين — بحصص فردية باللغة العربية" en="For children, adults, and beginners — taught one-to-one in Arabic" fr="Pour les enfants, adultes et débutants — en cours individuels en arabe" /></span></p>
-          <div className="mt-5 flex w-full flex-col items-center justify-center gap-3">
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="group inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3 text-base font-extrabold text-[#073B1A] shadow-[0_10px_24px_rgba(37,211,102,0.28)] transition-all hover:bg-[#1ebe5d] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#25D366]/35"><MessageCircle className="size-5" aria-hidden="true" /><LocalizedText ar="احجز حصتك التجريبية المجانية" en="Book your free trial lesson" fr="Réserver votre cours d’essai gratuit" /></a>
-            <Link href="#home-programs-title" className="group inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl border border-navy-primary/35 bg-background/90 px-6 py-3 text-base font-extrabold text-navy-primary shadow-sm transition-all hover:bg-background focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/25"><LocalizedText ar="اختر البرنامج المناسب" en="Explore the programs" fr="Découvrir les programmes" /><DirectionArrow /></Link>
-          </div>
+        <div className="hero-mobile-info-strips" aria-label="مميزات الأكاديمية">
+          <div className="hero-mobile-info-strip"><LocalizedText ar="حصص فردية للأطفال والكبار والمبتدئين" en="One-to-one lessons for children, adults, and beginners" fr="Cours individuels pour enfants, adultes et débutants" /></div>
+          <div className="hero-mobile-info-strip"><LocalizedText ar="حفظ ومراجعة وتجويد وتأسيس العربية" en="Memorization, revision, Tajweed, and Arabic foundations" fr="Mémorisation, révision, tajwid et bases de l’arabe" /></div>
+        </div>
+        <div className="hero-mobile-actions">
+          <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="group inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3 text-base font-extrabold text-[#073B1A] shadow-[0_10px_24px_rgba(37,211,102,0.28)] transition-all hover:bg-[#1ebe5d] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#25D366]/35"><MessageCircle className="size-5" aria-hidden="true" /><LocalizedText ar="احجز حصتك التجريبية المجانية" en="Book your free trial lesson" fr="Réserver votre cours d’essai gratuit" /></a>
+          <Link href="#home-programs-title" className="group inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl border border-navy-primary/35 bg-background/90 px-6 py-3 text-base font-extrabold text-navy-primary shadow-sm transition-all hover:bg-background focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/25"><LocalizedText ar="اختر البرنامج المناسب" en="Explore the programs" fr="Découvrir les programmes" /><DirectionArrow /></Link>
         </div>
       </div>
 

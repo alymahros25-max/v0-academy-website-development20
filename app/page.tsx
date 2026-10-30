@@ -46,12 +46,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function HomePage() {
   const content = await getHomepageContent()
   return (
-    <>
+    <div className="homepage-theme">
       <AcademyBanner />
       <HeroSection content={content} />
       <HomeContentSections />
       <DeferredLandingVideoStrip />
       <CTASection />
-    </>
+    </div>
   )
 }

@@ -104,10 +104,10 @@ export function Header() {
   return (
     <header
       dir={dir}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`primary-site-header fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-navy-primary/95 backdrop-blur-md shadow-lg"
-          : "bg-navy-primary"
+          ? "bg-navy-primary/95 backdrop-blur-md shadow-lg xl:bg-[#173B54]/95"
+          : "bg-navy-primary xl:bg-[#173B54]"
       }`}
     >
       <div className="mx-auto max-w-7xl px-4 flex items-center justify-between min-h-20 py-2 lg:min-h-24">
@@ -127,16 +127,16 @@ export function Header() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden xl:flex items-center gap-1">
+        <nav className="hidden 2xl:flex items-center gap-0.5">
           {activeNavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors hover:bg-primary/10 ${
+              className={`whitespace-nowrap rounded-lg px-2 py-2 text-sm font-semibold transition-colors hover:bg-primary/10 ${
                 scrolled
                   ? "text-foreground hover:text-primary"
                   : "text-primary-foreground/90 hover:text-primary-foreground lg:text-foreground lg:hover:text-primary"
-              }`}
+              } 2xl:text-white 2xl:hover:bg-white/10 2xl:hover:text-white`}
             >
               {link.label}
             </Link>
@@ -152,10 +152,10 @@ export function Header() {
               aria-label={locale === "ar" ? "تغيير اللغة" : locale === "en" ? "Change language" : "Changer la langue"}
               aria-expanded={langOpen}
               aria-haspopup="menu"
-              className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-sm transition-colors ${
+              className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-sm transition-colors xl:py-2 xl:font-semibold xl:text-white xl:hover:bg-white/10 ${
                 scrolled
-                  ? "text-foreground hover:bg-primary/10"
-                  : "text-primary-foreground lg:text-foreground hover:bg-primary/10"
+                  ? "text-foreground hover:bg-primary/10 xl:text-white"
+                  : "text-primary-foreground lg:text-foreground hover:bg-primary/10 xl:text-white"
               }`}
             >
               <Globe className="w-4 h-4" />
@@ -188,7 +188,7 @@ export function Header() {
           {/* CTA Button */}
           <Link
             href="/contact"
-            className="hidden min-h-11 items-center rounded-lg bg-secondary px-4 py-2 text-sm font-extrabold text-secondary-foreground shadow-sm transition-all hover:-translate-y-0.5 hover:brightness-110 hover:shadow-lg focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-secondary/40 sm:inline-flex"
+            className="hidden min-h-11 items-center rounded-lg bg-secondary px-4 py-2 text-sm font-extrabold text-secondary-foreground shadow-sm transition-all hover:-translate-y-0.5 hover:brightness-110 hover:shadow-lg focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-secondary/40 sm:inline-flex xl:min-h-12 xl:rounded-xl xl:bg-[#F2C14E] xl:px-5 xl:py-3 xl:text-base xl:text-[#173B54] xl:hover:bg-[#FFD36B]"
           >
             {t("nav.subscribe")}
           </Link>
@@ -198,9 +198,9 @@ export function Header() {
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-expanded={mobileOpen}
             aria-controls="mobile-navigation"
-            className={`xl:hidden p-2 rounded-lg transition-colors ${
+            className={`p-2 rounded-lg transition-colors xl:inline-flex 2xl:hidden ${
               scrolled ? "text-foreground" : "text-primary-foreground lg:text-foreground"
-            }`}
+            } xl:text-white xl:hover:bg-white/10`}
             aria-label={locale === "ar" ? "فتح قائمة التنقل" : locale === "fr" ? "Ouvrir le menu" : "Open navigation menu"}
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -212,7 +212,7 @@ export function Header() {
       <div
         id="mobile-navigation"
         aria-hidden={!mobileOpen}
-        className={`xl:hidden fixed inset-0 top-[80px] z-40 transition-all duration-300 lg:top-24 ${
+        className={`2xl:hidden fixed inset-0 top-[80px] z-40 transition-all duration-300 lg:top-24 ${
           mobileOpen ? "visible" : "invisible"
         }`}
       >
@@ -244,7 +244,7 @@ export function Header() {
             <Link
               href="/contact"
               onClick={() => setMobileOpen(false)}
-              className="mt-4 min-h-12 rounded-lg bg-secondary px-4 py-3 text-center font-extrabold text-secondary-foreground transition-all hover:brightness-110 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-secondary/40"
+              className="mt-4 min-h-12 rounded-lg bg-secondary px-4 py-3 text-center font-extrabold text-secondary-foreground transition-all hover:brightness-110 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-secondary/40 xl:rounded-xl xl:bg-[#F2C14E] xl:text-base xl:text-[#173B54] xl:hover:bg-[#FFD36B]"
             >
               {t("nav.subscribe")}
             </Link>

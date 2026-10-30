@@ -62,39 +62,49 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
         </div>
       </div>
 
-      <div className="relative z-10 mx-auto hidden min-h-[640px] w-full max-w-7xl items-start px-4 pb-20 pt-28 sm:min-h-[680px] lg:min-h-[720px] lg:flex lg:items-center lg:pb-28 lg:pt-32">
+      <div className="relative z-10 mx-auto hidden min-h-[640px] w-full max-w-7xl items-start px-4 pb-20 pt-28 sm:min-h-[680px] lg:min-h-[720px] lg:flex lg:items-center lg:pb-28 lg:pt-32 xl:items-start xl:pb-4 xl:pt-6">
         <div className="grid w-full items-center gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(280px,0.65fr)] lg:gap-12">
           <div className="text-center lg:text-start">
-            <div className="mx-auto inline-flex w-fit max-w-2xl flex-col items-center rounded-3xl border border-white/60 bg-background/[0.88] px-4 py-5 shadow-[0_18px_55px_rgba(16,42,67,0.16)] backdrop-blur-md lg:mx-0 lg:items-start lg:px-7 lg:py-6">
+            <div className="mx-auto inline-flex w-fit max-w-2xl flex-col items-center rounded-3xl border border-white/60 bg-background/[0.88] px-4 py-5 shadow-[0_18px_55px_rgba(16,42,67,0.16)] backdrop-blur-md lg:mx-0 lg:items-start lg:px-7 lg:py-6 xl:border-white/80 xl:bg-white/95 xl:px-8 xl:text-[#173B54] xl:shadow-[0_24px_70px_rgba(12,37,55,0.24)]">
               <p className="hero-eyebrow-contrast mb-3 text-sm font-extrabold tracking-wide"><LocalizedText ar="أكاديمية أونلاين للناطقين بالعربية" en="Online academy for Arabic speakers" fr="Académie en ligne pour arabophones" /></p>
-              <h1 className="max-w-xl text-3xl font-extrabold leading-[1.2] text-foreground text-balance md:text-4xl lg:text-5xl">
+              <h1 className="max-w-xl text-3xl font-extrabold leading-[1.2] text-foreground text-balance md:text-4xl lg:text-5xl xl:text-[#102D42]">
                 <LocalizedText ar="تحفيظ القرآن وتأسيس العربية أونلاين" en={titleEn} fr={titleFr} />
               </h1>
-              <p className="mt-3 max-w-xl text-lg font-bold leading-relaxed text-foreground md:text-xl">
+              <p className="mt-3 max-w-xl text-lg font-bold leading-relaxed text-foreground md:text-xl xl:text-[#25465B]">
                 <LocalizedText ar={subtitleAr} en={subtitleEn} fr={subtitleFr} />
-                <span className="mt-1 block text-base font-semibold text-muted-foreground md:text-lg"><LocalizedText ar="للأطفال والكبار والمبتدئين — بحصص فردية باللغة العربية" en="For children, adults, and beginners — taught one-to-one in Arabic" fr="Pour les enfants, adultes et débutants — en cours individuels en arabe" /></span>
+                <span className="mt-1 block text-base font-semibold text-muted-foreground md:text-lg xl:text-[#36586B]"><LocalizedText ar="للأطفال والكبار والمبتدئين — بحصص فردية باللغة العربية" en="For children, adults, and beginners — taught one-to-one in Arabic" fr="Pour les enfants, adultes et débutants — en cours individuels en arabe" /></span>
               </p>
             </div>
 
           </div>
 
-          <div className="hidden justify-center lg:flex">
-            <div className="relative h-80 w-72 overflow-hidden rounded-3xl border-4 border-secondary/40 shadow-2xl rotate-2 transition-transform duration-500 hover:rotate-0 xl:h-96 xl:w-80">
+          <div className="hidden justify-center lg:flex xl:flex-col xl:items-center">
+            <div className="relative h-80 w-72 overflow-hidden rounded-3xl border-4 border-secondary/40 shadow-2xl rotate-2 transition-transform duration-500 hover:rotate-0 xl:h-64 xl:w-64 xl:border-white/90 xl:shadow-[0_24px_64px_rgba(12,37,55,0.32)]">
               <Image
                 src="/images/teacher-quran.webp"
                 alt="معلم قرآن أون لاين في أكاديمية الحافظ المتميز"
                 fill
-                sizes="(min-width: 1280px) 320px, 288px"
+                sizes="(min-width: 1280px) 256px, 288px"
                 quality={75}
                 loading="lazy"
                 className="object-cover"
               />
             </div>
+            <div className="mt-3 hidden w-64 max-w-full flex-col gap-2 xl:flex">
+              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#25D366] px-4 py-3 text-center text-base font-extrabold text-[#073B1A] shadow-[0_10px_24px_rgba(37,211,102,0.28)] transition-all hover:-translate-y-0.5 hover:bg-[#1ebe5d] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#25D366]/35">
+                <MessageCircle className="size-5" aria-hidden="true" />
+                <LocalizedText ar="احجز حصتك التجريبية المجانية" en="Book your free trial lesson" fr="Réserver votre cours d’essai gratuit" />
+              </a>
+              <Link href="#home-programs-title" className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-navy-primary/35 bg-background/90 px-4 py-3 text-center text-base font-extrabold text-navy-primary shadow-sm transition-all hover:-translate-y-0.5 hover:bg-background focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/25">
+                <LocalizedText ar="اختر البرنامج المناسب" en="Explore the programs" fr="Découvrir les programmes" />
+                <DirectionArrow />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="hero-shared-actions">
+      <div className="hero-shared-actions xl:hidden">
         <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="group inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3 text-base font-extrabold text-[#073B1A] shadow-[0_10px_24px_rgba(37,211,102,0.28)] transition-all hover:-translate-y-0.5 hover:bg-[#1ebe5d] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#25D366]/35 sm:w-auto">
           <MessageCircle className="size-5" aria-hidden="true" />
           <LocalizedText ar="احجز حصتك التجريبية المجانية" en="Book your free trial lesson" fr="Réserver votre cours d’essai gratuit" />

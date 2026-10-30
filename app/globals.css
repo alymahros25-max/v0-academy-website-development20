@@ -162,6 +162,10 @@ html {
 }
 
 .hero-mobile-layout { display: flex; flex-direction: column; width: 100%; }
+.hero-eyebrow-contrast { color: #174d3a; }
+.home-contrast-summary { color: #244b68; }
+.home-contrast-link { color: #244b68; border-color: rgb(36 75 104 / .35); }
+.hero-shared-actions { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; gap: .75rem; width: 100%; padding: 2rem 1rem 3.5rem; }
 .hero-mobile-title-card { position: relative; z-index: 1; width: 100%; background: rgb(250 248 244 / .72); padding: 1.25rem 1rem; text-align: center; border: 1px solid rgb(255 255 255 / .62); border-top: 0; border-radius: 0 0 1.5rem 1.5rem; box-shadow: 0 10px 28px rgb(16 42 67 / .12); backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px); }
 .hero-mobile-title-card h1 { max-width: 24rem; margin-inline: auto; }
 .hero-mobile-children-image { position: relative; width: 100%; height: 18rem; overflow: hidden; }
@@ -174,6 +178,7 @@ html {
 
 @media (min-width: 1024px) {
   .hero-mobile-layout { display: none; }
+  .hero-shared-actions { position: absolute; inset-inline-start: max(1rem, calc((100% - 1120px) / 2)); top: 58%; display: flex; width: auto; flex-direction: row; justify-content: flex-start; padding: 0; }
 }
 
 /* Islamic geometric pattern overlay */

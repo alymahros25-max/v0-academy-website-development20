@@ -29,6 +29,9 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
   const subtitleAr = localizedContent(content.hero_subtitle, "ar", "حصص فردية لتعليم القرآن الكريم والتجويد وتأسيس اللغة العربية")
   const subtitleEn = localizedContent(content.hero_subtitle, "en", "One-to-one lessons for Quran, Tajweed, and Arabic foundations")
   const subtitleFr = localizedContent(content.hero_subtitle, "fr", "Cours individuels de Coran, de tajwid et de bases de l’arabe")
+  const titleEnLines = titleEn.replace(/\s+online$/i, "").replace(/\s+(?:and|&)\s+/i, "\n")
+  const titleFrLines = titleFr.replace(/\s+en ligne$/i, "").replace(/\s+et\s+/i, "\n")
+  const subtitleArLines = subtitleAr.replace(/([،؛.!؟])\s*/gu, "$1\n")
   const whatsappUrl = "https://wa.me/message/RCJSLAJQHAWHA1?text=" + encodeURIComponent("السلام عليكم، أرغب في حجز حصة تجريبية مجانية. البرنامج المطلوب: قرآن / لغة عربية / غير متأكد. عمر الطالب: ، المستوى الحالي: ، والوقت المناسب: ")
 
   return (
@@ -45,7 +48,7 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
           decoding="async"
         />
       </picture>
-      <div aria-hidden="true" className="absolute inset-0 hidden lg:block bg-gradient-to-l from-[#102B49]/80 via-[#102B49]/30 to-transparent" />
+      <div aria-hidden="true" className="absolute inset-0 hidden lg:block bg-gradient-to-l from-[#102B49]/35 via-[#102B49]/12 to-transparent" />
 
       <div className="hero-mobile-layout lg:hidden">
         <div className="hero-mobile-children-image">
@@ -76,33 +79,30 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
             <p className="mb-2 text-xs font-extrabold tracking-wide text-[#F2D58D]">
               <LocalizedText ar="أكاديمية أونلاين للناطقين بالعربية" en="Online academy for Arabic speakers" fr="Académie en ligne pour arabophones" />
             </p>
-            <h1 className="text-balance text-2xl font-extrabold leading-tight text-white">
-              <LocalizedText ar="تحفيظ القرآن وتأسيس العربية أونلاين" en={titleEn} fr={titleFr} />
+            <h1 className="whitespace-pre-line text-balance text-2xl font-extrabold leading-tight text-white">
+              <LocalizedText ar={"تحفيظ القرآن\nتأسيس العربية"} en={titleEnLines} fr={titleFrLines} />
             </h1>
           </div>
         </div>
         <div className="hero-mobile-details">
-          <p>
-            <LocalizedText ar={subtitleAr} en={subtitleEn} fr={subtitleFr} />
+          <p className="whitespace-pre-line">
+            <LocalizedText ar={subtitleArLines} en={subtitleEn} fr={subtitleFr} />
           </p>
         </div>
       </div>
 
       <div className="relative z-10 mx-auto hidden min-h-[100svh] w-full max-w-7xl items-start px-4 pb-16 pt-28 lg:flex lg:items-center lg:pb-24 lg:pt-32 xl:items-start xl:pb-8 xl:pt-24">
-        <div className="grid w-full items-center gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(280px,0.65fr)] lg:gap-12">
-          <div className="text-center lg:text-start">
-            <div className="mx-auto inline-flex w-fit max-w-2xl flex-col items-center rounded-3xl border border-white/25 bg-[#102B49]/65 px-4 py-5 text-white shadow-[0_18px_55px_rgba(7,25,40,0.35)] backdrop-blur-md lg:mx-0 lg:items-start lg:px-7 lg:py-6 xl:px-8">
-              <p className="mb-3 text-sm font-extrabold tracking-wide text-[#F2D58D]">
+        <div className="relative flex w-full items-center justify-end">
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex justify-center px-4 text-center lg:top-2 xl:top-4">
+            <div dir="rtl" className="pointer-events-auto inline-flex w-fit max-w-[38rem] flex-col items-center rounded-[2rem] bg-[#102B49]/45 px-7 py-4 !text-center text-white shadow-[0_10px_35px_rgba(7,25,40,0.12)] backdrop-blur-[2px] lg:px-10 lg:py-5">
+              <p className="mb-3 text-sm font-extrabold tracking-wide text-[#F2D58D] [text-shadow:0_2px_10px_rgba(0,0,0,0.85)]">
                 <LocalizedText ar="أكاديمية أونلاين للناطقين بالعربية" en="Online academy for Arabic speakers" fr="Académie en ligne pour arabophones" />
               </p>
-              <h1 className="max-w-xl text-3xl font-extrabold leading-[1.2] text-white text-balance md:text-4xl lg:text-5xl">
-                <LocalizedText ar="تحفيظ القرآن وتأسيس العربية أونلاين" en={titleEn} fr={titleFr} />
+              <h1 className="max-w-xl whitespace-pre-line text-3xl font-extrabold leading-[1.3] text-white text-balance [text-shadow:0_2px_10px_rgba(0,0,0,0.7)] md:text-4xl lg:text-4xl xl:text-[2.5rem]">
+                <LocalizedText ar={"تحفيظ القرآن\nتأسيس العربية"} en={titleEnLines} fr={titleFrLines} />
               </h1>
-              <p className="mt-3 max-w-xl text-lg font-bold leading-relaxed text-white/95 md:text-xl">
-                <LocalizedText ar={subtitleAr} en={subtitleEn} fr={subtitleFr} />
-                <span className="mt-1 block text-base font-semibold text-white/75 md:text-lg">
-                  <LocalizedText ar="للأطفال والكبار والمبتدئين — بحصص فردية باللغة العربية" en="For children, adults, and beginners — taught one-to-one in Arabic" fr="Pour les enfants, adultes et débutants — en cours individuels en arabe" />
-                </span>
+              <p className="mt-3 max-w-xl whitespace-pre-line text-base font-semibold leading-relaxed text-white/95 [text-shadow:0_1px_6px_rgba(0,0,0,0.65)] md:text-lg">
+                <LocalizedText ar={subtitleArLines} en={subtitleEn} fr={subtitleFr} />
               </p>
             </div>
           </div>

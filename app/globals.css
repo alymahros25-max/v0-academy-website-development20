@@ -176,24 +176,21 @@ html {
   scroll-behavior: smooth;
 }
 
-.hero-mobile-layout { display: flex; flex-direction: column; width: 100%; }
-.hero-eyebrow-contrast { color: #174d3a; }
+.hero-mobile-layout { display: flex; flex-direction: column; width: 100%; padding-top: 5rem; background: #102B49; }
+.hero-mobile-children-image { position: relative; isolation: isolate; width: 100%; height: clamp(360px, 122vw, 520px); overflow: hidden; }
+.hero-mobile-image-shade { position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgb(9 32 48 / .14) 0%, rgb(9 32 48 / .08) 42%, rgb(9 32 48 / .10) 62%, rgb(16 43 73 / .88) 100%); }
+.hero-mobile-title-overlay { position: absolute; inset-inline-start: 1rem; top: 1rem; z-index: 3; width: calc(100% - 8rem); max-width: 21rem; color: #fff; text-align: start; text-shadow: 0 2px 16px rgb(0 0 0 / .55); }
+.hero-mobile-title-overlay h1 { margin: 0; font-size: clamp(1.2rem, 6vw, 1.65rem); font-weight: 900; line-height: 1.2; text-wrap: balance; }
+.hero-mobile-teacher-photo { position: absolute; inset-inline-end: 1rem; top: 1rem; z-index: 2; width: clamp(6rem, 30vw, 8rem); aspect-ratio: 1; overflow: hidden; border: 3px solid #DDBB85; border-radius: 1.15rem; box-shadow: 0 12px 30px rgb(5 20 32 / .38); }
+.hero-mobile-details { position: relative; z-index: 2; margin-top: -1.25rem; padding: .25rem 1.25rem .65rem; color: rgb(255 255 255 / .9); font-size: .98rem; font-weight: 650; line-height: 1.8; text-align: center; }
+.hero-eyebrow-contrast { color: #F2D58D; }
 .home-contrast-summary { color: #244b68; }
 .home-contrast-link { color: #244b68; border-color: rgb(36 75 104 / .35); }
-.hero-shared-actions { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; gap: .75rem; width: 100%; padding: 2rem 1rem 3.5rem; }
-.hero-mobile-title-card { position: relative; z-index: 1; width: 100%; background: rgb(250 248 244 / .72); padding: 1.25rem 1rem; text-align: center; border: 1px solid rgb(255 255 255 / .62); border-top: 0; border-radius: 0 0 1.5rem 1.5rem; box-shadow: 0 10px 28px rgb(16 42 67 / .12); backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px); }
-.hero-mobile-title-card h1 { max-width: 24rem; margin-inline: auto; }
-.hero-mobile-children-image { position: relative; width: 100%; height: 18rem; overflow: hidden; }
-.hero-mobile-info-strip { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; width: calc(100% - 1.5rem); min-height: 3.15rem; margin: 1rem .75rem 0; padding: .65rem .9rem; color: hsl(var(--foreground)); background: rgb(205 187 157 / .72); border-block: 1px solid rgb(163 125 69 / .58); font-size: 1rem; font-weight: 700; line-height: 1.7; text-align: center; white-space: nowrap; box-shadow: 0 4px 14px rgb(16 42 67 / .06); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
-.hero-mobile-strip-message { position: absolute; inset: .65rem .9rem; display: grid; place-items: center; opacity: 0; animation: hero-mobile-strip-in 8s ease-in-out infinite; }
-.hero-mobile-strip-message:nth-child(2) { animation-delay: 4s; }
-.hero-mobile-actions { display: flex; flex-direction: column; align-items: center; gap: .75rem; width: 100%; padding: 2rem 1rem 3.5rem; }
-@keyframes hero-mobile-strip-in { 0%, 10% { opacity: 0; transform: translateX(1rem); } 14%, 40% { opacity: 1; transform: translateX(0); } 46%, 100% { opacity: 0; transform: translateX(-1rem); } }
-@media (prefers-reduced-motion: reduce) { .hero-mobile-strip-message { animation: none; opacity: 0; } .hero-mobile-strip-message:first-child { opacity: 1; } }
+.hero-shared-actions { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; gap: .75rem; width: 100%; padding: .5rem 1rem 1.5rem; background: #102B49; }
 
 @media (min-width: 1024px) {
   .hero-mobile-layout { display: none; }
-  .hero-shared-actions { position: absolute; inset-inline-start: max(1rem, calc((100% - 1120px) / 2)); top: 58%; display: flex; width: auto; flex-direction: row; justify-content: flex-start; padding: 0; }
+  .hero-shared-actions { position: absolute; inset-inline-start: max(1rem, calc((100% - 1120px) / 2)); top: 58%; display: flex; width: auto; flex-direction: row; justify-content: flex-start; padding: 0; background: transparent; }
 }
 
 @media (min-width: 1280px) {
@@ -231,17 +228,7 @@ html {
   animation: fadeInUp 0.6s ease-out forwards;
 }
 
-@keyframes bannerEnter {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.banner-enter {
-  animation: bannerEnter 650ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .banner-enter,
   .animate-fade-in-up,
   .animate-float,
   .animate-shimmer {

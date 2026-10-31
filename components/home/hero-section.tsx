@@ -44,7 +44,8 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
           className="object-cover object-center"
           sizes="100vw"
           quality={55}
-          priority
+          loading="lazy"
+          fetchPriority="low"
           decoding="async"
         />
       </picture>

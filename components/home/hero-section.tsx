@@ -92,9 +92,9 @@ export function HeroSection({ content = {} }: { content?: Record<string, PublicC
       </div>
 
       <div className="relative z-10 mx-auto hidden min-h-[100svh] w-full max-w-7xl items-start px-4 pb-16 pt-28 lg:flex lg:items-center lg:pb-24 lg:pt-32 xl:items-start xl:pb-8 xl:pt-24">
-        <div className="grid w-full items-center gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(280px,0.65fr)] lg:gap-12">
-          <div className="text-center lg:text-start">
-            <div className="mx-auto inline-flex w-fit max-w-[34rem] flex-col items-center px-4 py-3 text-white lg:mx-0 lg:items-start lg:px-5 lg:py-4">
+        <div className="relative flex w-full items-center justify-end">
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex justify-center px-4 text-center lg:top-2 xl:top-4">
+            <div dir="rtl" className="pointer-events-auto inline-flex w-fit max-w-[38rem] flex-col items-center rounded-[2rem] bg-[#102B49]/45 px-7 py-4 !text-center text-white shadow-[0_10px_35px_rgba(7,25,40,0.12)] backdrop-blur-[2px] lg:px-10 lg:py-5">
               <p className="mb-3 text-sm font-extrabold tracking-wide text-[#F2D58D] [text-shadow:0_2px_10px_rgba(0,0,0,0.85)]">
                 <LocalizedText ar="أكاديمية أونلاين للناطقين بالعربية" en="Online academy for Arabic speakers" fr="Académie en ligne pour arabophones" />
               </p>

@@ -193,6 +193,10 @@ html {
   .hero-shared-actions { position: absolute; inset-inline-start: max(1rem, calc((100% - 1120px) / 2)); top: 58%; display: flex; width: auto; flex-direction: row; justify-content: flex-start; padding: 0; background: transparent; }
 }
 
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .hero-shared-actions { inset-inline-start: auto; inset-inline-end: 1rem; top: 76%; }
+}
+
 @media (min-width: 1280px) {
   .hero-shared-actions { display: none; }
 }

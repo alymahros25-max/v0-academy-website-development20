@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import { AcademyBanner } from "@/components/home/academy-banner"
 import { HeroSection } from "@/components/home/hero-section"
 import { DeferredLandingVideoStrip } from "@/components/home/deferred-landing-video-strip"
 import { HomeContentSections } from "@/components/home/home-content-sections"
@@ -47,7 +46,6 @@ export default async function HomePage() {
   const content = await getHomepageContent()
   return (
     <div className="homepage-theme">
-      <AcademyBanner />
       <HeroSection content={content} />
       <HomeContentSections />
       <DeferredLandingVideoStrip />
